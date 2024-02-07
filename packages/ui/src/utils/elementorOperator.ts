@@ -1,15 +1,24 @@
-export class ElementorOperator {
-    private selectionList: []
-    private componentsList: []
-    private propertiesList: []
+import { OperatorControlType } from "."
+import {
+    SelectionJson,
+    DragDropJson,
+    PropertyJson
+} from "./type/componentFormat"
 
-    constructor () {
-        this.selectionList = []
-        this.componentsList = []
-        this.propertiesList = []
+export class ElementorOperator
+    implements OperatorControlType.ElementorOperatorType
+{
+    selectionList: Map<string, SelectionJson>
+    componentsList: Map<string, DragDropJson>
+    propertiesList: Map<string, PropertyJson>
+
+    constructor() {
+        this.selectionList = new Map()
+        this.componentsList = new Map()
+        this.propertiesList = new Map()
     }
 
-    getAllList () {
+    getAllList() {
         return {
             selection: this.selectionList,
             components: this.componentsList,
@@ -17,32 +26,39 @@ export class ElementorOperator {
         }
     }
 
-    getSelectionList () {
-        console.log('getSelectionList')
-        return this.selectionList
+    getSelectionList() {
+        console.log("getSelectionList")
+        return { selectionList: this.selectionList }
     }
 
-    getComponentsList () {
-        return this.componentsList 
+    getComponentsList() {
+        return {
+            componentsList: this.componentsList
+        }
     }
 
-    getPropertiesList () {
-        return this.propertiesList
+    getPropertiesList() {
+        return {
+            propertiesList: this.propertiesList
+        }
     }
 
-    registerSelectionList (element: string) {
+    registerSelectionList(element: string) {
         // this.selectionList.push()
-        return this.selectionList
+        return { selectionList: this.selectionList }
     }
 
-    registerComponentsList (element: string) {
+    registerComponentsList(element: string) {
         // this.selectionList.push()
-        return this.selectionList
+        return {
+            componentsList: this.componentsList
+        }
     }
 
-    registerPropertiesList (element: string) {
+    registerPropertiesList(element: string) {
         // this.selectionList.push()
-        return this.selectionList
+        return {
+            propertiesList: this.propertiesList
+        }
     }
-
 }

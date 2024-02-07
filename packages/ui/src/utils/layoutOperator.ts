@@ -1,48 +1,62 @@
-export class LayoutOperator {
-  private selectionList: []
-  private componentsList: []
-  private propertiesList: []
+import { OperatorControlType } from "."
+import {
+    SelectionJson,
+    DragDropJson,
+    PropertyJson
+} from "./type/componentFormat"
 
-  constructor () {
-      this.selectionList = []
-      this.componentsList = []
-      this.propertiesList = []
-  }
+export class LayoutOperator implements OperatorControlType.LayoutOperatorType {
+    selectionList: Map<string, SelectionJson>
+    componentsList: Map<string, DragDropJson>
+    propertiesList: Map<string, PropertyJson>
 
-  getAllList () {
-      return {
-          selection: this.selectionList,
-          components: this.componentsList,
-          properties: this.propertiesList
-      }
-  }
+    constructor() {
+        this.selectionList = new Map()
+        this.componentsList = new Map()
+        this.propertiesList = new Map()
+    }
 
-  getSelectionList () {
-      console.log('getSelectionList')
-      return this.selectionList
-  }
+    getAllList() {
+        return {
+            selection: this.selectionList,
+            components: this.componentsList,
+            properties: this.propertiesList
+        }
+    }
 
-  getComponentsList () {
-      return this.componentsList 
-  }
+    getSelectionList() {
+        console.log("getSelectionList")
+        return { selectionList: this.selectionList }
+    }
 
-  getPropertiesList () {
-      return this.propertiesList
-  }
+    getComponentsList() {
+        return {
+            componentsList: this.componentsList
+        }
+    }
 
-  registerSelectionList (element: string) {
-      // this.selectionList.push()
-      return this.selectionList
-  }
+    getPropertiesList() {
+        return {
+            propertiesList: this.propertiesList
+        }
+    }
 
-  registerComponentsList (element: string) {
-      // this.selectionList.push()
-      return this.selectionList
-  }
+    registerSelectionList(element: string) {
+        // this.selectionList.push()
+        return { selectionList: this.selectionList }
+    }
 
-  registerPropertiesList (element: string) {
-      // this.selectionList.push()
-      return this.selectionList
-  }
+    registerComponentsList(element: string) {
+        // this.selectionList.push()
+        return {
+            componentsList: this.componentsList
+        }
+    }
 
+    registerPropertiesList(element: string) {
+        // this.selectionList.push()
+        return {
+            propertiesList: this.propertiesList
+        }
+    }
 }
