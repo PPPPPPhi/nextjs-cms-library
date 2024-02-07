@@ -1,0 +1,47 @@
+{
+    "id": "af64c990-e1ae-445d-b0cd-439d1a532c83",
+    "metatype": "widget",
+    "category": "elementor",
+    "element": "blog-post",
+    "type": "object",
+    "required": true,
+    "children": {
+       "title": {
+        "type": "string",
+        "required": true,
+        "label": "Daily News Express",
+        "placeholder": "Input here ...",
+        "value": "Morning World"
+       },
+       "content": {
+        "type": "string",
+        "required": true,
+        "label": "Daily News Express",
+        "placeholder": "Input here ...",
+        "value": "Morning World"
+       },
+       "images": {
+        "type": "array",
+        "required": false,
+        "label": "Daily News Express",
+        "placeholder": "/image/url/",
+        "value": [
+            {
+                "type": "image",
+                "placeholder": "/image/url/01",
+                "value": "image/url/01"
+            },
+            {
+                "type": "image",
+                "placeholder": "/image/url/02",
+                "value": "image/url/02"
+            },
+            {
+                "type": "image",
+                "placeholder": "/image/url/03",
+                "value": "image/url/03"
+            }
+        ]
+       }
+    }
+}
