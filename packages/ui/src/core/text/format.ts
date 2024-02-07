@@ -1,4 +1,4 @@
-import { WidgetType } from "../../utils"
+import { WidgetType } from "@utils/index"
 
 export const selectionPanelJson: WidgetType.SelectionJson = {
     element: "text",
