@@ -1,0 +1,5 @@
+@each $name, $value in $admin-color-setting {
+    .admin-bg-#{$name} {
+        background-color: $value;
+    }
+}
