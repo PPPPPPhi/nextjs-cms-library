@@ -1,10 +1,64 @@
-$admin-color-setting: (
-    "primary": var(--admin-color-primary),
-    "secondary": var(--admin-color-secondary)
+$static-color-setting: (
+    "primary": var(--static-color-primary),
+    "secondary": var(--static-color-secondary),
+    "tertiary": var(--static-color-tertiary),
+    "quaternary": var(--static-color-quaternary),
+    "quinary": var(--static-color-quinary)
 );
 
-@each $color, $value in $admin-color-setting {
-    .section-bg-#{$color} {
+$static-bg-color-setting: (
+    "primary": var(--static-bg-primary),
+    "secondary": var(--static-bg-secondary)
+);
+
+$static-text-color-setting: (
+    "alpha": var(--static-color-text-alpha),
+    "beta": var(--static-color-text-beta),
+    "gamma": var(--static-color-text-gamma),
+    "delta": var(--static-color-text-delta),
+    "epsilon": var(--static-color-text-epsilon),
+    "zeta": var(--static-color-text-zeta),
+    "eta": var(--static-color-text-eta),
+    "theta": var(--static-color-text-theta),
+    "iota": var(--static-color-text-iota),
+    "kappa": var(--static-color-text-kappa),
+    "lambda": var(--static-color-text-lambda),
+    "mu": var(--static-color-text-mu),
+    "nu": var(--static-color-text-nu)
+);
+
+@each $color, $value in $static-bg-color-setting {
+    .s-section-#{$color} {
         background-color: $value;
+    }
+
+    .s-section-#{$color}-important {
+        background-color: $value !important;
+    }
+
+    .s-svg-fill-#{$color} {
+        fill: $value;
+
+        svg {
+            fill: $value;
+        }
+    }
+}
+
+@each $color, $value in $static-text-color-setting {
+    .s-text-color-#{$color} {
+        color: $value;
+    }
+
+    .s-text-color-#{$color}-important {
+        color: $value !important;
+    }
+
+    .s-svg-fill-#{$color} {
+        fill: $value;
+
+        svg {
+            fill: $value;
+        }
     }
 }
