@@ -1,3 +1,10 @@
-@import "../../../node_modules/bootstrap/scss/bootstrap";
+$admin-color-setting: (
+    "primary": var(--admin-color-primary),
+    "secondary": var(--admin-color-secondary)
+);
 
-$admin-nav-bar-background: #000;
+@each $color, $value in $admin-color-setting {
+    .section-bg-#{$color} {
+        background-color: $value;
+    }
+}

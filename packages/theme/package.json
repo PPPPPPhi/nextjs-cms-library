@@ -1,6 +1,6 @@
 {
     "name": "@nextjs-cms-library/theme",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "global scss style for the nextjs-cms project",
     "exports": {
         "./index": "./src/index.ts"
@@ -8,7 +8,7 @@
     "main": "global.scss",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "sass global.scss ./public/css/global.css"
+        "build": "sass ./src/_global.scss ./public/css/library.css"
     },
     "author": "",
     "license": "ISC",
