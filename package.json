@@ -7,7 +7,12 @@
     "scripts": {
         "lint": "turbo lint",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "publish-packages": "turbo run build lint && changeset version && changeset publish"
+        "build": "turbo run build",
+        "publish-packages": "turbo run build lint && changeset version && changeset publish",
+        "reg:local": "turbo run reg:local",
+        "reg:clean": "turbo run reg:clean",
+        "link:local": "turbo run link:local",
+        "link:clean": "turbo run link:clean"
     },
     "devDependencies": {
         "@repo/eslint-config": "*",

@@ -8,7 +8,11 @@
         "lint": "eslint . --max-warnings 0",
         "build": "tsup src/index.ts --format cjs,esm --dts",
         "dev": "npm run build -- --watch",
-        "generate:component": "turbo gen react-component"
+        "generate:component": "turbo gen react-component",
+        "reg:local": "yarn link",
+        "reg:clean": "yarn unlink",
+        "link:local": "yarn link react && yarn link react-dom && yarn link react-i18next && yarn link i18next && yarn link next",
+        "link:clean": "yarn unlink react && yarn unlink react-dom && yarn unlink react-i18next && yarn unlink i18next && yarn unlink next"
     },
     "devDependencies": {
         "@repo/eslint-config": "*",
