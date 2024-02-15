@@ -28,6 +28,51 @@
   fill: var(--static-bg-secondary);
 }
 
+.s-section-tertiary {
+  background-color: var(--static-bg-tertiary);
+}
+
+.s-section-tertiary-important {
+  background-color: var(--static-bg-tertiary) !important;
+}
+
+.s-svg-fill-tertiary {
+  fill: var(--static-bg-tertiary);
+}
+.s-svg-fill-tertiary svg {
+  fill: var(--static-bg-tertiary);
+}
+
+.s-section-quaternary {
+  background-color: var(--static-bg-quaternary);
+}
+
+.s-section-quaternary-important {
+  background-color: var(--static-bg-quaternary) !important;
+}
+
+.s-svg-fill-quaternary {
+  fill: var(--static-bg-quaternary);
+}
+.s-svg-fill-quaternary svg {
+  fill: var(--static-bg-quaternary);
+}
+
+.s-section-quinary {
+  background-color: var(--static-bg-quinary);
+}
+
+.s-section-quinary-important {
+  background-color: var(--static-bg-quinary) !important;
+}
+
+.s-svg-fill-quinary {
+  fill: var(--static-bg-quinary);
+}
+.s-svg-fill-quinary svg {
+  fill: var(--static-bg-quinary);
+}
+
 .s-text-color-alpha {
   color: var(--static-color-text-alpha);
 }

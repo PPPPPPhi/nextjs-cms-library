@@ -8,7 +8,10 @@ $static-color-setting: (
 
 $static-bg-color-setting: (
     "primary": var(--static-bg-primary),
-    "secondary": var(--static-bg-secondary)
+    "secondary": var(--static-bg-secondary),
+    "tertiary": var(--static-bg-tertiary),
+    "quaternary": var(--static-bg-quaternary),
+    "quinary": var(--static-bg-quinary)
 );
 
 $static-text-color-setting: (

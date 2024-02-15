@@ -1,0 +1,53 @@
+{
+    "id": "static-core-role",
+    "role": [
+        {
+            "name": "EDIT_USER_PROFILE",
+            "description": "Edit self user profile"
+        },
+        {
+            "name": "VIEW_USERS",
+            "description": "View other user"
+        },
+        {
+            "name": "EDIT_OTHER_USER",
+            "description": "Edit other user profile"
+        },
+        {
+            "name": "ROLE_MANAGEMENT",
+            "description": "Edit functions of roles"
+        },
+        {
+            "name": "SITE_SETTING_CONTROL",
+            "description": "Edit site setting"
+        },
+        {
+            "name": "MULTI_SITE_CONTROL",
+            "description": "Enable to view multiple site"
+        },
+        {
+            "name": "IMAGE_GALLERY_CONTROL",
+            "description": "Enable to upload new image"
+        },
+        {
+            "name": "CREATE_PAGE",
+            "description": "Create new page of site"
+        },
+        {
+            "name": "EDIT_PAGE",
+            "description": "Edit page"
+        },
+        {
+            "name": "PUBLISH_PAGE",
+            "description": "Publish page"
+        },
+        {
+            "name": "CLONE_SITE",
+            "description": "Clone site"
+        },
+        {
+            "name": "REVIEW_PAGE_HISTORY",
+            "description": "Review publish history of the page"
+        }
+    ]
+}

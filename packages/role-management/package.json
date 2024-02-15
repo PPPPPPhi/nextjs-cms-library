@@ -1,0 +1,19 @@
+{
+    "name": "@nextjs-cms-library/role-management",
+    "version": "1.0.0",
+    "exports": {
+        "./index": "./src/index.ts"
+    },
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsup src/index.ts --format cjs,esm --dts",
+        "reg:local": "yarn link",
+        "reg:clean": "yarn unlink",
+        "link:local": "yarn link react && yarn link react-dom && yarn link react-i18next && yarn link i18next && yarn link next",
+        "link:clean": "yarn unlink react && yarn unlink react-dom && yarn unlink react-i18next && yarn unlink i18next && yarn unlink next"
+    },
+    "author": "",
+    "license": "ISC"
+}

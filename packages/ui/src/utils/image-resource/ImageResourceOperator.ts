@@ -2,7 +2,7 @@ import { imageResourceAdaptorType } from "./"
 
 interface ImageResourceOperatorInterface {
     getImages: (site: string) => void
-    uploadImage: (file: File) => void
+    uploadImage: (file: File, site: string) => void
     storeImage: (file: File, addition: any) => Promise<{ success: boolean }>
 }
 
@@ -17,8 +17,8 @@ class _ImageResourceOperator implements ImageResourceOperatorInterface {
         return await this.apdator?.getImages(site)
     }
 
-    uploadImage = async (file: File) => {
-        return await this.apdator?.uploadImage(file)
+    uploadImage = async (file: File, site: string) => {
+        return await this.apdator?.uploadImage(file, site)
     }
 
     storeImage = async (file: File, addition: any) => {

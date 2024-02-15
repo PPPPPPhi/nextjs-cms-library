@@ -3,7 +3,7 @@ import path from "path"
 
 interface ImageResourceAdaptorInterface {
     getImages: (site: string) => void
-    uploadImage: (file: File) => void
+    uploadImage: (file: File, site: string) => void
     storeImage: (file: File, addition: any) => Promise<{ success: boolean }>
 }
 
@@ -17,21 +17,18 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
     }
 
     getImages = async (site: string) => {
-        const images = await NextAPIInstance.get("/image/getImageFromNext", {
-            params: {
-                site
-            }
-        })
+        const images = await NextAPIInstance.get(
+            `/image/${site}/getImageFromNext`
+        )
         return images
     }
 
-    uploadImage = async (file: File) => {
+    uploadImage = async (file: File, site: string) => {
         let formData = new FormData()
         formData.append("imageFile", file)
-        formData.append("addition", JSON.stringify({}))
 
         const uploadRes = await NextAPIInstance.post(
-            "/image/uploadImageToNext",
+            `/image/${site}/uploadImageToNext`,
             formData
         )
 
@@ -44,9 +41,10 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
     ): Promise<{ success: boolean }> => {
         const buffer = Buffer.from(await file.arrayBuffer())
         const filename = file.name.replaceAll(" ", "_")
+        const site = addition.site
 
         await this.writeFile(
-            this.path.join(process.cwd(), "public/uploads/" + filename),
+            this.path.join(process.cwd(), `public/uploads/${site}/` + filename),
             buffer
         )
 
