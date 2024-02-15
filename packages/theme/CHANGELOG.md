@@ -1,5 +1,11 @@
 # @nextjs-cms-library/theme
 
+## 1.0.2
+
+### Patch Changes
+
+- z
+
 ## 1.0.1
 
 ### Patch Changes
