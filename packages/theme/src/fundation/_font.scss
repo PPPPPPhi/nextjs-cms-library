@@ -1,0 +1,106 @@
+// font weight
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+$font-weight-ultra-bold: 900;
+
+$static-font-weight: (
+    "light": $font-weight-light,
+    "normal": $font-weight-normal,
+    "medium": $font-weight-medium,
+    "bold": $font-weight-bold,
+    "ultra-bold": $font-weight-ultra-bold
+);
+
+// Font Level
+$title: (
+    null: 22px,
+    $breakpoint-lg: 36px
+);
+$subtitle: (
+    null: 18px,
+    $breakpoint-lg: 27px
+);
+$sub-headline: (
+    null: 18px,
+    $breakpoint-lg: 24px
+);
+$headline: (
+    null: 16px,
+    $breakpoint-lg: 22px
+);
+$sub-body: (
+    null: 14px,
+    $breakpoint-lg: 22px
+);
+$body: (
+    null: 14px,
+    $breakpoint-lg: 18px
+);
+$detail-caption: (
+    null: 16px,
+    $breakpoint-lg: 18px
+);
+$size-coherant-caption: (
+    null: 14px,
+    $breakpoint-lg: 14px
+);
+$caption: (
+    null: 13px,
+    $breakpoint-lg: 14px
+);
+$remark: (
+    null: 12px,
+    $breakpoint-lg: 12px
+);
+$button: (
+    null: 14px,
+    $breakpoint-lg: 18px
+);
+
+$static-font-level: (
+    "title": $title,
+    "subtitle": $subtitle,
+    "sub-headline": $sub-headline,
+    "headline": $headline,
+    "sub-body": $sub-body,
+    "body": $body,
+    "caption": $caption,
+    "remark": $remark,
+    "button": $button,
+    "detail-caption": $detail-caption,
+    "size-coherant-caption": $size-coherant-caption
+);
+
+@mixin font-size($fs-map) {
+    @each $fs-breakpoint, $fs-font-size in $fs-map {
+        @if $fs-breakpoint==null {
+            font-size: $fs-font-size;
+        } @else {
+            @include mediaMinWidth($fs-breakpoint) {
+                font-size: $fs-font-size;
+            }
+        }
+    }
+}
+
+@each $font-level, $value in $static-font-level {
+    .text-level-#{$font-level} {
+        @include font-size($value);
+    }
+}
+
+@each $font-weight, $value in $static-font-weight {
+    .text-font-#{$font-weight} {
+        font-weight: $value;
+    }
+}
+
+$text-transform: ("uppercase", "capitalize", "lowercase", "none");
+
+@each $text-value in $text-transform {
+    .#{$text-value} {
+        text-transform: #{$text-value};
+    }
+}

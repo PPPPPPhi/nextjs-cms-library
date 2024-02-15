@@ -11,6 +11,7 @@ import {
     dragDropListMap,
     propertiesListMap
 } from "./ElementsJsonListMap"
+import { NextAPIInstance } from "./api/AxiosInstance"
 
 export * from "./type"
 
@@ -22,5 +23,9 @@ export {
     NextImageApdator,
     selectionListMap,
     dragDropListMap,
-    propertiesListMap
+    propertiesListMap,
+    NextAPIInstance
 }
+
+export * from "./type"
+export * from "./image-resource"

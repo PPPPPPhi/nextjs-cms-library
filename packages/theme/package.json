@@ -8,7 +8,9 @@
     "main": "global.scss",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "sass ./src/_global.scss ./public/css/library.css"
+        "build": "sass ./src/_global.scss ./css/library.css",
+        "reg:local": "yarn link",
+        "reg:clean": "yarn unlink"
     },
     "author": "",
     "license": "ISC",
