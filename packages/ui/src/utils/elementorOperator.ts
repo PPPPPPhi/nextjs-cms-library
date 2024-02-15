@@ -1,22 +1,27 @@
-import { OperatorControlType } from "."
+import { ElementorOperatorType } from "."
 import {
     SelectionJson,
     DragDropJson,
     PropertyJson
 } from "./type/componentFormat"
+import {
+    selectionListMap,
+    dragDropListMap,
+    propertiesListMap
+} from "./ElementsJsonListMap"
 
-export class ElementorOperator
-    implements OperatorControlType.ElementorOperatorType
-{
-    selectionList: Map<string, SelectionJson>
-    componentsList: Map<string, DragDropJson>
-    propertiesList: Map<string, PropertyJson>
+export default class _ElementorOperator implements ElementorOperatorType {
+    public selectionList: Map<string, SelectionJson>
+    public componentsList: Map<string, DragDropJson>
+    public propertiesList: Map<string, PropertyJson>
 
-    constructor() {
-        this.selectionList = new Map()
-        this.componentsList = new Map()
-        this.propertiesList = new Map()
+    constructor(name: string) {
+        this.name = name
+        this.selectionList = selectionListMap
+        this.componentsList = dragDropListMap
+        this.propertiesList = propertiesListMap
     }
+    name: string
 
     getAllList() {
         return {
@@ -28,37 +33,44 @@ export class ElementorOperator
 
     getSelectionList() {
         console.log("getSelectionList")
-        return { selectionList: this.selectionList }
+        return this.selectionList
     }
 
     getComponentsList() {
-        return {
-            componentsList: this.componentsList
-        }
+        return this.componentsList
     }
 
     getPropertiesList() {
-        return {
-            propertiesList: this.propertiesList
-        }
+        return this.propertiesList
     }
 
     registerSelectionList(element: string) {
         // this.selectionList.push()
-        return { selectionList: this.selectionList }
+        return this.selectionList
     }
 
     registerComponentsList(element: string) {
         // this.selectionList.push()
-        return {
-            componentsList: this.componentsList
-        }
+        return this.componentsList
     }
 
     registerPropertiesList(element: string) {
         // this.selectionList.push()
-        return {
-            propertiesList: this.propertiesList
-        }
+        return this.propertiesList
     }
 }
+
+// export class ElementorOperator {
+//     private static instance: _ElementorOperator
+
+//     static getInstance(): _ElementorOperator {
+//         if (!ElementorOperator.instance) {
+//             ElementorOperator.instance = new _ElementorOperator()
+//         }
+//         return ElementorOperator.instance
+//     }
+// }
+
+// export function getElementorInstance() {
+//     return new _ElementorOperator()
+// }

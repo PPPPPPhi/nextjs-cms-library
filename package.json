@@ -26,5 +26,9 @@
     "packageManager": "npm@10.2.3",
     "workspaces": [
         "packages/*"
-    ]
+    ],
+    "dependencies": {
+        "node": "^20.5.0",
+        "react-hook-form": "^7.50.1"
+    }
 }

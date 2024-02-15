@@ -1,11 +1,11 @@
-import { OperatorControlType } from "."
+import { LayoutOperatorType } from "."
 import {
     SelectionJson,
     DragDropJson,
     PropertyJson
 } from "./type/componentFormat"
 
-export class LayoutOperator implements OperatorControlType.LayoutOperatorType {
+export class LayoutOperator implements LayoutOperatorType {
     selectionList: Map<string, SelectionJson>
     componentsList: Map<string, DragDropJson>
     propertiesList: Map<string, PropertyJson>
@@ -26,37 +26,29 @@ export class LayoutOperator implements OperatorControlType.LayoutOperatorType {
 
     getSelectionList() {
         console.log("getSelectionList")
-        return { selectionList: this.selectionList }
+        return this.selectionList
     }
 
     getComponentsList() {
-        return {
-            componentsList: this.componentsList
-        }
+        return this.componentsList
     }
 
     getPropertiesList() {
-        return {
-            propertiesList: this.propertiesList
-        }
+        return this.propertiesList
     }
 
     registerSelectionList(element: string) {
         // this.selectionList.push()
-        return { selectionList: this.selectionList }
+        return this.selectionList
     }
 
     registerComponentsList(element: string) {
         // this.selectionList.push()
-        return {
-            componentsList: this.componentsList
-        }
+        return this.componentsList
     }
 
     registerPropertiesList(element: string) {
         // this.selectionList.push()
-        return {
-            propertiesList: this.propertiesList
-        }
+        return this.propertiesList
     }
 }

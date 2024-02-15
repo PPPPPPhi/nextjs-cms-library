@@ -21,14 +21,16 @@ export interface OperatorType
         components: Map<string, DragDropJson>
         properties: Map<string, PropertyJson>
     }
-    getSelectionList: () => SelectionListMap
-    getComponentsList: () => ComponentsListMap
-    getPropertiesList: () => PropertiesListMap
-    registerSelectionList: (element: string) => SelectionListMap
-    registerComponentsList: (element: string) => ComponentsListMap
-    registerPropertiesList: (element: string) => PropertiesListMap
+    getSelectionList: () => Map<string, SelectionJson>
+    getComponentsList: () => Map<string, DragDropJson>
+    getPropertiesList: () => Map<string, PropertyJson>
+    registerSelectionList: (element: string) => Map<string, SelectionJson>
+    registerComponentsList: (element: string) => Map<string, DragDropJson>
+    registerPropertiesList: (element: string) => Map<string, PropertyJson>
 }
 
-export interface ElementorOperatorType extends OperatorType {}
+export interface ElementorOperatorType extends OperatorType {
+    name: string
+}
 
 export interface LayoutOperatorType extends OperatorType {}

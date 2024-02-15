@@ -20,6 +20,7 @@ export const NextImageApdator: React.FC<
 
     return (
         <Image
+            // @ts-ignore
             alt="Image Provided by NextJs CMS"
             loader={imageLoader}
             {...props}
