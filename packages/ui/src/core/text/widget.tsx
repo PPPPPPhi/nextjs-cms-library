@@ -5,13 +5,12 @@ type TextProps = WidgetProps & {}
 
 export const Text: React.FC<TextProps> = ({ label, placeholder, value }) => {
     return (
-        <div>
-            <div>{label ?? "Text Label"}</div>
-            <input
-                type="text"
-                id="text"
-                name={value ?? placeholder ?? "Input ..."}
-            />
+        <div style={{ overflowWrap: "break-word" }}>
+            <div className={`text-level-headline text-font-bold`}>
+                {label ?? "Text Label"}
+            </div>
+
+            <div className={`text-level-body`}>{value ?? placeholder}</div>
         </div>
     )
 }

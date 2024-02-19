@@ -32,7 +32,6 @@ export default class _ElementorOperator implements ElementorOperatorType {
     }
 
     getSelectionList() {
-        console.log("getSelectionList")
         return this.selectionList
     }
 

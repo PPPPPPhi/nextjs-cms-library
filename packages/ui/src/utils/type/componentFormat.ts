@@ -1,5 +1,10 @@
+import { Ref } from "react"
+import { ElementNameMap, LayoutNameMap } from "../NameMap"
+
 export type SvgProps = {
-    classname: string
+    classname?: string
+    width?: number
+    height?: number
 }
 
 export type SelectionJson = {
@@ -8,9 +13,14 @@ export type SelectionJson = {
     title: string
 }
 
-export type DragDropJson = {
+export type CoreDragDropJson = {
     element: string
     component: React.FC<any>
+    id?: string
+}
+
+export type DragDropJson = CoreDragDropJson & {
+    elements?: CoreDragDropJson[]
 }
 
 export type WidgetProps = {
@@ -22,8 +32,27 @@ export type WidgetProps = {
 export type CorePropertyJson = WidgetProps & {
     element: string
     type: string
+    id?: string
 }
 
 export type PropertyJson = CorePropertyJson & {
     children?: CorePropertyJson[]
 }
+
+export const DragDropAccecptType: string[] = [
+    ElementNameMap.Text,
+    LayoutNameMap.ThreeColumn
+]
+
+export type LayoutDragDropType = {
+    elements?: DragDropJson[]
+}
+
+export type LayoutPropertiesType = {
+    children?: PropertyJson[]
+}
+
+export type LayoutProps = LayoutDragDropType &
+    LayoutPropertiesType & {
+        dropRef?: Ref<any>
+    }

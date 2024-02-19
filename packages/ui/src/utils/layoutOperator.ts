@@ -5,15 +5,21 @@ import {
     PropertyJson
 } from "./type/componentFormat"
 
+import {
+    selectionLayoutMap,
+    dragDropLayoutMap,
+    propertiesLayoutMap
+} from "./LayoutJsonListMap"
+
 export class LayoutOperator implements LayoutOperatorType {
     selectionList: Map<string, SelectionJson>
     componentsList: Map<string, DragDropJson>
     propertiesList: Map<string, PropertyJson>
 
     constructor() {
-        this.selectionList = new Map()
-        this.componentsList = new Map()
-        this.propertiesList = new Map()
+        this.selectionList = selectionLayoutMap
+        this.componentsList = dragDropLayoutMap
+        this.propertiesList = propertiesLayoutMap
     }
 
     getAllList() {
@@ -25,7 +31,7 @@ export class LayoutOperator implements LayoutOperatorType {
     }
 
     getSelectionList() {
-        console.log("getSelectionList")
+        // console.log("getSelectionList")
         return this.selectionList
     }
 

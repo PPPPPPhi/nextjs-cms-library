@@ -3,7 +3,11 @@ import {
     DragDropJson,
     PropertyJson,
     SvgProps,
-    WidgetProps
+    WidgetProps,
+    DragDropAccecptType,
+    LayoutDragDropType,
+    LayoutPropertiesType,
+    LayoutProps
 } from "./componentFormat"
 import {
     SelectionListMap,
@@ -25,5 +29,10 @@ export type {
     PropertiesListMap,
     OperatorType,
     ElementorOperatorType,
-    LayoutOperatorType
+    LayoutOperatorType,
+    LayoutDragDropType,
+    LayoutPropertiesType,
+    LayoutProps
 }
+
+export { DragDropAccecptType }

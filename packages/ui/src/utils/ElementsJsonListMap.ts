@@ -4,16 +4,18 @@ import {
     PropertyJson
 } from "./type/componentFormat"
 
+import { ElementNameMap } from "./NameMap"
+
 import { TextJson } from ".."
 
 export const selectionListMap: Map<string, SelectionJson> = new Map([
-    ["text", TextJson.selectionPanelJson]
+    [ElementNameMap.Text, TextJson.selectionPanelJson]
 ])
 
 export const dragDropListMap: Map<string, DragDropJson> = new Map([
-    ["text", TextJson.dragDropJson]
+    [ElementNameMap.Text, TextJson.dragDropJson]
 ])
 
 export const propertiesListMap: Map<string, PropertyJson> = new Map([
-    ["text", TextJson.propertyJson]
+    [ElementNameMap.Text, TextJson.propertyJson]
 ])
