@@ -1,17 +1,19 @@
-import { WidgetType } from "@utils/index"
+import { SelectionJson, DragDropJson, PropertyJson } from "../../utils"
+import { TextSvg } from "./svg"
+import { Text } from "./widget"
 
-export const selectionPanelJson: WidgetType.SelectionJson = {
+export const selectionPanelJson: SelectionJson = {
     element: "text",
-    icon: "<div></div>",
+    icon: TextSvg,
     title: "Text"
 }
 
-export const dragDropJson: WidgetType.DragDropJson = {
+export const dragDropJson: DragDropJson = {
     element: "text",
-    component: "<div></div>"
+    component: Text
 }
 
-export const propertyJson: WidgetType.PropertyJson = {
+export const propertyJson: PropertyJson = {
     element: "text",
     label: "Text Label",
     placeholder: "Input here ...",

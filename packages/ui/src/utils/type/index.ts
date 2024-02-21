@@ -1,4 +1,38 @@
-import * as WidgetType from "./componentFormat"
-import * as OperatorControlType from "./operator"
+import {
+    SelectionJson,
+    DragDropJson,
+    PropertyJson,
+    SvgProps,
+    WidgetProps,
+    DragDropAccecptType,
+    LayoutDragDropType,
+    LayoutPropertiesType,
+    LayoutProps
+} from "./componentFormat"
+import {
+    SelectionListMap,
+    ComponentsListMap,
+    PropertiesListMap,
+    OperatorType,
+    ElementorOperatorType,
+    LayoutOperatorType
+} from "./operator"
 
-export { WidgetType, OperatorControlType }
+export type {
+    SvgProps,
+    WidgetProps,
+    SelectionJson,
+    DragDropJson,
+    PropertyJson,
+    SelectionListMap,
+    ComponentsListMap,
+    PropertiesListMap,
+    OperatorType,
+    ElementorOperatorType,
+    LayoutOperatorType,
+    LayoutDragDropType,
+    LayoutPropertiesType,
+    LayoutProps
+}
+
+export { DragDropAccecptType }
