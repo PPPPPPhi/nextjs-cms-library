@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+- update patch for main admin
+
+## 1.0.2
+
+### Patch Changes
+
 - z
 
 ## 1.0.1
