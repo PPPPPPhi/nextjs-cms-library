@@ -1,6 +1,7 @@
 import { SelectionJson, DragDropJson, PropertyJson } from "../../utils"
 import { ThreeColumn } from "./layout"
 import { ThreeColumnSvg } from "./svg"
+import { z } from "zod"
 
 export const selectionPanelJson: SelectionJson = {
     element: "three-column",
@@ -22,3 +23,20 @@ export const propertyJson: PropertyJson = {
     type: "three-column",
     children: []
 }
+
+export const validSchema = z.object({
+    element: z.string(),
+    label: z.string(),
+    placeholder: z.string(),
+    value: z.string(),
+    type: z.string(),
+    children: z.array(
+        z.object({
+            element: z.string(),
+            label: z.string(),
+            placeholder: z.string(),
+            value: z.string(),
+            type: z.string()
+        })
+    )
+})

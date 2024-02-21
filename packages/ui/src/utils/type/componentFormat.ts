@@ -5,6 +5,7 @@ export type SvgProps = {
     classname?: string
     width?: number
     height?: number
+    color?: string
 }
 
 export type SelectionJson = {
