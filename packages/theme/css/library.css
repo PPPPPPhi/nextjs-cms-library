@@ -1,406 +1,481 @@
 .s-section-primary {
-  background-color: var(--static-bg-primary);
+    background-color: var(--static-bg-primary);
 }
 
 .s-section-primary-important {
-  background-color: var(--static-bg-primary) !important;
+    background-color: var(--static-bg-primary) !important;
 }
 
 .s-svg-fill-primary {
-  fill: var(--static-bg-primary);
+    fill: var(--static-bg-primary);
 }
 .s-svg-fill-primary svg {
-  fill: var(--static-bg-primary);
+    fill: var(--static-bg-primary);
 }
 
 .s-section-secondary {
-  background-color: var(--static-bg-secondary);
+    background-color: var(--static-bg-secondary);
 }
 
 .s-section-secondary-important {
-  background-color: var(--static-bg-secondary) !important;
+    background-color: var(--static-bg-secondary) !important;
 }
 
 .s-svg-fill-secondary {
-  fill: var(--static-bg-secondary);
+    fill: var(--static-bg-secondary);
 }
 .s-svg-fill-secondary svg {
-  fill: var(--static-bg-secondary);
+    fill: var(--static-bg-secondary);
 }
 
 .s-section-tertiary {
-  background-color: var(--static-bg-tertiary);
+    background-color: var(--static-bg-tertiary);
 }
 
 .s-section-tertiary-important {
-  background-color: var(--static-bg-tertiary) !important;
+    background-color: var(--static-bg-tertiary) !important;
 }
 
 .s-svg-fill-tertiary {
-  fill: var(--static-bg-tertiary);
+    fill: var(--static-bg-tertiary);
 }
 .s-svg-fill-tertiary svg {
-  fill: var(--static-bg-tertiary);
+    fill: var(--static-bg-tertiary);
 }
 
 .s-section-quaternary {
-  background-color: var(--static-bg-quaternary);
+    background-color: var(--static-bg-quaternary);
 }
 
 .s-section-quaternary-important {
-  background-color: var(--static-bg-quaternary) !important;
+    background-color: var(--static-bg-quaternary) !important;
 }
 
 .s-svg-fill-quaternary {
-  fill: var(--static-bg-quaternary);
+    fill: var(--static-bg-quaternary);
 }
 .s-svg-fill-quaternary svg {
-  fill: var(--static-bg-quaternary);
+    fill: var(--static-bg-quaternary);
 }
 
 .s-section-quinary {
-  background-color: var(--static-bg-quinary);
+    background-color: var(--static-bg-quinary);
 }
 
 .s-section-quinary-important {
-  background-color: var(--static-bg-quinary) !important;
+    background-color: var(--static-bg-quinary) !important;
 }
 
 .s-svg-fill-quinary {
-  fill: var(--static-bg-quinary);
+    fill: var(--static-bg-quinary);
 }
 .s-svg-fill-quinary svg {
-  fill: var(--static-bg-quinary);
+    fill: var(--static-bg-quinary);
 }
 
 .s-text-color-alpha {
-  color: var(--static-color-text-alpha);
+    color: var(--static-color-text-alpha);
 }
 
 .s-text-color-alpha-important {
-  color: var(--static-color-text-alpha) !important;
+    color: var(--static-color-text-alpha) !important;
 }
 
 .s-svg-fill-alpha {
-  fill: var(--static-color-text-alpha);
+    fill: var(--static-color-text-alpha);
 }
 .s-svg-fill-alpha svg {
-  fill: var(--static-color-text-alpha);
+    fill: var(--static-color-text-alpha);
 }
 
 .s-text-color-beta {
-  color: var(--static-color-text-beta);
+    color: var(--static-color-text-beta);
 }
 
 .s-text-color-beta-important {
-  color: var(--static-color-text-beta) !important;
+    color: var(--static-color-text-beta) !important;
 }
 
 .s-svg-fill-beta {
-  fill: var(--static-color-text-beta);
+    fill: var(--static-color-text-beta);
 }
 .s-svg-fill-beta svg {
-  fill: var(--static-color-text-beta);
+    fill: var(--static-color-text-beta);
 }
 
 .s-text-color-gamma {
-  color: var(--static-color-text-gamma);
+    color: var(--static-color-text-gamma);
 }
 
 .s-text-color-gamma-important {
-  color: var(--static-color-text-gamma) !important;
+    color: var(--static-color-text-gamma) !important;
 }
 
 .s-svg-fill-gamma {
-  fill: var(--static-color-text-gamma);
+    fill: var(--static-color-text-gamma);
 }
 .s-svg-fill-gamma svg {
-  fill: var(--static-color-text-gamma);
+    fill: var(--static-color-text-gamma);
 }
 
 .s-text-color-delta {
-  color: var(--static-color-text-delta);
+    color: var(--static-color-text-delta);
 }
 
 .s-text-color-delta-important {
-  color: var(--static-color-text-delta) !important;
+    color: var(--static-color-text-delta) !important;
 }
 
 .s-svg-fill-delta {
-  fill: var(--static-color-text-delta);
+    fill: var(--static-color-text-delta);
 }
 .s-svg-fill-delta svg {
-  fill: var(--static-color-text-delta);
+    fill: var(--static-color-text-delta);
 }
 
 .s-text-color-epsilon {
-  color: var(--static-color-text-epsilon);
+    color: var(--static-color-text-epsilon);
 }
 
 .s-text-color-epsilon-important {
-  color: var(--static-color-text-epsilon) !important;
+    color: var(--static-color-text-epsilon) !important;
 }
 
 .s-svg-fill-epsilon {
-  fill: var(--static-color-text-epsilon);
+    fill: var(--static-color-text-epsilon);
 }
 .s-svg-fill-epsilon svg {
-  fill: var(--static-color-text-epsilon);
+    fill: var(--static-color-text-epsilon);
 }
 
 .s-text-color-zeta {
-  color: var(--static-color-text-zeta);
+    color: var(--static-color-text-zeta);
 }
 
 .s-text-color-zeta-important {
-  color: var(--static-color-text-zeta) !important;
+    color: var(--static-color-text-zeta) !important;
 }
 
 .s-svg-fill-zeta {
-  fill: var(--static-color-text-zeta);
+    fill: var(--static-color-text-zeta);
 }
 .s-svg-fill-zeta svg {
-  fill: var(--static-color-text-zeta);
+    fill: var(--static-color-text-zeta);
 }
 
 .s-text-color-eta {
-  color: var(--static-color-text-eta);
+    color: var(--static-color-text-eta);
 }
 
 .s-text-color-eta-important {
-  color: var(--static-color-text-eta) !important;
+    color: var(--static-color-text-eta) !important;
 }
 
 .s-svg-fill-eta {
-  fill: var(--static-color-text-eta);
+    fill: var(--static-color-text-eta);
 }
 .s-svg-fill-eta svg {
-  fill: var(--static-color-text-eta);
+    fill: var(--static-color-text-eta);
 }
 
 .s-text-color-theta {
-  color: var(--static-color-text-theta);
+    color: var(--static-color-text-theta);
 }
 
 .s-text-color-theta-important {
-  color: var(--static-color-text-theta) !important;
+    color: var(--static-color-text-theta) !important;
 }
 
 .s-svg-fill-theta {
-  fill: var(--static-color-text-theta);
+    fill: var(--static-color-text-theta);
 }
 .s-svg-fill-theta svg {
-  fill: var(--static-color-text-theta);
+    fill: var(--static-color-text-theta);
 }
 
 .s-text-color-iota {
-  color: var(--static-color-text-iota);
+    color: var(--static-color-text-iota);
 }
 
 .s-text-color-iota-important {
-  color: var(--static-color-text-iota) !important;
+    color: var(--static-color-text-iota) !important;
 }
 
 .s-svg-fill-iota {
-  fill: var(--static-color-text-iota);
+    fill: var(--static-color-text-iota);
 }
 .s-svg-fill-iota svg {
-  fill: var(--static-color-text-iota);
+    fill: var(--static-color-text-iota);
 }
 
 .s-text-color-kappa {
-  color: var(--static-color-text-kappa);
+    color: var(--static-color-text-kappa);
 }
 
 .s-text-color-kappa-important {
-  color: var(--static-color-text-kappa) !important;
+    color: var(--static-color-text-kappa) !important;
 }
 
 .s-svg-fill-kappa {
-  fill: var(--static-color-text-kappa);
+    fill: var(--static-color-text-kappa);
 }
 .s-svg-fill-kappa svg {
-  fill: var(--static-color-text-kappa);
+    fill: var(--static-color-text-kappa);
 }
 
 .s-text-color-lambda {
-  color: var(--static-color-text-lambda);
+    color: var(--static-color-text-lambda);
 }
 
 .s-text-color-lambda-important {
-  color: var(--static-color-text-lambda) !important;
+    color: var(--static-color-text-lambda) !important;
 }
 
 .s-svg-fill-lambda {
-  fill: var(--static-color-text-lambda);
+    fill: var(--static-color-text-lambda);
 }
 .s-svg-fill-lambda svg {
-  fill: var(--static-color-text-lambda);
+    fill: var(--static-color-text-lambda);
 }
 
 .s-text-color-mu {
-  color: var(--static-color-text-mu);
+    color: var(--static-color-text-mu);
 }
 
 .s-text-color-mu-important {
-  color: var(--static-color-text-mu) !important;
+    color: var(--static-color-text-mu) !important;
 }
 
 .s-svg-fill-mu {
-  fill: var(--static-color-text-mu);
+    fill: var(--static-color-text-mu);
 }
 .s-svg-fill-mu svg {
-  fill: var(--static-color-text-mu);
+    fill: var(--static-color-text-mu);
 }
 
 .s-text-color-nu {
-  color: var(--static-color-text-nu);
+    color: var(--static-color-text-nu);
 }
 
 .s-text-color-nu-important {
-  color: var(--static-color-text-nu) !important;
+    color: var(--static-color-text-nu) !important;
 }
 
 .s-svg-fill-nu {
-  fill: var(--static-color-text-nu);
+    fill: var(--static-color-text-nu);
 }
 .s-svg-fill-nu svg {
-  fill: var(--static-color-text-nu);
+    fill: var(--static-color-text-nu);
 }
 
 .text-level-title {
-  font-size: 22px;
+    font-size: 22px;
 }
 @media (min-width: 992px) {
-  .text-level-title {
-    font-size: 36px;
-  }
+    .text-level-title {
+        font-size: 36px;
+    }
 }
 
 .text-level-subtitle {
-  font-size: 18px;
+    font-size: 18px;
 }
 @media (min-width: 992px) {
-  .text-level-subtitle {
-    font-size: 27px;
-  }
+    .text-level-subtitle {
+        font-size: 27px;
+    }
 }
 
 .text-level-sub-headline {
-  font-size: 18px;
+    font-size: 18px;
 }
 @media (min-width: 992px) {
-  .text-level-sub-headline {
-    font-size: 24px;
-  }
+    .text-level-sub-headline {
+        font-size: 24px;
+    }
 }
 
 .text-level-headline {
-  font-size: 16px;
+    font-size: 16px;
 }
 @media (min-width: 992px) {
-  .text-level-headline {
-    font-size: 22px;
-  }
+    .text-level-headline {
+        font-size: 22px;
+    }
 }
 
 .text-level-sub-body {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 992px) {
-  .text-level-sub-body {
-    font-size: 22px;
-  }
+    .text-level-sub-body {
+        font-size: 22px;
+    }
 }
 
 .text-level-body {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 992px) {
-  .text-level-body {
-    font-size: 18px;
-  }
+    .text-level-body {
+        font-size: 18px;
+    }
 }
 
 .text-level-caption {
-  font-size: 13px;
+    font-size: 13px;
 }
 @media (min-width: 992px) {
-  .text-level-caption {
-    font-size: 14px;
-  }
+    .text-level-caption {
+        font-size: 14px;
+    }
 }
 
 .text-level-remark {
-  font-size: 12px;
+    font-size: 12px;
 }
 @media (min-width: 992px) {
-  .text-level-remark {
-    font-size: 12px;
-  }
+    .text-level-remark {
+        font-size: 12px;
+    }
 }
 
 .text-level-button {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 992px) {
-  .text-level-button {
-    font-size: 18px;
-  }
+    .text-level-button {
+        font-size: 18px;
+    }
 }
 
 .text-level-detail-caption {
-  font-size: 16px;
+    font-size: 16px;
 }
 @media (min-width: 992px) {
-  .text-level-detail-caption {
-    font-size: 18px;
-  }
+    .text-level-detail-caption {
+        font-size: 18px;
+    }
 }
 
 .text-level-size-coherant-caption {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 992px) {
-  .text-level-size-coherant-caption {
-    font-size: 14px;
-  }
+    .text-level-size-coherant-caption {
+        font-size: 14px;
+    }
 }
 
 .text-font-light {
-  font-weight: 300;
+    font-weight: 300;
 }
 
 .text-font-normal {
-  font-weight: 400;
+    font-weight: 400;
 }
 
 .text-font-medium {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .text-font-bold {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .text-font-ultra-bold {
-  font-weight: 900;
+    font-weight: 900;
 }
 
 .uppercase {
-  text-transform: uppercase;
+    text-transform: uppercase;
 }
 
 .capitalize {
-  text-transform: capitalize;
+    text-transform: capitalize;
 }
 
 .lowercase {
-  text-transform: lowercase;
+    text-transform: lowercase;
 }
 
 .none {
-  text-transform: none;
+    text-transform: none;
 }
 
 /*# sourceMappingURL=library.css.map */
+
+.s-panel-outer {
+    box-shadow: 0px 3px 25px -1px rgba(0, 0, 0, 0.2);
+}
+
+.s-select-card-outer {
+    /* box-shadow: 0px 3px 25px -1px rgba(0, 0, 0, 0.2); */
+    display: flex;
+    width: 120px;
+    height: 80px;
+    border-radius: 10px;
+    flex-direction: row !important;
+    justify-content: center;
+}
+
+.s-select-card-inner {
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+}
+
+.s-drag-drop-card {
+    border: dashed #abcfff;
+    border-width: thin;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.s-three-column-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.s-three-column-grid {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+
+.s-display-controller {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+    margin-top: 20px;
+    z-index: 1000;
+}
+
+.s-display-control-group {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.s-display-control-button {
+    display: flex;
+    padding: 50px 10px 50px 10px;
+    cursor: pointer;
+}
+
+.s-empty-drag-drop-box {
+    display: flex;
+    width: 100%;
+    height: 150px;
+    flex-direction: row;
+    justify-content: center;
+    border: dashed #abcfff;
+    border-width: thin;
+    border-radius: 15px;
+}
+
+.s-display-panel-submit-button {
+    display: flex;
+    flex-direction: row;
+}

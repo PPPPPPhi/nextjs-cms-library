@@ -1,5 +1,8 @@
 export enum ElementNameMap {
-    Text = "text"
+    Text = "text",
+    Image = "image",
+    Banner = "banner",
+    List = "list"
 }
 
 export enum LayoutNameMap {
