@@ -1,0 +1,78 @@
+.s-panel-outer {
+    box-shadow: 0px 3px 25px -1px rgba(0, 0, 0, 0.2);
+}
+
+.s-select-card-outer {
+    /* box-shadow: 0px 3px 25px -1px rgba(0, 0, 0, 0.2); */
+    display: flex;
+    width: 120px;
+    height: 80px;
+    border-radius: 10px;
+    flex-direction: row !important;
+    justify-content: center;
+}
+
+.s-select-card-inner {
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+}
+
+.s-drag-drop-card {
+    border: dashed #abcfff;
+    border-width: thin;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.s-three-column-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.s-three-column-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.s-two-column-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.s-display-controller {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+    margin-top: 20px;
+    z-index: 1000;
+}
+
+.s-display-control-group {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.s-display-control-button {
+    display: flex;
+    padding: 50px 10px 50px 10px;
+    cursor: pointer;
+}
+
+.s-empty-drag-drop-box {
+    display: flex;
+    width: 100%;
+    height: 150px;
+    flex-direction: row;
+    justify-content: center;
+    border: dashed #abcfff;
+    border-width: thin;
+    border-radius: 15px;
+}
+
+.s-display-panel-submit-button {
+    display: flex;
+    flex-direction: row;
+}
