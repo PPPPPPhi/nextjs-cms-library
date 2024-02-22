@@ -53,7 +53,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
             <div ref={dropRef ?? null} className={`s-three-column-container`}>
                 {(!elements || elements.length == 0) && <EmptyLayoutGrid />}
 
-                <div className={`s-three-column-grid gap-3 w-100`}>
+                <div className={`s-two-column-grid gap-3 w-100`}>
                     {elements &&
                         elements.map((i: any, index: number) => {
                             return (
