@@ -58,9 +58,10 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                         elements.map((i: any, index: number) => {
                             return (
                                 <div key={`${i?.id}-children-${index}`}>
-                                    {i.component({
-                                        ...children?.[index]
-                                    })}
+                                    {i?.component &&
+                                        i?.component({
+                                            ...children?.[index]
+                                        })}
                                 </div>
                             )
                         })}
