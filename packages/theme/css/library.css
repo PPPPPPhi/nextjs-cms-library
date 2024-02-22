@@ -439,9 +439,13 @@
 }
 
 .s-three-column-grid {
-    display: flex;
-    flex-direction: column;
-    width: 33%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.s-two-column-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .s-display-controller {
