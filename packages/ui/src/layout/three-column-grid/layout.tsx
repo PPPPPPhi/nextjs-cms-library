@@ -55,18 +55,20 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
             <div ref={dropRef ?? null} className={`s-three-column-container`}>
                 {(!elements || elements.length == 0) && <EmptyLayoutGrid />}
 
-                <div className={`s-three-column-grid gap-3 w-100`}>
-                    {elements &&
-                        elements.map((i: any, index: number) => {
-                            return (
-                                <div key={`${i?.id}-children-${index}`}>
-                                    {i.component({
-                                        ...children?.[index]
-                                    })}
-                                </div>
-                            )
-                        })}
-                </div>
+                {elements && elements.length > 0 && (
+                    <div className={`s-three-column-grid gap-3 w-100`}>
+                        {elements &&
+                            elements.map((i: any, index: number) => {
+                                return (
+                                    <div key={`${i?.id}-children-${index}`}>
+                                        {i.component({
+                                            ...children?.[index]
+                                        })}
+                                    </div>
+                                )
+                            })}
+                    </div>
+                )}
             </div>
         </div>
     )
