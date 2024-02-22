@@ -1,11 +1,10 @@
 {
     "name": "@nextjs-cms-library/role-management",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "exports": {
         "./index": "./src/index.ts"
     },
     "description": "",
-    "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "tsup src/index.ts --format cjs,esm --dts",

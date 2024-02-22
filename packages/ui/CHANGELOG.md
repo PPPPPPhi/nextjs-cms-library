@@ -1,5 +1,17 @@
 # @repo/ui
 
+## 0.0.5
+
+### Patch Changes
+
+- update patch for main admin
+
+## 0.0.4
+
+### Patch Changes
+
+- z
+
 ## 0.0.3
 
 ### Patch Changes
