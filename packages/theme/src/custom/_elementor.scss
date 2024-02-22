@@ -10,12 +10,24 @@
     border-radius: 10px;
     flex-direction: row !important;
     justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
 
 .s-select-card-inner {
     display: flex;
     flex-direction: column !important;
     justify-content: center;
+}
+
+.s-select-tab {
+    margin: 1.25rem;
+}
+
+.s-select-area {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-left: 1rem;
 }
 
 .s-drag-drop-card {
