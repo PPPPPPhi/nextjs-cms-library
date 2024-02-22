@@ -7,11 +7,9 @@ import {
 } from "../../utils/type/componentFormat"
 import { EmptyLayoutGrid } from "../EmptyLayoutGrid"
 
-type ThreeColumnProps = WidgetProps & LayoutProps & {}
+type TwoColumnProps = WidgetProps & LayoutProps & {}
 
-export const ThreeColumn: React.FC<ThreeColumnProps> = (
-    props: ThreeColumnProps
-) => {
+export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     const { children, elements, dropRef } = props
 
     const defaultElement: React.FC<any> = () => {

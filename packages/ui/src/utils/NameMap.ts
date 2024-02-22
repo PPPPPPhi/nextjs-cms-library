@@ -6,5 +6,6 @@ export enum ElementNameMap {
 }
 
 export enum LayoutNameMap {
-    ThreeColumn = "three-column"
+    ThreeColumn = "three-column",
+    TwoColumn = "two-column"
 }

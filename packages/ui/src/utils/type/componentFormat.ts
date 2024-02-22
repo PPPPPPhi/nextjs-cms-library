@@ -42,7 +42,8 @@ export type PropertyJson = CorePropertyJson & {
 
 export const DragDropAccecptType: string[] = [
     ElementNameMap.Text,
-    LayoutNameMap.ThreeColumn
+    LayoutNameMap.ThreeColumn,
+    LayoutNameMap.TwoColumn
 ]
 
 export type LayoutDragDropType = {
