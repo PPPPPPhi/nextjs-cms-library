@@ -1,3 +1,4 @@
+import { EmptyLayoutGrid } from ".."
 import { SelectionJson, DragDropJson, PropertyJson } from "../../utils"
 import { TwoColumn } from "./layout"
 import { TwoColumnSvg } from "./svg"
@@ -12,7 +13,20 @@ export const selectionPanelJson: SelectionJson = {
 export const dragDropJson: DragDropJson = {
     element: "two-column",
     component: TwoColumn,
-    elements: []
+    elements: [
+        {
+            element: "",
+            component: EmptyLayoutGrid,
+            type: "",
+            childType: "two-column-first"
+        },
+        {
+            element: "",
+            component: EmptyLayoutGrid,
+            type: "",
+            childType: "two-column-second"
+        }
+    ]
 }
 
 export const propertyJson: PropertyJson = {
@@ -21,7 +35,24 @@ export const propertyJson: PropertyJson = {
     placeholder: "Input here ...",
     value: "Morning World two-column",
     type: "two-column",
-    children: []
+    children: [
+        {
+            element: "",
+            label: "",
+            placeholder: "",
+            value: "",
+            type: "",
+            childType: "two-column-first"
+        },
+        {
+            element: "",
+            label: "",
+            placeholder: "",
+            value: "",
+            type: "",
+            childType: "two-column-second"
+        }
+    ]
 }
 
 export const validSchema = z.object({
@@ -40,3 +71,13 @@ export const validSchema = z.object({
         })
     )
 })
+
+export enum TwoColumnChild {
+    firstColumn = "two-column-first",
+    secondColumn = "two-column-second"
+}
+
+export const TwoColumnChildType = {
+    firstColumn: "two-column-first",
+    secondColumn: "two-column-second"
+}

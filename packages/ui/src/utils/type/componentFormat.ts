@@ -17,7 +17,9 @@ export type SelectionJson = {
 export type CoreDragDropJson = {
     element: string
     component: React.FC<any>
+    type?: string
     id?: string
+    childType?: string
 }
 
 export type DragDropJson = CoreDragDropJson & {
@@ -34,6 +36,7 @@ export type CorePropertyJson = WidgetProps & {
     element: string
     type: string
     id?: string
+    childType?: string
 }
 
 export type PropertyJson = CorePropertyJson & {
@@ -57,4 +60,5 @@ export type LayoutPropertiesType = {
 export type LayoutProps = LayoutDragDropType &
     LayoutPropertiesType & {
         dropRef?: Ref<any>
+        dropRefMap?: Map<string, Ref<any>>
     }

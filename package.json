@@ -17,6 +17,7 @@
     "devDependencies": {
         "@repo/eslint-config": "*",
         "@repo/typescript-config": "*",
+        "@types/lodash": "^4.14.202",
         "prettier": "^3.1.1",
         "tailwindcss": "^3.4.1",
         "turbo": "latest"
@@ -30,6 +31,8 @@
     ],
     "dependencies": {
         "axios": "^1.6.7",
+        "lodash": "^4.17.21",
+        "mongoose": "^8.2.0",
         "node": "^20.5.0",
         "react-dnd": "^16.0.1",
         "react-dnd-html5-backend": "^16.0.1",
