@@ -1,5 +1,11 @@
 # @nextjs-cms-library/theme
 
+## 2.0.0
+
+### Major Changes
+
+- fd3f77d: Update nested grid for layout
+
 ## 1.0.4
 
 ### Patch Changes
