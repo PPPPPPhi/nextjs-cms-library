@@ -1,5 +1,15 @@
 # @nextjs-cms-library/theme
 
+## 3.0.0
+
+### Major Changes
+
+- fd3f77d: Update nested grid for layout
+
+### Patch Changes
+
+- update hover color change
+
 ## 2.0.0
 
 ### Major Changes

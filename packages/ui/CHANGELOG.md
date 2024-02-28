@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.1.4
+
+### Patch Changes
+
+- update hover color change
+
 ## 0.1.3
 
 ### Patch Changes
