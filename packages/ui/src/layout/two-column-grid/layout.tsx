@@ -14,14 +14,21 @@ const TwoColumnChildType = {
     secondColumn: "two-column-second"
 }
 
-type TwoColumnProps = WidgetProps & LayoutProps & {}
+type TwoColumnProps = WidgetProps &
+    LayoutProps & {
+        id?: string
+    }
 
 export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
-    const { children, elements, dropRef, dropRefMap = new Map([]) } = props
+    const { id, children, elements, dropRef, dropRefMap = new Map([]) } = props
+    const [resetColor, setResetColor] = useState<string>("")
 
-    const defaultElement: React.FC<any> = () => {
-        return <EmptyLayoutGrid />
-    }
+    const firstColumnElem = document.getElementById(
+        `${id}-${TwoColumnChildType.firstColumn}`
+    )
+    const secondColumnElem = document.getElementById(
+        `${id}-${TwoColumnChildType.secondColumn}`
+    )
 
     const { firstElement, secondElement } = useMemo(() => {
         if (!elements || elements.length == 0)
@@ -49,10 +56,30 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         }
     }, [children])
 
+    useEffect(() => {
+        console.log(`[layout] resetColor`, id, resetColor)
+        if (!resetColor) return
+
+        if (!firstColumnElem || !secondColumnElem) return
+
+        firstColumnElem.style.background = ""
+        secondColumnElem.style.background = ""
+    }, [resetColor])
+
     return (
         <div>
             <div ref={dropRef ?? null} className={`s-two-column-grid`}>
                 <div
+                    id={`${id}-${TwoColumnChildType.firstColumn}`}
+                    className={`s-column-grid`}
+                    onMouseEnter={() => setResetColor("")}
+                    onMouseOver={() => setResetColor("")}
+                    onMouseOut={() =>
+                        setResetColor(TwoColumnChildType.firstColumn)
+                    }
+                    onDragLeave={() =>
+                        setResetColor(TwoColumnChildType.firstColumn)
+                    }
                     ref={
                         dropRefMap?.get(TwoColumnChildType.firstColumn) ?? null
                     }>
@@ -62,6 +89,22 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                         firstElement?.component({ ...firstValues })}
                 </div>
                 <div
+                    id={`${id}-${TwoColumnChildType.secondColumn}`}
+                    className={`s-column-grid`}
+                    onMouseEnter={() => setResetColor("")}
+                    onMouseOver={() => setResetColor("")}
+                    onMouseOut={() =>
+                        setResetColor(TwoColumnChildType.secondColumn)
+                    }
+                    onDragLeave={() =>
+                        setResetColor(TwoColumnChildType.secondColumn)
+                    }
+                    // style={{
+                    //     border: "none",
+                    //     borderRadius: "15px",
+                    //     backgroundColor: "#e2f5e1",
+                    //     margin: "0px 5px 0px 5px"
+                    // }}
                     ref={
                         dropRefMap?.get(TwoColumnChildType.secondColumn) ?? null
                     }>
