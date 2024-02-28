@@ -75,13 +75,15 @@
 
 .s-empty-drag-drop-box {
     display: flex;
-    width: 100%;
+    width: 95%;
     height: 150px;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    text-align: center;
     border: dashed #abcfff;
     border-width: thin;
     border-radius: 15px;
+    margin: 0px 5px 0px 5px;
 }
 
 .s-display-panel-submit-button {

@@ -1,3 +1,5 @@
+"use client"
+// @ts-nocheck
 import React, { Ref, useMemo } from "react"
 
 import {
@@ -7,12 +9,18 @@ import {
 } from "../../utils/type/componentFormat"
 import { EmptyLayoutGrid } from "../EmptyLayoutGrid"
 
+const ThreeColumnChildType = {
+    firstColumn: "three-column-first",
+    secondColumn: "three-column-second",
+    thirdColumn: "three-column-third"
+}
+
 type ThreeColumnProps = WidgetProps & LayoutProps & {}
 
 export const ThreeColumn: React.FC<ThreeColumnProps> = (
     props: ThreeColumnProps
 ) => {
-    const { children, elements, dropRef } = props
+    const { children, elements, dropRef, dropRefMap = new Map([]) } = props
 
     const defaultElement: React.FC<any> = () => {
         return <EmptyLayoutGrid />
@@ -21,11 +29,11 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
     const { firstElement, secondElement, thirdElement } = useMemo(() => {
         if (!elements || elements.length == 0)
             return {
-                firstElement: defaultElement,
-                secondElement: defaultElement,
-                thirdElement: defaultElement
+                firstElement: null,
+                secondElement: null,
+                thirdElement: null
             }
-        console.log(`element0`, elements[0])
+        console.log(`element0`, elements)
 
         return {
             firstElement: elements[0],
@@ -41,7 +49,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                 secondValues: null,
                 thirdValues: null
             }
-        console.log(`children0`, children[0])
+        console.log(`children0`, children)
 
         return {
             firstValues: children[0],
@@ -52,23 +60,38 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
 
     return (
         <div>
-            <div ref={dropRef ?? null} className={`s-three-column-container`}>
-                {(!elements || elements.length == 0) && <EmptyLayoutGrid />}
+            <div ref={dropRef ?? null} className={`s-three-column-grid`}>
+                <div
+                    ref={
+                        dropRefMap?.get(ThreeColumnChildType.firstColumn) ??
+                        null
+                    }>
+                    {!firstElement?.element && <EmptyLayoutGrid />}
+                    {firstElement?.element &&
+                        firstElement?.component &&
+                        firstElement?.component({ ...firstValues })}
+                </div>
+                <div
+                    ref={
+                        dropRefMap?.get(ThreeColumnChildType.secondColumn) ??
+                        null
+                    }>
+                    {!secondElement?.element && <EmptyLayoutGrid />}
+                    {secondElement?.element &&
+                        secondElement?.component &&
+                        secondElement?.component({ ...secondValues })}
+                </div>
 
-                {elements && elements.length > 0 && (
-                    <div className={`s-three-column-grid gap-3 w-100`}>
-                        {elements &&
-                            elements.map((i: any, index: number) => {
-                                return (
-                                    <div key={`${i?.id}-children-${index}`}>
-                                        {i.component({
-                                            ...children?.[index]
-                                        })}
-                                    </div>
-                                )
-                            })}
-                    </div>
-                )}
+                <div
+                    ref={
+                        dropRefMap?.get(ThreeColumnChildType.thirdColumn) ??
+                        null
+                    }>
+                    {!thirdElement?.element && <EmptyLayoutGrid />}
+                    {thirdElement?.element &&
+                        thirdElement?.component &&
+                        thirdElement?.component({ ...thirdValues })}
+                </div>
             </div>
         </div>
     )

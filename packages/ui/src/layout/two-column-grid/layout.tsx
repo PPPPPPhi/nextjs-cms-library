@@ -1,9 +1,11 @@
+"use client"
 // @ts-nocheck
 import React, { Ref, useMemo, useEffect, useState, useRef } from "react"
 import _ from "lodash"
 
 import {
     DragDropAccecptType,
+    DragDropJson,
     LayoutProps,
     WidgetProps
 } from "../../utils/type/componentFormat"
@@ -19,13 +21,6 @@ type TwoColumnProps = WidgetProps & LayoutProps & {}
 export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     const { children, elements, dropRef, dropRefMap = new Map([]) } = props
 
-    const [columnOneDrop, setColumnOneDrop] = useState<React.Ref<any> | null>(
-        null
-    )
-    const [columnTwoDrop, setColumnTwoDrop] = useState<React.Ref<any> | null>(
-        null
-    )
-
     const defaultElement: React.FC<any> = () => {
         return <EmptyLayoutGrid />
     }
@@ -33,8 +28,8 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     const { firstElement, secondElement } = useMemo(() => {
         if (!elements || elements.length == 0)
             return {
-                firstElement: defaultElement,
-                secondElement: defaultElement
+                firstElement: null,
+                secondElement: null
             }
         console.log(`element`, elements)
 
