@@ -17,10 +17,18 @@ const TwoColumnChildType = {
 type TwoColumnProps = WidgetProps &
     LayoutProps & {
         id?: string
+        isPreview?: boolean
     }
 
 export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
-    const { id, children, elements, dropRef, dropRefMap = new Map([]) } = props
+    const {
+        id,
+        children,
+        elements,
+        dropRef,
+        dropRefMap = new Map([]),
+        isPreview = false
+    } = props
     const [resetColor, setResetColor] = useState<string>("")
 
     const firstColumnElem = document.getElementById(
@@ -57,7 +65,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     }, [children])
 
     useEffect(() => {
-        console.log(`[layout] resetColor`, id, resetColor)
+        // console.log(`[layout] resetColor`, id, resetColor)
         if (!resetColor) return
 
         if (!firstColumnElem || !secondColumnElem) return
@@ -83,7 +91,9 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                     ref={
                         dropRefMap?.get(TwoColumnChildType.firstColumn) ?? null
                     }>
-                    {!firstElement?.element && <EmptyLayoutGrid />}
+                    {!firstElement?.element && !isPreview && (
+                        <EmptyLayoutGrid />
+                    )}
                     {firstElement?.element &&
                         firstElement?.component &&
                         firstElement?.component({ ...firstValues })}
@@ -108,7 +118,9 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                     ref={
                         dropRefMap?.get(TwoColumnChildType.secondColumn) ?? null
                     }>
-                    {!secondElement?.element && <EmptyLayoutGrid />}
+                    {!secondElement?.element && !isPreview && (
+                        <EmptyLayoutGrid />
+                    )}
                     {secondElement?.element &&
                         secondElement?.component &&
                         secondElement?.component({ ...secondValues })}

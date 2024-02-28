@@ -16,12 +16,20 @@ const ThreeColumnChildType = {
 type ThreeColumnProps = WidgetProps &
     LayoutProps & {
         id?: string
+        isPreview?: boolean
     }
 
 export const ThreeColumn: React.FC<ThreeColumnProps> = (
     props: ThreeColumnProps
 ) => {
-    const { id, children, elements, dropRef, dropRefMap = new Map([]) } = props
+    const {
+        id,
+        children,
+        elements,
+        dropRef,
+        dropRefMap = new Map([]),
+        isPreview = false
+    } = props
 
     const [resetColor, setResetColor] = useState<boolean>()
 
@@ -67,7 +75,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
     }, [children])
 
     useEffect(() => {
-        console.log(`[layout] resetColor`, id, resetColor)
+        // console.log(`[layout] resetColor`, id, resetColor)
         if (!resetColor) return
 
         if (!firstColumnElem || !secondColumnElem || !thirdColumnElem) return
@@ -91,7 +99,9 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                         dropRefMap?.get(ThreeColumnChildType.firstColumn) ??
                         null
                     }>
-                    {!firstElement?.element && <EmptyLayoutGrid />}
+                    {!firstElement?.element && !isPreview && (
+                        <EmptyLayoutGrid />
+                    )}
                     {firstElement?.element &&
                         firstElement?.component &&
                         firstElement?.component({ ...firstValues })}
@@ -107,7 +117,9 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                         dropRefMap?.get(ThreeColumnChildType.secondColumn) ??
                         null
                     }>
-                    {!secondElement?.element && <EmptyLayoutGrid />}
+                    {!secondElement?.element && !isPreview && (
+                        <EmptyLayoutGrid />
+                    )}
                     {secondElement?.element &&
                         secondElement?.component &&
                         secondElement?.component({ ...secondValues })}
@@ -124,7 +136,9 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                         dropRefMap?.get(ThreeColumnChildType.thirdColumn) ??
                         null
                     }>
-                    {!thirdElement?.element && <EmptyLayoutGrid />}
+                    {!thirdElement?.element && !isPreview && (
+                        <EmptyLayoutGrid />
+                    )}
                     {thirdElement?.element &&
                         thirdElement?.component &&
                         thirdElement?.component({ ...thirdValues })}
