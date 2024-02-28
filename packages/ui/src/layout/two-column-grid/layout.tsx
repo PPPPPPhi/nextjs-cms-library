@@ -76,10 +76,13 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
 
     return (
         <div>
-            <div ref={dropRef ?? null} className={`s-two-column-grid`}>
+            <div
+                ref={dropRef ?? null}
+                className={`s-two-column-grid`}
+                style={{ minHeight: !isPreview ? "150px" : "auto" }}>
                 <div
                     id={`${id}-${TwoColumnChildType.firstColumn}`}
-                    className={`s-column-grid`}
+                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
                     onMouseEnter={() => setResetColor("")}
                     onMouseOver={() => setResetColor("")}
                     onMouseOut={() =>
@@ -100,7 +103,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 </div>
                 <div
                     id={`${id}-${TwoColumnChildType.secondColumn}`}
-                    className={`s-column-grid`}
+                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
                     onMouseEnter={() => setResetColor("")}
                     onMouseOver={() => setResetColor("")}
                     onMouseOut={() =>

@@ -90,7 +90,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
             <div ref={dropRef ?? null} className={`s-three-column-grid`}>
                 <div
                     id={`${id}-${ThreeColumnChildType.firstColumn}`}
-                    className={`s-column-grid`}
+                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
                     onMouseEnter={() => setResetColor(false)}
                     onMouseOver={() => setResetColor(false)}
                     onMouseOut={() => setResetColor(true)}
@@ -108,7 +108,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                 </div>
                 <div
                     id={`${id}-${ThreeColumnChildType.secondColumn}`}
-                    className={`s-column-grid`}
+                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
                     onMouseEnter={() => setResetColor(false)}
                     onMouseOver={() => setResetColor(false)}
                     onMouseOut={() => setResetColor(true)}
@@ -127,7 +127,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
 
                 <div
                     id={`${id}-${ThreeColumnChildType.thirdColumn}`}
-                    className={`s-column-grid`}
+                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
                     onMouseEnter={() => setResetColor(false)}
                     onMouseOver={() => setResetColor(false)}
                     onMouseOut={() => setResetColor(true)}
