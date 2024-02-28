@@ -1,3 +1,4 @@
+"use client"
 import React, { Ref, useMemo, useEffect, useState, useRef } from "react"
 import _ from "lodash"
 
