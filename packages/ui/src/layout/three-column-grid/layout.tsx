@@ -31,7 +31,6 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                 secondElement: null,
                 thirdElement: null
             }
-        console.log(`element0`, elements)
 
         return {
             firstElement: elements[0],
@@ -47,7 +46,6 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                 secondValues: null,
                 thirdValues: null
             }
-        console.log(`children0`, children)
 
         return {
             firstValues: children[0],

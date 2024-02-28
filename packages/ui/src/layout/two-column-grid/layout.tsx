@@ -29,7 +29,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 firstElement: null,
                 secondElement: null
             }
-        console.log(`element`, elements)
 
         return {
             firstElement: elements[0],
@@ -43,7 +42,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 firstValues: null,
                 secondValues: null
             }
-        console.log(`children`, children)
 
         return {
             firstValues: children[0],
