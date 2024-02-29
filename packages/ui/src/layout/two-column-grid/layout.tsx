@@ -9,6 +9,7 @@ import {
     WidgetProps
 } from "../../utils/type/componentFormat"
 import { EmptyLayoutGrid } from "../EmptyLayoutGrid"
+import { SubColumn } from "../common/SubColumn"
 
 const TwoColumnChildType = {
     firstColumn: "two-column-first",
@@ -32,12 +33,21 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     } = props
     const [resetColor, setResetColor] = useState<string>("")
 
+    // console.log(`[subcolumn] props two -column`, props)
+
     const firstColumnElem = document.getElementById(
         `${id}-${TwoColumnChildType.firstColumn}`
     )
     const secondColumnElem = document.getElementById(
         `${id}-${TwoColumnChildType.secondColumn}`
     )
+
+    const subColumnAcceptType = useMemo(() => {
+        return _.concat(
+            children?.map((child: any) => child?.childType),
+            DragDropAccecptType
+        )
+    }, [children])
 
     const { firstElement, secondElement } = useMemo(() => {
         if (!elements || elements.length == 0)
@@ -46,6 +56,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 secondElement: null
             }
 
+        console.log(`[subcolumn] elements`, elements)
         return {
             firstElement: elements[0],
             secondElement: elements[1]
@@ -59,6 +70,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 secondValues: null
             }
 
+        console.log(`[subcolumn] children`, children)
         return {
             firstValues: children[0],
             secondValues: children[1]
@@ -81,54 +93,18 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 ref={dropRef ?? null}
                 className={`s-two-column-grid`}
                 style={{ minHeight: !isPreview ? "150px" : "auto" }}>
-                <div
-                    id={`${id}-${TwoColumnChildType.firstColumn}`}
-                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
-                    onMouseEnter={() => setResetColor("")}
-                    onMouseOver={() => setResetColor("")}
-                    onMouseOut={() =>
-                        setResetColor(TwoColumnChildType.firstColumn)
-                    }
-                    onDragLeave={() =>
-                        setResetColor(TwoColumnChildType.firstColumn)
-                    }
-                    ref={
-                        dropRefMap?.get(TwoColumnChildType.firstColumn) ?? null
-                    }>
-                    {!firstElement?.element && !isPreview && (
-                        <EmptyLayoutGrid />
-                    )}
-                    {firstElement?.element &&
-                        firstElement?.component &&
-                        firstElement?.component({ ...firstValues })}
-                </div>
-                <div
-                    id={`${id}-${TwoColumnChildType.secondColumn}`}
-                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
-                    onMouseEnter={() => setResetColor("")}
-                    onMouseOver={() => setResetColor("")}
-                    onMouseOut={() =>
-                        setResetColor(TwoColumnChildType.secondColumn)
-                    }
-                    onDragLeave={() =>
-                        setResetColor(TwoColumnChildType.secondColumn)
-                    }
-                    // style={{
-                    //     border: "none",
-                    //     borderRadius: "15px",
-                    //     backgroundColor: "#e2f5e1",
-                    //     margin: "0px 5px 0px 5px"
-                    // }}
-                    ref={
-                        dropRefMap?.get(TwoColumnChildType.secondColumn) ?? null
-                    }>
-                    {!secondElement?.element && !isPreview && (
-                        <EmptyLayoutGrid />
-                    )}
-                    {secondElement?.element &&
-                        secondElement?.component &&
-                        secondElement?.component({ ...secondValues })}
-                </div>
+                {firstElement?.element && (
+                    <SubColumn
+                        {..._.merge(firstElement, firstValues)}
+                        subColumnAcceptType={subColumnAcceptType}
+                    />
+                )}
+                {secondElement?.element && (
+                    <SubColumn
+                        {..._.merge(secondElement, secondValues)}
+                        subColumnAcceptType={subColumnAcceptType}
+                    />
+                )}
             </div>
         </div>
     )

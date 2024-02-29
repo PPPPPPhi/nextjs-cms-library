@@ -43,6 +43,8 @@ export type PropertyJson = CorePropertyJson & {
     children?: CorePropertyJson[]
 }
 
+export const DragDropElementAcceptType: string[] = [ElementNameMap.Text]
+
 export const DragDropAccecptType: string[] = [
     ElementNameMap.Text,
     LayoutNameMap.ThreeColumn,
@@ -62,3 +64,32 @@ export type LayoutProps = LayoutDragDropType &
         dropRef?: Ref<any>
         dropRefMap?: Map<string, Ref<any>>
     }
+
+export type DragDropEditType = DragDropJson &
+    LayoutDragDropType & {
+        id: string
+    }
+
+export type DragDropComponentProps = DragDropEditType & {
+    hoverIndex: number
+}
+
+export type PropertyEditType = PropertyJson &
+    LayoutPropertiesType & {
+        id: string
+    }
+
+export type PropertiesComponentProps = PropertyEditType & {
+    index: number
+    isLayout?: boolean
+}
+
+export type FocusEditElementType = {
+    id?: string
+    childType?: string
+}
+
+export type SwapLayoutChildType = {
+    from: string
+    to: string
+}

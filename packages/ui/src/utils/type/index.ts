@@ -7,7 +7,13 @@ import {
     DragDropAccecptType,
     LayoutDragDropType,
     LayoutPropertiesType,
-    LayoutProps
+    LayoutProps,
+    DragDropEditType,
+    DragDropComponentProps,
+    PropertyEditType,
+    PropertiesComponentProps,
+    FocusEditElementType,
+    SwapLayoutChildType
 } from "./componentFormat"
 import {
     SelectionListMap,
@@ -32,7 +38,13 @@ export type {
     LayoutOperatorType,
     LayoutDragDropType,
     LayoutPropertiesType,
-    LayoutProps
+    LayoutProps,
+    DragDropEditType,
+    DragDropComponentProps,
+    PropertyEditType,
+    PropertiesComponentProps,
+    FocusEditElementType,
+    SwapLayoutChildType
 }
 
 export { DragDropAccecptType }
