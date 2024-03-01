@@ -92,4 +92,5 @@ export type FocusEditElementType = {
 export type SwapLayoutChildType = {
     from: string
     to: string
+    parentId: string
 }

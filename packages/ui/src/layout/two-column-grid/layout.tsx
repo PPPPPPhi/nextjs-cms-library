@@ -31,16 +31,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         dropRefMap = new Map([]),
         isPreview = false
     } = props
-    const [resetColor, setResetColor] = useState<string>("")
-
-    // console.log(`[subcolumn] props two -column`, props)
-
-    const firstColumnElem = document.getElementById(
-        `${id}-${TwoColumnChildType.firstColumn}`
-    )
-    const secondColumnElem = document.getElementById(
-        `${id}-${TwoColumnChildType.secondColumn}`
-    )
 
     const subColumnAcceptType = useMemo(() => {
         return _.concat(
@@ -56,7 +46,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 secondElement: null
             }
 
-        console.log(`[subcolumn] elements`, elements)
+        // console.log(`[subcolumn] elements`, elements)
         return {
             firstElement: elements[0],
             secondElement: elements[1]
@@ -77,16 +67,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         }
     }, [children])
 
-    useEffect(() => {
-        // console.log(`[layout] resetColor`, id, resetColor)
-        if (!resetColor) return
-
-        if (!firstColumnElem || !secondColumnElem) return
-
-        firstColumnElem.style.background = ""
-        secondColumnElem.style.background = ""
-    }, [resetColor])
-
     return (
         <div>
             <div
@@ -96,12 +76,14 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 {firstElement?.element && (
                     <SubColumn
                         {..._.merge(firstElement, firstValues)}
+                        parentId={id}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}
                 {secondElement?.element && (
                     <SubColumn
                         {..._.merge(secondElement, secondValues)}
+                        parentId={id}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}

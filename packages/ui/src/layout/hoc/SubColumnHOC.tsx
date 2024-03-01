@@ -31,6 +31,7 @@ enum DragDropButton {
 type withSubColumnProps = DragDropComponentProps & {
     children: (props: any) => React.ReactNode
     subColumnAcceptType: []
+    parentId: string
     // dropElement: React.Ref<any>
 }
 
@@ -38,6 +39,7 @@ const withSubColumn =
     (WrappedComponent: React.FC<any>) => (props: withSubColumnProps) => {
         const {
             id,
+            parentId,
             element,
             childType,
             component,
@@ -52,7 +54,8 @@ const withSubColumn =
             setIsInsertNested,
             focusEditId,
             setFocusEditId,
-            setSwapLayoutChild
+            setSwapLayoutChild,
+            setIsReOrder
         } = useMultiColumnsContext()
 
         const hoverIndexRef = useRef<any>()
@@ -62,21 +65,25 @@ const withSubColumn =
         const subColumnElem = document.getElementById(`${id}-${childType}`)
 
         useEffect(() => {
-            console.log(
-                `[subcolumn] isHover ${childType} ${id}`,
-                focusEditId,
-                subColumnElem,
-                `${id}-${childType}`
-            )
+            // console.log(
+            //     `[subcolumn] isHover ${childType} ${id}`,
+            //     focusEditId,
+            //     subColumnElem,
+            //     // `${id}-${childType}`,
+            //     parentId
+            // )
 
             if (!subColumnElem || !focusEditId?.childType) return
 
-            if (focusEditId?.childType == childType || focusEditId?.id == id) {
+            if (
+                focusEditId?.childType == childType &&
+                focusEditId?.id == parentId
+            ) {
                 subColumnElem.style.backgroundColor = "#e2f5e1"
             } else {
                 subColumnElem.style.background = ""
             }
-        }, [focusEditId])
+        }, [focusEditId, parentId])
 
         // drag drop the component list
         const [{ isDragging, currentItem }, dragSubColumn] = useDrag(() => ({
@@ -100,14 +107,14 @@ const withSubColumn =
                     canDrop: monitor.canDrop()
                 }),
                 hover: (item: any, monitor: any) => {
-                    console.log(
-                        `[subcolumn] two-column SECOND`,
-                        monitor.getItemType(),
-                        subColumnElem,
-                        childType
-                    )
+                    // console.log(
+                    //     `[subcolumn] two-column SECOND`,
+                    //     monitor.getItemType(),
+                    //     subColumnElem,
+                    //     childType
+                    // )
 
-                    setFocusEditId({ ...focusEditId, childType })
+                    setFocusEditId({ ...focusEditId, childType, id: parentId })
                     setIsDragging(true)
                     setDragChild(childType ?? "")
                 },
@@ -128,7 +135,7 @@ const withSubColumn =
                         layoutId: id,
                         childType: childType
                     })
-                    setFocusEditId({ ...focusEditId, childType: "" })
+                    // setFocusEditId({ ...focusEditId, childType: "" })
                 }
             }),
             [subColumnAcceptType]
@@ -141,14 +148,15 @@ const withSubColumn =
                     canDrop: monitor.canDrop()
                 }),
                 hover: (item: any, monitor: any) => {
-                    console.log(
-                        `[subcolumn] two-column SECOND`,
-                        monitor.getItemType(),
-                        subColumnElem,
-                        childType
-                    )
+                    // console.log(
+                    //     `[subcolumn] two-column SECOND`,
+                    //     monitor.getItemType(),
+                    //     subColumnElem,
+                    //     childType,
+                    //     parentId
+                    // )
 
-                    setFocusEditId({ ...focusEditId, childType })
+                    setFocusEditId({ ...focusEditId, childType, id: parentId })
                     setIsDragging(true)
                     setDragChild(childType ?? "")
                 },
@@ -157,19 +165,22 @@ const withSubColumn =
                         `[subcolumn] hoverComponent element end`,
                         monitor.getItemType(),
                         monitor.didDrop(),
-                        childType
+                        childType,
+                        parentId
                     )
 
                     if (subColumnElem) subColumnElem.style.backgroundColor = ""
 
                     setIsDragging(false)
                     setDragChild("")
+                    setIsReOrder(false)
                     setIsInsertNested(true)
                     setSwapLayoutChild({
                         from: monitor.getItemType(),
-                        to: childType
+                        to: childType ?? "",
+                        parentId
                     })
-                    setFocusEditId({ ...focusEditId, childType: "" })
+                    // setFocusEditId({ ...focusEditId, childType: "" })
                 }
             }),
             [subColumnAcceptType]

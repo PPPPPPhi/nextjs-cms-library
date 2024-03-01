@@ -32,7 +32,8 @@ const contextDefaultValues: MultiColumnsContextProviderType = {
     setDropComponentInLayout: () => null,
     setIsDragging: () => null,
     setIsInsertNested: () => null,
-    setSwapLayoutChild: () => null
+    setSwapLayoutChild: () => null,
+    setIsReOrder: () => null
 }
 
 export type MultiColumnsContextProviderType = {
@@ -46,6 +47,7 @@ export type MultiColumnsContextProviderType = {
     setIsDragging: Dispatch<SetStateAction<boolean>>
     setIsInsertNested: Dispatch<SetStateAction<boolean>>
     setSwapLayoutChild: Dispatch<SetStateAction<SwapLayoutChildType>>
+    setIsReOrder: Dispatch<SetStateAction<boolean>>
 }
 
 export const MultiColumnsContext =
