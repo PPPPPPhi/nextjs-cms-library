@@ -32,7 +32,16 @@ type GeneralColumnProps = DragDropComponentProps & {
 export const GeneralColumn: React.FC<GeneralColumnProps> = (
     props: GeneralColumnProps
 ) => {
-    const { id, component, elements, isPreview, subRef, childType } = props
+    const {
+        id,
+        component,
+        elements,
+        element,
+        isPreview,
+        subRef,
+        childType,
+        type
+    } = props
 
     const [resetColor, setResetColor] = useState<boolean>(false)
     const subColumnElem = document.getElementById(`${id}-${childType}`)
@@ -55,13 +64,12 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
             onMouseOver={() => setResetColor(false)}
             onMouseOut={() => setResetColor(true)}
             onDragLeave={() => setResetColor(true)}>
-            {!component && !isPreview && <EmptyLayoutGrid />}
-            {component &&
+            {!type && !isPreview && <EmptyLayoutGrid />}
+            {type &&
+                component &&
                 component({
                     ...props,
                     elements: elements,
-                    // dropRef: dropElement,
-                    // dropRefMap: dropRefMap,
                     id: id,
                     isPreview: isPreview
                 })}

@@ -132,10 +132,10 @@ const withSubColumn =
                     setIsInsertNested(true)
                     setDropComponentInLayout({
                         dropComponent: monitor.getItemType(),
-                        layoutId: id,
+                        layoutId: parentId,
                         childType: childType
                     })
-                    // setFocusEditId({ ...focusEditId, childType: "" })
+                    setSwapLayoutChild(null)
                 }
             }),
             [subColumnAcceptType]
@@ -174,13 +174,11 @@ const withSubColumn =
                     setIsDragging(false)
                     setDragChild("")
                     setIsReOrder(false)
-                    setIsInsertNested(true)
                     setSwapLayoutChild({
                         from: monitor.getItemType(),
                         to: childType ?? "",
                         parentId
                     })
-                    // setFocusEditId({ ...focusEditId, childType: "" })
                 }
             }),
             [subColumnAcceptType]
@@ -190,14 +188,7 @@ const withSubColumn =
 
         dragSubColumn(dropSubColumn(dropNeightbour(elemRef)))
 
-        return (
-            <WrappedComponent
-                {...props}
-                subRef={elemRef}
-                className="z-30"
-                // dropElement={dropElement}
-            />
-        )
+        return <WrappedComponent {...props} subRef={elemRef} className="z-30" />
     }
 
 withSubColumn.displayName = "withSubColumn"

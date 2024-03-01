@@ -33,10 +33,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     } = props
 
     const subColumnAcceptType = useMemo(() => {
-        return _.concat(
-            children?.map((child: any) => child?.childType),
-            DragDropAccecptType
-        )
+        return children?.map((child: any) => child?.childType)
     }, [children])
 
     const { firstElement, secondElement } = useMemo(() => {
@@ -46,7 +43,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 secondElement: null
             }
 
-        // console.log(`[subcolumn] elements`, elements)
+        console.log(`[subcolumn] elements`, elements)
         return {
             firstElement: elements[0],
             secondElement: elements[1]
@@ -73,14 +70,14 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 ref={dropRef ?? null}
                 className={`s-two-column-grid`}
                 style={{ minHeight: !isPreview ? "150px" : "auto" }}>
-                {firstElement?.element && (
+                {firstElement && (
                     <SubColumn
                         {..._.merge(firstElement, firstValues)}
                         parentId={id}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}
-                {secondElement?.element && (
+                {secondElement && (
                     <SubColumn
                         {..._.merge(secondElement, secondValues)}
                         parentId={id}
