@@ -8,13 +8,7 @@ import {
     LayoutProps,
     WidgetProps
 } from "../../utils/type/componentFormat"
-import { EmptyLayoutGrid } from "../EmptyLayoutGrid"
 import { SubColumn } from "../common/SubColumn"
-
-const TwoColumnChildType = {
-    firstColumn: "two-column-first",
-    secondColumn: "two-column-second"
-}
 
 type TwoColumnProps = WidgetProps &
     LayoutProps & {
@@ -43,7 +37,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 secondElement: null
             }
 
-        console.log(`[subcolumn] elements`, elements)
         return {
             firstElement: elements[0],
             secondElement: elements[1]
@@ -57,7 +50,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 secondValues: null
             }
 
-        console.log(`[subcolumn] children`, children)
         return {
             firstValues: children[0],
             secondValues: children[1]

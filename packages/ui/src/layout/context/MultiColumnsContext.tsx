@@ -19,6 +19,7 @@ import {
     SwapLayoutChildType
 } from "../../utils"
 import { TwoColumn } from "../two-column-grid/layout"
+import { ThreeColumn } from "../three-column-grid/layout"
 
 const { DndProvider } = require("react-dnd")
 const { HTML5Backend } = require("react-dnd-html5-backend")
@@ -75,6 +76,10 @@ export const MultiColumnsContextProvider: FC<
                 }}>
                 {element == LayoutNameMap.TwoColumn && (
                     <TwoColumn {...props} children={selfData?.children} />
+                )}
+
+                {element == LayoutNameMap.ThreeColumn && (
+                    <ThreeColumn {...props} children={selfData?.children} />
                 )}
             </MultiColumnsContext.Provider>
         </DndProvider>

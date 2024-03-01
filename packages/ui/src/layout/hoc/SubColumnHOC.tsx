@@ -114,7 +114,11 @@ const withSubColumn =
                     //     childType
                     // )
 
-                    setFocusEditId({ ...focusEditId, childType, id: parentId })
+                    setFocusEditId({
+                        ...focusEditId,
+                        childType,
+                        id: parentId
+                    })
                     setIsDragging(true)
                     setDragChild(childType ?? "")
                 },
@@ -135,7 +139,6 @@ const withSubColumn =
                         layoutId: parentId,
                         childType: childType
                     })
-                    setSwapLayoutChild(null)
                 }
             }),
             [subColumnAcceptType]
@@ -156,7 +159,11 @@ const withSubColumn =
                     //     parentId
                     // )
 
-                    setFocusEditId({ ...focusEditId, childType, id: parentId })
+                    setFocusEditId({
+                        ...focusEditId,
+                        childType,
+                        id: parentId
+                    })
                     setIsDragging(true)
                     setDragChild(childType ?? "")
                 },

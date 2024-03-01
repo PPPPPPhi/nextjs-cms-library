@@ -19,6 +19,7 @@ import {
 } from "@nextjs-cms-library/ui/index"
 
 import { withSubColumn } from "../hoc/SubColumnHOC"
+import { useMultiColumnsContext } from "../context/MultiColumnsContext"
 
 type GeneralColumnProps = DragDropComponentProps & {
     children: (props: any) => React.ReactNode
@@ -27,6 +28,7 @@ type GeneralColumnProps = DragDropComponentProps & {
     // dropRefMap: Map<string, Ref<any>> | null
     isPreview: boolean
     subRef: React.Ref<any>
+    parentId: string
 }
 
 export const GeneralColumn: React.FC<GeneralColumnProps> = (
@@ -40,26 +42,31 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
         isPreview,
         subRef,
         childType,
-        type
+        type,
+        parentId
     } = props
+
+    const { focusEditId, setFocusEditId } = useMultiColumnsContext()
 
     const [resetColor, setResetColor] = useState<boolean>(false)
     const subColumnElem = document.getElementById(`${id}-${childType}`)
 
     useEffect(() => {
-        // console.log(`[layout] resetColor`, id, resetColor)
-        if (!resetColor) return
-
-        if (!subColumnElem) return
+        if (!resetColor || !subColumnElem) return
 
         subColumnElem.style.background = ""
     }, [resetColor])
+
+    const updateFocusEditComponent = () => {
+        setFocusEditId({ ...focusEditId, id: parentId, childType })
+    }
 
     return (
         <div
             ref={subRef}
             id={`${id}-${childType}`}
             className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
+            onClick={() => updateFocusEditComponent()}
             onMouseEnter={() => setResetColor(false)}
             onMouseOver={() => setResetColor(false)}
             onMouseOut={() => setResetColor(true)}

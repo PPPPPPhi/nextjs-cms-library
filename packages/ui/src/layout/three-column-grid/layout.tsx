@@ -1,5 +1,6 @@
 "use client"
 import React, { Ref, useMemo, useState, useEffect } from "react"
+import _ from "lodash"
 
 import {
     DragDropAccecptType,
@@ -7,6 +8,8 @@ import {
     WidgetProps
 } from "../../utils/type/componentFormat"
 import { EmptyLayoutGrid } from "../EmptyLayoutGrid"
+import { SubColumn } from "../common/SubColumn"
+import { ThreeColumnJson } from ".."
 
 const ThreeColumnChildType = {
     firstColumn: "three-column-first",
@@ -32,18 +35,11 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
         isPreview = false
     } = props
 
-    const [resetColor, setResetColor] = useState<boolean>()
-
-    const firstColumnElem = document.getElementById(
-        `${id}-${ThreeColumnChildType.firstColumn}`
-    )
-    const secondColumnElem = document.getElementById(
-        `${id}-${ThreeColumnChildType.secondColumn}`
-    )
-
-    const thirdColumnElem = document.getElementById(
-        `${id}-${ThreeColumnChildType.thirdColumn}`
-    )
+    const subColumnAcceptType = useMemo(() => {
+        return ThreeColumnJson?.propertyJson?.children?.map(
+            (child: any) => child?.childType
+        )
+    }, [])
 
     const { firstElement, secondElement, thirdElement } = useMemo(() => {
         if (!elements || elements.length == 0)
@@ -75,75 +71,34 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
         }
     }, [children])
 
-    useEffect(() => {
-        // console.log(`[layout] resetColor`, id, resetColor)
-        if (!resetColor) return
-
-        if (!firstColumnElem || !secondColumnElem || !thirdColumnElem) return
-
-        firstColumnElem.style.background = ""
-        secondColumnElem.style.background = ""
-        thirdColumnElem.style.background = ""
-    }, [resetColor])
-
     return (
         <div>
-            <div ref={dropRef ?? null} className={`s-three-column-grid`}>
-                <div
-                    id={`${id}-${ThreeColumnChildType.firstColumn}`}
-                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
-                    onMouseEnter={() => setResetColor(false)}
-                    onMouseOver={() => setResetColor(false)}
-                    onMouseOut={() => setResetColor(true)}
-                    onDragLeave={() => setResetColor(true)}
-                    ref={
-                        dropRefMap?.get(ThreeColumnChildType.firstColumn) ??
-                        null
-                    }>
-                    {!firstElement?.element && !isPreview && (
-                        <EmptyLayoutGrid />
-                    )}
-                    {firstElement?.element &&
-                        firstElement?.component &&
-                        firstElement?.component({ ...firstValues })}
-                </div>
-                <div
-                    id={`${id}-${ThreeColumnChildType.secondColumn}`}
-                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
-                    onMouseEnter={() => setResetColor(false)}
-                    onMouseOver={() => setResetColor(false)}
-                    onMouseOut={() => setResetColor(true)}
-                    onDragLeave={() => setResetColor(true)}
-                    ref={
-                        dropRefMap?.get(ThreeColumnChildType.secondColumn) ??
-                        null
-                    }>
-                    {!secondElement?.element && !isPreview && (
-                        <EmptyLayoutGrid />
-                    )}
-                    {secondElement?.element &&
-                        secondElement?.component &&
-                        secondElement?.component({ ...secondValues })}
-                </div>
+            <div
+                ref={dropRef ?? null}
+                className={`s-three-column-grid`}
+                style={{ minHeight: !isPreview ? "150px" : "auto" }}>
+                {firstElement && (
+                    <SubColumn
+                        {..._.merge(firstElement, firstValues)}
+                        parentId={id}
+                        subColumnAcceptType={subColumnAcceptType}
+                    />
+                )}
+                {secondElement && (
+                    <SubColumn
+                        {..._.merge(secondElement, secondValues)}
+                        parentId={id}
+                        subColumnAcceptType={subColumnAcceptType}
+                    />
+                )}
 
-                <div
-                    id={`${id}-${ThreeColumnChildType.thirdColumn}`}
-                    className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
-                    onMouseEnter={() => setResetColor(false)}
-                    onMouseOver={() => setResetColor(false)}
-                    onMouseOut={() => setResetColor(true)}
-                    onDragLeave={() => setResetColor(true)}
-                    ref={
-                        dropRefMap?.get(ThreeColumnChildType.thirdColumn) ??
-                        null
-                    }>
-                    {!thirdElement?.element && !isPreview && (
-                        <EmptyLayoutGrid />
-                    )}
-                    {thirdElement?.element &&
-                        thirdElement?.component &&
-                        thirdElement?.component({ ...thirdValues })}
-                </div>
+                {thirdElement && (
+                    <SubColumn
+                        {..._.merge(thirdElement, thirdValues)}
+                        parentId={id}
+                        subColumnAcceptType={subColumnAcceptType}
+                    />
+                )}
             </div>
         </div>
     )
