@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.1.8
+
+### Patch Changes
+
+- update drag/ drop/ swap layout child
+
 ## 0.1.7
 
 ### Patch Changes
