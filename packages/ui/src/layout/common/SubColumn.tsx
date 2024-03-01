@@ -39,11 +39,11 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
         component,
         elements,
         element,
-        isPreview,
         subRef,
         childType,
         type,
-        parentId
+        parentId,
+        isPreview
     } = props
 
     const { focusEditId, setFocusEditId } = useMultiColumnsContext()
@@ -65,7 +65,7 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
         <div
             ref={subRef}
             id={`${id}-${childType}`}
-            className={`s-column-grid ${!isPreview ? "s-edit-area-border" : ""}`}
+            className={`s-column-grid ${!isPreview ? "s-edit-area-border" : "border-none"}`}
             onClick={() => updateFocusEditComponent()}
             onMouseEnter={() => setResetColor(false)}
             onMouseOver={() => setResetColor(false)}

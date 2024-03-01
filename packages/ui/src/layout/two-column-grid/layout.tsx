@@ -9,6 +9,7 @@ import {
     WidgetProps
 } from "../../utils/type/componentFormat"
 import { SubColumn } from "../common/index"
+import { useMultiColumnsContext } from ".."
 
 type TwoColumnProps = WidgetProps &
     LayoutProps & {
@@ -19,11 +20,11 @@ type TwoColumnProps = WidgetProps &
 export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     const {
         id,
+        isPreview,
         children,
         elements,
         dropRef,
-        dropRefMap = new Map([]),
-        isPreview = false
+        dropRefMap = new Map([])
     } = props
 
     const subColumnAcceptType = useMemo(() => {
@@ -66,6 +67,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                     <SubColumn
                         {..._.merge(firstElement, firstValues)}
                         parentId={id}
+                        isPreview={isPreview}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}
@@ -73,6 +75,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                     <SubColumn
                         {..._.merge(secondElement, secondValues)}
                         parentId={id}
+                        isPreview={isPreview}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}

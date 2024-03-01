@@ -7,7 +7,7 @@ import {
     LayoutProps,
     WidgetProps
 } from "../../utils/type/componentFormat"
-import { EmptyLayoutGrid } from "../index"
+import { EmptyLayoutGrid, useMultiColumnsContext } from "../index"
 import { SubColumn } from "../common/index"
 import { ThreeColumnJson } from "../index"
 
@@ -28,11 +28,11 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
 ) => {
     const {
         id,
+        isPreview,
         children,
         elements,
         dropRef,
-        dropRefMap = new Map([]),
-        isPreview = false
+        dropRefMap = new Map([])
     } = props
 
     const subColumnAcceptType = useMemo(() => {
@@ -81,6 +81,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                     <SubColumn
                         {..._.merge(firstElement, firstValues)}
                         parentId={id}
+                        isPreview={isPreview}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}
@@ -88,6 +89,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                     <SubColumn
                         {..._.merge(secondElement, secondValues)}
                         parentId={id}
+                        isPreview={isPreview}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}
@@ -96,6 +98,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                     <SubColumn
                         {..._.merge(thirdElement, thirdValues)}
                         parentId={id}
+                        isPreview={isPreview}
                         subColumnAcceptType={subColumnAcceptType}
                     />
                 )}

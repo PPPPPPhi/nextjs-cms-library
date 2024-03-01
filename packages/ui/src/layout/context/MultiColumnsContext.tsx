@@ -67,6 +67,10 @@ export const MultiColumnsContextProvider: FC<
         ...rest
     } = props ?? {}
 
+    useEffect(() => {
+        console.log(`[context] context isPreview`, isPreview)
+    }, [isPreview])
+
     return (
         <DndProvider backend={HTML5Backend}>
             <MultiColumnsContext.Provider
