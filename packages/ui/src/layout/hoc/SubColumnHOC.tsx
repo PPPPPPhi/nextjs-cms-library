@@ -20,13 +20,7 @@ import {
     DragDropComponentProps
 } from "@nextjs-cms-library/ui/index"
 
-import { useMultiColumnsContext } from "../context/MultiColumnsContext"
-
-enum DragDropButton {
-    duplicate = "DUPLICATE",
-    delete = "DELETE",
-    add = "ADD"
-}
+import { useMultiColumnsContext } from "../context/index"
 
 type withSubColumnProps = DragDropComponentProps & {
     children: (props: any) => React.ReactNode

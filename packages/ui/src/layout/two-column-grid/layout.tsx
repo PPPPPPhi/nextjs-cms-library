@@ -8,7 +8,7 @@ import {
     LayoutProps,
     WidgetProps
 } from "../../utils/type/componentFormat"
-import { SubColumn } from "../common/SubColumn"
+import { SubColumn } from "../common/index"
 
 type TwoColumnProps = WidgetProps &
     LayoutProps & {

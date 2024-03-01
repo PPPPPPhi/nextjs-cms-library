@@ -18,8 +18,8 @@ import {
     EmptyLayoutGrid
 } from "@nextjs-cms-library/ui/index"
 
-import { withSubColumn } from "../hoc/SubColumnHOC"
-import { useMultiColumnsContext } from "../context/MultiColumnsContext"
+import { withSubColumn } from "../hoc/index"
+import { useMultiColumnsContext } from "../context/index"
 
 type GeneralColumnProps = DragDropComponentProps & {
     children: (props: any) => React.ReactNode

@@ -1,9 +1,14 @@
 import {
     MultiColumnsContext,
     MultiColumnsContextProvider,
-    MultiColumnsContextProviderType
+    MultiColumnsContextProviderType,
+    useMultiColumnsContext
 } from "./MultiColumnsContext"
 
-export { MultiColumnsContext, MultiColumnsContextProvider }
+export {
+    MultiColumnsContext,
+    MultiColumnsContextProvider,
+    useMultiColumnsContext
+}
 
 export type { MultiColumnsContextProviderType }

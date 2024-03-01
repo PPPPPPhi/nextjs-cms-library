@@ -18,8 +18,7 @@ import {
     FocusEditElementType,
     SwapLayoutChildType
 } from "../../utils"
-import { TwoColumn } from "../two-column-grid/layout"
-import { ThreeColumn } from "../three-column-grid/layout"
+import { TwoColumn, ThreeColumn } from "../index"
 
 const { DndProvider } = require("react-dnd")
 const { HTML5Backend } = require("react-dnd-html5-backend")

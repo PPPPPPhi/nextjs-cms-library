@@ -7,9 +7,9 @@ import {
     LayoutProps,
     WidgetProps
 } from "../../utils/type/componentFormat"
-import { EmptyLayoutGrid } from "../EmptyLayoutGrid"
-import { SubColumn } from "../common/SubColumn"
-import { ThreeColumnJson } from ".."
+import { EmptyLayoutGrid } from "../index"
+import { SubColumn } from "../common/index"
+import { ThreeColumnJson } from "../index"
 
 const ThreeColumnChildType = {
     firstColumn: "three-column-first",
