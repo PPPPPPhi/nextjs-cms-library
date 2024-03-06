@@ -61,6 +61,20 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
         setFocusEditId({ ...focusEditId, id: parentId, childType })
     }
 
+    useEffect(() => {
+        document.addEventListener("mouseout", () => setResetColor(true))
+        document.addEventListener("mouseleave", () => setResetColor(true))
+        document.addEventListener("dragleave", () => setResetColor(true))
+
+        return () => {
+            document.removeEventListener("mouseout", () => setResetColor(true))
+            document.removeEventListener("mouseleave", () =>
+                setResetColor(true)
+            )
+            document.removeEventListener("dragleave", () => setResetColor(true))
+        }
+    }, [])
+
     return (
         <div
             ref={subRef}
@@ -68,9 +82,7 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
             className={`s-column-grid ${!isPreview ? "s-edit-area-border" : "border-none"}`}
             onClick={() => updateFocusEditComponent()}
             onMouseEnter={() => setResetColor(false)}
-            onMouseOver={() => setResetColor(false)}
-            onMouseOut={() => setResetColor(true)}
-            onDragLeave={() => setResetColor(true)}>
+            onMouseOver={() => setResetColor(false)}>
             {!type && !isPreview && <EmptyLayoutGrid />}
             {type &&
                 component &&
