@@ -230,14 +230,15 @@ export const DisplayPanelContextProvider: FC<
     >([])
 
     useEffect(() => {
-        if (!dragDropHistoryList || currentHistoryIndex) {
+        if (!dragDropHistoryList) {
             setDragDropEditAcceptType(["default"])
             return
         }
 
-        const acceptIds: string[] = dragDropEditList.map(
-            (item: DragDropComponentProps) => item?.id
-        )
+        // @ts-ignore
+        const acceptIds: string[] = dragDropHistoryList[
+            currentHistoryIndex
+        ].map((item: DragDropComponentProps) => item?.id)
 
         setDragDropEditAcceptType(acceptIds)
     }, [dragDropHistoryList, currentHistoryIndex])
