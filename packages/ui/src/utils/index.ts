@@ -19,8 +19,6 @@ import {
 import { NextAPIInstance } from "./api/AxiosInstance"
 import { ElementNameMap, LayoutNameMap } from "./NameMap"
 
-export * from "./type"
-
 export {
     ElementorOperator,
     // _ElementorOperator,
@@ -40,3 +38,4 @@ export {
 
 export * from "./type"
 export * from "./image-resource"
+export * from "./drag-drop"
