@@ -66,6 +66,7 @@ export const PropertiesChildSubInput: React.FC<
 
                             <textarea
                                 id="message"
+                                style={{ padding: 10 }}
                                 rows={getRowHeight()}
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Write your thoughts here..."
@@ -158,9 +159,13 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
                         /> */}
 
                         <div
-                            style={{ width: "100%" }}
+                            style={{
+                                width: "100%",
+                                height: 30,
+                                borderRadius: 25
+                            }}
                             onClick={updateProperties}
-                            className={`cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
+                            className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
                             <span>Update</span>
                         </div>
                     </div>

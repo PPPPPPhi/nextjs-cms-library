@@ -25,9 +25,9 @@ export const DisplayControllerButtons: React.FC<
 > = ({ svg, handler, style = {}, className = "" }) => {
     return (
         <div
-            style={style}
+            style={{ height: 50, width: 50, borderRadius: 25 }}
             onClick={handler}
-            className={`${className} cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2`}>
+            className={`flex flex-row justify-center ${className} cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2`}>
             {svg}
         </div>
     )

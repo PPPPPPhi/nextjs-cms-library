@@ -46,9 +46,9 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
             /> */}
 
             <div
-                style={{ width: "220px" }}
+                style={{ width: 220, borderRadius: 25, height: 30 }}
                 onClick={handleSubmitPageData}
-                className={`cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
+                className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
                 <span>Update Page</span>
             </div>
         </div>

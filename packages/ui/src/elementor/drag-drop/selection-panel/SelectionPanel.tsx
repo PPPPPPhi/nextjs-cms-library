@@ -38,16 +38,16 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
                     /> */}
 
                     <div
-                        style={{ width: "120px" }}
+                        style={{ width: 120, height: 30, borderRadius: 25 }}
                         onClick={() => setLayoutTab(true)}
-                        className={`cursor-pointer s-adminGradientBg shadow s-text-color-nu rounded-full text-sm p-2.5 text-center items-center me-2 ${isLayoutTab ? "font-bold underline" : ""}`}>
+                        className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu rounded-full text-sm p-2.5 text-center items-center me-2 ${isLayoutTab ? "font-bold underline" : ""}`}>
                         <span>Layout</span>
                     </div>
 
                     <div
-                        style={{ width: "120px" }}
+                        style={{ width: 120, height: 30, borderRadius: 25 }}
                         onClick={() => setLayoutTab(false)}
-                        className={`cursor-pointer s-adminGradientBg shadow s-text-color-nu rounded-full text-sm p-2.5 text-center items-center me-2 ${!isLayoutTab ? "font-bold underline" : ""}`}>
+                        className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu rounded-full text-sm p-2.5 text-center items-center me-2 ${!isLayoutTab ? "font-bold underline" : ""}`}>
                         <span>Elements</span>
                     </div>
                 </div>
