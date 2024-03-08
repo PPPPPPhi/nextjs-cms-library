@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.1.10
+
+### Patch Changes
+
+- move drag drop container to lib
+
 ## 0.1.9
 
 ### Patch Changes
