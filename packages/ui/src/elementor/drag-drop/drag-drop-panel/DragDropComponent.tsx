@@ -6,7 +6,7 @@ import React, {
     useEffect,
     Ref
 } from "react"
-const { useDrag, useDrop } = require("react-dnd")
+const { useDrag, useDrop, DragPreviewImage } = require("react-dnd")
 import _ from "lodash"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
@@ -77,9 +77,11 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         readOnly
     } = useDisplayPanelContext()
 
-    const [isHover, setHover] = useState<boolean>(false)
     const [isDropHoverTop, setDropHoverTop] = useState<boolean>(false)
     const [isDropHoverBottom, setDropHoverBottom] = useState<boolean>(false)
+    const [hoverClientY, setHoverClientY] = useState<number>(0)
+    const [hoverMiddleY, setHoverMiddleY] = useState<number>(0)
+    const [triggerDivider, setTriggerDivider] = useState<boolean>(false)
 
     const isLayout = useMemo(() => {
         // @ts-ignore
@@ -104,7 +106,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         }
     }))
 
-    const [{ canDrop, isOver }, drop] = useDrop(
+    const [{ canDrop, isOver }, drop, preview] = useDrop(
         () => ({
             accept: dragDropEditAcceptType,
             collect: (monitor: any) => ({
@@ -113,6 +115,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
             }),
             hover: (item: any, monitor: any) => {
                 setIsDragging(true)
+                // handleHoverHeight(monitor)
 
                 return updateHoverDivider(monitor)
             },
@@ -120,7 +123,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 setDropHoverTop(false)
                 setDropHoverBottom(false)
 
-                console.log(`[drop] drop to area`)
+                // handleHoverHeight(monitor)
 
                 return hoverComponent(item, monitor)
             }
@@ -229,7 +232,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
 
     const updateHoverDivider = (monitor: any, withinArea = true) => {
         const afterIndex: number = hoverIndex
-        const beforeIndex: number = monitor.getItemType()
 
         const whereRU = dragDropEditList.find(
             (e: any) => e?.id == monitor.getItemType()
@@ -247,7 +249,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
 
         if (
             !monitor.isOver() ||
-            beforeIndex == afterIndex ||
+            whereIndex == afterIndex ||
             monitor.getItemType() == id
         ) {
             setDropHoverBottom(false)
@@ -258,11 +260,13 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         if (whereIndex < afterIndex) {
             setDropHoverBottom(true)
             setDropHoverTop(false)
+            setTriggerDivider(!triggerDivider)
             return
         }
 
         setDropHoverBottom(false)
         setDropHoverTop(true)
+        setTriggerDivider(!triggerDivider)
         return
     }
 
@@ -276,13 +280,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
 
         const whereIndex = whereRU?.hoverIndex as number
 
-        // console.log(
-        //     "[hover] updateHoverDivider",
-        //     whereRU?.hoverIndex,
-        //     afterIndex
-        // )
-
-        console.log(`[hover] monitor.didDrop *** component`, monitor.didDrop())
         if (monitor.didDrop()) return
 
         if (withinArea) {
@@ -292,7 +289,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 after: afterIndex
             })
         } else {
-            console.log(`[hover] setInsertDropInfo`)
             setIsInsert(!monitor.didDrop())
             setIsInsertNested(monitor.didDrop())
             setInsertDropInfo({
@@ -302,21 +298,28 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         }
     }
 
-    const resetDivider = () => {
-        setHover(false)
+    const resetDivider = useCallback(() => {
+        if (isDragging) return
+
+        console.log(
+            `[reset] isOver isDragging`,
+            isDropHoverTop,
+            isDropHoverBottom
+        )
+
         setDropHoverTop(false)
         setDropHoverBottom(false)
-    }
+    }, [triggerDivider])
 
     useEffect(() => {
         document.addEventListener("mouseout", resetDivider)
         document.addEventListener("mouseleave", resetDivider)
-        document.addEventListener("dragleave", resetDivider)
+        document.addEventListener("dragend", resetDivider)
 
         return () => {
             document.removeEventListener("mouseout", resetDivider)
             document.removeEventListener("mouseleave", resetDivider)
-            document.removeEventListener("dragleave", resetDivider)
+            document.removeEventListener("dragend", resetDivider)
         }
     }, [])
 
@@ -330,7 +333,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 <DraggingPreview />
             </div>
         )
-    }, [isDropHoverTop, isOver])
+    }, [isDropHoverTop])
 
     const dragBottomPreview = useMemo(() => {
         if (!isDropHoverBottom) return
@@ -342,78 +345,79 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 <DraggingPreview />
             </div>
         )
-    }, [isDropHoverBottom, isOver])
+    }, [isDropHoverBottom])
 
     drag(drop(dropBetween(ref)))
 
     return (
-        <div
-            id={`edit-${id}`}
-            ref={!readOnly ? ref : null}
-            onMouseOver={() => setHover(true)}
-            className={`${!readOnly ? "s-dragging" : ""}`}
-            style={{
-                borderTop: isDropHoverTop ? "solid darkgrey" : "none",
-                borderBottom: isDropHoverBottom ? "solid darkgrey" : "none",
-                cursor: "URL('./drag.png')"
-            }}>
-            {dragTopPreview}
-
+        <div>
+            <DragPreviewImage connect={preview} src={"./drag.png"} />
             <div
+                id={`edit-${id}`}
+                ref={!readOnly ? ref : null}
+                className={`${!readOnly ? "s-dragging" : ""}`}
                 style={{
-                    display: allowDisplay,
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    position: "relative",
-                    top: "15px"
+                    borderTop: isDropHoverTop ? "solid darkgrey" : "none",
+                    borderBottom: isDropHoverBottom ? "solid darkgrey" : "none"
                 }}>
-                <DragDropComponentButtons
-                    buttonType={DragDropButton.duplicate}
-                    handleEvent={duplicateComponent}
-                />
-                <DragDropComponentButtons
-                    buttonType={DragDropButton.delete}
-                    handleEvent={deleteComponent}
-                />
-            </div>
+                {dragTopPreview}
 
-            <div
-                id={`${id}-edit`}
-                onClick={() => updateFocusEditComponent()}
-                // onMouseDown={updateFocusEditComponent}
-                className={`s-drag-drop-card`}
-                style={{
-                    padding: 20,
-                    borderColor: focusElement ? "navy" : "transparent"
-                }}>
-                {!isLayout && component && (
-                    <div>
-                        {component({
-                            ...selfData,
-                            elements: elements
-                            // dropRef: null
-                        })}
-                    </div>
-                )}
-                {isLayout && (
-                    <MultiColumnsContextProvider
-                        {...props}
-                        selfData={selfData}
-                        isPreview={isPreview}
-                        dragDropList={dragDropList}
-                        focusEditId={focusEditId}
-                        setFocusEditId={setFocusEditId}
-                        setDropComponentInLayout={setDropComponentInLayout}
-                        setIsDragging={setIsDragging}
-                        setIsInsertNested={setIsInsertNested}
-                        setSwapLayoutChild={setSwapLayoutChild}
-                        setIsReOrder={
-                            setIsReOrder
-                        }></MultiColumnsContextProvider>
-                )}
-            </div>
+                <div
+                    style={{
+                        display: allowDisplay,
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        position: "relative",
+                        top: "15px"
+                    }}>
+                    <DragDropComponentButtons
+                        buttonType={DragDropButton.duplicate}
+                        handleEvent={duplicateComponent}
+                    />
+                    <DragDropComponentButtons
+                        buttonType={DragDropButton.delete}
+                        handleEvent={deleteComponent}
+                    />
+                </div>
 
-            {dragBottomPreview}
+                <div
+                    id={`${id}-edit`}
+                    onClick={() => updateFocusEditComponent()}
+                    // onMouseDown={updateFocusEditComponent}
+                    className={`s-drag-drop-card`}
+                    style={{
+                        padding: 20,
+                        borderColor: focusElement ? "navy" : "transparent"
+                    }}>
+                    {!isLayout && component && (
+                        <div>
+                            {component({
+                                ...selfData,
+                                elements: elements
+                                // dropRef: null
+                            })}
+                        </div>
+                    )}
+                    {isLayout && (
+                        <MultiColumnsContextProvider
+                            {...props}
+                            selfData={selfData}
+                            isPreview={isPreview}
+                            dragDropList={dragDropList}
+                            focusEditId={focusEditId}
+                            setFocusEditId={setFocusEditId}
+                            setDropComponentInLayout={setDropComponentInLayout}
+                            setIsDragging={setIsDragging}
+                            setIsInsertNested={setIsInsertNested}
+                            setSwapLayoutChild={setSwapLayoutChild}
+                            setIsReOrder={
+                                setIsReOrder
+                            }></MultiColumnsContextProvider>
+                    )}
+                </div>
+
+                {dragBottomPreview}
+            </div>
         </div>
     )
 }
