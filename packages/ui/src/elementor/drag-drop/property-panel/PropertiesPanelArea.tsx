@@ -75,7 +75,7 @@ export const PropertiesPanelArea: React.FC<PropertiesPanelAreaProps> = (
                 width: 300,
                 minWidth: 0,
                 right: 20,
-                display: !isExpandView && focusEditId ? "block" : "none",
+                display: !isExpandView && focusEditId?.id ? "block" : "none",
                 top: 100,
                 height: "80%"
             }}>

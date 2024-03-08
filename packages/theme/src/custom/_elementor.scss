@@ -115,3 +115,9 @@
         var(--static-color-secondary)
     );
 }
+
+.s-dragging {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}

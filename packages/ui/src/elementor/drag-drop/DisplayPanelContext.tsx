@@ -36,6 +36,7 @@ import {
 
 const contextDefaultValues: DisplayPanelContextProviderType = {
     pageJson: [],
+    readOnly: false,
     elementInstance: null,
     dragDropEditAcceptType: [],
     setDragDropEditAcceptType: () => null,
@@ -93,6 +94,7 @@ const contextDefaultValues: DisplayPanelContextProviderType = {
 
 export type DisplayPanelContextProviderType = {
     pageJson: PropertiesComponentProps[] | null
+    readOnly: boolean
     elementInstance: ElementorOperator | null
     // dragDropEditAcceptType: Array<string>
     elementsList: Map<string, SelectionJson> | null
@@ -168,6 +170,7 @@ export const DisplayPanelContextProvider: FC<
         children,
         historyCapSize = 10,
         pageJson,
+        readOnly = false,
         submit,
         ...rest
     } = props ?? {}
@@ -221,9 +224,9 @@ export const DisplayPanelContextProvider: FC<
 
     const [currentHistoryIndex, setCurrentHistoryIndex] = useState<number>(0)
     const [toggle, setToggle] = useState<boolean>(false)
-    const [isExpandView, setExpandView] = useState<boolean>(false)
+    const [isExpandView, setExpandView] = useState<boolean>(readOnly)
     const [isMobileView, setMobileView] = useState<boolean>(false)
-    const [isPreview, setPreview] = useState<boolean>(false)
+    const [isPreview, setPreview] = useState<boolean>(readOnly)
 
     const [dragDropEditAcceptType, setDragDropEditAcceptType] = useState<
         string[]
@@ -469,6 +472,7 @@ export const DisplayPanelContextProvider: FC<
         <DisplayPanelContext.Provider
             value={{
                 ...rest,
+                readOnly,
                 elementInstance,
                 elementsList,
                 dragDropList,

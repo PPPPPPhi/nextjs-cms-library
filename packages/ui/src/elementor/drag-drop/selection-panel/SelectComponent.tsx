@@ -19,7 +19,7 @@ export const SelectComponent: React.FC<SelectComponentProps> = ({
     return (
         <div
             ref={drag}
-            className={`s-select-card-outer shadow`}
+            className={`s-select-card-outer shadow s-dragging`}
             style={{ paddingTop: 5, paddingBottom: 5, background: "white" }}>
             <div className={`s-select-card-inner`}>
                 <div

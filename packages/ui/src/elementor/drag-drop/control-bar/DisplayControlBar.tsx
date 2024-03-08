@@ -48,7 +48,8 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
         isPreview,
         setPreview,
         focusEditId,
-        setFocusEditId
+        setFocusEditId,
+        readOnly
     } = useDisplayPanelContext()
 
     const [displayAllButtons, setDisplayAllButtons] = useState<boolean>(false)
@@ -131,7 +132,11 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
     return (
         <div
             className={`s-display-controller z-[1000]`}
-            style={{ position: "fixed", bottom: 20 }}>
+            style={{
+                position: "fixed",
+                bottom: 20,
+                display: !readOnly ? "flex" : "none"
+            }}>
             <div className={`space-y-4`}>
                 <div
                     className={`s-display-control-group flex flex-col space-y-4`}

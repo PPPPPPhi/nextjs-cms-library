@@ -9,7 +9,7 @@ import { PropertiesComponentProps } from "../../../utils/index"
 type SubmissionButtonProps = {}
 
 export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
-    const { submit, propertiesHistoryList, currentHistoryIndex } =
+    const { submit, propertiesHistoryList, currentHistoryIndex, readOnly } =
         useDisplayPanelContext()
 
     const handleSubmitPageData = async () => {
@@ -30,7 +30,7 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
         <div
             className="fixed w-100 justify-content-end"
             style={{
-                display: "flex",
+                display: !readOnly ? "flex" : "none",
                 flexDirection: "row",
                 justifyContent: "center",
                 bottom: 30,
@@ -46,9 +46,9 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
             /> */}
 
             <div
-                style={{ width: 220, borderRadius: 25, height: 30 }}
+                style={{ width: 220, borderRadius: 25, height: 50 }}
                 onClick={handleSubmitPageData}
-                className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
+                className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-lg p-2.5 text-center items-center me-2`}>
                 <span>Update Page</span>
             </div>
         </div>
