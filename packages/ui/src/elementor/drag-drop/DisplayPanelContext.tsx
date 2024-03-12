@@ -1,10 +1,12 @@
 "use client"
 import {
-    ElementorOperator,
-    LayoutOperator,
     SelectionJson,
     DragDropJson,
-    PropertyJson,
+    PropertyJson
+} from "../../core/utils/type/index"
+import {
+    ElementorOperator,
+    LayoutOperator,
     DragDropAccecptType,
     FocusEditElementType
 } from "../../utils/index"

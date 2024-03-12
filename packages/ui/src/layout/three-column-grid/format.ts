@@ -1,4 +1,8 @@
-import { SelectionJson, DragDropJson, PropertyJson } from "../../utils"
+import {
+    SelectionJson,
+    DragDropJson,
+    PropertyJson
+} from "../../core/utils/type/index"
 import { EmptyLayoutGrid } from ".."
 import { ThreeColumn } from "./layout"
 import { ThreeColumnSvg } from "./svg"

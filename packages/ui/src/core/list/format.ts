@@ -1,22 +1,22 @@
-import { SelectionJson, DragDropJson, PropertyJson } from "../../utils"
+import { SelectionJson, DragDropJson, PropertyJson } from "../utils/type/index"
 import { ListSvg } from "./svg"
 import { List } from "./widget"
 
-export const selectionPanelJson: SelectionJson = {
+export const selectionListJson: SelectionJson = {
     element: "list",
     icon: ListSvg,
     title: "List"
 }
 
-export const dragDropJson: DragDropJson = {
+export const dragDropListJson: DragDropJson = {
     element: "list",
     component: List
 }
 
-export const propertyJson: PropertyJson = {
+export const propertyListJson: PropertyJson = {
     element: "list",
     label: "List Label",
     placeholder: "Input here ...",
-    value: "Morning World",
+    value: "",
     type: "list"
 }

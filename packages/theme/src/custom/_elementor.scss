@@ -35,7 +35,14 @@
     border-width: thin;
     border-radius: 10px;
     margin-bottom: 15px;
+    cursor: grabbing !important;
+    user-select: none;
 }
+
+// body.dragging * {
+//     cursor: grabbing !important;
+//     user-select: none;
+// }
 
 .s-three-column-container {
     display: flex;
@@ -120,4 +127,19 @@
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
+}
+
+.s-file-selector-modal {
+    width: 300px;
+    min-width: 0px;
+    display: block;
+    top: 100px;
+    height: 80%;
+}
+
+.s-edit-control-btn {
+    flex-direction: row;
+    justify-content: flex-end;
+    position: relative;
+    top: "15px";
 }

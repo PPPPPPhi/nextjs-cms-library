@@ -4,11 +4,10 @@ import { v4 as uuid_v4 } from "uuid"
 import _ from "lodash"
 
 import { useDisplayPanelContext } from "../../index"
+import { DragDropJson, PropertyJson } from "../../core/utils/type/index"
 import {
     DragDropComponentProps,
-    PropertiesComponentProps,
-    DragDropJson,
-    PropertyJson
+    PropertiesComponentProps
 } from "../../utils/index"
 
 export const useSwapLayoutChild = () => {

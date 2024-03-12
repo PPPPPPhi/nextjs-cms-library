@@ -3,10 +3,17 @@ import { Control, Controller, useForm } from "react-hook-form"
 import _ from "lodash"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
-import { PropertyJson, PropertiesComponentProps } from "../../../utils/index"
+import {
+    PropertyJson,
+    PropertiesComponentProps,
+    ElementNameMap,
+    DragDropElementInputList,
+    DragDropElementSelectFileList
+} from "../../../utils/index"
 
 // @ts-ignore
 import DragDropIcon from "./dragdrop.png"
+import { FileSelector, ImageSelector } from "./file-handler/FileSelector"
 // import { AdminButton } from "@/client/components/admin-components"
 
 type PropertiesChildEmptyProps = {}
@@ -49,10 +56,7 @@ export const PropertiesChildSubInput: React.FC<
     }
 
     return (
-        <div
-            style={{
-                margin: 10
-            }}>
+        <div className={`my-3`}>
             <Controller
                 control={control}
                 // @ts-ignore
@@ -136,13 +140,26 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
                             isChildren={isChildren}
                         />
 
-                        <PropertiesChildSubInput
-                            control={control}
-                            name={`${path}value`}
-                            label={"Value"}
-                            value={value ?? placeholder}
-                            isChildren={isChildren}
-                        />
+                        {_.includes(DragDropElementInputList, element) && (
+                            <PropertiesChildSubInput
+                                control={control}
+                                name={`${path}value`}
+                                label={"Value"}
+                                value={value ?? placeholder}
+                                isChildren={isChildren}
+                            />
+                        )}
+
+                        {_.includes(DragDropElementSelectFileList, element) && (
+                            <FileSelector
+                                control={control}
+                                name={`${path}value`}
+                                label={"Value"}
+                                value={value ?? placeholder}
+                                isChildren={isChildren}
+                                element={element}
+                            />
+                        )}
                     </form>
 
                     <div

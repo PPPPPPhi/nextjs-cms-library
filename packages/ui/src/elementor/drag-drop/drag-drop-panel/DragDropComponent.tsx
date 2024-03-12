@@ -6,7 +6,15 @@ import React, {
     useEffect,
     Ref
 } from "react"
-const { useDrag, useDrop, DragPreviewImage } = require("react-dnd")
+const {
+    useDrag,
+    useDrop,
+    DragPreviewImage,
+    HTML5Backend,
+    DndProvider
+} = require("react-dnd")
+
+const { getEmptyImage } = require("react-dnd-html5-backend")
 import _ from "lodash"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
@@ -15,14 +23,20 @@ import {
     LayoutNameMap,
     MultiColumnsContextProvider
 } from "@nextjs-cms-library/ui/index"
-import { DragDropComponentProps, PropertyEditType } from "../../../utils/index"
+import {
+    DragDropButton,
+    DragDropComponentProps,
+    PropertyEditType
+} from "../../../utils/index"
 import { DuplicateSvg, DeleteSvg, DraggingPreview } from "./index"
+import { DragSvg } from "../control-bar/DisplayControlButtons"
+import { knightImage } from "./image"
 
-enum DragDropButton {
-    duplicate = "DUPLICATE",
-    delete = "DELETE",
-    add = "ADD"
-}
+// enum DragDropButton {
+//     duplicate = "DUPLICATE",
+//     delete = "DELETE",
+//     add = "ADD"
+// }
 
 type DragDropComponentButtonsProps = {
     handleEvent: () => void
@@ -93,20 +107,23 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
     }, [focusEditId])
 
     // drag drop the component list
-    const [{ isDragging, currentItem }, drag] = useDrag(() => ({
-        item: { id },
-        type: id,
-        collect: (monitor: any) => ({
-            isDragging: !!monitor.isDragging(),
-            currentItem: monitor.getItem()
-        }),
-        end: (item: any, monitor: any) => {
-            console.log(`end dragging`)
-            setIsDragging(false)
-        }
-    }))
+    const [{ isDragging, currentItem }, drag, connectDragPreview] = useDrag(
+        () => ({
+            item: { id },
+            type: id,
+            collect: (monitor: any) => ({
+                isDragging: !!monitor.isDragging(),
+                currentItem: monitor.getItem()
+            }),
+            end: (item: any, monitor: any) => {
+                console.log(`end dragging`)
+                setIsDragging(false)
+                // document.body.classList.remove("dragging")
+            }
+        })
+    )
 
-    const [{ canDrop, isOver }, drop, preview] = useDrop(
+    const [{ canDrop, isOver }, drop] = useDrop(
         () => ({
             accept: dragDropEditAcceptType,
             collect: (monitor: any) => ({
@@ -137,7 +154,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         )
 
         return data
-    }, [propertiesHistoryList, isDragging, toggle, currentHistoryIndex])
+    }, [propertiesEditList, currentHistoryIndex, toggle])
 
     const hoverComponent = (item: any, monitor: any) => {
         if (!item || !monitor) return
@@ -239,14 +256,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
 
         const whereIndex = whereRU?.hoverIndex as number
 
-        // console.log(
-        //     "[hover] updateHoverDivider",
-        //     whereRU?.hoverIndex,
-        //     afterIndex,
-        //     monitor.getItemType() == id,
-        //     monitor.isOver()
-        // )
-
         if (
             !monitor.isOver() ||
             whereIndex == afterIndex ||
@@ -301,25 +310,36 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
     const resetDivider = useCallback(() => {
         if (isDragging) return
 
-        console.log(
-            `[reset] isOver isDragging`,
-            isDropHoverTop,
-            isDropHoverBottom
-        )
-
         setDropHoverTop(false)
         setDropHoverBottom(false)
     }, [triggerDivider])
+
+    const handleDragCursor = () => {
+        const cursor = document.getElementById(".cursor")
+        // console.log(`[cursor] classList before`, document.body.classList)
+        // document.body.classList.remove("dragging")
+        // document.body.classList.add("grabbing")
+
+        // console.log(`[cursor] classList`, document.body.classList)
+        // console.log(`[cursor] handle cursor`, cursor)
+        if (!cursor) return
+        // @ts-ignore
+        cursor.style = "grabbing"
+        console.log(`[cursor] handle cursor 2`, cursor)
+    }
 
     useEffect(() => {
         document.addEventListener("mouseout", resetDivider)
         document.addEventListener("mouseleave", resetDivider)
         document.addEventListener("dragend", resetDivider)
 
+        document.addEventListener("dragstart", handleDragCursor)
         return () => {
             document.removeEventListener("mouseout", resetDivider)
             document.removeEventListener("mouseleave", resetDivider)
             document.removeEventListener("dragend", resetDivider)
+
+            document.removeEventListener("dragstart", updateFocusEditComponent)
         }
     }, [])
 
@@ -347,15 +367,20 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         )
     }, [isDropHoverBottom])
 
+    useEffect(() => {
+        console.log(`[cursor] preview`, connectDragPreview)
+        connectDragPreview(getEmptyImage(), { captureDraggingState: false })
+    }, [connectDragPreview])
+
     drag(drop(dropBetween(ref)))
 
     return (
         <div>
-            <DragPreviewImage connect={preview} src={"./drag.png"} />
+            {/* <DragPreviewImage connect={connectDragPreview} src={""} /> */}
             <div
                 id={`edit-${id}`}
                 ref={!readOnly ? ref : null}
-                className={`${!readOnly ? "s-dragging" : ""}`}
+                className={``}
                 style={{
                     borderTop: isDropHoverTop ? "solid darkgrey" : "none",
                     borderBottom: isDropHoverBottom ? "solid darkgrey" : "none"
@@ -383,7 +408,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 <div
                     id={`${id}-edit`}
                     onClick={() => updateFocusEditComponent()}
-                    // onMouseDown={updateFocusEditComponent}
                     className={`s-drag-drop-card`}
                     style={{
                         padding: 20,
@@ -394,7 +418,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                             {component({
                                 ...selfData,
                                 elements: elements
-                                // dropRef: null
                             })}
                         </div>
                     )}

@@ -45,8 +45,13 @@ export type PropertyJson = CorePropertyJson & {
 
 export const DragDropElementAcceptType: string[] = [ElementNameMap.Text]
 
+export const DragDropElementInputList: string[] = [ElementNameMap.Text]
+
+export const DragDropElementSelectFileList: string[] = [ElementNameMap.Image]
+
 export const DragDropAccecptType: string[] = [
     ElementNameMap.Text,
+    ElementNameMap.Image,
     LayoutNameMap.ThreeColumn,
     LayoutNameMap.TwoColumn
 ]
@@ -93,4 +98,10 @@ export type SwapLayoutChildType = {
     from: string
     to: string
     parentId: string
+}
+
+export enum DragDropButton {
+    duplicate = "DUPLICATE",
+    delete = "DELETE",
+    add = "ADD"
 }
