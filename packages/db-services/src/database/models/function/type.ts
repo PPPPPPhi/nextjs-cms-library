@@ -1,0 +1,5 @@
+export type functionType = {
+    _id: string
+    name: string
+    description: string
+}

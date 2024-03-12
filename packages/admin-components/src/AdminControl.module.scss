@@ -1,0 +1,191 @@
+.adminButton {
+    padding: 6px 12px;
+    min-width: 80px;
+    min-height: 24px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: none;
+    background: var(--static-color-primary);
+    color: var(--static-text-color);
+    text-transform: capitalize;
+    text-align: center;
+    cursor: pointer;
+    &:hover,
+    &:active {
+        border: none;
+        background: var(--static-color-secondary);
+        color: var(--static-color-text-nu);
+    }
+    &:disabled {
+        border: none;
+        opacity: 0.3;
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminButtonInverse {
+    padding: 6px 12px;
+    min-width: 80px;
+    min-height: 24px;
+    border-radius: 5px;
+    font-weight: 500;
+    border: none;
+    background: var(--static-color-secondary);
+    color: var(--static-text-color);
+    text-transform: capitalize;
+    text-align: center;
+    cursor: pointer;
+    &:hover,
+    &:active {
+        border: none;
+        background: var(--static-color-quaternary);
+        color: var(--static-color-text-nu);
+    }
+    &:disabled {
+        border: none;
+        opacity: 0.3;
+        background: var(--static-color-quaternary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminNavButton {
+    &:hover {
+        box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.4);
+    }
+}
+
+.adminGradientBg {
+    background-image: linear-gradient(
+        90deg,
+        var(--static-color-primary),
+        var(--static-color-secondary)
+    );
+}
+
+.adminTableButton {
+    background: var(--static-color-primary);
+    &:hover,
+    &:active {
+        border: none;
+        background: var(--static-color-secondary);
+        color: var(--static-color-text-nu);
+    }
+    &:disabled {
+        border: none;
+        opacity: 0.3;
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminTableButtonInverse {
+    background: var(--static-color-secondary);
+    &:hover,
+    &:active {
+        border: none;
+        background: var(--static-color-quaternary);
+        color: var(--static-color-text-nu);
+    }
+    &:disabled {
+        border: none;
+        opacity: 0.3;
+        background: var(--static-color-quaternary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminGradientBackground {
+    background: var(--static-color-primary);
+    background: linear-gradient(
+        90deg,
+        var(--static-color-primary) 0%,
+        rgba(255, 255, 255, 0) 100%
+    );
+}
+
+.adminLoadingSpinner {
+    display: inline-block;
+    position: relative;
+    width: 160px;
+    height: 160px;
+}
+.adminLoadingSpinner div {
+    animation: adminLoadingSpinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 80px 80px;
+}
+.adminLoadingSpinner div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    margin: -8px 0 0 -8px;
+}
+.adminLoadingSpinner div:nth-child(1) {
+    animation-delay: -0.036s;
+}
+.adminLoadingSpinner div:nth-child(1):after {
+    top: 126px;
+    left: 126px;
+}
+.adminLoadingSpinner div:nth-child(2) {
+    animation-delay: -0.072s;
+}
+.adminLoadingSpinner div:nth-child(2):after {
+    top: 136px;
+    left: 112px;
+}
+.adminLoadingSpinner div:nth-child(3) {
+    animation-delay: -0.108s;
+}
+.adminLoadingSpinner div:nth-child(3):after {
+    top: 142px;
+    left: 96px;
+}
+.adminLoadingSpinner div:nth-child(4) {
+    animation-delay: -0.144s;
+}
+.adminLoadingSpinner div:nth-child(4):after {
+    top: 144px;
+    left: 80px;
+}
+.adminLoadingSpinner div:nth-child(5) {
+    animation-delay: -0.18s;
+}
+.adminLoadingSpinner div:nth-child(5):after {
+    top: 142px;
+    left: 64px;
+}
+.adminLoadingSpinner div:nth-child(6) {
+    animation-delay: -0.216s;
+}
+.adminLoadingSpinner div:nth-child(6):after {
+    top: 136px;
+    left: 48px;
+}
+.adminLoadingSpinner div:nth-child(7) {
+    animation-delay: -0.252s;
+}
+.adminLoadingSpinner div:nth-child(7):after {
+    top: 126px;
+    left: 34px;
+}
+.adminLoadingSpinner div:nth-child(8) {
+    animation-delay: -0.288s;
+}
+.adminLoadingSpinner div:nth-child(8):after {
+    top: 112px;
+    left: 24px;
+}
+@keyframes adminLoadingSpinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

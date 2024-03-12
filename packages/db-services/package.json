@@ -1,0 +1,19 @@
+{
+    "name": "@nextjs-cms-library/db-services",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "exports": {
+        "./index": "./src/index.ts"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsup src/index.ts --format cjs,esm --dts",
+        "reg:local": "yarn link",
+        "reg:clean": "yarn unlink",
+        "link:local": "yarn link mongoose && yarn link next-auth && yarn link mongoose-history-plugin && yarn link bcrypt",
+        "link:clean": "yarn unlink mongoose && yarn unlink next-auth && yarn unlink mongoose-history-plugin && yarn unlink bcrypt"
+    },
+    "author": "",
+    "license": "ISC"
+}
