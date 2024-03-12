@@ -15,7 +15,8 @@ import {
     DragDropAccecptType,
     LayoutNameMap,
     DragDropComponentProps,
-    EmptyLayoutGrid
+    EmptyLayoutGrid,
+    useDisplayPanelContext
 } from "@nextjs-cms-library/ui/index"
 
 import { withSubColumn } from "../hoc/index"
@@ -46,6 +47,7 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
         isPreview
     } = props
 
+    const { readOnly } = useDisplayPanelContext()
     const { focusEditId, setFocusEditId } = useMultiColumnsContext()
 
     const [resetColor, setResetColor] = useState<boolean>(false)
@@ -58,19 +60,33 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
     }, [resetColor])
 
     const updateFocusEditComponent = () => {
+        if (readOnly) return
         setFocusEditId({ ...focusEditId, id: parentId, childType })
     }
 
+    useEffect(() => {
+        document.addEventListener("mouseout", () => setResetColor(true))
+        document.addEventListener("mouseleave", () => setResetColor(true))
+        document.addEventListener("dragleave", () => setResetColor(true))
+
+        return () => {
+            document.removeEventListener("mouseout", () => setResetColor(true))
+            document.removeEventListener("mouseleave", () =>
+                setResetColor(true)
+            )
+            document.removeEventListener("dragleave", () => setResetColor(true))
+        }
+    }, [])
+
     return (
         <div
-            ref={subRef}
+            ref={!readOnly ? subRef : null}
             id={`${id}-${childType}`}
-            className={`s-column-grid ${!isPreview ? "s-edit-area-border" : "border-none"}`}
+            className={`s-column-grid ${!readOnly ? "s-dragging" : ""} 
+                ${!isPreview ? "s-edit-area-border" : "border-none"}`}
             onClick={() => updateFocusEditComponent()}
             onMouseEnter={() => setResetColor(false)}
-            onMouseOver={() => setResetColor(false)}
-            onMouseOut={() => setResetColor(true)}
-            onDragLeave={() => setResetColor(true)}>
+            onMouseOver={() => setResetColor(false)}>
             {!type && !isPreview && <EmptyLayoutGrid />}
             {type &&
                 component &&

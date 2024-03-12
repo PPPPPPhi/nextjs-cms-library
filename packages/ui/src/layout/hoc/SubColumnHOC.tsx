@@ -17,7 +17,8 @@ import {
     DragDropAccecptType,
     LayoutNameMap,
     TwoColumnChildType,
-    DragDropComponentProps
+    DragDropComponentProps,
+    useDisplayPanelContext
 } from "@nextjs-cms-library/ui/index"
 
 import { useMultiColumnsContext } from "../context/index"
@@ -40,6 +41,8 @@ const withSubColumn =
             hoverIndex,
             subColumnAcceptType
         } = props
+
+        const { readOnly } = useDisplayPanelContext()
 
         const {
             dragDropList,
