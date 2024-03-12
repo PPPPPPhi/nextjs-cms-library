@@ -1,4 +1,4 @@
-import { SvgProps } from "../../utils/type/index"
+import { SvgProps } from "../utils/type/index"
 
 export const ImageSvg: React.FC<SvgProps> = ({
     classname,

@@ -24,6 +24,10 @@ class _ImageResourceOperator implements ImageResourceOperatorInterface {
     storeImage = async (file: File, addition: any) => {
         return await this.apdator?.storeImage(file, addition)
     }
+
+    getImageById = async (site: string, id: string) => {
+        return await this.apdator?.getImageById(site, id)
+    }
 }
 
 export class ImageResourceOperator {

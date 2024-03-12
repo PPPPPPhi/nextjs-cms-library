@@ -1,4 +1,6 @@
 import React from "react"
+import { useParams, useRouter } from "next/navigation"
+
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 import { PropertiesComponentProps } from "../../../utils/index"
 // import {
@@ -11,6 +13,8 @@ type SubmissionButtonProps = {}
 export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
     const { submit, propertiesHistoryList, currentHistoryIndex, readOnly } =
         useDisplayPanelContext()
+    const router = useRouter()
+    const { site, pageId } = useParams()
 
     const handleSubmitPageData = async () => {
         console.log(`handleSubmitPageData submit`, submit)
@@ -24,6 +28,7 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
         console.log(`handleSubmitPageData`, pageData)
 
         await submit(pageData)
+        router.push(`/admin/${site}/pages`)
     }
 
     return (

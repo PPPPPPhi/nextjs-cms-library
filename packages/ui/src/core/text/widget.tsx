@@ -1,5 +1,5 @@
 import React from "react"
-import { WidgetProps } from "../../utils/index"
+import { WidgetProps } from "../utils/type/index"
 
 type TextProps = WidgetProps & {}
 

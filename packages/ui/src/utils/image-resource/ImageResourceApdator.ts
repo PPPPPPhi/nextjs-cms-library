@@ -5,6 +5,7 @@ interface ImageResourceAdaptorInterface {
     getImages: (site: string) => void
     uploadImage: (file: File, site: string) => void
     storeImage: (file: File, addition: any) => Promise<{ success: boolean }>
+    getImageById: (site: string, id: string) => void
 }
 
 export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
@@ -49,5 +50,12 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
         )
 
         return { success: true }
+    }
+
+    getImageById = async (site: string, id: string) => {
+        const images = await NextAPIInstance.get(
+            `/image/${site}/getImageFromNext`
+        )
+        return images
     }
 }

@@ -6,10 +6,12 @@ import { useDisplayPanelContext } from "../DisplayPanelContext"
 import { PropertyJson, LayoutNameMap } from "@nextjs-cms-library/ui/index"
 import {
     DefaultPropertiesDataType,
+    ElementNameMap,
     PropertiesComponentProps,
     UpdateEditElementAction
 } from "../../../utils/index"
 import { PropertiesChildInput } from "./PropertiesChildInput"
+import { ImageSelector } from "./file-handler/FileSelector"
 
 export const PropertiesComponent: React.FC<
     PropertiesComponentProps & DefaultPropertiesDataType

@@ -11,8 +11,9 @@ import React, {
     SetStateAction
 } from "react"
 import _ from "lodash"
+
+import { DragDropJson } from "../../core/utils/type/index"
 import {
-    DragDropJson,
     LayoutNameMap,
     PropertiesComponentProps,
     FocusEditElementType,

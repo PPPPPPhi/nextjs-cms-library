@@ -1,5 +1,5 @@
 import React from "react"
-import { WidgetProps } from "../../utils/index"
+import { WidgetProps } from "../../core/utils/type/index"
 
 type BannerProps = WidgetProps & {}
 

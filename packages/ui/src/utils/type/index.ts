@@ -1,9 +1,4 @@
 import {
-    SelectionJson,
-    DragDropJson,
-    PropertyJson,
-    SvgProps,
-    WidgetProps,
     DragDropAccecptType,
     LayoutDragDropType,
     LayoutPropertiesType,
@@ -13,7 +8,10 @@ import {
     PropertyEditType,
     PropertiesComponentProps,
     FocusEditElementType,
-    SwapLayoutChildType
+    SwapLayoutChildType,
+    DragDropElementInputList,
+    DragDropElementSelectFileList,
+    DragDropButton
 } from "./componentFormat"
 import {
     SelectionListMap,
@@ -25,11 +23,6 @@ import {
 } from "./operator"
 
 export type {
-    SvgProps,
-    WidgetProps,
-    SelectionJson,
-    DragDropJson,
-    PropertyJson,
     SelectionListMap,
     ComponentsListMap,
     PropertiesListMap,
@@ -47,4 +40,9 @@ export type {
     SwapLayoutChildType
 }
 
-export { DragDropAccecptType }
+export {
+    DragDropAccecptType,
+    DragDropElementInputList,
+    DragDropElementSelectFileList,
+    DragDropButton
+}

@@ -77,8 +77,10 @@ const withSubColumn =
                 focusEditId?.id == parentId
             ) {
                 subColumnElem.style.backgroundColor = "#e2f5e1"
+                subColumnElem.style.borderColor = "navy"
             } else {
                 subColumnElem.style.background = ""
+                subColumnElem.style.borderColor = "#abcfff"
             }
         }, [focusEditId, parentId])
 
@@ -91,7 +93,7 @@ const withSubColumn =
                 currentItem: monitor.getItem()
             }),
             end: (item: any, monitor: any) => {
-                console.log(`end dragging`)
+                console.log(`end dragging`, document.body.classList)
                 setIsDragging(false)
                 hoverIndexRef.current = null
             }

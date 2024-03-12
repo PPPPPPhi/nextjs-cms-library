@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from "react"
+import { useParams, useRouter } from "next/navigation"
+
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 import {
     CollpaseSvg,
@@ -53,6 +55,8 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
     } = useDisplayPanelContext()
 
     const [displayAllButtons, setDisplayAllButtons] = useState<boolean>(false)
+    const router = useRouter()
+    const { site, pageId } = useParams()
 
     const isDisplayAll = useMemo(() => {
         console.log(`is display all`, displayAllButtons)
@@ -98,8 +102,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
     }
 
     const returnHomePage = () => {
-        // ask save pop up
-        // router.push(...)
+        router.push(`/admin/${site}/pages`)
     }
 
     const isExpandButton = useMemo(() => {
@@ -145,7 +148,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                     }}>
                     <DisplayControllerButtons
                         svg={<HomeSvg width={22} height={22} />}
-                        handler={() => setDisplayAllButtons(!displayAllButtons)}
+                        handler={() => returnHomePage()}
                     />
 
                     <DisplayControllerButtons

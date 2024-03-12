@@ -1,6 +1,6 @@
+import { DragDropJson, PropertyJson } from "../../core/utils/type/index"
+
 import {
-    DragDropJson,
-    PropertyJson,
     LayoutDragDropType,
     LayoutPropertiesType,
     PropertiesComponentProps
