@@ -2,6 +2,7 @@ import connectMongoDB from "@/db-services/database/connectMongoDB"
 import Image from "@/db-services/database/models/image/Image"
 import { getOperator } from "../auth-service/authService"
 import { ErrorCode } from "@/db-services/constants/"
+import { ObjectId } from "mongoose"
 
 type imageType = {
     site: string
@@ -52,5 +53,20 @@ export const saveImageBySite = async (image: imageType) => {
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Failed", status: 500 }
+    }
+}
+
+export const getImagesById = async (id: ObjectId) => {
+    try {
+        await connectMongoDB()
+        console.log(`[getImagesById] images`, id)
+        // @ts-ignore
+        const images = await Image.findOne({ _id: id })
+        console.log(`[getImagesById] images`, images)
+        if (images) return images
+        else return []
+    } catch (e) {
+        console.log("Error in Getting Image", e)
+        return null
     }
 }

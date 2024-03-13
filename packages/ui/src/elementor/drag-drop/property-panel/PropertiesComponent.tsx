@@ -122,6 +122,7 @@ export const PropertiesComponent: React.FC<
                             control={control}
                             parentId={id}
                             updateProperties={updateProperties}
+                            setValue={setValue}
                         />
                     </div>
                 )}
@@ -141,6 +142,7 @@ export const PropertiesComponent: React.FC<
                                     isChildren={true}
                                     parentId={id}
                                     updateProperties={updateProperties}
+                                    setValue={setValue}
                                 />
                             </div>
                         )

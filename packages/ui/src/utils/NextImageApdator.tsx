@@ -18,5 +18,6 @@ export const NextImageApdator: React.FC<
         else return src
     }
 
+    // @ts-ignore
     return <Image loader={imageLoader} {...rest} />
 }

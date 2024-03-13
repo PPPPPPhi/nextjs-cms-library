@@ -22,6 +22,7 @@ export const getNavigationList = async (site: string) => {
 
         const resp = await Promise.all([siteSettingResp, navResp])
 
+        // @ts-ignore
         if (!resp[0] || resp[0].length === 0)
             throw new Error("Error when getting navigation")
 

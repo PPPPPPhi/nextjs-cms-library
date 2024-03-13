@@ -4,6 +4,7 @@ interface ImageResourceOperatorInterface {
     getImages: (site: string) => void
     uploadImage: (file: File, site: string) => void
     storeImage: (file: File, addition: any) => Promise<{ success: boolean }>
+    getImageById: (site: string, id: string) => void
 }
 
 class _ImageResourceOperator implements ImageResourceOperatorInterface {
@@ -26,6 +27,7 @@ class _ImageResourceOperator implements ImageResourceOperatorInterface {
     }
 
     getImageById = async (site: string, id: string) => {
+        console.log(`[modal confirm] operator`, id)
         return await this.apdator?.getImageById(site, id)
     }
 }

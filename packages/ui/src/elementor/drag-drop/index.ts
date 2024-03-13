@@ -13,4 +13,6 @@ export {
     useDisplayPanelContext
 }
 
+export * from "./property-panel"
+
 export type { DisplayPanelContextProviderType }

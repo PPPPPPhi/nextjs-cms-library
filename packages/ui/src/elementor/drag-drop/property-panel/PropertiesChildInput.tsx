@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect } from "react"
-import { Control, Controller, useForm } from "react-hook-form"
+import { Control, Controller, UseFormSetValue, useForm } from "react-hook-form"
 import _ from "lodash"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
+import { PropertyJson } from "../../../core/utils/type/index"
 import {
-    PropertyJson,
     PropertiesComponentProps,
     ElementNameMap,
     DragDropElementInputList,
@@ -14,7 +14,7 @@ import {
 // @ts-ignore
 import DragDropIcon from "./dragdrop.png"
 import { FileSelector, ImageSelector } from "./file-handler/FileSelector"
-// import { AdminButton } from "@/client/components/admin-components"
+import { AdminButton } from "@nextjs-cms-library/admin-components/index"
 
 type PropertiesChildEmptyProps = {}
 
@@ -92,6 +92,7 @@ type PropertiesChildInputProps = PropertiesComponentProps & {
     updateProperties: () => void
     isChildren?: boolean
     parentId?: string
+    setValue?: UseFormSetValue<PropertiesComponentProps>
 }
 
 export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
@@ -106,7 +107,8 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
     isChildren = false,
     parentId,
     childType,
-    updateProperties
+    updateProperties,
+    setValue
 }) => {
     const { focusEditId } = useDisplayPanelContext()
 
@@ -158,6 +160,7 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
                                 value={value ?? placeholder}
                                 isChildren={isChildren}
                                 element={element}
+                                setValue={setValue}
                             />
                         )}
                     </form>
@@ -169,13 +172,13 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
                             flexDirection: "row",
                             justifyContent: "center"
                         }}>
-                        {/* <AdminButton
+                        <AdminButton
                             label="Update"
                             style={{ width: "100%" }}
                             onClick={updateProperties}
-                        /> */}
+                        />
 
-                        <div
+                        {/* <div
                             style={{
                                 width: "100%",
                                 height: 30,
@@ -184,7 +187,7 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
                             onClick={updateProperties}
                             className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
                             <span>Update</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             )}

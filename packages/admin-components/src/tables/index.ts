@@ -1,3 +1,4 @@
+export * from "./components"
 export * from "./AdminPageListTable"
 export * from "./AdminTable"
 export * from "./AdminPageHistoryTable"

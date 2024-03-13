@@ -5,8 +5,9 @@
         "outDir": "dist",
         "paths": {
             "@/*": ["./src/*"],
-            "@core/*": ["./src/core/*"],
-            "@utils/*": ["./src/utils/*"]
+            "@/core/*": ["./src/core/*"],
+            "@/utils/*": ["./src/utils/*"],
+            "@/admin-components/*": ["./admin-components/*"]
         }
     },
     "include": ["src"],

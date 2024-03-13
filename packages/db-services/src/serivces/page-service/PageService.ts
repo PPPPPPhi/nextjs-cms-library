@@ -62,9 +62,11 @@ export const getPageList = async (site: string) => {
 
         const resp = await Promise.all([siteSettingResp, pageResp])
 
+        // @ts-ignore
         if (!resp[0] || resp[0].length === 0)
             throw new Error("Error when getting site setting")
 
+        // @ts-ignore
         const languageList = resp[0]?.value
 
         const pageList = resp[1]

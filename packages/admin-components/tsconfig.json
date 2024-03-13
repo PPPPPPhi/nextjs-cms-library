@@ -4,7 +4,8 @@
         "rootDir": "./src",
         "outDir": "dist",
         "paths": {
-            "@/db-services/*": ["./src/*"]
+            "@/db-services/*": ["./src/*"],
+            "@/scss/*": ["./src/core/*"]
         }
     },
     "include": ["src"],

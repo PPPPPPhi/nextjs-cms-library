@@ -54,7 +54,7 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
 
     getImageById = async (site: string, id: string) => {
         const images = await NextAPIInstance.get(
-            `/image/${site}/getImageFromNext`
+            `/image/${site}/${id}/getImageByIdFromNext`
         )
         return images
     }

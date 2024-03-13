@@ -3,10 +3,11 @@ import { useParams, useRouter } from "next/navigation"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 import { PropertiesComponentProps } from "../../../utils/index"
-// import {
-//     AdminButton,
-//     AdminCreateCard
-// } from "@/client/components/admin-components"
+import {
+    AdminButton,
+    AdminCard
+} from "@nextjs-cms-library/admin-components/index"
+// import { AdminButton } from "@/"
 
 type SubmissionButtonProps = {}
 
@@ -31,6 +32,14 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
         router.push(`/admin/${site}/pages`)
     }
 
+    const cardRef = {
+        desc: "Save a new version of page",
+        actionLabel: "Update Page",
+        action: () => {
+            handleSubmitPageData()
+        }
+    }
+
     return (
         <div
             className="fixed w-100 justify-content-end"
@@ -42,20 +51,14 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
                 right: 60,
                 zIndex: 100
             }}>
-            {/* <AdminCreateCard
-                desc="Save a new version of page"
-                actionLabel="Update Page"
-                action={() => {
-                    handleSubmitPageData()
-                }}
-            /> */}
+            <AdminCard cardsRef={[cardRef]} />
 
-            <div
+            {/* <div
                 style={{ width: 220, borderRadius: 25, height: 50 }}
                 onClick={handleSubmitPageData}
                 className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-lg p-2.5 text-center items-center me-2`}>
                 <span>Update Page</span>
-            </div>
+            </div> */}
         </div>
     )
 }

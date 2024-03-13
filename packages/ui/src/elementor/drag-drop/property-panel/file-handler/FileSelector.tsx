@@ -1,11 +1,16 @@
+"use client"
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 
 import { PropertyJson } from "../../../../core/utils/type/index"
-import { ElementNameMap } from "../../../../utils/index"
+import {
+    ElementNameMap,
+    PropertiesComponentProps
+} from "../../../../utils/index"
 import { useDisplayPanelContext } from "../.."
-import { Control, Controller } from "react-hook-form"
-import { PreviewSelectImage } from "./PreviewFile"
+import { Control, Controller, UseFormSetValue } from "react-hook-form"
+import { PreviewSelectImage } from "../../../../core/utils/PreviewFile"
+import { AdminImageGalleryModal } from "@nextjs-cms-library/admin-components/index"
 
 type ImageSelectorProps = {}
 
@@ -22,7 +27,7 @@ type AdminImageGalleryModalProps = {
     onImageSelected: (path: string) => void
 }
 
-export const AdminImageGalleryModal: React.FC<AdminImageGalleryModalProps> = ({
+export const AdminImageGalleryBox: React.FC<AdminImageGalleryModalProps> = ({
     onImageSelected
 }) => {
     return (
@@ -56,6 +61,7 @@ type FileSelectorProps = {
     control: Control<PropertyJson, any, PropertyJson>
     element: string
     isChildren?: boolean
+    setValue?: UseFormSetValue<PropertiesComponentProps>
 }
 
 export const FileSelector: React.FC<FileSelectorProps> = ({
@@ -64,15 +70,19 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
     value,
     control,
     element,
-    isChildren
+    isChildren,
+    setValue
 }) => {
-    const { focusEditId } = useDisplayPanelContext()
+    const { focusEditId, setModal, setLoading } = useDisplayPanelContext()
     const { site, pageId } = useParams()
 
     // const slug = `demo2`
     const [enableModel, setEnableModal] = useState<boolean>(false)
 
-    const updateSelectFile = () => {
+    const updateImageValue = (id: any) => {
+        console.log(`[modal confirm] updateimagevalue`, id, name)
+        // @ts-ignore
+        if (setValue) setValue(name, id)
         setEnableModal(false)
     }
 
@@ -115,14 +125,11 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
                                     element == ElementNameMap?.Image && (
                                         <div>
                                             <AdminImageGalleryModal
-                                                onImageSelected={(e) => {
-                                                    console.log(
-                                                        `[modal] close 2`
-                                                    )
-                                                    onChange(e)
-                                                    updateSelectFile()
-                                                    console.log(`[modal] close`)
-                                                }}
+                                                onImageSelected={
+                                                    updateImageValue
+                                                }
+                                                setModal={setModal}
+                                                setLoading={setLoading}
                                             />
                                         </div>
                                     )}
@@ -134,6 +141,7 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
                                                 site={site as string}
                                                 value={value as string}
                                                 handler={() => onChange("")}
+                                                isEdit={true}
                                             />
                                         )}
                                 </p>
