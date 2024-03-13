@@ -27,7 +27,6 @@ class _ImageResourceOperator implements ImageResourceOperatorInterface {
     }
 
     getImageById = async (site: string, id: string) => {
-        console.log(`[modal confirm] operator`, id)
         return await this.apdator?.getImageById(site, id)
     }
 }

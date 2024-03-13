@@ -36,17 +36,9 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
 
     const getImageById = async () => {
         if (!value) return
-        console.log(`[modal confirm] preview value`, value)
         const imageRes = await imageOperator
             .getImageById(site, value)
             .then((res: any) => {
-                console.log(
-                    `[modal confirm] res`,
-                    res,
-                    res?.relativePath,
-                    res?.data?.images?.relativePath
-                )
-
                 const image = res?.data?.images
                 setSrcPath(image?.relativePath)
             })

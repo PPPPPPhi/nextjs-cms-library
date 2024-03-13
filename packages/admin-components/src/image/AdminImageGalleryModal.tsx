@@ -58,11 +58,6 @@ export const AdminImageGalleryModal: React.FC<
             ),
             confirmCTAText: "Confirm",
             confirmHandler: () => {
-                console.log(
-                    `[modal confirm] image confirm`,
-                    imageRef.current,
-                    selectId
-                )
                 onImageSelected(imageIdRef.current as unknown as string)
             },
             cancelCTAText: "Cancel"

@@ -213,16 +213,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 setIsDragging(true)
                 setIsInsert(!monitor.didDrop())
                 setIsInsertNested(monitor.didDrop())
-                // console.log(
-                //     `[hover] item`,
-                //     monitor.getItem(),
-                //     monitor.getItemType()
-                // )
-                console.log(
-                    `[hover] dropBetween`,
-                    monitor.didDrop(),
-                    monitor.getItemType() == id
-                )
+
                 updateHoverDivider(monitor, false)
             },
             drop: (item: any, monitor: any) => {

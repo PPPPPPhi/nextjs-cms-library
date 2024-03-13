@@ -80,13 +80,10 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
     const [enableModel, setEnableModal] = useState<boolean>(false)
 
     const updateImageValue = (id: any) => {
-        console.log(`[modal confirm] updateimagevalue`, id, name)
         // @ts-ignore
         if (setValue) setValue(name, id)
         setEnableModal(false)
     }
-
-    console.log(`[fileselect] control `, control)
 
     return (
         <div>
