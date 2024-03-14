@@ -60,8 +60,7 @@ export const getImagesById = async (id: ObjectId) => {
     try {
         await connectMongoDB()
         console.log(`[getImagesById] images`, id)
-        // @ts-ignore
-        const images = await Image.findOne({ _id: id })
+        const images = await Image.find({ _id: id })
         console.log(`[getImagesById] images`, images)
         if (images) return images
         else return []

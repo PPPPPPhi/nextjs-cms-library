@@ -440,6 +440,8 @@
   border-width: thin;
   border-radius: 10px;
   margin-bottom: 15px;
+  cursor: grabbing !important;
+  user-select: none;
 }
 
 .s-three-column-container {
@@ -506,6 +508,31 @@
 .s-display-panel-submit-button {
   display: flex;
   flex-direction: row;
+}
+
+.s-adminGradientBg {
+  background-image: linear-gradient(90deg, var(--static-color-primary), var(--static-color-secondary));
+}
+
+.s-dragging {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+.s-file-selector-modal {
+  width: 300px;
+  min-width: 0px;
+  display: block;
+  top: 100px;
+  height: 80%;
+}
+
+.s-edit-control-btn {
+  flex-direction: row;
+  justify-content: flex-end;
+  position: relative;
+  top: "15px";
 }
 
 /*# sourceMappingURL=library.css.map */

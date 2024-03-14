@@ -43,16 +43,55 @@ export type PropertyJson = CorePropertyJson & {
     children?: CorePropertyJson[]
 }
 
-export const DragDropElementAcceptType: string[] = [ElementNameMap.Text]
+export const DragDropElementAcceptType: string[] = [
+    ElementNameMap.Text,
+    ElementNameMap.Trophy,
+    ElementNameMap.Card,
+    ElementNameMap.Contact,
+    ElementNameMap.Event,
+    ElementNameMap.HotProduct,
+    ElementNameMap.HTML,
+    ElementNameMap.InfoGraphic,
+    ElementNameMap.PhotoGallery,
+    ElementNameMap.SocialMedia,
+    ElementNameMap.Sponsor,
+    ElementNameMap.Webinar
+]
 
-export const DragDropElementInputList: string[] = [ElementNameMap.Text]
+export const DragDropElementInputList: string[] = [
+    ElementNameMap.Text,
+    ElementNameMap.Trophy,
+    ElementNameMap.Card,
+    ElementNameMap.Contact,
+    ElementNameMap.Event,
+    ElementNameMap.HotProduct,
+    ElementNameMap.HTML,
+    ElementNameMap.InfoGraphic,
+    ElementNameMap.PhotoGallery,
+    ElementNameMap.SocialMedia,
+    ElementNameMap.Sponsor,
+    ElementNameMap.Webinar
+]
 
 export const DragDropElementSelectFileList: string[] = [ElementNameMap.Image]
+
+export const DragDropElementRichText: string[] = [ElementNameMap.RichText]
 
 export const DragDropAccecptType: string[] = [
     ElementNameMap.Text,
     ElementNameMap.Image,
     ElementNameMap.RichText,
+    ElementNameMap.Trophy,
+    ElementNameMap.Card,
+    ElementNameMap.Contact,
+    ElementNameMap.Event,
+    ElementNameMap.HotProduct,
+    ElementNameMap.HTML,
+    ElementNameMap.InfoGraphic,
+    ElementNameMap.PhotoGallery,
+    ElementNameMap.SocialMedia,
+    ElementNameMap.Sponsor,
+    ElementNameMap.Webinar,
     LayoutNameMap.ThreeColumn,
     LayoutNameMap.TwoColumn
 ]

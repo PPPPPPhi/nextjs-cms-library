@@ -11,6 +11,7 @@ import {
     SwapLayoutChildType,
     DragDropElementInputList,
     DragDropElementSelectFileList,
+    DragDropElementRichText,
     DragDropButton
 } from "./componentFormat"
 import {
@@ -44,5 +45,6 @@ export {
     DragDropAccecptType,
     DragDropElementInputList,
     DragDropElementSelectFileList,
+    DragDropElementRichText,
     DragDropButton
 }

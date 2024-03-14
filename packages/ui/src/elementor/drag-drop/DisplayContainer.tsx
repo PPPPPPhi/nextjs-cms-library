@@ -42,8 +42,8 @@ export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
                         }}>
                         <SelectionPanel />
                         <DragDropArea />
-                        <PropertiesPanelArea />
                         <SubmissionButton />
+                        <PropertiesPanelArea />
                     </div>
                 </DndProvider>
             </DisplayPanelContextProvider>

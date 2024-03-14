@@ -42,16 +42,21 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
 
     return (
         <div
-            className="fixed w-100 justify-content-end"
+            className="shadow fixed s-section-primary rounded-2 p-3"
             style={{
                 display: !readOnly ? "flex" : "none",
-                flexDirection: "row",
-                justifyContent: "center",
-                bottom: 30,
-                right: 60,
-                zIndex: 100
+                width: 300,
+                right: 20,
+                zIndex: 100,
+                marginTop: 20,
+                marginBottom: 20
             }}>
-            <AdminCard cardsRef={[cardRef]} />
+            <AdminButton
+                label="Update Page"
+                style={{ width: "100%" }}
+                onClick={handleSubmitPageData}
+            />
+            {/* <AdminCard cardsRef={[cardRef]} /> */}
 
             {/* <div
                 style={{ width: 220, borderRadius: 25, height: 50 }}
