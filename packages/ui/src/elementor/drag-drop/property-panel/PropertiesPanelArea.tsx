@@ -77,7 +77,8 @@ export const PropertiesPanelArea: React.FC<PropertiesPanelAreaProps> = (
                 right: 20,
                 display: !isExpandView && focusEditId?.id ? "block" : "none",
                 top: 100,
-                height: "80%"
+                height: "80%",
+                marginTop: 80
             }}>
             <div className=" dark:text-white p-2 d-flex flex-column h-100">
                 <span className="text-font-bold text-level-subtitle">
