@@ -1,7 +1,8 @@
-import { imageType } from "@nextjs-cms-library/db-services/index"
+// import { imageType } from "@/database/models/image/type"
 import { Gallery } from "react-grid-gallery"
 import useGalleryFormer from "./hook/useGalleryFormer"
 import { useState } from "react"
+import { imageType } from "@nextjs-cms-library/db-services/index"
 
 interface AdminImageGalleryInterface {
     images: imageType[]

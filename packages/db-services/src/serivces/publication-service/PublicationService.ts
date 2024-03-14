@@ -102,9 +102,11 @@ export const getPublicationList = async (site: string) => {
 
         const resp = await Promise.all([siteSettingResp, publicationResp])
 
+        // @ts-ignore
         if (!resp[0] || resp[0].length === 0)
             throw new Error("Error when getting site setting")
 
+        // @ts-ignore
         const languageList: string[] = resp[0]?.value
         const publicationList: {
             details: {

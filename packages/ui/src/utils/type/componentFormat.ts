@@ -52,6 +52,7 @@ export const DragDropElementSelectFileList: string[] = [ElementNameMap.Image]
 export const DragDropAccecptType: string[] = [
     ElementNameMap.Text,
     ElementNameMap.Image,
+    ElementNameMap.RichText,
     LayoutNameMap.ThreeColumn,
     LayoutNameMap.TwoColumn
 ]

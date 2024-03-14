@@ -22,6 +22,7 @@ import React, {
     SetStateAction
 } from "react"
 import _ from "lodash"
+import { useParams } from "next/navigation"
 import { v4 as uuid_v4 } from "uuid"
 
 import {
@@ -37,8 +38,11 @@ import {
 } from "../../utils/index"
 
 const contextDefaultValues: DisplayPanelContextProviderType = {
+    site: "",
     pageJson: [],
     readOnly: false,
+    setModal: () => null,
+    setLoading: () => null,
     elementInstance: null,
     dragDropEditAcceptType: [],
     setDragDropEditAcceptType: () => null,
@@ -95,8 +99,11 @@ const contextDefaultValues: DisplayPanelContextProviderType = {
 }
 
 export type DisplayPanelContextProviderType = {
+    site: string
     pageJson: PropertiesComponentProps[] | null
     readOnly: boolean
+    setModal: Dispatch<SetStateAction<any>>
+    setLoading: Dispatch<SetStateAction<boolean>>
     elementInstance: ElementorOperator | null
     // dragDropEditAcceptType: Array<string>
     elementsList: Map<string, SelectionJson> | null
@@ -174,8 +181,12 @@ export const DisplayPanelContextProvider: FC<
         pageJson,
         readOnly = false,
         submit,
+        setModal,
+        setLoading,
         ...rest
     } = props ?? {}
+
+    const { site } = useParams()
 
     const elementInstance = new ElementorOperator("displayPanel")
     const layoutInstance = new LayoutOperator()
@@ -259,6 +270,7 @@ export const DisplayPanelContextProvider: FC<
     useEffect(() => {
         console.log(`** GET PAGE DATA **`, !!pageJson)
 
+        if (dragDropEditList.length > 0) return
         if (!pageJson || _.isEmpty(pageJson) || !_.isArray(pageJson)) return
         console.log(`[pageData] ** GET PAGE DATA ** `, pageJson, dragDropList)
 
@@ -474,7 +486,10 @@ export const DisplayPanelContextProvider: FC<
         <DisplayPanelContext.Provider
             value={{
                 ...rest,
+                site,
                 readOnly,
+                setModal,
+                setLoading,
                 elementInstance,
                 elementsList,
                 dragDropList,
