@@ -29,7 +29,7 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
                 top: 100,
                 height: "80%"
             }}>
-            <div className="" style={{ overflowY: "scroll", height: "85%" }}>
+            <div className="h-100">
                 <div className="s-select-tab mb-3 flex flex-row justify-center">
                     <div
                         style={{ width: 120, height: 30, borderRadius: 25 }}
@@ -48,7 +48,11 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
 
                 <div
                     className={`s-select-area flex-wrap`}
-                    style={{ display: isLayoutTab ? "flex" : "none" }}>
+                    style={{
+                        display: isLayoutTab ? "flex" : "none",
+                        overflowY: "scroll",
+                        height: "90%"
+                    }}>
                     {layoutList &&
                         Array.from(layoutList.entries()).map(
                             (element: any, key: any) => {
@@ -71,7 +75,11 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
 
                 <div
                     className={`s-select-area flex-wrap space-y-2`}
-                    style={{ display: !isLayoutTab ? "flex" : "none" }}>
+                    style={{
+                        display: !isLayoutTab ? "flex" : "none",
+                        overflowY: "scroll",
+                        height: "90%"
+                    }}>
                     {elementsList &&
                         Array.from(elementsList.entries()).map(
                             (element: any, key: any) => {
