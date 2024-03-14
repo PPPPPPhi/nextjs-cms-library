@@ -5,6 +5,7 @@ import {
 } from "../DisplayPanelContext"
 import { SelectComponent } from "./SelectComponent"
 import { Tabs } from "flowbite-react"
+import { SubmissionButton } from "../control-bar/SubmissionButton"
 // import { AdminTabMenu } from "@/client/components/admin-components/AdminTabMenu"
 
 type SelectionPanelProps = {}
@@ -28,15 +29,8 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
                 top: 100,
                 height: "80%"
             }}>
-            <div className="h-100">
+            <div className="" style={{ overflowY: "scroll", height: "85%" }}>
                 <div className="s-select-tab mb-3 flex flex-row justify-center">
-                    {/* <AdminTabMenu
-                        tabList={selectionPanel}
-                        callback={(selectedTab: number) => {
-                            setLayoutTab(selectedTab == 1)
-                        }}
-                    /> */}
-
                     <div
                         style={{ width: 120, height: 30, borderRadius: 25 }}
                         onClick={() => setLayoutTab(true)}
