@@ -1,10 +1,10 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import User from "@/db-services/database/models/user/User"
+import connectMongoDB from "../../database/connectMongoDB"
+import User from "../../database/models/user/User"
 import {
     checkAccountAvailablility,
     getOperator
 } from "../auth-service/authService"
-import { ErrorCode } from "@/db-services/constants/"
+import { ErrorCode } from "../../constants/"
 
 export type userRegType = {
     userName: string

@@ -1,5 +1,5 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import SettingPublication from "@/db-services/database/models/setting-publication/SettingPublication"
+import connectMongoDB from "../../database/connectMongoDB"
+import SettingPublication from "../../database/models/setting-publication/SettingPublication"
 import { getSiteSetting } from "../site-setting-service/SiteSettingService"
 import {
     HistoryService,

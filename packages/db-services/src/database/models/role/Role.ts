@@ -1,5 +1,5 @@
 import mongoose, { Model, ObjectId, Schema } from "mongoose"
-import { IRole } from "@/db-services/database/models/role/interface"
+import { IRole } from "./interface"
 import { siteType } from "../site/type"
 
 type RoleModel = Model<IRole, {}, {}>

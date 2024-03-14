@@ -1,9 +1,7 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import Function from "@/db-services/database/models/function/Function"
-import { ErrorCode } from "@/db-services/constants/"
-import functionModal from "@/db-services/database/models/function/Function"
+import connectMongoDB from "../../database/connectMongoDB"
+import Function from "../../database/models/function/Function"
+import functionModal from "../../database/models/function/Function"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
-import { IFunction } from "@/db-services/database"
 
 type functionType = {
     name: string

@@ -1,7 +1,6 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import Page from "@/db-services/database/models/page/Page"
+import connectMongoDB from "../../database/connectMongoDB"
+import Page from "../../database/models/page/Page"
 import { getOperator, getOperatorId } from "../auth-service/authService"
-import { Schema } from "mongoose"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
 import * as _ from "lodash"
 

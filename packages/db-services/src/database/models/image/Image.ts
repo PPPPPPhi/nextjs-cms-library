@@ -1,5 +1,5 @@
 import mongoose, { Model } from "mongoose"
-import { IImage } from "@/db-services/database/models/image/interface"
+import { IImage } from "./interface"
 
 type ImageModel = Model<IImage, {}, {}>
 

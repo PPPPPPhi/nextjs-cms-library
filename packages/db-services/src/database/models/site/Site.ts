@@ -1,5 +1,5 @@
 import mongoose, { Model } from "mongoose"
-import { ISite } from "@/db-services/database/models/site/interface"
+import { ISite } from "./interface"
 
 export type SiteModel = Model<ISite, {}, {}>
 

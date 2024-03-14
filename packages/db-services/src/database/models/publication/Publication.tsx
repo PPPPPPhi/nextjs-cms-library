@@ -1,7 +1,7 @@
 import mongoose, { Model } from "mongoose"
 //@ts-ignore
 import MongooseHistoryPlugin from "mongoose-history-plugin"
-import { IPublication } from "@/db-services/database/models/publication/interface"
+import { IPublication } from "./interface"
 
 type PublicationModel = Model<IPublication, {}, {}>
 

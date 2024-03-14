@@ -1,7 +1,6 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import Navigation from "@/db-services/database/models/navigation/Navigation"
-import Marginal from "@/db-services/database/models/marginal/Marginal"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import connectMongoDB from "../../database/connectMongoDB"
+import Marginal from "../../database/models/marginal/Marginal"
+import { getOperator } from "../auth-service/authService"
 
 type marginalFooterType = {
     footerHtml: string

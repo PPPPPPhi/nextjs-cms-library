@@ -1,9 +1,6 @@
 import mongoose, { Model } from "mongoose"
 import { compare, hash } from "bcryptjs"
-import {
-    IUser,
-    UserMethods
-} from "@/db-services/database/models/user/interface"
+import { IUser, UserMethods } from "./interface"
 
 type UserModel = Model<IUser, {}, UserMethods>
 

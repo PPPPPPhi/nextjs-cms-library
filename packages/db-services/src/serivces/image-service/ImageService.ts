@@ -1,7 +1,6 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import Image from "@/db-services/database/models/image/Image"
+import connectMongoDB from "../../database/connectMongoDB"
+import Image from "../../database/models/image/Image"
 import { getOperator } from "../auth-service/authService"
-import { ErrorCode } from "@/db-services/constants/"
 import { ObjectId } from "mongoose"
 
 type imageType = {

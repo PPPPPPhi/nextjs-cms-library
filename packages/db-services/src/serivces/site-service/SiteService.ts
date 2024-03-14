@@ -1,10 +1,10 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import Site from "@/db-services/database/models/site/Site"
+import connectMongoDB from "../../database/connectMongoDB"
+import Site from "../../database/models/site/Site"
 import { getOperator } from "../auth-service/authService"
-import { ErrorCode } from "@/db-services/constants/"
 import {
     ImageResourceAdaptor,
-    ImageResourceOperator
+    ImageResourceOperator,
+    imageResourceAdaptorType
 } from "@nextjs-cms-library/ui/index"
 
 type createSiteType = {
@@ -35,7 +35,9 @@ export const createSite = async (siteReq: createSiteType) => {
         await connectMongoDB()
 
         const imageApdator = new ImageResourceAdaptor()
-        const imageOperator = ImageResourceOperator.getInstance(imageApdator)
+        const imageOperator = ImageResourceOperator.getInstance(
+            imageApdator as imageResourceAdaptorType
+        )
         const uploadImageReq = await imageOperator.uploadImage(image, slug)
 
         const operator = await getOperator()

@@ -1,10 +1,8 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import Publication from "@/db-services/database/models/publication/Publication"
+import connectMongoDB from "../../database/connectMongoDB"
+import Publication from "../../database/models/publication/Publication"
 import { getOperator, getOperatorId } from "../auth-service/authService"
-import { Schema } from "mongoose"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
 import { getPageById } from "../page-service/PageService"
-import publicationModel from "@/db-services/database/models/publication/Publication"
 import * as _ from "lodash"
 import { HistoryService } from "../../"
 
@@ -15,7 +13,9 @@ export const publishPage = async (pageId: string, version?: string) => {
         const operator = await getOperator()
         const operatorId = await getOperatorId()
 
-        const versionHistory = `${version}.0.0`
+        const versionHistory = HistoryService.getFullVersion(version as string)
+
+        console.log("versionHistory", versionHistory)
 
         const page = await getPageById(pageId, version && versionHistory)
         const publication = await getPublicationByPageId(pageId)
@@ -62,7 +62,7 @@ export const publishPage = async (pageId: string, version?: string) => {
             } else {
                 const { createdAt } = publication
                 publication.createdAt = createdAt
-                publication.pageVersion = versionHistory
+                publication.pageVersion = versionHistory ?? pageVersion
                 publication.pageJson = pageJson
                 publication.__history = pageHistoryRecorder.__history
 

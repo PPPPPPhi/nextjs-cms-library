@@ -1,5 +1,5 @@
 import { Date } from "mongoose"
-import { historySchemaType } from "@/db-services/types"
+import { historySchemaType } from "../../../types"
 
 export type siteSettingType = {
     _id: string

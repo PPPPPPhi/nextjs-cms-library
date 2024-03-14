@@ -1,11 +1,11 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
+import connectMongoDB from "../../database/connectMongoDB"
 import { getOperator, getOperatorId } from "../auth-service/authService"
 
 import { Model } from "mongoose"
 import * as _ from "lodash"
 
 export const getFullVersion = (version: string) => {
-    return `${version}.0.0`
+    return version !== "undefined" ? `${version}.0.0` : undefined
 }
 
 export const getSchemaHistory = async (

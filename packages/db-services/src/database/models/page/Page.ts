@@ -1,7 +1,7 @@
 import mongoose, { Model, ObjectId, Schema } from "mongoose"
 //@ts-ignore
 import MongooseHistoryPlugin from "mongoose-history-plugin"
-import { IPage } from "@/db-services/database/models/page/interface"
+import { IPage } from "./interface"
 
 type PageModel = Model<IPage, {}, {}>
 

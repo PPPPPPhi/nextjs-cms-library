@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation"
 interface AdminPageListTableInterface {
     data: pageRowType[]
     createNewPage: (d: pageRowType) => void
-    publishPage: (d: pageRowType) => void
+    publishPage: (d: pageDetailType) => void
 }
 
 type pageDetailType = {

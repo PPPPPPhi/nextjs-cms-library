@@ -1,7 +1,7 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import User from "@/db-services/database/models/user/User"
+import connectMongoDB from "../../database/connectMongoDB"
+import User from "../..//database/models/user/User"
 import { getServerAuthSession } from "./auth"
-import { ErrorCode } from "@/db-services/constants/"
+import { ErrorCode } from "../../constants/"
 
 type userType = {
     userName: string

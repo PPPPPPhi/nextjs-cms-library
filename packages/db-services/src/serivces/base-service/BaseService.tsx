@@ -1,4 +1,4 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
+import connectMongoDB from "../../database/connectMongoDB"
 import { Model } from "mongoose"
 import * as _ from "lodash"
 

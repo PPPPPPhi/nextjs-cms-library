@@ -1,7 +1,6 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import Navigation from "@/db-services/database/models/navigation/Navigation"
-import { getOperator, getOperatorId } from "../auth-service/authService"
-import { Schema } from "mongoose"
+import connectMongoDB from "../../database/connectMongoDB"
+import Navigation from "../../database/models/navigation/Navigation"
+import { getOperator } from "../auth-service/authService"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
 
 type navType = {

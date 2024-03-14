@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema, SchemaTimestampsConfig } from "mongoose"
-import { ISiteSetting } from "@/db-services/database/models/site-setting/interface"
+import { ISiteSetting } from "./interface"
 //@ts-ignore
 import MongooseHistoryPlugin from "mongoose-history-plugin"
 

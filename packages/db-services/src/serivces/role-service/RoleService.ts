@@ -1,6 +1,5 @@
-import connectMongoDB from "@/db-services/database/connectMongoDB"
-import { ErrorCode } from "@/db-services/constants/"
-import Role from "@/db-services/database/models/role/Role"
+import connectMongoDB from "../../database/connectMongoDB"
+import Role from "../../database/models/role/Role"
 import { getOperator } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { assingRoleToUser } from "../user-service/UserService"

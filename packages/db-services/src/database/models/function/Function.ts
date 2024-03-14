@@ -1,5 +1,5 @@
 import mongoose, { Model } from "mongoose"
-import { IFunction } from "@/db-services/database/models/function/interface"
+import { IFunction } from "./interface"
 
 type FunctionModal = Model<IFunction, {}, {}>
 
