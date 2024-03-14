@@ -22,12 +22,12 @@ export const getNavigationList = async (site: string) => {
 
         const resp = await Promise.all([siteSettingResp, navResp])
 
-        if (!resp[0] || resp[0].length === 0)
-            throw new Error("Error when getting navigation")
+        if (!resp[0]) throw new Error("Error when getting navigation")
 
         const languageList = resp[0]?.[0].value
         const navList = resp[1]
 
+        //@ts-ignore
         const reformatted = navList.map((k) => {
             return {
                 site,

@@ -12,3 +12,11 @@ export type userType = {
     createdAt: Date
     updatedAt: Date
 }
+
+export type userRegType = {
+    userName: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+}

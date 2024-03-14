@@ -38,6 +38,7 @@ const Card: React.FC<CardType> = ({ action, actionLabel, desc }) => {
                         isStatic
                         alt="teacher"
                         fill
+                        style={{ objectFit: "contain" }}
                     />
                 </div>
                 <div

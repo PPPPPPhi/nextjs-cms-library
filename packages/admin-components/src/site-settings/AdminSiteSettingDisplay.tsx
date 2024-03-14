@@ -61,6 +61,7 @@ export const AdminSiteSettingDisplay: React.FC<
                         {(value as string[]).map((k, idx) => (
                             <LanguageBadge key={`lang_badge_${idx}`} lang={k} />
                         ))}
+                        <div style={{ flex: 1 }} />
                         <AdminButton
                             onClick={() => {
                                 createNewLanguage()

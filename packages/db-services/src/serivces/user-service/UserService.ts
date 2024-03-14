@@ -6,7 +6,7 @@ import {
 } from "../auth-service/authService"
 import { ErrorCode } from "@/db-services/constants/"
 
-type userType = {
+export type userRegType = {
     userName: string
     firstName: string
     lastName: string
@@ -14,7 +14,7 @@ type userType = {
     password: string
 }
 
-export const registerUserByForm = async (user: userType) => {
+export const registerUserByForm = async (user: userRegType) => {
     const { userName, firstName, lastName, email, password } = user
 
     try {

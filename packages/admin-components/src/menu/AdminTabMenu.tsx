@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { AdminButton } from "../core"
-import styles from "@/scss/AdminControl.module.scss"
+import styles from "../AdminControl.module.scss"
 
 interface AdminTabMenuInterface {
     tabList: string[]

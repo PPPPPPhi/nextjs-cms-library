@@ -6,3 +6,6 @@ export * from "./AdminPublicationHistoryTable"
 export * from "./AdminUserManagementTable"
 export * from "./AdminSiteSettingHistoryTable"
 export * from "./AdminSiteSettingPublicationHistoryTable"
+
+import AdminWordMatrix from "./AdminWordMatrix"
+export { AdminWordMatrix }

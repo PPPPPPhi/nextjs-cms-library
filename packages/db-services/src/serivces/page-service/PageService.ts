@@ -62,13 +62,13 @@ export const getPageList = async (site: string) => {
 
         const resp = await Promise.all([siteSettingResp, pageResp])
 
-        if (!resp[0] || resp[0].length === 0)
-            throw new Error("Error when getting site setting")
+        if (!resp[0]) throw new Error("Error when getting site setting")
 
-        const languageList = resp[0]?.value
+        const languageList = resp[0]?.value as string[]
 
         const pageList = resp[1]
 
+        //@ts-ignore
         const reformatted = pageList.map((k) => {
             const { name, description, site, slug } = k.details[0]
 

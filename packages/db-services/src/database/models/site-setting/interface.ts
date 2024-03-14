@@ -3,7 +3,7 @@ import { Date } from "mongoose"
 export interface ISiteSetting {
     site: string
     properties: {
-        [key: string]: [value: any]
+        [key: string]: any
     }
     createdAt: Date
     updatedAt: Date

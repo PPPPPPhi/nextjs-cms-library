@@ -37,7 +37,7 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
                 menuPortalTarget={document.body}
                 menuPosition={"fixed"}
                 styles={{
-                    menuPortal: (base: any) => ({ ...base, zIndex: 30 })
+                    menuPortal: (base: any) => ({ ...base, zIndex: 999 })
                 }}
             />
         </div>
