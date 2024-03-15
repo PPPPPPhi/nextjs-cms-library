@@ -53,7 +53,11 @@ const LogoPreviewer: React.FC<LogoPreviewerInterface> = ({
                     maxHeight: ((width ?? 0) * ratioH) / ratioW
                 }}>
                 <NextImageApdator
-                    src={imagePath ?? DEFAULT_IMAGE_PLACEHOLDER}
+                    src={
+                        imagePath
+                            ? `${process.env.NEXT_IMAGE_UPLOAD_PATH}${imagePath}`
+                            : DEFAULT_IMAGE_PLACEHOLDER
+                    }
                     alt="profile"
                     isStatic
                     fill
@@ -109,7 +113,11 @@ const HeaderImageSection: React.FC<HeaderImageSectionInterface> = ({
             </div>
             <div className="col-12 col-md-4 position-relative">
                 <NextImageApdator
-                    src={imagePath ?? DEFAULT_IMAGE_PLACEHOLDER}
+                    src={
+                        imagePath
+                            ? `${process.env.NEXT_IMAGE_UPLOAD_PATH}${imagePath}`
+                            : DEFAULT_IMAGE_PLACEHOLDER
+                    }
                     alt="profile"
                     isStatic
                     fill

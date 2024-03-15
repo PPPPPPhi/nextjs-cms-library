@@ -50,7 +50,7 @@ export const AdminImageGalleryModal: React.FC<
                     images={images}
                     onClick={(v) => {
                         // @ts-ignore
-                        imageRef.current = `${process.env.NEXT_IMAGE_UPLOAD_PATH}/${site}${images[v].relativePath}`
+                        imageRef.current = `/${site}${images[v].relativePath}`
                         imageIdRef.current = images[v]?._id
                     }}
                 />

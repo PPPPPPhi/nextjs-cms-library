@@ -134,6 +134,8 @@ export const useDropComponentInLayout = () => {
                 newDragDropList,
                 newPropertiesList
             )
+            console.log("set dragDropEditList 6")
+
             setDragDropEditList(newDragDropList)
             setPropertiesEditList(newPropertiesList)
 

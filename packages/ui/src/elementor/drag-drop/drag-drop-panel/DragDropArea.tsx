@@ -46,6 +46,8 @@ export const DragDropArea: React.FC<DragDropAreaProps> = (
         return unsubscribe
     }, [monitor, updatePosition])
 
+    console.log("isMobileView", isMobileView)
+
     return (
         <div
             id="page-drag-drop-area"

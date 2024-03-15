@@ -86,8 +86,12 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
             accept: _.concat(DragDropAccecptType, dragDropEditAcceptType),
             hover: (item: any, monitor: any) => {},
             drop: (_item: any, monitor: any) => {
+                console.log("dddddddrop", monitor.didDrop())
+
                 if (!monitor.didDrop()) {
                     const item = monitor.getItemType() as string
+
+                    console.log("dddddddrop item", item)
 
                     if (!item) return
 
@@ -122,6 +126,9 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
     }, [propertiesHistoryList])
 
     const updateDraggedComponent = (elementName: string) => {
+        console.log("dddd propertiesList", propertiesList)
+        console.log("dddd dragDropList", dragDropList)
+
         if (!dragDropList || !propertiesList) return
 
         const newId = uuid_v4()
@@ -148,6 +155,8 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
         ]
 
         console.log(`new drag `, newDnd, newProp)
+
+        console.log("set dragDropEditList 4")
 
         setDragDropEditList([...dragDropEditRef.current, newEditComponent])
 
@@ -181,6 +190,8 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
 
         return list
     }, [currentHistoryIndex, dragDropHistoryRef, toggle, dragDropEditList])
+
+    console.log("currentDragDropEditcurrentDragDropEdit", currentDragDropEdit)
 
     return (
         <div

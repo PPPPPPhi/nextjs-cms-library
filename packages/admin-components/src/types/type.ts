@@ -10,6 +10,7 @@ export type cellComponentType =
 export type columnDefsType = {
     accessorKey: string
     header: string
+    inverseAction?: boolean
     headerIcon?: React.ReactNode
     cellType: cellComponentType
     cellRef?: string
@@ -18,6 +19,7 @@ export type columnDefsType = {
     action?: (orignal: any) => void
     isExpandable?: boolean
     isCompatible?: boolean
+    isClonable?: boolean
     customStyle?: React.CSSProperties
     isDisabled?: boolean
 }

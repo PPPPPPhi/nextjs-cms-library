@@ -5,6 +5,12 @@ interface AdminPageListTableInterface {
     data: pageRowType[]
     createNewPage: (d: pageRowType) => void
     publishPage: (d: pageDetailType) => void
+    cloneLangPage: (
+        d: pageDetailType & {
+            srcLang: string
+            refLang: string
+        }
+    ) => void
 }
 
 type pageDetailType = {
@@ -25,10 +31,10 @@ export type pageRowType = {
 export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
     data,
     createNewPage,
-    publishPage
+    publishPage,
+    cloneLangPage
 }) => {
     const router = useRouter()
-    const { site } = useParams()
 
     return (
         <div className="d-flex w-100 overflow-auto">
@@ -81,6 +87,21 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                         header: "Updated At",
                         cellType: "date",
                         size: 180
+                    },
+                    {
+                        accessorKey: "_id",
+                        header: "",
+                        cellType: "action",
+                        actionTitle: "Clone",
+                        inverseAction: true,
+                        isClonable: true,
+                        size: 100,
+                        action: (d) => {
+                            const { slug, refLangIdx, language } = d ?? {}
+                            const srcLang = data.find((l) => l.slug === slug)
+                                ?.details[refLangIdx]?.language
+                            cloneLangPage({ ...d, srcLang, refLang: language })
+                        }
                     },
                     {
                         accessorKey: "_id",

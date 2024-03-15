@@ -95,7 +95,9 @@ const contextDefaultValues: DisplayPanelContextProviderType = {
     isMobileView: false,
     setMobileView: () => null,
     isPreview: false,
-    setPreview: () => null
+    setPreview: () => null,
+    isOnHoverLayout: false,
+    setIsOnHoverLayout: () => null
 }
 
 export type DisplayPanelContextProviderType = {
@@ -245,6 +247,8 @@ export const DisplayPanelContextProvider: FC<
         string[]
     >([])
 
+    const [isOnHoverLayout, setIsOnHoverLayout] = useState(false)
+
     useEffect(() => {
         if (!dragDropHistoryList) {
             setDragDropEditAcceptType(["default"])
@@ -316,6 +320,7 @@ export const DisplayPanelContextProvider: FC<
             pageDataDragDropList.push(newDragDropComponent)
         })
 
+        console.log("set dragDropEditList 1")
         setDragDropEditList(pageDataDragDropList)
         setPropertiesEditList(pageJson)
 
@@ -348,6 +353,9 @@ export const DisplayPanelContextProvider: FC<
 
         const newId = uuid_v4()
 
+        console.log("dragDropEditList currentDrag", currentDrag)
+        console.log("dragDropEditList currentProp", currentProp)
+
         const insertDragDrop = {
             ...((dragDropList?.get(type) as DragDropJson) ??
                 (layoutDragDropList?.get(type) as DragDropJson)),
@@ -371,10 +379,17 @@ export const DisplayPanelContextProvider: FC<
         const swapDragElem = _.cloneDeep(currentDrag)
         const swapPropElem = _.cloneDeep(currentProp)
 
-        setDragDropEditList(swapDragElem)
+        const swapList = swapDragElem.map((l, idx) => {
+            return { ...l, hoverIndex: idx }
+        })
+
+        console.log("swapDragElem", swapList)
+
+        console.log("set dragDropEditList 2", swapList)
+        setDragDropEditList(swapList)
         setPropertiesEditList(swapPropElem)
 
-        setDragDropHistoryList([...dragDropHistoryList, swapDragElem])
+        setDragDropHistoryList([...dragDropHistoryList, swapList])
         setPropertiesHistoryList([...propertiesHistoryList, swapPropElem])
 
         if (currentHistoryIndex < historyCapSize - 1) {
@@ -461,6 +476,7 @@ export const DisplayPanelContextProvider: FC<
 
         if (!swappedList || !swappedPropertiesList) return
 
+        console.log("set dragDropEditList 3")
         setDragDropEditList(swappedList)
         setPropertiesEditList(swappedPropertiesList)
         setDragDropHistoryList([...dragDropHistoryList, swappedList])
@@ -542,7 +558,9 @@ export const DisplayPanelContextProvider: FC<
                 isInsertNested,
                 setIsInsertNested,
                 isReOrder,
-                setIsReOrder
+                setIsReOrder,
+                isOnHoverLayout,
+                setIsOnHoverLayout
             }}>
             {children}
         </DisplayPanelContext.Provider>

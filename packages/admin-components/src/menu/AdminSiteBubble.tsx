@@ -12,10 +12,12 @@ import { useParams, useRouter } from "next/navigation"
 
 interface AdminSiteBubbleInterface {
     sites: siteType[]
+    isCollapsed: boolean
 }
 
 export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
-    sites
+    sites,
+    isCollapsed
 }) => {
     const [options, setOptions] = useState<string[]>()
 
@@ -28,9 +30,10 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
 
     return (
         <div className="d-flex w-100 p-3" style={{ height: 90 }}>
-            <div className="d-flex w-100 s-section-secondary rounded-5 py-2 px-4 align-items-center">
+            <div
+                className={`d-flex w-100 s-section-secondary rounded-5 align-items-center justify-content-center ${isCollapsed ? "" : "py-2 px-4"}`}>
                 <HiGlobeAsiaAustralia className="s-text-color-nu" />
-                {options && (
+                {options && !isCollapsed && (
                     <Dropdown
                         options={options}
                         onChange={(v) => {

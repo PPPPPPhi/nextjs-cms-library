@@ -67,7 +67,9 @@ export const getCellComponents: any = (cellType: cellComponentType) => {
     return Component
 }
 
-const getModeLabel = (mode: "NONE" | "WITH" | "COMPARE" | "COMPARING") => {
+const getCompareModeLabel = (
+    mode: "NONE" | "WITH" | "COMPARE" | "COMPARING"
+) => {
     let label
     switch (mode) {
         case "NONE":
@@ -89,11 +91,96 @@ const getModeLabel = (mode: "NONE" | "WITH" | "COMPARE" | "COMPARING") => {
     return label
 }
 
+const getCloneModelLabel = (mode: "BY" | "CLONE" | "CLONNING") => {
+    let label
+    switch (mode) {
+        case "BY":
+            label = "By"
+            break
+        case "CLONE":
+            label = "Clone"
+            break
+        case "CLONNING":
+            label = "Clone"
+            break
+        default:
+            label = ""
+            break
+    }
+    return label
+}
+
 const getCompareMode = (ver: number, compareSource: number) => {
     if (compareSource === -1) return "COMPARE"
     else if (compareSource !== -1 && compareSource === ver) return "COMPARING"
     else if (compareSource < ver) return "WITH"
     else return "NONE"
+}
+
+const getCloneMode = (
+    original: any,
+    ver: number,
+    compareSource: number,
+    cSlug: string
+) => {
+    if (original.details) return ""
+
+    if (compareSource === -1 && original.slug !== cSlug && !original._id)
+        return "CLONE"
+    else if (
+        compareSource !== -1 &&
+        compareSource === ver &&
+        original.slug === cSlug
+    )
+        return "CLONNING"
+    else if (original._id && original.slug === cSlug) return "BY"
+    else return ""
+}
+
+const getActionTitle = (
+    _id: string,
+    actionTitle: string,
+    isInverse: boolean,
+    isParent: boolean
+) => {
+    if (isParent) return ""
+    return actionTitle
+    // return _id ? (isInverse ? "" : actionTitle) : isInverse ? actionTitle : ""
+}
+
+const getTDTitle = (col: columnDefsType, original: any, mode: string) => {
+    if (col.isCompatible)
+        return getCompareModeLabel(mode as "NONE" | "WITH" | "COMPARE")
+    else if (col.isClonable)
+        return getCloneModelLabel(mode as "BY" | "CLONE" | "CLONNING")
+    else {
+        return getActionTitle(
+            original._id,
+            col.actionTitle ?? "",
+            col.inverseAction ?? false,
+            original.details
+        )
+    }
+}
+
+const getMode = (
+    original: any,
+    col: columnDefsType,
+    rowIdx: number,
+    source?: number,
+    extension?: {
+        cloneSlug?: string
+    }
+) => {
+    if (col.isCompatible) return getCompareMode(rowIdx, source as number)
+    else if (col.isClonable)
+        return getCloneMode(
+            original,
+            rowIdx,
+            source as number,
+            extension?.cloneSlug as string
+        )
+    else return ""
 }
 
 export const getColumnDefinition = (
@@ -103,6 +190,13 @@ export const getColumnDefinition = (
         compareSource: number
         setCompareSource: Dispatch<SetStateAction<number>>
         setCompareTarget: Dispatch<SetStateAction<number>>
+    },
+    cloneTools?: {
+        cloneSource: number
+        setCloneSource: Dispatch<SetStateAction<number>>
+        setCloneTarget: Dispatch<SetStateAction<number>>
+        cloneSlug: string
+        setCloneSlug: Dispatch<SetStateAction<string>>
     }
 ) => {
     const columns = columnDefs.map((k) => {
@@ -115,9 +209,15 @@ export const getColumnDefinition = (
                 const Component = getCellComponents(k.cellType)
 
                 const rowIdx = row.index
-                const mode = k.isCompatible
-                    ? getCompareMode(rowIdx, compareTools?.compareSource ?? -1)
-                    : ""
+
+                const source = k.isCompatible
+                    ? compareTools?.compareSource
+                    : k.isClonable
+                      ? cloneTools?.cloneSource
+                      : undefined
+                const mode = getMode(original, k, rowIdx, source, {
+                    cloneSlug: cloneTools?.cloneSlug
+                })
 
                 if (k.isExpandable)
                     return (
@@ -131,7 +231,12 @@ export const getColumnDefinition = (
                             ) : (
                                 <Component
                                     icon={k.headerIcon}
-                                    label={original._id ? k.actionTitle : ""}
+                                    label={getActionTitle(
+                                        original._id,
+                                        k.actionTitle ?? "",
+                                        k.inverseAction ?? false,
+                                        original.details
+                                    )}
                                     value={`/${getValue()}`}
                                     customWidth={k.size ?? null}
                                     action={() => {
@@ -149,18 +254,7 @@ export const getColumnDefinition = (
                             !k.isCompatible) && (
                             <Component
                                 icon={k.headerIcon}
-                                label={
-                                    k.isCompatible
-                                        ? getModeLabel(
-                                              mode as
-                                                  | "NONE"
-                                                  | "WITH"
-                                                  | "COMPARE"
-                                          )
-                                        : original._id
-                                          ? k.actionTitle
-                                          : ""
-                                }
+                                label={getTDTitle(k, original, mode)}
                                 value={
                                     k.cellRef ? original[k.cellRef] : getValue()
                                 }
@@ -179,6 +273,27 @@ export const getColumnDefinition = (
                                             compareTools.setCompareTarget(
                                                 rowIdx
                                             )
+                                    } else if (k.isClonable && cloneTools) {
+                                        if (mode === "CLONE") {
+                                            cloneTools.setCloneSource(rowIdx)
+                                            cloneTools.setCloneSlug(
+                                                original.slug
+                                            )
+                                        } else if (mode === "CLONNING") {
+                                            cloneTools.setCloneSource(-1)
+                                            cloneTools.setCloneTarget(-1)
+                                            cloneTools.setCloneSlug("")
+                                        } else {
+                                            k.action &&
+                                                k.action({
+                                                    ...original,
+                                                    refLangIdx:
+                                                        cloneTools.cloneSource
+                                                })
+                                            cloneTools.setCloneSource(-1)
+                                            cloneTools.setCloneTarget(-1)
+                                            cloneTools.setCloneSlug("")
+                                        }
                                     } else k.action && k.action(original)
                                 }}
                                 disabled={k.isDisabled && !original._id}

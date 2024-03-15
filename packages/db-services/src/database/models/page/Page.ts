@@ -49,7 +49,7 @@ let options = {
 }
 
 const pageModel =
-    mongoose.models.Page ||
+    (mongoose.models.Page as PageModel) ||
     mongoose.model("Page", pageSchema.plugin(MongooseHistoryPlugin(options)))
 
 export default pageModel

@@ -36,14 +36,29 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
     const [compareSource, setCompareSource] = useState<number>(-1)
     const [compareTarget, setCompareTarget] = useState<number>(-1)
 
+    const [cloneSlug, setCloneSlug] = useState<string>("")
+    const [cloneSource, setCloneSource] = useState<number>(-1)
+    const [cloneTarget, setCloneTarget] = useState<number>(-1)
+
     const colDefs = useMemo(
         () =>
-            getColumnDefinition(columnDefs ?? [], isCompatible, {
-                compareSource,
-                setCompareSource,
-                setCompareTarget
-            }),
-        [compareSource, isCompatible]
+            getColumnDefinition(
+                columnDefs ?? [],
+                isCompatible,
+                {
+                    compareSource,
+                    setCompareSource,
+                    setCompareTarget
+                },
+                {
+                    cloneSource,
+                    setCloneSource,
+                    setCloneTarget,
+                    cloneSlug,
+                    setCloneSlug
+                }
+            ),
+        [compareSource, isCompatible, cloneSource]
     )
 
     const columns = useMemo<ColumnDef<any>[]>(() => [...colDefs], [colDefs])

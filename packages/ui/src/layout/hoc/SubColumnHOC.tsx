@@ -42,7 +42,7 @@ const withSubColumn =
             subColumnAcceptType
         } = props
 
-        const { readOnly } = useDisplayPanelContext()
+        const { setIsOnHoverLayout } = useDisplayPanelContext()
 
         const {
             dragDropList,
@@ -61,7 +61,30 @@ const withSubColumn =
 
         const subColumnElem = document.getElementById(`${id}-${childType}`)
 
+        const [count, setCount] = useState(0)
+
         useEffect(() => {
+            if (count) {
+                setFocusEditId({
+                    ...focusEditId,
+                    childType,
+                    id: parentId
+                })
+                const b = setTimeout(() => {
+                    setFocusEditId({
+                        childType
+                    })
+                    setIsOnHoverLayout(false)
+                }, 150)
+
+                return () => {
+                    clearTimeout(b)
+                }
+            }
+        }, [count])
+
+        useEffect(() => {
+            console.log("focusEditId", focusEditId)
             // console.log(
             //     `[subcolumn] isHover ${childType} ${id}`,
             //     focusEditId,
@@ -113,13 +136,13 @@ const withSubColumn =
                     //     childType
                     // )
 
-                    setFocusEditId({
-                        ...focusEditId,
-                        childType,
-                        id: parentId
-                    })
-                    setIsDragging(true)
-                    setDragChild(childType ?? "")
+                    if (monitor.isOver()) {
+                        setCount((v) => v + 1)
+
+                        setIsDragging(true)
+                        setDragChild(childType ?? "")
+                    }
+                    setIsOnHoverLayout(monitor.isOver())
                 },
                 drop: (item: any, monitor: any) => {
                     console.log(
@@ -158,13 +181,13 @@ const withSubColumn =
                     //     parentId
                     // )
 
-                    setFocusEditId({
-                        ...focusEditId,
-                        childType,
-                        id: parentId
-                    })
-                    setIsDragging(true)
-                    setDragChild(childType ?? "")
+                    if (monitor.isOver()) {
+                        setCount((v) => v + 1)
+
+                        setIsDragging(true)
+                        setDragChild(childType ?? "")
+                    }
+                    setIsOnHoverLayout(monitor.isOver())
                 },
                 drop: (item: any, monitor: any) => {
                     console.log(

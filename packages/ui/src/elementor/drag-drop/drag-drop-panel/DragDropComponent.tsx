@@ -64,6 +64,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
     props: DragDropComponentProps
 ) => {
     const { id, element, elements, component, hoverIndex } = props
+
     const ref = useRef<any>()
     const {
         dragDropEditAcceptType,
@@ -88,7 +89,8 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         setIsReOrder,
         setIsInsertNested,
         isPreview,
-        readOnly
+        readOnly,
+        isOnHoverLayout
     } = useDisplayPanelContext()
 
     const [isDropHoverTop, setDropHoverTop] = useState<boolean>(false)
@@ -131,10 +133,9 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 isOver: monitor.isOver()
             }),
             hover: (item: any, monitor: any) => {
-                setIsDragging(true)
+                // setIsDragging(true)
                 // handleHoverHeight(monitor)
-
-                return updateHoverDivider(monitor)
+                // return updateHoverDivider(monitor)
             },
             drop: (item: any, monitor: any) => {
                 setDropHoverTop(false)
@@ -203,6 +204,22 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         setDeleteElementId({ id, index: hoverIndex })
     }
 
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        if (count) {
+            setDropHoverTop(true)
+
+            const b = setTimeout(() => {
+                setDropHoverTop(false)
+            }, 150)
+
+            return () => {
+                clearTimeout(b)
+            }
+        }
+    }, [count])
+
     const [{}, dropBetween = drop] = useDrop(
         () => ({
             accept: DragDropAccecptType,
@@ -210,11 +227,9 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 canDrop: monitor.canDrop()
             }),
             hover: (item: any, monitor: any) => {
-                setIsDragging(true)
-                setIsInsert(!monitor.didDrop())
-                setIsInsertNested(monitor.didDrop())
-
-                updateHoverDivider(monitor, false)
+                if (monitor.isOver()) {
+                    setCount((v) => v + 1)
+                }
             },
             drop: (item: any, monitor: any) => {
                 console.log(`[hover] hoverComponent drop between `)
@@ -239,39 +254,45 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
     )
 
     const updateHoverDivider = (monitor: any, withinArea = true) => {
-        const afterIndex: number = hoverIndex
+        // const afterIndex: number = hoverIndex
 
-        const whereRU = dragDropEditList.find(
-            (e: any) => e?.id == monitor.getItemType()
-        )
+        // const whereRU = dragDropEditList.find(
+        //     (e: any) => e?.id == monitor.getItemType()
+        // )
 
-        const whereIndex = whereRU?.hoverIndex as number
+        // const whereIndex = whereRU?.hoverIndex as number
 
-        if (
-            !monitor.isOver() ||
-            whereIndex == afterIndex ||
-            monitor.getItemType() == id
-        ) {
-            setDropHoverBottom(false)
-            setDropHoverTop(false)
-            return
-        }
+        // if (
+        //     !monitor.isOver() ||
+        //     whereIndex == afterIndex ||
+        //     monitor.getItemType() == id
+        // ) {
+        //     setDropHoverBottom(false)
+        //     setDropHoverTop(false)
+        //     return
+        // }
 
-        if (whereIndex < afterIndex) {
-            setDropHoverBottom(true)
-            setDropHoverTop(false)
-            setTriggerDivider(!triggerDivider)
-            return
-        }
+        // if (whereIndex < afterIndex) {
+        //     setDropHoverBottom(true)
+        //     setDropHoverTop(false)
+        //     setTriggerDivider(!triggerDivider)
+        //     return
+        // }
 
-        setDropHoverBottom(false)
-        setDropHoverTop(true)
-        setTriggerDivider(!triggerDivider)
+        // setDropHoverBottom(false)
+        // setDropHoverTop(monitor.isOver())
+        // setTriggerDivider(!triggerDivider)
+
         return
     }
 
+    const hoverIndexRef = useRef<any>()
+    useEffect(() => {
+        hoverIndexRef.current = hoverIndex
+    }, [hoverIndex])
+
     const handleDropComponents = (monitor: any, withinArea = true) => {
-        const afterIndex: number = hoverIndex
+        const afterIndex: number = hoverIndexRef.current
         const beforeIndex: number = monitor.getItemType()
 
         const whereRU = dragDropEditList.find(
@@ -281,6 +302,8 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         const whereIndex = whereRU?.hoverIndex as number
 
         if (monitor.didDrop()) return
+
+        console.log("aaaaa", afterIndex)
 
         if (withinArea) {
             setReOrderDropInfo({
@@ -293,7 +316,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
             setIsInsertNested(monitor.didDrop())
             setInsertDropInfo({
                 type: monitor.getItemType(),
-                dropAt: hoverIndex
+                dropAt: hoverIndexRef.current
             })
         }
     }
@@ -340,11 +363,15 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         return (
             <div
                 className="s-drag-drop-card h-40"
-                style={{ backgroundColor: "#e2f5e1" }}>
-                <DraggingPreview />
+                style={{ backgroundColor: !isOnHoverLayout ? "#e2f5e1" : "" }}>
+                {!isOnHoverLayout ? (
+                    <DraggingPreview />
+                ) : (
+                    <div className="s-empty-drag-drop-box text-level-sub-body" />
+                )}
             </div>
         )
-    }, [isDropHoverTop])
+    }, [isDropHoverTop, isOnHoverLayout])
 
     const dragBottomPreview = useMemo(() => {
         if (!isDropHoverBottom) return
@@ -372,10 +399,11 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 id={`edit-${id}`}
                 ref={!readOnly ? ref : null}
                 className={``}
-                style={{
-                    borderTop: isDropHoverTop ? "solid darkgrey" : "none",
-                    borderBottom: isDropHoverBottom ? "solid darkgrey" : "none"
-                }}>
+                // style={{
+                //     borderTop: isDropHoverTop ? "solid darkgrey" : "none",
+                //     borderBottom: isDropHoverBottom ? "solid darkgrey" : "none"
+                // }}>
+            >
                 {dragTopPreview}
 
                 <div

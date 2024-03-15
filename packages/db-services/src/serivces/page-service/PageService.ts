@@ -3,6 +3,7 @@ import Page from "../../database/models/page/Page"
 import { getOperator, getOperatorId } from "../auth-service/authService"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
 import * as _ from "lodash"
+import { pageType as pType } from "../.."
 
 type pageType = {
     name: string
@@ -49,6 +50,50 @@ export const createPage = async (page: pageType) => {
     }
 }
 
+export const cloneLanguagePage = async (
+    site: string,
+    slug: string,
+    refLanguage: string,
+    language: string
+) => {
+    try {
+        await connectMongoDB()
+
+        const operator = await getOperator()
+        const operatorId = await getOperatorId()
+
+        const page = await Page.findOne({ site, slug, language: refLanguage })
+
+        const { description, name, pageJson } = (page as pType) ?? {}
+
+        const newPage = new Page({
+            name,
+            slug,
+            description,
+            language,
+            site,
+            pageJson,
+            status: 1,
+            updatedBy: operator,
+            createdBy: operator,
+            __history: {
+                event: "Clone Page",
+                user: operatorId, // An object id of the user that generate the event
+                reason: undefined,
+                data: undefined, // Additional data to save with the event
+                type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
+                method: "clone Page" // Optional and intended for method reference
+            }
+        })
+
+        await newPage.save()
+        return { message: "Success", status: 200 }
+    } catch (e) {
+        console.log("Error in Cloning page within language", e)
+        return { message: "Fail", status: 500 }
+    }
+}
+
 export const getPageList = async (site: string) => {
     try {
         await connectMongoDB()
@@ -89,7 +134,11 @@ export const getPageList = async (site: string) => {
             }
         })
 
-        return { message: "Success", status: 200, pages: reformatted ?? [] }
+        return {
+            message: "Success",
+            status: 200,
+            pages: _.orderBy(reformatted ?? [], ["slug"], ["asc"])
+        }
     } catch (error) {
         console.log("Error occured when getting page list", error)
         return { message: "Failed", status: 500 }

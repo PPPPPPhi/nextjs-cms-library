@@ -29,7 +29,7 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
                 top: 100,
                 height: "80%"
             }}>
-            <div className="" style={{ overflowY: "scroll", height: "85%" }}>
+            <div className="overflow-y-auto h-100">
                 <div className="s-select-tab mb-3 flex flex-row justify-center">
                     <div
                         style={{ width: 120, height: 30, borderRadius: 25 }}
