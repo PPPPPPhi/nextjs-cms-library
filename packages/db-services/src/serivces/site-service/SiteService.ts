@@ -38,20 +38,20 @@ export const createSite = async (siteReq: createSiteType) => {
         const imageOperator = ImageResourceOperator.getInstance(
             imageApdator as imageResourceAdaptorType
         )
-        const uploadImageReq = await imageOperator.uploadImage(image, slug)
+        // const uploadImageReq = await imageOperator.uploadImage(image, slug)
 
         const operator = await getOperator()
 
         //@ts-ignore
-        if (uploadImageReq?.data?.status === 500)
-            throw new Error("Error returned from upload image")
+        // if (uploadImageReq?.data?.status === 500)
+        //     throw new Error("Error returned from upload image")
 
         const site = new Site({
             name,
             slug,
             description,
             status: 1,
-            image: `/${(image as File).name.replaceAll(" ", "_")}`,
+            image: image,
             updatedBy: operator,
             createdBy: operator
         })

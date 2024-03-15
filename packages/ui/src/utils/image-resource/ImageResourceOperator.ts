@@ -2,7 +2,7 @@ import { imageResourceAdaptorType } from "./"
 
 interface ImageResourceOperatorInterface {
     getImages: (site: string) => void
-    uploadImage: (file: File, site: string) => void
+    uploadImage: (file: File, site: string) => Promise<{ filePath: string }>
     storeImage: (file: File, addition: any) => Promise<{ success: boolean }>
     getImageById: (site: string, id: string) => void
 }
