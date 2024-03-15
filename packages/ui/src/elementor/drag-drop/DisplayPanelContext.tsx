@@ -169,6 +169,8 @@ export type DisplayPanelContextProviderType = {
     dragDropEditAcceptType: string[]
     setDragDropEditAcceptType: Dispatch<SetStateAction<string[]>>
     submit?: DisplayPanelPageCallback
+    isOnHoverLayout: boolean
+    setIsOnHoverLayout: Dispatch<SetStateAction<boolean>>
 }
 
 export const DisplayPanelContext =

@@ -59,6 +59,9 @@ export const getSiteSetting = async (site: string, version?: string) => {
             "-createdAt -createdBy"
         )) as sType
 
+        console.log("version", version)
+        console.log("setting sitesitesite", site)
+
         let versionSetting = null
 
         if (version) {

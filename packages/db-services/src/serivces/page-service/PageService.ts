@@ -154,11 +154,14 @@ export const getPageById = async (pageId: string, version?: string) => {
         let versionPage = null
 
         if (version) {
+            //@ts-ignore
             const versionResp = await page.getVersion(version)
             const pageVersion = versionResp.version
             versionPage = { ...versionResp.object, pageVersion }
         } else {
+            //@ts-ignore
             const pageVersionResp = await page.getDiffs({ limit: 1 })
+            //@ts-ignore
             page = { ...page._doc, pageVersion: pageVersionResp[0].version }
         }
 
@@ -179,11 +182,16 @@ export const updatePageJson = async (pageId: string, pageJson: string) => {
         //@ts-ignore
         const page = await Page.findOne({ _id: pageId })
 
+        //@ts-ignore
         const { createdAt } = page
+        //@ts-ignore
 
         page.createdAt = createdAt
+        //@ts-ignore
         page.updatedBy = operator
+        //@ts-ignore
         page.pageJson = pageJson
+        //@ts-ignore
         page.__history = {
             event: "Update Page Json",
             user: operatorId, // An object id of the user that generate the event
@@ -193,6 +201,7 @@ export const updatePageJson = async (pageId: string, pageJson: string) => {
             method: "updatePage" // Optional and intended for method reference
         }
 
+        //@ts-ignore
         await page.save()
         return { message: "Success", status: 200 }
     } catch (e) {
@@ -207,6 +216,7 @@ export const getPageHistory = async (pageId: string) => {
         //@ts-ignore
         const page = await Page.findOne({ _id: pageId })
 
+        //@ts-ignore
         const histories = await page.getVersions()
         const reformatted = histories.map((k: any) => {
             return {

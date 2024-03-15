@@ -5,7 +5,7 @@ import path from "path"
 
 interface ImageResourceAdaptorInterface {
     getImages: (site: string) => void
-    uploadImage: (file: File, site: string) => Promise<{ filePath : string }>
+    uploadImage: (file: File, site: string) => Promise<{ filePath: string }>
     storeImage: (file: File, addition: any) => Promise<{ success: boolean }>
     getImageById: (site: string, id: string) => any
 }
@@ -33,7 +33,7 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
         const uploadRes = await NextAPIInstance.post(
             `/image/${site}/uploadImageToNext`,
             formData
-        );
+        )
 
         return {
             filePath: `/${file.name.replaceAll(" ", "_")}`
@@ -46,20 +46,23 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
     ): Promise<{ success: boolean }> => {
         const buffer = Buffer.from(await file.arrayBuffer())
         const filename = file.name.replaceAll(" ", "_")
-        const site = addition.site;
+        const site = addition.site
 
-        const siteFolder = this.path.join(process.cwd(), `public/uploads/${site}/`);
-       
+        const siteFolder = this.path.join(
+            process.cwd(),
+            `public/uploads/${site}/`
+        )
+
         try {
-            this.fs.accessSync('etc/passwd', this.fs.constants.R_OK | this.fs.constants.W_OK);
+            this.fs.accessSync(
+                siteFolder,
+                this.fs.constants.R_OK | this.fs.constants.W_OK
+            )
         } catch (err) {
             await this.fs.mkdir(siteFolder)
-        }          
-       
-        await this.fs.writeFile(
-            this.path.join(siteFolder, filename),
-            buffer
-        )
+        }
+
+        await this.fs.writeFile(this.path.join(siteFolder, filename), buffer)
 
         return { success: true }
     }

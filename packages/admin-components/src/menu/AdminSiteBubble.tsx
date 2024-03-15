@@ -19,13 +19,18 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
     sites,
     isCollapsed
 }) => {
-    const [options, setOptions] = useState<string[]>()
+    const [options, setOptions] = useState<{ label: string; value: string }[]>()
 
     const { site } = useParams()
     const router = useRouter()
 
     useEffect(() => {
-        if (sites?.length) setOptions(sites.map((l) => l.name))
+        if (sites?.length)
+            setOptions(
+                sites.map((l) => {
+                    return { label: l.name, value: l.slug }
+                })
+            )
     }, [sites])
 
     return (
