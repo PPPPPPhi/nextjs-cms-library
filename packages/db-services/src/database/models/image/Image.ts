@@ -22,6 +22,6 @@ const imageSchema = new mongoose.Schema<IImage, ImageModel, {}>(
     }
 )
 
-const imageModel = mongoose.models.Image || mongoose.model("Image", imageSchema)
+const imageModel = (mongoose.models.Image as ImageModel ) || mongoose.model("Image", imageSchema)
 
 export default imageModel
