@@ -35,15 +35,60 @@ type columnType = {
 // This is the raw data that will be passed to the table
 const rawData: any = {
     en: {
-        firstName: "John",
-        lastName: "Doe",
-        nested1: {
-            nested1a: "nested1a en",
-            nested1b: "nested1b en",
-            nested1c: {
-                nested2a: "nested2a en",
-                nested2b: "nested2b en"
-            }
+        firstName: "First Name",
+        lastName: "Last Name",
+        price: "Price",
+        footer: {
+            privacyPolicy: "Privacy Policy",
+            termToUse :"Terms To Use",
+            sitemap :"Sitemap",
+            contactUs :"Contact Us",
+            licenseAndPermit :"License and Permit",
+            aboutUs: "About Us",
+            allCake: "All Cake",
+            storeAddress: "Store Address",
+            shoppingGuidelines:"Shopping Guidelines",
+            cakeVouchers: "Cake Vouchers",
+            breadPackaged: "Bread & Packaged",
+            dessert: "Dessert"
+        }
+    },
+    tc: {
+        firstName: "名字",
+        lastName: "姓氏",
+        price: "價格",
+        footer: {
+            privacyPolicy: "私隱政策",
+            termToUse :"使用條款",
+            sitemap :"網站地圖",
+            contactUs :"聯絡我們",
+            licenseAndPermit :"牌照及許可證",
+            aboutUs: "關於我們",
+            allCake: "所有蛋糕",
+            storeAddress: "商店地址",
+            shoppingGuidelines:"購物指南",
+            cakeVouchers: "蛋糕券",
+            breadPackaged: "麵包和包裝",
+            dessert: "甜點"
+        }
+    },
+    sc: {
+        firstName: "名字",
+        lastName: "姓氏",
+        price: "价格",
+        footer: {
+            privacyPolicy: "私隱政策",
+            termToUse :"使用条款",
+            sitemap :"网站地图",
+            contactUs :"联络我们",
+            licenseAndPermit :"牌照及许可证",
+            aboutUs: "关于我们",
+            allCake: "所有蛋糕",
+            storeAddress: "商店地址",
+            shoppingGuidelines:"购物指南",
+            cakeVouchers: "蛋糕券",
+            breadPackaged: "面包和包装",
+            dessert: "甜点"
         }
     }
 }
@@ -145,17 +190,18 @@ const AdminWordMatrix: React.FC<AdminWordMatrixIterface> = forwardRef(
 
         const ColumnCell = ({ getValue, row, column, table }) => {
             const initialValue = getValue()
-            function getLastString(input: string): string {
-                const parts = input.split(".")
-                //@ts-ignore
+            // use raw value seems better
+            // function getLastString(input: string): string {
+            //     const parts = input.split(".")
+            //     //@ts-ignore
 
-                return parts[parts.length - 1]
-            }
+            //     return parts[parts.length - 1]
+            // }
 
             return (
                 <AdminTableHeaderCell
                     customWidth={200}
-                    label={getLastString(initialValue)}
+                    label={initialValue}
                 />
             )
         }
