@@ -21,7 +21,7 @@ export const publishSetting = async (site: string, version?: string) => {
 
         const { properties, settingVersion } = setting
         const publishResp = await HistoryService.publicateSchema(
-            { properties, settingVersion },
+            { properties, settingVersion, site },
             SettingPublication,
             "Publishing site setting",
             "publishSetting",
