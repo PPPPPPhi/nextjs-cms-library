@@ -5,6 +5,7 @@ import _ from "lodash"
 import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn } from "../common/index"
 import { LeftGridsRightColumnJson } from "../index"
+import { useDisplayPanelContext } from "../../elementor/drag-drop/DisplayPanelContext"
 
 type LeftGridsRightColumnProps = WidgetProps &
     LayoutProps & {
@@ -23,6 +24,8 @@ export const LeftGridsRightColumn: React.FC<LeftGridsRightColumnProps> = (
         dropRef,
         dropRefMap = new Map([])
     } = props
+
+    const { isMobileView } = useDisplayPanelContext()
 
     const subColumnAcceptType = useMemo(() => {
         return LeftGridsRightColumnJson?.propertyJson?.children?.map(
@@ -64,9 +67,10 @@ export const LeftGridsRightColumn: React.FC<LeftGridsRightColumnProps> = (
         <div>
             <div
                 ref={dropRef ?? null}
-                className={`d-flex`}
+                className={`d-flex flex-wrap`}
                 style={{ minHeight: !isPreview ? "150px" : "auto" }}>
-                <div className="d-flex flex-column" style={{ flex: 1 }}>
+                <div
+                    className={`d-flex flex-column col-${isMobileView ? 12 : 6}`}>
                     {firstElement && (
                         <div className="p-1" style={{ flex: 1 }}>
                             <SubColumn
@@ -88,7 +92,7 @@ export const LeftGridsRightColumn: React.FC<LeftGridsRightColumnProps> = (
                         </div>
                     )}
                 </div>
-                <div style={{ flex: 1 }}>
+                <div className={`col-${isMobileView ? 12 : 6}`}>
                     {thirdElement && (
                         <div className="p-1 h-100">
                             <SubColumn

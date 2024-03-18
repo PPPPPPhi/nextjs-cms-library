@@ -10,6 +10,7 @@ import {
 } from "../../utils/type/componentFormat"
 import { SubColumn } from "../common/index"
 import { useMultiColumnsContext } from ".."
+import { useDisplayPanelContext } from "../../elementor/drag-drop/DisplayPanelContext"
 
 type TwoColumnProps = WidgetProps &
     LayoutProps & {
@@ -26,6 +27,8 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         dropRef,
         dropRefMap = new Map([])
     } = props
+
+    const { isMobileView } = useDisplayPanelContext()
 
     const subColumnAcceptType = useMemo(() => {
         return children?.map((child: any) => child?.childType)
@@ -64,20 +67,24 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 className={`s-two-column-grid`}
                 style={{ minHeight: !isPreview ? "150px" : "auto" }}>
                 {firstElement && (
-                    <SubColumn
-                        {..._.merge(firstElement, firstValues)}
-                        parentId={id}
-                        isPreview={isPreview}
-                        subColumnAcceptType={subColumnAcceptType}
-                    />
+                    <div className={`p-1 col-${isMobileView ? 12 : 6}`}>
+                        <SubColumn
+                            {..._.merge(firstElement, firstValues)}
+                            parentId={id}
+                            isPreview={isPreview}
+                            subColumnAcceptType={subColumnAcceptType}
+                        />
+                    </div>
                 )}
                 {secondElement && (
-                    <SubColumn
-                        {..._.merge(secondElement, secondValues)}
-                        parentId={id}
-                        isPreview={isPreview}
-                        subColumnAcceptType={subColumnAcceptType}
-                    />
+                    <div className={`p-1 col-${isMobileView ? 12 : 6}`}>
+                        <SubColumn
+                            {..._.merge(secondElement, secondValues)}
+                            parentId={id}
+                            isPreview={isPreview}
+                            subColumnAcceptType={subColumnAcceptType}
+                        />
+                    </div>
                 )}
             </div>
         </div>

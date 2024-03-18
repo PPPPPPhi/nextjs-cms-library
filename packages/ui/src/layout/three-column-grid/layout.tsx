@@ -10,6 +10,7 @@ import {
 import { EmptyLayoutGrid, useMultiColumnsContext } from "../index"
 import { SubColumn } from "../common/index"
 import { ThreeColumnJson } from "../index"
+import { useDisplayPanelContext } from "../../elementor/drag-drop/DisplayPanelContext"
 
 const ThreeColumnChildType = {
     firstColumn: "three-column-first",
@@ -40,6 +41,8 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
             (child: any) => child?.childType
         )
     }, [])
+
+    const { isMobileView } = useDisplayPanelContext()
 
     const { firstElement, secondElement, thirdElement } = useMemo(() => {
         if (!elements || elements.length == 0)
@@ -75,10 +78,10 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
         <div>
             <div
                 ref={dropRef ?? null}
-                className={`s-three-column-grid`}
+                className={`d-flex flex-wrap`}
                 style={{ minHeight: !isPreview ? "150px" : "auto" }}>
                 {firstElement && (
-                    <div className="p-">
+                    <div className={`p-1 col-${isMobileView ? 12 : 4}`}>
                         <SubColumn
                             {..._.merge(firstElement, firstValues)}
                             parentId={id}
@@ -88,7 +91,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                     </div>
                 )}
                 {secondElement && (
-                    <div className="p-1">
+                    <div className={`p-1 col-${isMobileView ? 12 : 4}`}>
                         <SubColumn
                             {..._.merge(secondElement, secondValues)}
                             parentId={id}
@@ -99,7 +102,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                 )}
 
                 {thirdElement && (
-                    <div className="p-1">
+                    <div className={`p-1 col-${isMobileView ? 12 : 4}`}>
                         <SubColumn
                             {..._.merge(thirdElement, thirdValues)}
                             parentId={id}

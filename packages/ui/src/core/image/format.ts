@@ -15,6 +15,7 @@ export const dragDropImageJson: DragDropJson = {
 
 export const propertyImageJson: PropertyJson = {
     element: "image",
+    type: "image",
     properties: [
         {
             label: "Label",

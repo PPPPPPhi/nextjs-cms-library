@@ -8,18 +8,20 @@ type CardProps = WidgetProps & {}
 export const Card: React.FC<CardProps> = ({ properties }) => {
     const { site } = useDisplayPanelContext()
 
-    const title = properties?.find((l) => l.label === "Title")?.value ?? ""
+    const title = properties?.find((l: any) => l.label === "Title")?.value ?? ""
     const subTitle =
-        properties?.find((l) => l.label === "SubTitle")?.value ?? ""
-    const desc = properties?.find((l) => l.label === "Description")?.value ?? ""
+        properties?.find((l: any) => l.label === "SubTitle")?.value ?? ""
+    const desc =
+        properties?.find((l: any) => l.label === "Description")?.value ?? ""
     const textColor =
-        properties?.find((l) => l.label === "Text Color")?.value ?? ""
+        properties?.find((l: any) => l.label === "Text Color")?.value ?? ""
     const backgroundColor =
-        properties?.find((l) => l.label === "Background Color")?.value ?? ""
-    const image = properties?.find((l) => l.label === "Image")?.value ?? ""
+        properties?.find((l: any) => l.label === "Background Color")?.value ??
+        ""
+    const image = properties?.find((l: any) => l.label === "Image")?.value ?? ""
 
     return (
-        <div className="p-3">
+        <div className="p-3 w-100">
             <div
                 className="w-100 d-flex flex-column shadow rounded-2 p-2"
                 style={{
@@ -41,7 +43,9 @@ export const Card: React.FC<CardProps> = ({ properties }) => {
                     {title}
                 </div>
                 <div className={`text-level-body`}>{subTitle}</div>
-                <div className={`text-level-body`}>{desc}</div>
+                <div className={`text-level-remark text-font-light`}>
+                    {desc}
+                </div>
             </div>
         </div>
     )

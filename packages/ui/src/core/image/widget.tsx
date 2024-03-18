@@ -8,12 +8,12 @@ type ImageProps = WidgetProps & {}
 
 export const Image: React.FC<ImageProps> = ({ properties }) => {
     const { site } = useDisplayPanelContext()
-    const label = properties?.find((l) => l.label === "Label")?.value ?? ""
-    const valueItem = properties?.find((l) => l.label === "Image")
+    const label = properties?.find((l: any) => l.label === "Label")?.value ?? ""
+    const valueItem = properties?.find((l: any) => l.label === "Image")
     const alignment =
-        properties?.find((l) => l.label === "Alignment")?.value ?? "center"
+        properties?.find((l: any) => l.label === "Alignment")?.value ?? "center"
     const position =
-        properties?.find((l) => l.label === "Position")?.value ?? "contain"
+        properties?.find((l: any) => l.label === "Position")?.value ?? "contain"
 
     return (
         <div className="w-100" style={{ overflowWrap: "break-word" }}>

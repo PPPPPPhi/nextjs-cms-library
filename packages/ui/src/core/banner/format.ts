@@ -15,8 +15,41 @@ export const dragDropBannerJson: DragDropJson = {
 
 export const propertyBannerJson: PropertyJson = {
     element: "banner",
-    label: "Banner Label",
-    placeholder: "Input here ...",
-    value: "Morning World",
-    type: "banner"
+    type: "banner",
+    properties: [
+        {
+            label: "Title",
+            placeholder: "Input here ...",
+            value: "Card Title",
+            type: "text"
+        },
+        {
+            label: "SubTitle",
+            placeholder: "Input here ...",
+            value: "Card SubTitle",
+            type: "text"
+        },
+        {
+            label: "Text Color",
+            placeholder: "",
+            value: "#000000",
+            type: "colorPicker"
+        },
+        {
+            label: "Alignment",
+            value: "start",
+            type: "select",
+            options: [
+                { label: "Start", value: "start" },
+                { label: "Center", value: "center" },
+                { label: "End", value: "end" }
+            ]
+        },
+        {
+            label: "Image",
+            placeholder: "Input here ...",
+            value: "",
+            type: "image"
+        }
+    ]
 }

@@ -60,7 +60,7 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
 
     return (
         <div
-            className={`mt-3 rounded w-100 h-100`}
+            className={`w-100 h-100`}
             style={{ border: isEdit ? "dashed thin darkgrey" : "" }}>
             {isEdit && (
                 <div className="mt-2 s-edit-control-btn flex flex-row justify-cend ">
@@ -82,7 +82,7 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
                         sizes="100vw"
                         style={{
                             width: "100%",
-                            height: "100%",
+                            height: height ?? "100%",
                             objectFit: position,
                             objectPosition: alignment
                         }}

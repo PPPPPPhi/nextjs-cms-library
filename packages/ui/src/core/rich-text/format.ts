@@ -17,6 +17,7 @@ export const dragDropRichTextJson: DragDropJson = {
 
 export const propertyRichTextJson: PropertyJson = {
     element: "rich-text",
+    type: "rich-text",
     properties: [
         {
             label: "Label",

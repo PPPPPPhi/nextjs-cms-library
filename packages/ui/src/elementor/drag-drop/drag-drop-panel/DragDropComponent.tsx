@@ -65,6 +65,8 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
 ) => {
     const { id, element, elements, component, hoverIndex } = props
 
+    console.log("elementelement", element)
+
     const ref = useRef<any>()
     const {
         dragDropEditAcceptType,
@@ -434,7 +436,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                     onClick={() => updateFocusEditComponent()}
                     className={`s-drag-drop-card`}
                     style={{
-                        padding: 20,
+                        padding: element === "banner" ? 0 : 20,
                         borderColor: focusElement ? "navy" : "transparent"
                     }}>
                     {!isLayout && component && (

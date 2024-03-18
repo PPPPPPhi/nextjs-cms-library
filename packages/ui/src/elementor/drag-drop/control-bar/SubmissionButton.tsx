@@ -47,7 +47,7 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
                 display: !readOnly ? "flex" : "none",
                 width: 300,
                 right: 20,
-                zIndex: 100,
+                zIndex: 10,
                 marginTop: 20,
                 marginBottom: 20
             }}>

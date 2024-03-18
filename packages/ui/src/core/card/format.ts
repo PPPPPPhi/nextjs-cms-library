@@ -1,7 +1,7 @@
 import { SelectionJson, DragDropJson, PropertyJson } from "../utils/type/index"
 import { CardSvg } from "./svg"
 import { Card } from "./widget"
-import { z } from "zod"
+import { string, z } from "zod"
 
 export const selectionCardJson: SelectionJson = {
     element: "card",
@@ -16,6 +16,7 @@ export const dragDropCardJson: DragDropJson = {
 
 export const propertyCardJson: PropertyJson = {
     element: "card",
+    type: "card",
     properties: [
         {
             label: "Title",

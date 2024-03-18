@@ -27,9 +27,10 @@ export type DragDropJson = CoreDragDropJson & {
 }
 
 export type WidgetProps = {
-    label: string
-    value: string
-    placeholder: string
+    label?: string
+    value?: string
+    placeholder?: string
+    properties?: any
 }
 
 export type CorePropertyJson = WidgetProps & {
@@ -46,6 +47,7 @@ export type PropertyJson = CorePropertyJson & {
 export const DragDropElementAcceptType: string[] = [
     ElementNameMap.Text,
     ElementNameMap.Trophy,
+    ElementNameMap.Banner,
     ElementNameMap.Card,
     ElementNameMap.Contact,
     ElementNameMap.Event,
@@ -61,6 +63,7 @@ export const DragDropElementAcceptType: string[] = [
 export const DragDropElementInputList: string[] = [
     ElementNameMap.Text,
     ElementNameMap.Trophy,
+    ElementNameMap.Banner,
     ElementNameMap.Card,
     ElementNameMap.Contact,
     ElementNameMap.Event,
@@ -82,6 +85,7 @@ export const DragDropAccecptType: string[] = [
     ElementNameMap.Image,
     ElementNameMap.RichText,
     ElementNameMap.Trophy,
+    ElementNameMap.Banner,
     ElementNameMap.Card,
     ElementNameMap.Contact,
     ElementNameMap.Event,

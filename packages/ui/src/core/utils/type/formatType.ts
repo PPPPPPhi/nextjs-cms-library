@@ -24,9 +24,10 @@ export type DragDropJson = CoreDragDropJson & {
 }
 
 export type WidgetProps = {
-    label: string
-    value: string
-    placeholder: string
+    label?: string
+    value?: string
+    placeholder?: string
+    properties?: any
 }
 
 export type CorePropertyJson = WidgetProps & {

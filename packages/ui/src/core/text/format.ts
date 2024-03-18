@@ -16,6 +16,7 @@ export const dragDropTextJson: DragDropJson = {
 
 export const propertyTextJson: PropertyJson = {
     element: "text",
+    type: "text",
     properties: [
         {
             label: "Label",
