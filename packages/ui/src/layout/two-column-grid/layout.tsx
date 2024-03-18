@@ -64,7 +64,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         <div>
             <div
                 ref={dropRef ?? null}
-                className={`s-two-column-grid`}
+                className={`d-flex flex-wrap`}
                 style={{ minHeight: !isPreview ? "150px" : "auto" }}>
                 {firstElement && (
                     <div className={`p-1 col-${isMobileView ? 12 : 6}`}>

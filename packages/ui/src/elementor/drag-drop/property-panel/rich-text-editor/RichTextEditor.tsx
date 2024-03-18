@@ -1,6 +1,11 @@
-import { Editor } from "react-draft-wysiwyg"
+import dynamic from "next/dynamic"
+const Editor = dynamic(
+    () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
+    { ssr: false }
+)
 import { EditorState, convertToRaw, ContentState } from "draft-js"
 import { useState, useEffect } from "react"
+
 import draftToHtml from "draftjs-to-html"
 import htmlToDraft from "html-to-draftjs"
 import "./editor.css"
