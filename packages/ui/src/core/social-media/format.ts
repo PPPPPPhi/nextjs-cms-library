@@ -19,7 +19,39 @@ export const propertySocialMediaJson: PropertyJson = {
     label: "SocialMedia Label",
     placeholder: "Input here ...",
     value: "Morning World",
-    type: "social-media"
+    type: "social-media",
+    properties: [
+        {
+            label: "Facebook url",
+            placeholder: "Input your facebook url here ...",
+            value: "facebookUrl",
+            type: "text"
+        },
+        {
+            label: "Instragram url",
+            placeholder: "Input your Instragram url here ...",
+            value: "instragramUrl",
+            type: "text"
+        },
+        {
+            label: "X url",
+            placeholder: "Input your X profile here ...",
+            value: "xUrl",
+            type: "text"
+        },
+        {
+            label: "Whatsapp url",
+            placeholder: "Input your Whatsapp contact here ...",
+            value: "whatsappUrl",
+            type: "text"
+        },
+        {
+            label: "YouTube url",
+            placeholder: "Input your YouTube link here ...",
+            value: "youtubeUrl",
+            type: "text"
+        }
+    ]
 }
 
 export const validSchema = z.object({
