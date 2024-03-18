@@ -93,7 +93,8 @@ export const DragDropAccecptType: string[] = [
     ElementNameMap.Sponsor,
     ElementNameMap.Webinar,
     LayoutNameMap.ThreeColumn,
-    LayoutNameMap.TwoColumn
+    LayoutNameMap.TwoColumn,
+    LayoutNameMap.LeftGridsRightColumn
 ]
 
 export type LayoutDragDropType = {

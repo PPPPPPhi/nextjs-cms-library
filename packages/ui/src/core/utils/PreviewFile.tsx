@@ -20,13 +20,19 @@ type PreviewSelectImageProps = {
     site: string
     handler: () => void
     isEdit?: boolean
+    alignment?: "left" | "center" | "right"
+    position?: "cover" | "contain" | "fill"
+    height?: number
 }
 
 export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
     site,
     value,
     handler,
-    isEdit = false
+    isEdit = false,
+    alignment = "center",
+    position = "contain",
+    height
 }) => {
     const imageApdator = new ImageResourceAdaptor()
     // @ts-ignore
@@ -36,10 +42,14 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
 
     const getImageById = async () => {
         if (!value) return
+        console.log("imaggggg 1", site, value)
+
         const imageRes = await imageOperator
             .getImageById(site, value)
             .then((res: any) => {
-                const image = res?.data?.images
+                console.log("imaggggg", res)
+
+                const image = res?.data?.images[0]
                 setSrcPath(image?.relativePath)
             })
     }
@@ -50,7 +60,7 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
 
     return (
         <div
-            className={`mt-3 rounded`}
+            className={`mt-3 rounded w-100 h-100`}
             style={{ border: isEdit ? "dashed thin darkgrey" : "" }}>
             {isEdit && (
                 <div className="mt-2 s-edit-control-btn flex flex-row justify-cend ">
@@ -61,23 +71,24 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
                 </div>
             )}
 
-            <div
-                className="col-12 col-md-4 position-relative"
-                style={{
-                    width: "auto",
-                    height: 300
-                }}>
-                <NextImageApdator
-                    src={`${process.env.NEXT_IMAGE_UPLOAD_PATH}/${site}${srcPath}`}
-                    alt="profile"
-                    isStatic
-                    fill
-                    style={{
-                        objectFit: "contain",
-                        objectPosition: "center"
-                    }}
-                />
-            </div>
+            {srcPath && (
+                <div className="col-12 col-md-4 position-relative w-100 h-100">
+                    <NextImageApdator
+                        src={`${process.env.NEXT_IMAGE_UPLOAD_PATH}/${site}${srcPath}`}
+                        alt="profile"
+                        isStatic
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: position,
+                            objectPosition: alignment
+                        }}
+                    />
+                </div>
+            )}
         </div>
     )
 }

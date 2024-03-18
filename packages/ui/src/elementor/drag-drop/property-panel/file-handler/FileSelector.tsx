@@ -55,98 +55,76 @@ export const AdminImageGalleryBox: React.FC<AdminImageGalleryModalProps> = ({
 }
 
 type FileSelectorProps = {
-    name: string
     label: string
     value: string
-    control: Control<PropertyJson, any, PropertyJson>
     element: string
     isChildren?: boolean
     setValue?: UseFormSetValue<PropertiesComponentProps>
 }
 
 export const FileSelector: React.FC<FileSelectorProps> = ({
-    name,
     label,
     value,
-    control,
     element,
-    isChildren,
     setValue
 }) => {
-    const { focusEditId, setModal, setLoading } = useDisplayPanelContext()
+    const { setModal, setLoading } = useDisplayPanelContext()
     const { site, pageId } = useParams()
 
     // const slug = `demo2`
     const [enableModel, setEnableModal] = useState<boolean>(false)
 
     const updateImageValue = (id: any) => {
+        console.log("idddd", id)
         // @ts-ignore
-        if (setValue) setValue(name, id)
+        if (setValue) setValue(id)
         setEnableModal(false)
     }
 
     return (
         <div>
-            {control && (
-                <Controller
-                    control={control}
-                    // @ts-ignore
-                    name={name}
-                    render={({ field: { onChange, value } }) => {
-                        return (
-                            <div className={`flex flex-col justify-center`}>
-                                <p className="mb-1 text-gray-500 dark:text-gray-400">
-                                    {label}
-                                </p>
-
-                                <div
-                                    style={{
-                                        width: "80%",
-                                        height: 30,
-                                        borderRadius: 25
-                                    }}
-                                    onClick={() => {
-                                        setEnableModal(true)
-                                        console.log(
-                                            `[modal] enable popup`,
-                                            element,
-                                            ElementNameMap.Image,
-                                            site
-                                        )
-                                    }}
-                                    className={`flex justify-center cursor-pointer s-adminGradientBg shadow mb-1 s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
-                                    <span>Select File</span>
-                                </div>
-
-                                {enableModel &&
-                                    element == ElementNameMap?.Image && (
-                                        <div>
-                                            <AdminImageGalleryModal
-                                                onImageSelected={
-                                                    updateImageValue
-                                                }
-                                                setModal={setModal}
-                                                setLoading={setLoading}
-                                            />
-                                        </div>
-                                    )}
-
-                                <p className="mb-1 text-gray-500 dark:text-gray-400">
-                                    {element == ElementNameMap.Image &&
-                                        value && (
-                                            <PreviewSelectImage
-                                                site={site as string}
-                                                value={value as string}
-                                                handler={() => onChange("")}
-                                                isEdit={true}
-                                            />
-                                        )}
-                                </p>
-                            </div>
+            <div className={`flex flex-col justify-center`}>
+                <div
+                    style={{
+                        width: "80%",
+                        height: 30,
+                        borderRadius: 25
+                    }}
+                    onClick={() => {
+                        setEnableModal(true)
+                        console.log(
+                            `[modal] enable popup`,
+                            element,
+                            ElementNameMap.Image,
+                            site
                         )
                     }}
-                />
-            )}
+                    className={`flex justify-center cursor-pointer s-adminGradientBg shadow mb-1 s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
+                    <span>Select File</span>
+                </div>
+
+                {enableModel && (
+                    <div>
+                        <AdminImageGalleryModal
+                            onImageSelected={updateImageValue}
+                            setModal={setModal}
+                            setLoading={setLoading}
+                        />
+                    </div>
+                )}
+
+                <p className="mb-1 text-gray-500 dark:text-gray-400">
+                    {value && (
+                        <PreviewSelectImage
+                            height={300}
+                            site={site as string}
+                            value={value as string}
+                            handler={() => {}}
+                            isEdit={true}
+                        />
+                    )}
+                </p>
+            </div>
         </div>
     )
 }

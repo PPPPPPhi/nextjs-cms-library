@@ -154,6 +154,8 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
             (element: PropertyEditType) => element?.id == id
         )
 
+        console.log("ddddd", data)
+
         return data
     }, [propertiesEditList, currentHistoryIndex, toggle])
 
@@ -363,12 +365,15 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         return (
             <div
                 className="s-drag-drop-card h-40"
-                style={{ backgroundColor: !isOnHoverLayout ? "#e2f5e1" : "" }}>
-                {!isOnHoverLayout ? (
+                style={{
+                    backgroundColor: !isOnHoverLayout ? "#e2f5e1" : "",
+                    height: 1
+                }}>
+                {/* {!isOnHoverLayout ? (
                     <DraggingPreview />
                 ) : (
                     <div className="s-empty-drag-drop-box text-level-sub-body" />
-                )}
+                )} */}
             </div>
         )
     }, [isDropHoverTop, isOnHoverLayout])
@@ -379,8 +384,8 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         return (
             <div
                 className="s-drag-drop-card h-40 bg-emerald-100"
-                style={{ backgroundColor: "#e2f5e1" }}>
-                <DraggingPreview />
+                style={{ backgroundColor: "#e2f5e1", height: 1 }}>
+                {/* <DraggingPreview /> */}
             </div>
         )
     }, [isDropHoverBottom])

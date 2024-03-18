@@ -46,9 +46,10 @@ export const useDeleteComponent = () => {
         newDragDropList.splice(index, 1)
         newPropertiesList.splice(index, 1)
 
-        console.log("set dragDropEditList 5")
-
         setDragDropEditList(newDragDropList)
+
+        console.log("setPropertiesEditList  5")
+
         setPropertiesEditList(newPropertiesList)
 
         const snapShotDragDrop = _.cloneDeep(newDragDropList)

@@ -30,7 +30,7 @@ export const SelectComponent: React.FC<SelectComponentProps> = ({
                     }}>
                     {icon({ width: 32, height: 32 })}
                 </div>
-                <div className="text-level-caption">{title}</div>
+                <div className="text-level-caption text-center">{title}</div>
             </div>
         </div>
     )

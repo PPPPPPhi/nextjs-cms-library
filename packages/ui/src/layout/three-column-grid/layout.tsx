@@ -78,29 +78,35 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                 className={`s-three-column-grid`}
                 style={{ minHeight: !isPreview ? "150px" : "auto" }}>
                 {firstElement && (
-                    <SubColumn
-                        {..._.merge(firstElement, firstValues)}
-                        parentId={id}
-                        isPreview={isPreview}
-                        subColumnAcceptType={subColumnAcceptType}
-                    />
+                    <div className="p-">
+                        <SubColumn
+                            {..._.merge(firstElement, firstValues)}
+                            parentId={id}
+                            isPreview={isPreview}
+                            subColumnAcceptType={subColumnAcceptType}
+                        />
+                    </div>
                 )}
                 {secondElement && (
-                    <SubColumn
-                        {..._.merge(secondElement, secondValues)}
-                        parentId={id}
-                        isPreview={isPreview}
-                        subColumnAcceptType={subColumnAcceptType}
-                    />
+                    <div className="p-1">
+                        <SubColumn
+                            {..._.merge(secondElement, secondValues)}
+                            parentId={id}
+                            isPreview={isPreview}
+                            subColumnAcceptType={subColumnAcceptType}
+                        />
+                    </div>
                 )}
 
                 {thirdElement && (
-                    <SubColumn
-                        {..._.merge(thirdElement, thirdValues)}
-                        parentId={id}
-                        isPreview={isPreview}
-                        subColumnAcceptType={subColumnAcceptType}
-                    />
+                    <div className="p-1">
+                        <SubColumn
+                            {..._.merge(thirdElement, thirdValues)}
+                            parentId={id}
+                            isPreview={isPreview}
+                            subColumnAcceptType={subColumnAcceptType}
+                        />
+                    </div>
                 )}
             </div>
         </div>

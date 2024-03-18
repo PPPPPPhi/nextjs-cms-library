@@ -126,9 +126,6 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
     }, [propertiesHistoryList])
 
     const updateDraggedComponent = (elementName: string) => {
-        console.log("dddd propertiesList", propertiesList)
-        console.log("dddd dragDropList", dragDropList)
-
         if (!dragDropList || !propertiesList) return
 
         const newId = uuid_v4()
@@ -155,8 +152,6 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
         ]
 
         console.log(`new drag `, newDnd, newProp)
-
-        console.log("set dragDropEditList 4")
 
         setDragDropEditList([...dragDropEditRef.current, newEditComponent])
 
@@ -200,9 +195,9 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
             style={{
                 height: !isMobileView ? "95%" : "100%"
             }}>
-            {(!currentDragDropEdit || currentDragDropEdit.length == 0) && (
+            {/* {(!currentDragDropEdit || currentDragDropEdit.length == 0) && (
                 <EmptyLayoutGrid />
-            )}
+            )} */}
             {currentDragDropEdit &&
                 currentDragDropEdit.map(
                     (

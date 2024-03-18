@@ -16,10 +16,44 @@ export const dragDropCardJson: DragDropJson = {
 
 export const propertyCardJson: PropertyJson = {
     element: "card",
-    label: "Card Label",
-    placeholder: "Input here ...",
-    value: "Morning World",
-    type: "card"
+    properties: [
+        {
+            label: "Title",
+            placeholder: "Input here ...",
+            value: "Card Title",
+            type: "text"
+        },
+        {
+            label: "Image",
+            placeholder: "Input here ...",
+            value: "",
+            type: "image"
+        },
+        {
+            label: "SubTitle",
+            placeholder: "Input here ...",
+            value: "Card SubTitle",
+            type: "text"
+        },
+        {
+            label: "Description",
+            placeholder: "Input here ...",
+            value: "Text Label",
+            type: "text"
+        },
+        {
+            label: "Text Color",
+            placeholder: "",
+            value: "#000000",
+            type: "colorPicker"
+        },
+        {
+            label: "Background Color",
+            placeholder: "",
+            value: "#FFFFFF",
+            type: "colorPicker"
+        }
+    ]
 }
 
 export const validSchema = z.object({

@@ -322,7 +322,7 @@ export const DisplayPanelContextProvider: FC<
             pageDataDragDropList.push(newDragDropComponent)
         })
 
-        console.log("set dragDropEditList 1")
+        console.log("setPropertiesEditList  1")
         setDragDropEditList(pageDataDragDropList)
         setPropertiesEditList(pageJson)
 
@@ -387,7 +387,8 @@ export const DisplayPanelContextProvider: FC<
 
         console.log("swapDragElem", swapList)
 
-        console.log("set dragDropEditList 2", swapList)
+        console.log("setPropertiesEditList  2")
+
         setDragDropEditList(swapList)
         setPropertiesEditList(swapPropElem)
 
@@ -478,7 +479,7 @@ export const DisplayPanelContextProvider: FC<
 
         if (!swappedList || !swappedPropertiesList) return
 
-        console.log("set dragDropEditList 3")
+        console.log("setPropertiesEditList  3")
         setDragDropEditList(swappedList)
         setPropertiesEditList(swappedPropertiesList)
         setDragDropHistoryList([...dragDropHistoryList, swappedList])

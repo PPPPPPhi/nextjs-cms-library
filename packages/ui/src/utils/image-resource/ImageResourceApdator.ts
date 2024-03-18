@@ -54,11 +54,9 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
         )
 
         try {
-            this.fs.accessSync(
-                siteFolder,
-                this.fs.constants.R_OK | this.fs.constants.W_OK
-            )
+            await this.fs.access(siteFolder)
         } catch (err) {
+            console.log("eeeeeerrrrrrr", err)
             await this.fs.mkdir(siteFolder)
         }
 
