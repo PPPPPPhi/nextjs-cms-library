@@ -20,7 +20,7 @@ type DragDropAreaProps = {}
 export const DragDropArea: React.FC<DragDropAreaProps> = (
     props: DragDropAreaProps
 ) => {
-    const { isMobileView, setReOrderDropInfo } = useDisplayPanelContext()
+    const { isMobileView, isPreview } = useDisplayPanelContext()
 
     useDuplicateComponent()
     useDeleteComponent()
@@ -55,8 +55,8 @@ export const DragDropArea: React.FC<DragDropAreaProps> = (
             className="flex-1"
             style={{
                 height: "100%",
-                marginLeft: 350,
-                marginRight: 350
+                marginLeft: isPreview ? 200 : 350,
+                marginRight: isPreview ? 200 : 350
             }}>
             {isMobileView && (
                 <DisplayMobileGrid>

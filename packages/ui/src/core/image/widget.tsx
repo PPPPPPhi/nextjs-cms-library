@@ -6,25 +6,26 @@ import { useDisplayPanelContext } from "../../elementor"
 
 type ImageProps = WidgetProps & {}
 
-export const Image: React.FC<ImageProps> = ({ label, placeholder, value }) => {
+export const Image: React.FC<ImageProps> = ({ properties }) => {
     const { site } = useDisplayPanelContext()
+    const label = properties?.find((l) => l.label === "Label")?.value ?? ""
+    const valueItem = properties?.find((l) => l.label === "Image")
+    const alignment =
+        properties?.find((l) => l.label === "Alignment")?.value ?? "center"
+    const position =
+        properties?.find((l) => l.label === "Position")?.value ?? "contain"
 
     return (
-        <div style={{ overflowWrap: "break-word" }}>
-            <div className={`text-level-headline text-font-bold`}>
-                {label ?? "Image Label"}
-            </div>
+        <div className="w-100" style={{ overflowWrap: "break-word" }}>
+            <div className={`text-level-headline text-font-bold`}>{label}</div>
 
-            {value && (
-                <div
-                    className="col-12 col-md-4 position-relative"
-                    style={{
-                        width: "auto",
-                        height: 300
-                    }}>
+            {valueItem?.value && (
+                <div className="col-12 col-md-4 position-relative h-100 w-100">
                     <PreviewSelectImage
+                        position={position}
+                        alignment={alignment}
                         site={site as string}
-                        value={value as string}
+                        value={valueItem?.value as string}
                         handler={() => {}}
                     />
                 </div>

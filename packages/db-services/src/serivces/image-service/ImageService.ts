@@ -55,7 +55,7 @@ export const saveImageBySite = async (image: imageType) => {
     }
 }
 
-export const getImagesById = async (id: ObjectId) => {
+export const getImagesById = async (id: string) => {
     try {
         await connectMongoDB()
         console.log(`[getImagesById] images`, id)

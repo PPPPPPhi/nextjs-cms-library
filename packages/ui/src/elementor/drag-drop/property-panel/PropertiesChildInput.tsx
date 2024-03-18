@@ -10,11 +10,14 @@ import {
     DragDropElementInputList,
     DragDropElementSelectFileList
 } from "../../../utils/index"
+import { RichTextEditor } from "./rich-text-editor"
 
 // @ts-ignore
 import DragDropIcon from "./dragdrop.png"
 import { FileSelector, ImageSelector } from "./file-handler/FileSelector"
-import { AdminButton } from "@nextjs-cms-library/admin-components/index"
+import { AdminSelect } from "@nextjs-cms-library/admin-components/index"
+import { Selector } from "./selector/Selector"
+import { ColorPicker } from "../color-picker/ColorPicker"
 
 type PropertiesChildEmptyProps = {}
 
@@ -37,6 +40,7 @@ export const PropertiesChildEmpty: React.FC<
 }
 
 type PropertiesChildSubInputProps = {
+    type: string
     name: string
     label: string
     value: string
@@ -46,13 +50,19 @@ type PropertiesChildSubInputProps = {
 
 export const PropertiesChildSubInput: React.FC<
     PropertiesChildSubInputProps
-> = ({ name, label, value, control, isChildren = false }) => {
+> = ({ name, label, value, control, element, type, options }) => {
     const fieldValue = value
+
+    console.log("hoho", { name, label, value, control, element, type, options })
 
     const getRowHeight = () => {
         if (label == "Label") return 3
         if (label == "Value") return 8
         return 5
+    }
+
+    const getTitle = () => {
+        return <p className="mb-1 text-gray-500 dark:text-gray-400">{label}</p>
     }
 
     return (
@@ -62,25 +72,72 @@ export const PropertiesChildSubInput: React.FC<
                 // @ts-ignore
                 name={name}
                 render={({ field: { onChange, value } }) => {
-                    return (
-                        <div>
-                            <p className="mb-1 text-gray-500 dark:text-gray-400">
-                                {label}
-                            </p>
+                    console.log("vvvvvv", value)
 
-                            <textarea
-                                id="message"
-                                style={{ padding: 10 }}
-                                rows={getRowHeight()}
-                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Write your thoughts here..."
-                                onChange={(evt) => {
-                                    onChange(evt)
-                                }}
-                                // @ts-ignore
-                                value={value}></textarea>
-                        </div>
-                    )
+                    if (!label) return <></>
+
+                    if (type === "text")
+                        return (
+                            <div>
+                                {getTitle()}
+                                <textarea
+                                    id="message"
+                                    style={{ padding: 10 }}
+                                    rows={3}
+                                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Write your thoughts here..."
+                                    onChange={(evt) => {
+                                        onChange(evt)
+                                    }}
+                                    // @ts-ignore
+                                    value={value}></textarea>
+                            </div>
+                        )
+                    else if (type === "editor") {
+                        return (
+                            <div>
+                                {getTitle()}
+                                <RichTextEditor
+                                    defaultValue={value}
+                                    onChange={(v) => onChange(v)}
+                                />
+                            </div>
+                        )
+                    } else if (type === "image") {
+                        return (
+                            <div>
+                                {getTitle()}
+                                <FileSelector
+                                    control={control}
+                                    label={label}
+                                    value={value}
+                                    element={element}
+                                    setValue={(v) => onChange(v)}
+                                />
+                            </div>
+                        )
+                    } else if (type === "select") {
+                        return (
+                            <div>
+                                {getTitle()}
+                                <Selector
+                                    options={options}
+                                    onSelect={(v) => onChange(v)}
+                                    defaultValue={value}
+                                />
+                            </div>
+                        )
+                    } else if (type === "colorPicker") {
+                        return (
+                            <div>
+                                {getTitle()}
+                                <ColorPicker
+                                    defaultValue={value}
+                                    onChange={(v) => onChange(v)}
+                                />
+                            </div>
+                        )
+                    }
                 }}
             />
         </div>
@@ -107,9 +164,26 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
     isChildren = false,
     parentId,
     childType,
+    options,
     updateProperties,
     setValue
 }) => {
+    console.log("property inside", {
+        id,
+        element,
+        label,
+        placeholder,
+        value,
+        type,
+        index,
+        control,
+        isChildren,
+        parentId,
+        childType,
+        updateProperties,
+        setValue
+    })
+
     const { focusEditId } = useDisplayPanelContext()
 
     const path = !isChildren ? "" : `children.${index}.`
@@ -130,11 +204,21 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
             style={{
                 display: displayEdit ? "block" : "none"
             }}>
-            {!type && <PropertiesChildEmpty />}
-            {type && (
-                <div>
-                    <form id={id}>
-                        <PropertiesChildSubInput
+            {/* {!type && <PropertiesChildEmpty />} */}
+            <div>
+                <form id={id}>
+                    <PropertiesChildSubInput
+                        control={control}
+                        name={`${id}.${label}`}
+                        label={label}
+                        value={value}
+                        isChildren={isChildren}
+                        type={type}
+                        element={element}
+                        options={options}
+                    />
+
+                    {/* <PropertiesChildSubInput
                             control={control}
                             name={`${path}label`}
                             label={"Label"}
@@ -162,35 +246,9 @@ export const PropertiesChildInput: React.FC<PropertiesChildInputProps> = ({
                                 element={element}
                                 setValue={setValue}
                             />
-                        )}
-                    </form>
-
-                    <div
-                        style={{
-                            padding: 20,
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center"
-                        }}>
-                        <AdminButton
-                            label="Update"
-                            style={{ width: "100%" }}
-                            onClick={updateProperties}
-                        />
-
-                        {/* <div
-                            style={{
-                                width: "100%",
-                                height: 30,
-                                borderRadius: 25
-                            }}
-                            onClick={updateProperties}
-                            className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
-                            <span>Update</span>
-                        </div> */}
-                    </div>
-                </div>
-            )}
+                        )} */}
+                </form>
+            </div>
         </div>
     )
 }

@@ -17,10 +17,20 @@ export const dragDropRichTextJson: DragDropJson = {
 
 export const propertyRichTextJson: PropertyJson = {
     element: "rich-text",
-    label: "RichText Label",
-    placeholder: "Input here ...",
-    value: "",
-    type: "rich-text"
+    properties: [
+        {
+            label: "Label",
+            placeholder: "Input here ...",
+            value: "Rich Text Editor",
+            type: "text"
+        },
+        {
+            label: "Value",
+            placeholder: "Input here ...",
+            value: "",
+            type: "editor"
+        }
+    ]
 }
 
 export const validSchema = z.object({

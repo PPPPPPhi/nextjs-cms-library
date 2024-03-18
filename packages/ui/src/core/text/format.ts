@@ -16,10 +16,32 @@ export const dragDropTextJson: DragDropJson = {
 
 export const propertyTextJson: PropertyJson = {
     element: "text",
-    label: "Text Label",
-    placeholder: "Input here ...",
-    value: "Morning World",
-    type: "text"
+    properties: [
+        {
+            label: "Label",
+            placeholder: "Input here ...",
+            value: "Text Label",
+            type: "text"
+        },
+        {
+            label: "Value",
+            placeholder: "Input here ...",
+            value: "Morning World",
+            type: "text"
+        },
+        {
+            label: "Font",
+            placeholder: "Input here ...",
+            value: "Text Label",
+            type: "text"
+        },
+        {
+            label: "A",
+            placeholder: "Input here ...",
+            value: "Morning World",
+            type: "text"
+        }
+    ]
 }
 
 export const validSchema = z.object({

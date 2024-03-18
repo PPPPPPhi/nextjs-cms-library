@@ -1,5 +1,11 @@
 # @nextjs-cms-library/theme
 
+## 3.0.8
+
+### Patch Changes
+
+- update bubble
+
 ## 3.0.7
 
 ### Patch Changes

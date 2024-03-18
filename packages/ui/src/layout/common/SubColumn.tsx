@@ -82,14 +82,14 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
         <div
             ref={!readOnly ? subRef : null}
             id={`${id}-${childType}`}
-            className={`s-column-grid ${!readOnly ? "s-dragging" : ""} 
+            className={`d-flex w-100 h-100 s-column-grid ${!readOnly ? "s-dragging" : ""} 
                 ${!isPreview ? "s-edit-area-border" : "border-none"}`}
+            style={{ flex: 1 }}
             onClick={() => updateFocusEditComponent()}
             onMouseEnter={() => setResetColor(false)}
             onMouseOver={() => setResetColor(false)}>
-            {!type && !isPreview && <EmptyLayoutGrid />}
-            {type &&
-                component &&
+            {/* {!isPreview && <EmptyLayoutGrid />} */}
+            {component &&
                 component({
                     ...props,
                     elements: elements,

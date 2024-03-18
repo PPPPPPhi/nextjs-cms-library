@@ -1,0 +1,6 @@
+.editorClassName {
+    height: 300px !important;
+    overflow-y: auto;
+    padding: 5px;
+    background: white;
+}
