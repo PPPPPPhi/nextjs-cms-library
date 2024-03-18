@@ -66,11 +66,11 @@ export const AdminSiteSettingContainer: React.FC<AdminSiteSettingContainerInterf
 
         const updateLanguageHandler = () => {
             let newSettings = _.cloneDeep(settingEs)
-            const langSetting = settingEs["cms_language"]
+            const langSetting = newSettings["cms_language"]
 
             const newLanguage = langFormRef.current
             if (newLanguage) {
-                ;(langSetting?.value as string[]).push(newLanguage as string)
+                ;(langSetting?.value as string[]).push(newLanguage as string);
 
                 Object.keys(newSettings).forEach((k, idx) => {
                     if (idx === 0 || typeof newSettings[k]?.value === "string")
