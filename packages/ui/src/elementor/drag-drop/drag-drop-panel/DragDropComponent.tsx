@@ -49,7 +49,7 @@ export const DragDropComponentButtons: React.FC<
     return (
         <div
             onClick={handleEvent}
-            style={{ height: 30, width: 30, borderRadius: 25 }}
+            style={{ height: 30, width: 30, borderRadius: 25, zIndex: 25 }}
             className={`flex flex-row justify-center cursor-pointer text-white shadow 
                 font-medium rounded-full text-sm p-2.5 text-center inline-flex 
                 items-center me-2 s-adminGradientBg`}>

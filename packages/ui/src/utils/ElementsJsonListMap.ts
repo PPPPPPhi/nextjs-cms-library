@@ -27,19 +27,19 @@ export const selectionListMap: Map<string, SelectionJson> = new Map([
     [ElementNameMap.Text, TextJson.selectionTextJson],
     [ElementNameMap.Image, ImageJson.selectionImageJson],
     [ElementNameMap.Banner, BannerJson.selectionBannerJson],
-    [ElementNameMap.List, ListJson.selectionListJson],
+    // [ElementNameMap.List, ListJson.selectionListJson],
     [ElementNameMap.RichText, RichTextJson.selectionRichTextJson],
-    [ElementNameMap.Trophy, TrophyJson.selectionTrophyJson],
+    // [ElementNameMap.Trophy, TrophyJson.selectionTrophyJson],
     [ElementNameMap.Card, CardJson.selectionCardJson],
-    [ElementNameMap.Contact, ContactJson.selectionContactJson],
-    [ElementNameMap.Event, EventJson.selectionEventJson],
-    [ElementNameMap.HotProduct, HotProductJson.selectionHotProductJson],
-    [ElementNameMap.HTML, HTMLJson.selectionHTMLJson],
-    [ElementNameMap.InfoGraphic, InfoGraphicJson.selectionInfoGraphicJson],
-    [ElementNameMap.PhotoGallery, PhotoGalleryJson.selectionPhotoGalleryJson],
-    [ElementNameMap.SocialMedia, SocialMediaJson.selectionSocialMediaJson],
-    [ElementNameMap.Sponsor, SponsorJson.selectionSponsorJson],
-    [ElementNameMap.Webinar, WebinarJson.selectionWebinarJson]
+    // [ElementNameMap.Contact, ContactJson.selectionContactJson],
+    // [ElementNameMap.Event, EventJson.selectionEventJson],
+    // [ElementNameMap.HotProduct, HotProductJson.selectionHotProductJson],
+    // [ElementNameMap.HTML, HTMLJson.selectionHTMLJson],
+    // [ElementNameMap.InfoGraphic, InfoGraphicJson.selectionInfoGraphicJson],
+    // [ElementNameMap.PhotoGallery, PhotoGalleryJson.selectionPhotoGalleryJson],
+    [ElementNameMap.SocialMedia, SocialMediaJson.selectionSocialMediaJson]
+    // [ElementNameMap.Sponsor, SponsorJson.selectionSponsorJson],
+    // [ElementNameMap.Webinar, WebinarJson.selectionWebinarJson]
 ])
 
 export const dragDropListMap: Map<string, DragDropJson> = new Map([

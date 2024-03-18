@@ -62,7 +62,11 @@ export const PropertiesChildSubInput: React.FC<
     }
 
     const getTitle = () => {
-        return <p className="mb-1 text-gray-500 dark:text-gray-400">{label}</p>
+        return (
+            <p className="s-text-color-alpha mb-1 text-gray-500 dark:text-gray-400">
+                {label}
+            </p>
+        )
     }
 
     return (

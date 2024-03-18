@@ -81,7 +81,7 @@ export const PropertiesPanelArea: React.FC<PropertiesPanelAreaProps> = (
                 marginTop: 80
             }}>
             <div className=" dark:text-white p-2 d-flex flex-column h-100">
-                <span className="text-font-bold text-level-subtitle">
+                <span className="text-font-bold text-level-subtitle s-text-color-alpha">
                     Edit Properties
                 </span>
                 <div className="overflow-auto" style={{ flex: 1 }}>

@@ -7,15 +7,22 @@ export const RichTextSvg: React.FC<SvgProps> = ({
 }) => {
     return (
         <svg
+            viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
             width={width}
             height={height}
-            fill="currentColor"
-            className={classname}
-            // class="bi bi-card-text"
-            viewBox="0 0 16 16">
-            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
-            <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8m0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5" />
+            fill="#000000">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <rect x="0" fill="none" width="20" height="20"></rect>
+                <g>
+                    <path d="M3 5h14V3H3v2zm9 8V7H3v6h9zm2-4h3V7h-3v2zm0 4h3v-2h-3v2zM3 17h14v-2H3v2z"></path>
+                </g>
+            </g>
         </svg>
     )
 }
