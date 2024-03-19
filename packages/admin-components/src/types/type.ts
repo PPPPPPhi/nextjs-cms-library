@@ -21,6 +21,7 @@ export type columnDefsType = {
     size?: number
     actionTitle?: string
     action?: (orignal: any) => void
+    shouldShow?: (orignal: any) => boolean
     isExpandable?: boolean
     isCompatible?: boolean
     isClonable?: boolean

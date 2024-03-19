@@ -76,79 +76,129 @@ export const PropertiesComponent: React.FC<
 
     const updateProperties = () => {
         console.log(`update properties getValues()`, children, getValues())
-        if (!isLayout) {
-            const values = getValues()
-            setUpdateElementId({
-                action: UpdateEditElementAction.UPDATE,
-                id,
-                index,
-                values: {
-                    id: id,
-                    properties: properties.map((l) => {
-                        return { ...l, value: values[id][l.label] }
-                    }),
-                    element
-                }
-            })
-        } else {
-            if (!children) {
-                console.error(`[property] getValues() error`)
-                return
-            }
-            console.log("children", children)
+        const values = getValues()
 
-            // const renewChild = (children: any, values: any) => {
-            //     children.map((child: any, index: number) => {
-            //         const childValue = values?.children?.[index]
+        console.log("KKKKKKKKKKKKKK",values)
+        console.log("EEEEEEEEEEEEEEEE", element)
+        const renewChild = () => {
+            const newChildren = children?.map(
+                (child: any, index: number) => {
+                    console.log(`child update`, child.properties)
+                    console.log("child update 2", values)
 
-            //         _.set(child, "label", childValue?.label)
-            //         _.set(child, "value", childValue?.value)
-
-            //         console.log(`child update`, child)
-            //     })
-
-            //     return children
-            // }
-
-            const values = getValues()
-            const renewChild = () => {
-                const newChildren = children.map(
-                    (child: any, index: number) => {
-                        console.log(`child update`, child.properties)
-                        console.log("child update 2", values)
-
-                        return {
-                            ...child,
-                            properties: child?.properties?.map((k) => {
-                                return {
-                                    ...k,
-                                    value: values[child.id][k.label]
-                                }
-                            })
-                        }
+                    return {
+                        ...child,
+                        properties: child?.properties?.map((k) => {
+                            return {
+                                ...k,
+                                value: values[child.id][k.label]
+                            }
+                        })
                     }
-                )
-
-                return newChildren
-            }
-
-            setUpdateElementId({
-                action: UpdateEditElementAction.UPDATE,
-                id,
-                index,
-                values: {
-                    ...(getValues() as PropertiesComponentProps),
-                    id: id,
-                    element: element,
-                    label,
-                    placeholder,
-                    value,
-                    type,
-                    index,
-                    children: renewChild()
                 }
-            })
+            )
+
+            return newChildren
         }
+        setUpdateElementId({
+            action: UpdateEditElementAction.UPDATE,
+            id,
+            index,
+            values: {
+                ...(values as PropertiesComponentProps),
+                id: id,
+                properties: properties.map((l) => {
+                    return { ...l, value: values[id][l.label] }
+                }),
+                element,
+                label,
+                placeholder,
+                value,
+                type,
+                index,
+                children: renewChild()
+            }
+        })
+
+
+
+        // if (!isLayout || focusEditId.childType == "parent") {
+        //     const values = getValues()
+
+        //     console.log("KKKKKKKKKKKKKK",values)
+        //     console.log("EEEEEEEEEEEEEEEE", element)
+        //     setUpdateElementId({
+        //         action: UpdateEditElementAction.UPDATE,
+        //         id,
+        //         index,
+        //         values: {
+        //             ...(values as PropertiesComponentProps),
+        //             id: id,
+        //             properties: properties.map((l) => {
+        //                 return { ...l, value: values[id][l.label] }
+        //             }),
+        //             element
+        //         }
+        //     })
+        // } else {
+        //     if (!children) {
+        //         console.error(`[property] getValues() error`)
+        //         return
+        //     }
+        //     console.log("children", children)
+
+        //     // const renewChild = (children: any, values: any) => {
+        //     //     children.map((child: any, index: number) => {
+        //     //         const childValue = values?.children?.[index]
+
+        //     //         _.set(child, "label", childValue?.label)
+        //     //         _.set(child, "value", childValue?.value)
+
+        //     //         console.log(`child update`, child)
+        //     //     })
+
+        //     //     return children
+        //     // }
+
+        //     const values = getValues()
+        //     const renewChild = () => {
+        //         const newChildren = children.map(
+        //             (child: any, index: number) => {
+        //                 console.log(`child update`, child.properties)
+        //                 console.log("child update 2", values)
+
+        //                 return {
+        //                     ...child,
+        //                     properties: child?.properties?.map((k) => {
+        //                         return {
+        //                             ...k,
+        //                             value: values[child.id][k.label]
+        //                         }
+        //                     })
+        //                 }
+        //             }
+        //         )
+
+        //         return newChildren
+        //     }
+
+        //     setUpdateElementId({
+        //         action: UpdateEditElementAction.UPDATE,
+        //         id,
+        //         index,
+        //         values: {
+        //             ...(getValues() as PropertiesComponentProps),
+        //             id: id,
+        //             element: element,
+        //             label,
+        //             placeholder,
+        //             value,
+        //             type,
+        //             index,
+        //             children: renewChild()
+        //         }
+        //     })
+        // }
     }
 
     return (
@@ -158,10 +208,11 @@ export const PropertiesComponent: React.FC<
             </div>
 
             <div className="overflow-y-auto">
-                {!isLayout &&
+                {(!isLayout || focusEditId.childType == "parent") &&
                     properties?.map((l) => {
                         return (
                             <div>
+                                <div>{`${focusEditId.childType}`}</div>
                                 <PropertiesChildInput
                                     key={`${id}-main-${index}`}
                                     {...props}
@@ -175,7 +226,7 @@ export const PropertiesComponent: React.FC<
                             </div>
                         )
                     })}
-                {isLayout &&
+                {isLayout && focusEditId.childType != "parent" &&
                     children &&
                     children.length != 0 &&
                     children.map((item: PropertyJson, index: number) => {

@@ -238,7 +238,9 @@ export const getColumnDefinition = (
                                     action={row.getToggleExpandedHandler()}
                                 />
                             ) : (
-                                <Component
+
+                                (!k.shouldShow || k.shouldShow(original))?
+                                (<Component
                                     icon={k.headerIcon}
                                     label={getActionTitle(
                                         original._id,
@@ -252,7 +254,8 @@ export const getColumnDefinition = (
                                         k.action && k.action(original)
                                     }}
                                     disabled={k.isDisabled && !original._id}
-                                />
+                                />):
+                                (<></>)
                             )}
                         </div>
                     )
@@ -260,7 +263,9 @@ export const getColumnDefinition = (
                 return (
                     <>
                         {((isCompatibleMode && k.isCompatible) ||
-                            !k.isCompatible) && (
+                            !k.isCompatible) && 
+                            (!k.shouldShow || k.shouldShow(original))&&
+                            (
                             <Component
                                 icon={k.headerIcon}
                                 label={getTDTitle(k, original, mode)}
