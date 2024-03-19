@@ -19,7 +19,7 @@ import {
     FocusEditElementType,
     SwapLayoutChildType
 } from "../../utils"
-import { TwoColumn, ThreeColumn, LeftGridsRightColumn, BentoGrid } from "../index"
+import { TwoColumn, ThreeColumn, LeftGridsRightColumn, BentoGrid, RightGridsLeftColumn } from "../index"
 
 const { DndProvider } = require("react-dnd")
 const { HTML5Backend } = require("react-dnd-html5-backend")
@@ -88,6 +88,13 @@ export const MultiColumnsContextProvider: FC<
 
                 {element == LayoutNameMap.LeftGridsRightColumn && (
                     <LeftGridsRightColumn
+                        {...props}
+                        children={selfData?.children}
+                    />
+                )}
+
+                {element == LayoutNameMap.RightGridsLeftColumn && (
+                    <RightGridsLeftColumn
                         {...props}
                         children={selfData?.children}
                     />

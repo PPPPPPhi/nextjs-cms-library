@@ -99,6 +99,7 @@ export const DragDropAccecptType: string[] = [
     LayoutNameMap.ThreeColumn,
     LayoutNameMap.TwoColumn,
     LayoutNameMap.LeftGridsRightColumn,
+    LayoutNameMap.RightGridsLeftColumn,
     LayoutNameMap.BentoGrid
 ]
 
