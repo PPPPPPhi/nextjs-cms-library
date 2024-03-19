@@ -1,5 +1,6 @@
 import React from "react"
 import { WidgetProps } from "../utils/type/index"
+import "./style.scss"
 
 type RichTextProps = WidgetProps & {}
 
@@ -12,7 +13,7 @@ export const RichText: React.FC<RichTextProps> = ({ properties }) => {
             <div className={`text-level-headline text-font-bold`}>
                 {labelItem?.value}
             </div>
-            <div dangerouslySetInnerHTML={{ __html: valueItem?.value ?? "" }} />
+            <div className="richtext-container" dangerouslySetInnerHTML={{ __html: valueItem?.value ?? "" }} />
         </div>
     )
 }
