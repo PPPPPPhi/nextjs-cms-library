@@ -76,8 +76,6 @@ export const PropertiesChildSubInput: React.FC<
                 // @ts-ignore
                 name={name}
                 render={({ field: { onChange, value } }) => {
-                    console.log("vvvvvv", value)
-
                     if (!label) return <></>
 
                     if (type === "text")
@@ -88,7 +86,7 @@ export const PropertiesChildSubInput: React.FC<
                                     id="message"
                                     style={{ padding: 10 }}
                                     rows={3}
-                                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="s-text-color-alpha"
                                     placeholder="Write your thoughts here..."
                                     onChange={(evt) => {
                                         onChange(evt)

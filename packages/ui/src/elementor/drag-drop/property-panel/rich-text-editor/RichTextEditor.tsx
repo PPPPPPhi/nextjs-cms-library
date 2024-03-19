@@ -39,15 +39,19 @@ export const RichTextEditor: React.FC<RichTextEditorInterface> = ({
     }, [defaultValue])
 
     return (
-        <Editor
-            editorState={editorState}
-            toolbarClassName="toolbarClassName"
-            wrapperClassName="wrapperClassName"
-            editorClassName="editorClassName"
-            onEditorStateChange={(e: any) => {
-                setEditorState(e)
-                onChange(draftToHtml(convertToRaw(e.getCurrentContent())) ?? "")
-            }}
-        />
+        <div className="s-text-color-alpha">
+            <Editor
+                editorState={editorState}
+                toolbarClassName="toolbarClassName"
+                wrapperClassName="wrapperClassName"
+                editorClassName="editorClassName"
+                onEditorStateChange={(e: any) => {
+                    setEditorState(e)
+                    onChange(
+                        draftToHtml(convertToRaw(e.getCurrentContent())) ?? ""
+                    )
+                }}
+            />
+        </div>
     )
 }
