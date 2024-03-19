@@ -13,7 +13,6 @@ import {
 
 export const useDropComponentInLayout = () => {
     const {
-        elementsList,
         dragDropList,
         propertiesList,
         dragDropEditList,
@@ -37,7 +36,6 @@ export const useDropComponentInLayout = () => {
         const newId = uuid_v4()
 
         const { dropComponent, layoutId, childType } = dropComponentInLayout
-        console.log(`[hover] dropComponentInLayout`, dropComponentInLayout)
         try {
             // get drop component and its value json
             const newDragDropComponent: DragDropEditType = {
@@ -73,48 +71,45 @@ export const useDropComponentInLayout = () => {
                 layoutId
             ])
 
-            const dropChildInList = (
-                parentDnd: DragDropComponentProps,
-                parentProp: PropertiesComponentProps,
-                childType: string,
-                newChildDnd: DragDropEditType,
-                newChildProp: PropertyEditType
-            ) => {
-                const dropChildIndex = _.findIndex(parentProp?.children, [
-                    "childType",
-                    childType
-                ])
+            let parentDnd = _.cloneDeep(layoutDragDrop)
+            let parentProp = _.cloneDeep(layoutProperty)
 
-                _.set(parentDnd, `elements.${dropChildIndex}`, {
-                    ...newChildDnd,
-                    childType
-                })
+            const dropChildIndex = _.findIndex(parentProp?.children, [
+                "childType",
+                childType
+            ])
 
-                _.set(parentProp, `children.${dropChildIndex}`, {
-                    ...newChildProp,
-                    childType
-                })
-                return { parentDnd, parentProp }
+            let newParentDragDrop = parentDnd
+            let newParentProps = parentProp
+
+            if (
+                parentProp.children?.[dropChildIndex].element !==
+                newPropertiesComponent.element
+            ) {
+                newParentDragDrop = {
+                    ...parentDnd,
+                    elements: parentDnd.elements?.map((l, idx) => {
+                        if (idx === dropChildIndex) {
+                            return {
+                                ...newDragDropComponent,
+                                childType
+                            }
+                        } else return l
+                    })
+                }
+
+                newParentProps = {
+                    ...parentProp,
+                    children: parentProp.children?.map((l, idx) => {
+                        if (idx === dropChildIndex) {
+                            return {
+                                ...newPropertiesComponent,
+                                childType
+                            }
+                        } else return l
+                    })
+                }
             }
-
-            const { parentDnd, parentProp } = dropChildInList(
-                layoutDragDrop,
-                layoutProperty,
-                childType,
-                newDragDropComponent,
-                newPropertiesComponent
-            )
-
-            console.log(`[hover] AFTER SET TO CHILD: `, parentDnd, parentProp)
-
-            console.log(
-                `[hover] cloneCurrentDragDrop`,
-                cloneCurrentDragDrop,
-                cloneCurrentProperty,
-                parentIndex,
-                parentDnd,
-                parentProp
-            )
 
             const newDragDropList = _.cloneDeep(
                 dragDropHistoryList[currentHistoryIndex]
@@ -124,21 +119,34 @@ export const useDropComponentInLayout = () => {
                 propertiesHistoryList[currentHistoryIndex]
             )
 
+            console.log(
+                "setPropertiesEditList  6.0",
+                newPropertiesList,
+                propertiesHistoryList[currentHistoryIndex - 1]
+            )
+
+            console.log(
+                "setPropertiesEditList  6.1",
+                newPropertiesList,
+                propertiesHistoryList[currentHistoryIndex]
+            )
+
             if (!newDragDropList) return
             if (!newPropertiesList) return
 
-            newDragDropList[parentIndex] = parentDnd
-            newPropertiesList[parentIndex] = parentProp
+            console.log("setPropertiesEditList 6.6", newDragDropList)
+
+            newDragDropList[parentIndex] = newParentDragDrop
+            newPropertiesList[parentIndex] = newParentProps
+
             console.log(
                 `[hover] dropComponentInLayout`,
                 newDragDropList,
                 newPropertiesList
             )
 
-            console.log("setPropertiesEditList  6")
-
-            console.log("newDragDropList 1", newDragDropList)
-            console.log("newDragDropList 2", newPropertiesList)
+            console.log("setPropertiesEditList  6", newPropertiesList)
+            console.log("setPropertiesEditList  6.5", propertiesHistoryList)
 
             setDragDropEditList(newDragDropList)
             setPropertiesEditList(newPropertiesList)

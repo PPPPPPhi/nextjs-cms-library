@@ -38,8 +38,10 @@ export const useNavigatePreviousNextStep = () => {
             // const currentDnD = dragDropHistoryList[currentHistoryIndex]
             // const currentPro = propertiesHistoryList[currentHistoryIndex]
 
-            console.log("setPropertiesEditList  8")
-
+            console.log(
+                "setPropertiesEditList  8",
+                propertiesHistoryList[currentHistoryIndex]
+            )
             setDragDropEditList(dragDropHistoryList[currentHistoryIndex])
             setPropertiesEditList(propertiesHistoryList[currentHistoryIndex])
 

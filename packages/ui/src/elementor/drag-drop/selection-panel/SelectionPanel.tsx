@@ -27,7 +27,8 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
                 left: 20,
                 display: !isExpandView ? "block" : "none",
                 top: 100,
-                height: "80%"
+                height: "80%",
+                zIndex: 1
             }}>
             <div className="overflow-y-auto h-100">
                 <div className="s-select-tab mb-3 flex flex-row justify-center">

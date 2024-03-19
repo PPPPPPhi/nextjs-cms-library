@@ -155,6 +155,7 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
 
         setDragDropEditList([...dragDropEditRef.current, newEditComponent])
 
+        console.log("setPropertiesEditList  4")
         setPropertiesEditList([
             ...propertiesEditRef.current,
             newPropertiesComponent

@@ -29,18 +29,6 @@ export const propertyTextJson: PropertyJson = {
             placeholder: "Input here ...",
             value: "Morning World",
             type: "text"
-        },
-        {
-            label: "Font",
-            placeholder: "Input here ...",
-            value: "Text Label",
-            type: "text"
-        },
-        {
-            label: "A",
-            placeholder: "Input here ...",
-            value: "Morning World",
-            type: "text"
         }
     ]
 }

@@ -385,10 +385,7 @@ export const DisplayPanelContextProvider: FC<
             return { ...l, hoverIndex: idx }
         })
 
-        console.log("swapDragElem", swapList)
-
         console.log("setPropertiesEditList  2")
-
         setDragDropEditList(swapList)
         setPropertiesEditList(swapPropElem)
 

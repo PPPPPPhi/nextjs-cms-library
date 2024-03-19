@@ -78,25 +78,23 @@ export const PropertiesComponent: React.FC<
         console.log(`update properties getValues()`, children, getValues())
         const values = getValues()
 
-        console.log("KKKKKKKKKKKKKK",values)
+        console.log("KKKKKKKKKKKKKK", values)
         console.log("EEEEEEEEEEEEEEEE", element)
         const renewChild = () => {
-            const newChildren = children?.map(
-                (child: any, index: number) => {
-                    console.log(`child update`, child.properties)
-                    console.log("child update 2", values)
+            const newChildren = children?.map((child: any, index: number) => {
+                console.log(`child update`, child.properties)
+                console.log("child update 2", values)
 
-                    return {
-                        ...child,
-                        properties: child?.properties?.map((k) => {
-                            return {
-                                ...k,
-                                value: values[child.id][k.label]
-                            }
-                        })
-                    }
+                return {
+                    ...child,
+                    properties: child?.properties?.map((k) => {
+                        return {
+                            ...k,
+                            value: values[child.id][k.label]
+                        }
+                    })
                 }
-            )
+            })
 
             return newChildren
         }
@@ -107,7 +105,7 @@ export const PropertiesComponent: React.FC<
             values: {
                 ...(values as PropertiesComponentProps),
                 id: id,
-                properties: properties.map((l) => {
+                properties: properties?.map((l) => {
                     return { ...l, value: values[id][l.label] }
                 }),
                 element,
@@ -119,8 +117,6 @@ export const PropertiesComponent: React.FC<
                 children: renewChild()
             }
         })
-
-
 
         // if (!isLayout || focusEditId.childType == "parent") {
         //     const values = getValues()
@@ -203,7 +199,7 @@ export const PropertiesComponent: React.FC<
 
     return (
         <div className="" style={{ display: allowDisplay }}>
-            <div className={`ml-2.5 text-gray-500 dark:text-gray-400`}>
+            <div className="s-text-color-alpha">
                 <span>{`Widget Type: ${element}`}</span>
             </div>
 
@@ -226,7 +222,8 @@ export const PropertiesComponent: React.FC<
                             </div>
                         )
                     })}
-                {isLayout && focusEditId.childType != "parent" &&
+                {isLayout &&
+                    focusEditId.childType != "parent" &&
                     children &&
                     children.length != 0 &&
                     children.map((item: PropertyJson, index: number) => {
