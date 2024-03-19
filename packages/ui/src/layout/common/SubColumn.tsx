@@ -59,7 +59,8 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
         subColumnElem.style.background = ""
     }, [resetColor])
 
-    const updateFocusEditComponent = () => {
+    const updateFocusEditComponent : React.MouseEventHandler<HTMLDivElement> = (evt: React.MouseEvent<HTMLDivElement>) => {
+        evt.stopPropagation()
         if (readOnly) return
         setFocusEditId({ ...focusEditId, id: parentId, childType })
     }
@@ -85,7 +86,7 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
             className={`d-flex w-100 h-100 s-column-grid ${!readOnly ? "s-dragging" : ""} 
                 ${!isPreview ? "s-edit-area-border" : "border-none"}`}
             style={{ flex: 1 }}
-            onClick={() => updateFocusEditComponent()}
+            onClick={updateFocusEditComponent }
             onMouseEnter={() => setResetColor(false)}
             onMouseOver={() => setResetColor(false)}>
             {/* {!isPreview && <EmptyLayoutGrid />} */}

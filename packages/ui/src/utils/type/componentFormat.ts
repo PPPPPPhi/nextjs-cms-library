@@ -98,7 +98,8 @@ export const DragDropAccecptType: string[] = [
     ElementNameMap.Webinar,
     LayoutNameMap.ThreeColumn,
     LayoutNameMap.TwoColumn,
-    LayoutNameMap.LeftGridsRightColumn
+    LayoutNameMap.LeftGridsRightColumn,
+    LayoutNameMap.BentoGrid
 ]
 
 export type LayoutDragDropType = {
