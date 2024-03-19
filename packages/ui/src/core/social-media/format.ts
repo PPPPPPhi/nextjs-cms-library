@@ -16,9 +16,6 @@ export const dragDropSocialMediaJson: DragDropJson = {
 
 export const propertySocialMediaJson: PropertyJson = {
     element: "social-media",
-    label: "SocialMedia Label",
-    placeholder: "Input here ...",
-    value: "Morning World",
     type: "social-media",
     properties: [
         {

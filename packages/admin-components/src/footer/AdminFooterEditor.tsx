@@ -53,6 +53,10 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
     }, [properties])
 
     useEffect(() => {
+        if(value) setDefaultValue(value)
+    }, [mode])
+
+    useEffect(() => {
         setFooter(template)
     }, [template])
 

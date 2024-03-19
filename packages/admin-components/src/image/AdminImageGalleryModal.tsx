@@ -11,6 +11,7 @@ interface AdminImageGalleryModalInterface {
     onImageSelected: (path: string) => void
     setModal: (data: adminModalType) => void
     setLoading: (data: boolean) => void
+    passByRelative?: boolean
 }
 
 type adminModalType = {
@@ -24,7 +25,7 @@ type adminModalType = {
 
 export const AdminImageGalleryModal: React.FC<
     AdminImageGalleryModalInterface
-> = ({ onImageSelected, setModal, setLoading }) => {
+> = ({ onImageSelected, setModal, setLoading, passByRelative }) => {
     // const { setModal, setLoading } = useAdminContext()
     const [selected, setSelected] = useState()
 
@@ -57,7 +58,9 @@ export const AdminImageGalleryModal: React.FC<
             ),
             confirmCTAText: "Confirm",
             confirmHandler: () => {
-                onImageSelected(imageIdRef.current as unknown as string)
+                if (passByRelative)
+                    onImageSelected(imageRef.current as unknown as string)
+                else onImageSelected(imageIdRef.current as unknown as string)
             },
             cancelCTAText: "Cancel"
         })

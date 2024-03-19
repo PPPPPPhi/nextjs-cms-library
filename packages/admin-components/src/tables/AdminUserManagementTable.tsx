@@ -7,17 +7,16 @@ import { HiPencil } from "react-icons/hi"
 interface AdminUserManagementTableInterface {
     data: userRowType[]
     updateActivationStatus: (d: userRowType) => void
+    editUser: (d: userRowType) => void
 }
 
 export type userRowType = userType & { roleItem: roleType[] }
 
 export const AdminUserManagementTable: React.FC<
     AdminUserManagementTableInterface
-> = ({ data, updateActivationStatus }) => {
+> = ({ data, updateActivationStatus, editUser }) => {
     const router = useRouter()
     const { site } = useParams()
-
-    console.log("dadaadadadaad", data)
 
     return (
         <div className="d-flex w-100 overflow-auto">
@@ -33,24 +32,19 @@ export const AdminUserManagementTable: React.FC<
                         headerIcon: <HiPencil />,
                         size: 100,
                         action: (data) => {
-                            const { version } = data
-                            router.push(`${version}`)
+                            editUser(data)
                         }
                     },
                     {
                         accessorKey: "_activate",
                         header: "",
                         cellType: "action",
-                        actionTitle: "Inactivate",
+                        actionTitle: "Active",
+                        actionInverseTitle: "InActive",
+                        isActivate: true,
                         size: 120,
                         action: (data) => {
                             updateActivationStatus(data)
-                            // await putAdminClientAPI(
-                            //     `publication/${site}/${row.row.original._id}`,
-                            //     {
-                            //         status: !Boolean(row.getValue())
-                            //     }
-                            // )
                         }
                     },
                     {
@@ -71,16 +65,18 @@ export const AdminUserManagementTable: React.FC<
                         size: 180
                     },
                     {
-                        accessorKey: "_role",
+                        accessorKey: "roleItem",
                         header: "Role",
-                        cellType: "badge",
+                        cellType: "badgeList",
+                        badgeRef: "name",
                         customStyle: { background: "black", color: "white" },
-                        size: 130
+                        size: 250
                     },
                     {
                         accessorKey: "status",
                         header: "Status",
                         cellType: "badge",
+                        badgeTitle: { 1: "Active", 0: "Inactive" },
                         size: 130
                     },
                     {

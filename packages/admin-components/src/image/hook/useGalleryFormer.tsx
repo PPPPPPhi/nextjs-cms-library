@@ -22,9 +22,7 @@ const useGalleryFormer = (
                     {
                         title: "site",
                         key: l.site,
-                        value: (
-                            <span className="s-text-color-alpha">{l.site}</span>
-                        )
+                        value: <span className="s-text-color-nu">{l.site}</span>
                     },
                     {
                         title: "type",

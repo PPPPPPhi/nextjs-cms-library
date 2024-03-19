@@ -1,16 +1,23 @@
-import { CSSProperties } from "react"
+import { CSSProperties, useMemo } from "react"
 
 interface AdminTableBadgeInterface {
     value: string
     customStyle?: CSSProperties
     customWidth?: number
+    badgeTitle?: any
 }
 
 export const AdminTableBadge: React.FC<AdminTableBadgeInterface> = ({
     value,
     customStyle,
-    customWidth
+    customWidth,
+    badgeTitle
 }) => {
+    const badgeValue = useMemo(() => {
+        if (badgeTitle) return badgeTitle[value] ?? value
+        else return value
+    }, [badgeTitle])
+
     return (
         <div
             className="d-flex align-items-center justify-content-center "
@@ -19,7 +26,7 @@ export const AdminTableBadge: React.FC<AdminTableBadgeInterface> = ({
                 className="s-section-primary px-3 rounded-4 d-flex align-items-center"
                 style={{ ...customStyle }}>
                 <span className="text-level-caption text-font-medium">
-                    {value}
+                    {badgeValue}
                 </span>
             </div>
         </div>

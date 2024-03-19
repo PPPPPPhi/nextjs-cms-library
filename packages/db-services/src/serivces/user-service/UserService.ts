@@ -5,6 +5,7 @@ import {
     getOperator
 } from "../auth-service/authService"
 import { ErrorCode } from "../../constants/"
+import { Types } from "mongoose"
 
 export type userRegType = {
     userName: string
@@ -128,5 +129,53 @@ export const getUserList = async () => {
     } catch (error) {
         console.log("Error Occured", error)
         return { message: "Failed", status: 500 }
+    }
+}
+
+export const activateUser = async (userName: string, status: number) => {
+    try {
+        await connectMongoDB()
+        const operator = await getOperator()
+
+        const user = await User.updateOne(
+            { userName },
+            {
+                status,
+                updatedBy: operator
+            }
+        )
+        if (user.acknowledged) return { status: 200 }
+        else throw new Error("Error in activate user")
+    } catch (e) {
+        console.log("Error in activate user", e)
+        return { status: 500 }
+    }
+}
+
+export const updateUser = async (
+    userName: string,
+    user: {
+        firstName: string
+        lastName: string
+        roles: string[]
+    }
+) => {
+    try {
+        await connectMongoDB()
+        const operator = await getOperator()
+
+        const userResp = await User.updateOne(
+            { userName },
+            {
+                ...user,
+                roles: user?.roles?.map((l) => new Types.ObjectId(l)),
+                updatedBy: operator
+            }
+        )
+        if (userResp.acknowledged) return { status: 200 }
+        else throw new Error("Error in activate user")
+    } catch (e) {
+        console.log("Error in activate user", e)
+        return { status: 500 }
     }
 }

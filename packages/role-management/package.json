@@ -1,6 +1,6 @@
 {
     "name": "@nextjs-cms-library/role-management",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "exports": {
         "./index": "./src/index.ts"
     },

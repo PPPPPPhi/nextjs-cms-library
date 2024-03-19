@@ -2,15 +2,17 @@ import { AdminButton } from "../core"
 import { AdminTextInput } from "../input"
 import { NextImageApdator } from "@nextjs-cms-library/ui/index"
 import { AdminImageGalleryModal } from "../image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { AdminCard } from "../core"
 
 interface AdminHeaderInterface {
     header: {
         headerLargeLogo: string
         headerSmallLogo: string
+        headerSmallRatio: string
+        headerLargeRatio: string
     }
-    saveHeader: (s: string, l: string) => void
+    saveHeader: (p: headerPropertiesType) => void
     setModal: (modal: any) => void
     setLoading: (l: boolean) => void
 }
@@ -18,6 +20,8 @@ interface AdminHeaderInterface {
 export type headerPropertiesType = {
     headerLargeLogo: string
     headerSmallLogo: string
+    headerLargeRatio: string
+    headerSmallRatio: string
 }
 
 const DEFAULT_IMAGE_PLACEHOLDER = `${process.env.NEXT_ASSEST_PATH}/image_placeholder.webp`
@@ -27,6 +31,9 @@ interface LogoPreviewerInterface {
     ratioH: number
     ratioLabel: string
     darkMode: boolean
+    setHeaderOption: (option: string) => void
+    option: string
+    radioGrp: string
     imagePath?: string | null
 }
 const LogoPreviewer: React.FC<LogoPreviewerInterface> = ({
@@ -34,12 +41,26 @@ const LogoPreviewer: React.FC<LogoPreviewerInterface> = ({
     ratioLabel,
     darkMode,
     ratioW,
-    ratioH
+    ratioH,
+    setHeaderOption,
+    radioGrp,
+    option
 }) => {
     const width = document.getElementById("preview_column")?.clientWidth
 
     return (
         <div id="preview_column" className="col-12 col-md-4 mx-0 p-1">
+            <input
+                className="mx-2"
+                type="radio"
+                id="html"
+                checked={option === `${ratioW}:${ratioH}`}
+                name={radioGrp}
+                value={`${ratioW}:${ratioH}`}
+                onChange={(evt) => {
+                    setHeaderOption(evt.target.value)
+                }}
+            />
             <span
                 className="text-level-remark text-font-medium"
                 style={{ color: darkMode ? "white" : "black" }}>
@@ -137,16 +158,23 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
     setModal,
     setLoading
 }) => {
-    const { headerLargeLogo, headerSmallLogo } = header ?? {}
-    const [compLogo, setCompLogo] = useState(
-        !!headerLargeLogo ? headerLargeLogo : null
-    )
-    const [mobileLogo, setMobileLogo] = useState(
-        !!headerSmallLogo ? headerSmallLogo : null
-    )
+    const [compLogo, setCompLogo] = useState<string>("")
+    const [mobileLogo, setMobileLogo] = useState<string>("")
 
     const [mode, setMode] = useState<string>()
     const [darkMode, setDarkMode] = useState<boolean>(false)
+
+    const [headerRatio, setHeaderRatio] = useState<string>("")
+    const [mobileRatio, setMobileRatio] = useState<string>("")
+
+    useEffect(() => {
+        if (header) {
+            setCompLogo(header?.headerLargeLogo)
+            setMobileLogo(header?.headerSmallLogo)
+            setHeaderRatio(header?.headerLargeRatio)
+            setMobileRatio(header?.headerSmallRatio)
+        }
+    }, [header])
 
     return (
         <div className="d-flex w-100 p-2 flex-column space-y-3 rounded-2">
@@ -164,10 +192,12 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                             actionLabel: "Save",
                             desc: "Save header info",
                             action: () => {
-                                saveHeader(
-                                    mobileLogo as string,
-                                    compLogo as string
-                                )
+                                saveHeader({
+                                    headerLargeLogo: compLogo as string,
+                                    headerSmallLogo: mobileLogo as string,
+                                    headerLargeRatio: headerRatio,
+                                    headerSmallRatio: mobileRatio
+                                })
                             }
                         }
                     ]}
@@ -186,6 +216,11 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         background: darkMode ? "rgba(0,0,0,0.8)" : "white"
                     }}>
                     <LogoPreviewer
+                        setHeaderOption={(v: string) => {
+                            setHeaderRatio(v)
+                        }}
+                        option={headerRatio}
+                        radioGrp="header_radio"
                         ratioLabel="16 to 9 ratio"
                         ratioH={9}
                         ratioW={16}
@@ -193,6 +228,11 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         imagePath={compLogo}
                     />
                     <LogoPreviewer
+                        setHeaderOption={(v: string) => {
+                            setHeaderRatio(v)
+                        }}
+                        radioGrp="header_radio"
+                        option={headerRatio}
                         ratioLabel="4 to 3 ratio"
                         ratioH={3}
                         ratioW={4}
@@ -200,6 +240,11 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         imagePath={compLogo}
                     />
                     <LogoPreviewer
+                        setHeaderOption={(v: string) => {
+                            setHeaderRatio(v)
+                        }}
+                        option={headerRatio}
+                        radioGrp="header_radio"
                         ratioLabel="1 to 1 ratio"
                         ratioH={1}
                         ratioW={1}
@@ -221,6 +266,11 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         background: darkMode ? "rgba(0,0,0,0.8)" : "white"
                     }}>
                     <LogoPreviewer
+                        setHeaderOption={(v: string) => {
+                            setMobileRatio(v)
+                        }}
+                        option={mobileRatio}
+                        radioGrp="mobile_radio"
                         ratioLabel="16 to 9 ratio"
                         ratioH={9}
                         ratioW={16}
@@ -228,6 +278,11 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         imagePath={mobileLogo}
                     />
                     <LogoPreviewer
+                        setHeaderOption={(v: string) => {
+                            setMobileRatio(v)
+                        }}
+                        option={mobileRatio}
+                        radioGrp="mobile_radio"
                         ratioLabel="4 to 3 ratio"
                         ratioH={3}
                         ratioW={4}
@@ -235,6 +290,11 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         imagePath={mobileLogo}
                     />
                     <LogoPreviewer
+                        setHeaderOption={(v: string) => {
+                            setMobileRatio(v)
+                        }}
+                        option={mobileRatio}
+                        radioGrp="mobile_radio"
                         ratioLabel="1 to 1 ratio"
                         ratioH={1}
                         ratioW={1}
@@ -246,6 +306,7 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
 
             {mode && (
                 <AdminImageGalleryModal
+                    passByRelative
                     onImageSelected={(path: string) => {
                         if (mode === "comp") setCompLogo(path)
                         else setMobileLogo(path)

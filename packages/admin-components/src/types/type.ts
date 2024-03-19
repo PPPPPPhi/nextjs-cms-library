@@ -6,10 +6,14 @@ export type cellComponentType =
     | "edit"
     | "desc"
     | "view"
+    | "badgeList"
 
 export type columnDefsType = {
     accessorKey: string
     header: string
+    actionInverseTitle?: string
+    badgeRef?: any
+    badgeTitle?: any
     inverseAction?: boolean
     headerIcon?: React.ReactNode
     cellType: cellComponentType
@@ -22,4 +26,5 @@ export type columnDefsType = {
     isClonable?: boolean
     customStyle?: React.CSSProperties
     isDisabled?: boolean
+    isActivate?: boolean
 }

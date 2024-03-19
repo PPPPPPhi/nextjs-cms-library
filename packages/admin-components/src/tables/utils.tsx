@@ -9,7 +9,8 @@ import {
     AdminTableEditButton,
     AdminTableCollapse,
     AdminTableDescRowCell,
-    AdminTableViewButton
+    AdminTableViewButton,
+    AdminTableBadgeList
 } from "./components"
 import { CellContext } from "@tanstack/react-table"
 import { columnDefsType, cellComponentType } from "../types/type"
@@ -59,6 +60,9 @@ export const getCellComponents: any = (cellType: cellComponentType) => {
             break
         case "view":
             Component = AdminTableViewButton
+            break
+        case "badgeList":
+            Component = AdminTableBadgeList
             break
         default:
             Component = AdminTableRowCell
@@ -153,6 +157,8 @@ const getTDTitle = (col: columnDefsType, original: any, mode: string) => {
         return getCompareModeLabel(mode as "NONE" | "WITH" | "COMPARE")
     else if (col.isClonable)
         return getCloneModelLabel(mode as "BY" | "CLONE" | "CLONNING")
+    else if (col.isActivate)
+        return mode === "A" ? col.actionTitle : col.actionInverseTitle
     else {
         return getActionTitle(
             original._id,
@@ -180,7 +186,10 @@ const getMode = (
             source as number,
             extension?.cloneSlug as string
         )
-    else return ""
+    else if (col.isActivate) {
+        if (original.status === 0) return "A"
+        else if (original.status === 1) return "I"
+    } else return ""
 }
 
 export const getColumnDefinition = (
@@ -258,6 +267,7 @@ export const getColumnDefinition = (
                                 value={
                                     k.cellRef ? original[k.cellRef] : getValue()
                                 }
+                                badgeTitle={k.badgeTitle}
                                 customWidth={k.size ?? null}
                                 customStyle={k.customStyle}
                                 action={() => {
