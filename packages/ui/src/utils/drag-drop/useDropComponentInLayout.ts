@@ -83,6 +83,7 @@ export const useDropComponentInLayout = () => {
             let newParentProps = parentProp
 
             if (
+                //@ts-ignore
                 parentProp.children?.[dropChildIndex].element !==
                 newPropertiesComponent.element
             ) {
