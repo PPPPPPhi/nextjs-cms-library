@@ -193,7 +193,8 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
             id="display-panel-drag-drop-area"
             ref={drop}
             style={{
-                height: !isMobileView ? "95%" : "100%"
+                //height: !isMobileView ? "95%" : "100%"
+                height: "100%"
             }}>
             {/* {(!currentDragDropEdit || currentDragDropEdit.length == 0) && (
                 <EmptyLayoutGrid />
@@ -218,19 +219,21 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
                 )}
 
             {!isPreview && (
-                <div
-                    style={{
-                        borderBottom: "solid thin lightgrey"
-                    }}>
+                <div style={{padding: "60px 0px"}}>
                     <div
                         style={{
-                            position: "relative",
-                            top: "10px",
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center"
+                            borderBottom: "solid thin lightgrey"
                         }}>
-                        <AddSvg width={20} height={20} />
+                        <div
+                            style={{
+                                position: "relative",
+                                top: "10px",
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "center"
+                            }}>
+                            <AddSvg width={20} height={20} />
+                        </div>
                     </div>
                 </div>
             )}
