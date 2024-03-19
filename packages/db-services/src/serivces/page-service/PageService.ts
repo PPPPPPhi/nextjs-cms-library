@@ -42,8 +42,8 @@ export const createPage = async (page: pageType) => {
             }
         })
 
-        await page.save()
-        return { message: "Success", status: 200 }
+        const result = await page.save()
+        return { message: "Success", status: 200, _id:result._id }
     } catch (e) {
         console.log("Error in Getting Image", e)
         return { message: "Fail", status: 500 }

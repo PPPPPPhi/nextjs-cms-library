@@ -49,8 +49,12 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                         isExpandable: true,
                         action: (data) => {
                             const { _id } = data
-                            if (_id) router.push(`pages/${_id}`)
-                            else createNewPage(data)
+                            if (_id) {
+                                router.push(`pages/${_id}`)
+                            }
+                            else {
+                                createNewPage(data)
+                            }
                         }
                     },
                     {
@@ -111,6 +115,9 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                         size: 100,
                         action: (data) => {
                             publishPage(data)
+                        },
+                        shouldShow: (data)=>{
+                            return !!data?._id
                         }
                     },
                     {
@@ -122,6 +129,9 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                         action: (data) => {
                             const { _id } = data
                             router.push(`pages/${_id}/history`)
+                        },
+                        shouldShow: (data)=>{
+                            return !!data?._id
                         }
                     }
                 ]}
