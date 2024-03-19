@@ -107,7 +107,7 @@ export const PropertiesComponent: React.FC<
             values: {
                 ...(values as PropertiesComponentProps),
                 id: id,
-                properties: properties.map((l) => {
+                properties: properties?.map((l) => {
                     return { ...l, value: values[id][l.label] }
                 }),
                 element,
