@@ -21,5 +21,6 @@ export enum LayoutNameMap {
     ThreeColumn = "three-column",
     TwoColumn = "two-column",
     LeftGridsRightColumn = "left-grids-right-column",
+    RightGridsLeftColumn= "right-grids-left-column",
     BentoGrid="bento-grid"
 }

@@ -8,6 +8,9 @@
             margin: 15px 0px;
         }
     }
+    img {
+        border-radius: 15px;
+    }
     .desktop{
         display: grid;
         grid-template-columns: repeat(4, 1fr);

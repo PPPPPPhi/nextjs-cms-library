@@ -42,8 +42,8 @@ export const AdminPageHistoryTable: React.FC<
                         headerIcon: <HiPencil />,
                         size: 100,
                         action: (data) => {
-                            const { _id } = data
-                            router.push(`pages/${_id}/history`)
+                            const { _id, version} = data
+                             router.push(`/admin/${site}/pages/${_id}/${version}`)
                         }
                     },
                     {
