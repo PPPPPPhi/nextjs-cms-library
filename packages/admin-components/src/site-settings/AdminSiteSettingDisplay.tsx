@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { AdminTextInput } from "../input"
 import { AdminButton } from "../core"
+import { useParams } from "next/navigation"
 
 interface AdminSiteSettingDisplayInterface {
     label: string
@@ -41,7 +42,12 @@ export const AdminSiteSettingDisplay: React.FC<
 }) => {
     const [isLangOption, setIsLangOption] = useState(false)
     const [isCMSLang, setIsCMSLang] = useState(false)
+    const [isHistory, setIsHistory] = useState(false)
 
+    const { version } = useParams();
+    
+    // @ts-ignore
+    const isFromHistory = version === 0 || !!version;
     useEffect(() => {
         if (settingKey === "cms_language") setIsCMSLang(true)
         else if (value) setIsLangOption(typeof value === "object")
@@ -62,12 +68,16 @@ export const AdminSiteSettingDisplay: React.FC<
                             <LanguageBadge key={`lang_badge_${idx}`} lang={k} />
                         ))}
                         <div style={{ flex: 1 }} />
-                        <AdminButton
-                            onClick={() => {
-                                createNewLanguage()
-                            }}
-                            label="Create New Language"
-                        />
+
+                        {
+                            !isHistory?
+                                (<AdminButton
+                                    onClick={() => {
+                                        createNewLanguage()
+                                    }}
+                                    label="Create New Language"
+                                />): <></>
+                        }
                     </div>
                 )}
                 {isLangOption &&
@@ -88,6 +98,7 @@ export const AdminSiteSettingDisplay: React.FC<
                                         }
                                     )[l]
                                 }
+                                readOnly={isHistory}
                             />
                         </div>
                     ))}

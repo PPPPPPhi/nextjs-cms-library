@@ -29,7 +29,7 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
         console.log(`handleSubmitPageData`, pageData)
 
         await submit(pageData)
-        router.push(`/admin/${site}/pages`)
+        // router.push(`/admin/${site}/pages`)
     }
 
     const cardRef = {

@@ -18,6 +18,7 @@ export const AdminSiteSettingHistoryTable: React.FC<
     AdminSiteSettingHistoryTableInterface
 > = ({ data, publishSiteSetting, isCompatible }) => {
     const router = useRouter()
+    const { site } = useParams()
 
     return (
         <div className="d-flex w-100 h-100">
@@ -36,7 +37,7 @@ export const AdminSiteSettingHistoryTable: React.FC<
                         size: 180,
                         action: (data) => {
                             const { version } = data
-                            router.push(`site-setting/${version}`)
+                            router.push(`/admin/${site}/site-setting/${version}`)
                         }
                     },
                     {

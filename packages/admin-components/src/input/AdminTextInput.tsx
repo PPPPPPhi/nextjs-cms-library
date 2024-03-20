@@ -6,6 +6,7 @@ interface AdminTextInputInterface {
     defaultValue?: string
     placeHolder?: string
     disabled?: boolean
+    readOnly?: boolean
     type?: string
 }
 
@@ -15,10 +16,10 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
     onChange,
     placeHolder,
     disabled,
+    readOnly,
     type
 }) => {
     const [value, setValue] = useState<string>(defaultValue || "")
-
     return (
         <div className="w-100">
             {label && (
@@ -33,6 +34,7 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
                     type={type ?? "text"}
                     autoComplete="off"
                     required
+                    readOnly={readOnly}
                     disabled={disabled}
                     placeholder={placeHolder}
                     value={value}
