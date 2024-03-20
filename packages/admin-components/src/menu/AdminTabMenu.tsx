@@ -5,6 +5,7 @@ import styles from "../AdminControl.module.scss"
 interface AdminTabMenuInterface {
     tabList: string[]
     callback?: (idx: number) => void
+    defaultTab?: number
 }
 
 interface SectionHeaderInterface {
@@ -39,11 +40,17 @@ const SectionHeader: React.FC<SectionHeaderInterface> = ({
 
 export const AdminTabMenu: React.FC<AdminTabMenuInterface> = ({
     tabList,
-    callback = (idx: number) => {}
+    callback = (idx: number) => {},
+    defaultTab
 }) => {
     const [selectedTab, setSelectedTab] = useState<number | undefined>(0)
     const [tabs, setTabs] = useState<string[]>(tabList)
 
+    useEffect(()=>{
+        if (defaultTab){
+            setSelectedTab(defaultTab)
+        }   
+    }, [])
     useEffect(() => {
         if (tabList.length) setTabs(tabList)
     }, [tabList])

@@ -63,7 +63,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
             setPreview(true);
             setExpandView(true);
         }
-    })
+    }, [])
    
 
     const isDisplayAll = useMemo(() => {
