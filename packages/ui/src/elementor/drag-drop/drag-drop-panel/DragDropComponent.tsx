@@ -419,7 +419,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
 
                 <div
                     style={{
-                        display: allowDisplay,
+                        display: !readOnly?allowDisplay:"none",
                         flexDirection: "row",
                         justifyContent: "flex-end",
                         position: "relative",
@@ -441,7 +441,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                     className={`s-drag-drop-card`}
                     style={{
                         padding: element === "banner" ? 0 : 20,
-                        borderColor: focusElement ? "navy" : "transparent"
+                        borderColor: !readOnly&&focusElement ? "navy" : "transparent"
                     }}>
                     {!isLayout && component && (
                         <div>
