@@ -1,5 +1,17 @@
 # @nextjs-cms-library/admin-components
 
+## 1.0.14
+
+### Patch Changes
+
+- fix footer setting default tab selection problem
+
+## 1.0.13
+
+### Patch Changes
+
+- fix default tab problem in footer setting
+
 ## 1.0.12
 
 ### Patch Changes
