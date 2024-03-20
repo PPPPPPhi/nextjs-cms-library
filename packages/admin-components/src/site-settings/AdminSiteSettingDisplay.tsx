@@ -42,10 +42,8 @@ export const AdminSiteSettingDisplay: React.FC<
 }) => {
     const [isLangOption, setIsLangOption] = useState(false)
     const [isCMSLang, setIsCMSLang] = useState(false)
-    const [isHistory, setIsHistory] = useState(false)
 
     const { version } = useParams();
-    
     // @ts-ignore
     const isFromHistory = version === 0 || !!version;
     useEffect(() => {
@@ -70,7 +68,7 @@ export const AdminSiteSettingDisplay: React.FC<
                         <div style={{ flex: 1 }} />
 
                         {
-                            !isHistory?
+                            !isFromHistory?
                                 (<AdminButton
                                     onClick={() => {
                                         createNewLanguage()
@@ -98,7 +96,7 @@ export const AdminSiteSettingDisplay: React.FC<
                                         }
                                     )[l]
                                 }
-                                readOnly={isHistory}
+                                readOnly={isFromHistory}
                             />
                         </div>
                     ))}
@@ -108,6 +106,7 @@ export const AdminSiteSettingDisplay: React.FC<
                             updateHandler(settingKey, v as string)
                         }}
                         defaultValue={value as string}
+                        readOnly={isFromHistory}
                     />
                 )}
             </div>
