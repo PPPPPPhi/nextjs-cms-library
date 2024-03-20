@@ -1,5 +1,11 @@
 # @nextjs-cms-library/admin-components
 
+## 1.0.12
+
+### Patch Changes
+
+- remove redirect after page update, change to readonly if viewing history
+
 ## 1.0.11
 
 ### Patch Changes

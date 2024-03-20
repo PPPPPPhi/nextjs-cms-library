@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.1.23
+
+### Patch Changes
+
+- remove redirect after page update, change to readonly if viewing history
+
 ## 0.1.22
 
 ### Patch Changes

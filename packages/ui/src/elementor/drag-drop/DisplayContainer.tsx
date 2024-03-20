@@ -17,6 +17,7 @@ import { PropertiesPanelArea } from "./property-panel/PropertiesPanelArea"
 import { PropertiesComponentProps } from "../../utils/index"
 import { DisplayController } from "./control-bar/DisplayControlBar"
 import { SubmissionButton } from "./control-bar/SubmissionButton"
+import { useParams } from "next/navigation"
 
 type DisplayContainerProps = {
     pageJson: PropertiesComponentProps | {}
@@ -27,6 +28,7 @@ type DisplayContainerProps = {
 }
 
 export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
+    let { readOnly } = props;
     return (
         <div className="d-flex h-100 w-100">
             <DisplayPanelContextProvider {...props}>
@@ -40,9 +42,19 @@ export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
                             flexDirection: "row",
                             justifyContent: "center"
                         }}>
-                        <SelectionPanel />
+                        {
+                            //@ts-ignore
+                            (!readOnly)?
+                            <SelectionPanel /> :
+                            <></>
+                        }
                         <DragDropArea />
-                        <SubmissionButton />
+                        {
+                            //@ts-ignore
+                            (!readOnly)?
+                            <SubmissionButton /> :
+                            <></>
+                        }
                         <PropertiesPanelArea />
                     </div>
                 </DndProvider>

@@ -58,6 +58,14 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
     const router = useRouter()
     const { site, pageId } = useParams()
 
+    useEffect(()=>{
+        if (readOnly){
+            setPreview(true);
+            setExpandView(true);
+        }
+    })
+   
+
     const isDisplayAll = useMemo(() => {
         console.log(`is display all`, displayAllButtons)
         return displayAllButtons ? "flex" : "none"
@@ -138,7 +146,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
             style={{
                 position: "fixed",
                 bottom: 20,
-                display: !readOnly ? "flex" : "none"
+                display: "flex"
             }}>
             <div className={`space-y-4`}>
                 <div
@@ -151,46 +159,64 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                         handler={() => returnHomePage()}
                     />
 
-                    <DisplayControllerButtons
-                        svg={
-                            <UndoSvg
-                                width={22}
-                                height={22}
-                                color={dimPrevious ? "grey" : "currentColor"}
-                            />
-                        }
-                        style={{
-                            cursor: dimPrevious ? "not-allowed" : "pointer"
-                        }}
-                        handler={() => navigatePreviousEdit()}
-                    />
+                    {
+                        (!readOnly)?
+                        <DisplayControllerButtons
+                            svg={
+                                <UndoSvg
+                                    width={22}
+                                    height={22}
+                                    color={dimPrevious ? "grey" : "currentColor"}
+                                />
+                            }
+                            style={{
+                                cursor: dimPrevious ? "not-allowed" : "pointer"
+                            }}
+                            handler={() => navigatePreviousEdit()}
+                        /> :
+                        <></>
+                    }
 
-                    <DisplayControllerButtons
-                        svg={
-                            <RedoSvg
-                                width={22}
-                                height={22}
-                                color={dimNext ? "grey" : "currentColor"}
-                            />
-                        }
-                        style={{ cursor: dimNext ? "not-allowed" : "pointer" }}
-                        handler={() => navigateNextEdit()}
-                    />
+                    {
+                        (!readOnly)?
+                        <DisplayControllerButtons
+                            svg={
+                                <RedoSvg
+                                    width={22}
+                                    height={22}
+                                    color={dimNext ? "grey" : "currentColor"}
+                                />
+                            }
+                            style={{ cursor: dimNext ? "not-allowed" : "pointer" }}
+                            handler={() => navigateNextEdit()}
+                        /> :
+                        <></>
+                    }
 
-                    <DisplayControllerButtons
-                        svg={isExpandButton}
-                        handler={() => toggleExpandView()}
-                    />
+                    
+                    {
+                        (!readOnly)?
+                        <DisplayControllerButtons
+                            svg={isExpandButton}
+                            handler={() => toggleExpandView()}
+                        /> :
+                        <></>
+                    }
 
                     <DisplayControllerButtons
                         svg={isMobileButton}
                         handler={() => toggleMobileView()}
                     />
 
-                    <DisplayControllerButtons
-                        svg={isPreviewButton}
-                        handler={() => togglePreview()}
-                    />
+                    {
+                        (!readOnly)?
+                        <DisplayControllerButtons
+                            svg={isPreviewButton}
+                            handler={() => togglePreview()}
+                        /> :
+                        <></>
+                    }
+
                 </div>
 
                 <DisplayControllerButtons
