@@ -126,6 +126,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
             }
         })
     )
+    
 
     const [{ canDrop, isOver }, drop] = useDrop(
         () => ({
@@ -397,7 +398,10 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         connectDragPreview(getEmptyImage(), { captureDraggingState: false })
     }, [connectDragPreview])
 
-    drag(drop(dropBetween(ref)))
+    
+    if (!readOnly){
+       drag(drop(dropBetween(ref)))
+    }
 
     return (
         <div>
