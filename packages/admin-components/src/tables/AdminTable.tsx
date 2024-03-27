@@ -22,6 +22,7 @@ interface AdminTableInterface {
     compareField?: string
     isCompatible?: boolean
     isSubComponent?: boolean
+    zebra?: boolean
 }
 
 export const AdminTable: React.FC<AdminTableInterface> = ({
@@ -30,7 +31,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
     columnDefs,
     compareField,
     isCompatible,
-    isSubComponent
+    isSubComponent,
+    zebra = false
 }) => {
     const [expanded, setExpanded] = useState<ExpandedState>({})
     const [compareSource, setCompareSource] = useState<number>(-1)
@@ -131,7 +133,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                             style={{
                                                 ...getCommonPinningStyles(
                                                     column,
-                                                    "th"
+                                                    "th",
+                                                    true
                                                 )
                                             }}>
                                             <div className="whitespace-nowrap">
@@ -157,7 +160,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                     style={{
                                         borderBottom: "1px solid black",
                                         height: 35
-                                    }}>
+                                    }}
+                                    className={`whitespace-nowrap ${zebra ? "s-zebra-hover" : ""}`}>
                                     {row.getVisibleCells().map((cell) => {
                                         const { column } = cell
                                         return (

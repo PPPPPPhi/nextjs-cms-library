@@ -7,6 +7,7 @@ export type cellComponentType =
     | "desc"
     | "view"
     | "badgeList"
+    | "photo"
 
 export type columnDefsType = {
     accessorKey: string

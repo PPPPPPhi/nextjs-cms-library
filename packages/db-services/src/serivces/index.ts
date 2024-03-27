@@ -13,6 +13,10 @@ import * as SiteSettingService from "./site-setting-service/SiteSettingService"
 import * as UserService from "./user-service/UserService"
 import * as BaseService from "./base-service/BaseService"
 import * as HistoryService from "./history-service/HistoryService"
+import * as OrderService from "./order-service/OrderService"
+import * as CatelogProductService from "./catalog-product-service/CatelogProductService"
+import * as CatalogCategoryService from "./catalog-category-service/CatelogCategoryService"
+import * as PromotionService from "./promotion-service/PromotionService"
 
 export {
     PageService,
@@ -26,5 +30,9 @@ export {
     SiteService,
     UserService,
     BaseService,
-    HistoryService
+    HistoryService,
+    OrderService,
+    CatelogProductService,
+    CatalogCategoryService,
+    PromotionService
 }
