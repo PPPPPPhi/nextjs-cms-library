@@ -12,7 +12,7 @@ export const AdminTablePreviewPhoto: React.FC<
     return (
         <div
             className="d-flex align-items-center justify-content-center "
-            style={{ height: 200 }}>
+            style={{ width: 300, objectFit: "contain" }}>
             <div
                 className=" px-3 rounded-4 d-flex align-items-center"
                 style={{ ...customStyle }}>
