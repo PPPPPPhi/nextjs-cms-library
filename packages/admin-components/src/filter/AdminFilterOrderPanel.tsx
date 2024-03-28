@@ -28,14 +28,19 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
             label: "Order Date To"
         },
         orderStatus: {
-            type: "orderStatus",
-            value: "",
+            type: "dropdown",
+            value: [],
             label: "Order Status"
         },
         paymentStatus: {
-            type: "paymentStatus",
+            type: "dropdown",
             value: "",
             label: "Payment Status"
+        },
+        pickUp: {
+            type: "dropdown",
+            value: "",
+            label: "Pick Up Option"
         },
         customerId: {
             type: "string",
@@ -51,11 +56,6 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
             type: "string",
             value: "",
             label: "Order Remark"
-        },
-        pickUp: {
-            type: "boolean",
-            value: "",
-            label: "Pick Up Option"
         },
         orderAddress: {
             type: "string",

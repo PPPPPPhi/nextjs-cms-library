@@ -43,6 +43,7 @@ export const AdminProductPromotionTable: React.FC<
                     isCompatible={isCompatible}
                     isSubComponent
                     compareField="pageJson"
+                    zebra={true}
                     columnDefs={[
                         {
                             accessorKey: "_id",

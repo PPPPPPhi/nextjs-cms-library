@@ -47,6 +47,7 @@ export const AdminProductOrderTable: React.FC<
                     ]}
                     isCompatible={isCompatible}
                     isSubComponent
+                    zebra={true}
                     compareField="pageJson"
                     columnDefs={[
                         {

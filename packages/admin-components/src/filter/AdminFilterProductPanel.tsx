@@ -12,15 +12,25 @@ export const AdminFilterProductPanel: React.FC<FilterProductPanelInterface> = ({
     updateFilter
 }) => {
     const keyTypes = {
-        catagory: {
+        category: {
             type: "string",
             value: "",
-            label: "Category"
+            label: "category"
         },
         product: {
             type: "string",
             value: "",
             label: "Product Name"
+        },
+        origin: {
+            type: "string",
+            value: "",
+            label: "Product Origin"
+        },
+        expiryDate: {
+            type: "date",
+            value: "",
+            label: "Expiry Date Before"
         },
         amountMin: {
             type: "string",
@@ -41,16 +51,6 @@ export const AdminFilterProductPanel: React.FC<FilterProductPanelInterface> = ({
             type: "string",
             value: "",
             label: "Maximun Stock"
-        },
-        origin: {
-            type: "string",
-            value: "",
-            label: "Product Origin"
-        },
-        expiryDate: {
-            type: "date",
-            value: "",
-            label: "Expiry Date Before"
         }
     }
 

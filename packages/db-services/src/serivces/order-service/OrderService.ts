@@ -4,6 +4,8 @@ import orderModal from "../../database/models/order/Order"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import { getOperator } from "../auth-service/authService"
 import _ from "lodash"
+import { multiSelectFilterField } from "../../../../admin-components/src/filter/utils"
+import { getParsedQuery } from "../utils"
 
 type orderType = {
     name: string
@@ -87,32 +89,11 @@ export const getFilterOrders = async (filter: FilterOrdersParam) => {
         console.log(`getFilterOrders filter`, filter)
 
         let orders
+        const query = getParsedQuery(filter)
 
-        if (filter?.startDate && filter?.endDate) {
-            console.log(`getFilterOrders check date`)
-
-            console.log(`mongoose order`, Order)
-            const filterClone = _.cloneDeep(filter)
-            _.unset(filterClone, `startDate`)
-            _.unset(filterClone, `endDate`)
-
-            const query = {
-                ...filterClone,
-                createdAt: {
-                    $gte: new Date(filter?.startDate),
-                    $lte: new Date(filter?.endDate)
-                }
-            }
-
-            console.log(`getFilterOrders query with time`, query)
-
-            // @ts-ignore
-            orders = Order.find(query)
-        } else {
-            console.log(`getFilterOrders query`, filter)
-            //@ts-ignore
-            orders = Order.find(filter)
-        }
+        console.log(`getFilterOrders query`, query)
+        //@ts-ignore
+        orders = Order.find(query)
 
         if (orders) return orders
         else return []

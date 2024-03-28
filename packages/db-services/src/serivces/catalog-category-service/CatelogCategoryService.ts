@@ -4,6 +4,7 @@ import categoryModal from "../../database/models/category/Category"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import { getOperator } from "../auth-service/authService"
 import _ from "lodash"
+import { getParsedQuery } from "../utils"
 
 type orderType = {
     name: string
@@ -81,31 +82,11 @@ export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
         console.log(`getFilterCatelogProducts filter`, filter)
 
         let category
+        const query = getParsedQuery(filter)
 
-        if (filter?.startDate && filter?.endDate) {
-            console.log(`getFilterOrders check date`)
-
-            const filterClone = _.cloneDeep(filter)
-            _.unset(filterClone, `startDate`)
-            _.unset(filterClone, `endDate`)
-
-            const query = {
-                ...filterClone,
-                createdAt: {
-                    $gte: new Date(filter?.startDate),
-                    $lte: new Date(filter?.endDate)
-                }
-            }
-
-            console.log(`getFilterOrders query with time`, query)
-
-            // @ts-ignore
-            category = Category.find(query)
-        } else {
-            console.log(`getFilterOrders query`, filter)
-            //@ts-ignore
-            category = Category.find(filter)
-        }
+        console.log(`getFilterOrders query`, filter)
+        //@ts-ignore
+        category = Category.find(query)
 
         if (category) return category
         else return []

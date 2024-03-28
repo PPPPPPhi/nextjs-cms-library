@@ -4,6 +4,7 @@ import promotionModal from "../../database/models/promotion/Promotion"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import { getOperator } from "../auth-service/authService"
 import _ from "lodash"
+import { getParsedQuery } from "../utils"
 
 type promotionType = {
     name: string
@@ -83,31 +84,11 @@ export const getFilterPromotion = async (filter: FilterPromotionParam) => {
 
         let promotion
 
-        if (filter?.startDate && filter?.endDate) {
-            console.log(`getFilterPromotions check date`)
+        const query = getParsedQuery(filter)
 
-            console.log(`mongoose promotion`, Promotion)
-            const filterClone = _.cloneDeep(filter)
-            _.unset(filterClone, `startDate`)
-            _.unset(filterClone, `endDate`)
-
-            const query = {
-                ...filterClone,
-                createdAt: {
-                    $gte: new Date(filter?.startDate),
-                    $lte: new Date(filter?.endDate)
-                }
-            }
-
-            console.log(`getFilterPromotions query with time`, query)
-
-            // @ts-ignore
-            promotions = Promotion.find(query)
-        } else {
-            console.log(`getFilterPromotions query`, filter)
-            //@ts-ignore
-            promotion = Promotion.find(filter)
-        }
+        console.log(`getFilterPromotions query`, filter)
+        //@ts-ignore
+        promotion = Promotion.find(query)
 
         if (promotion) return promotion
         else return []

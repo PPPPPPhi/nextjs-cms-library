@@ -153,7 +153,7 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                         ))}
                     </thead>
                     <tbody>
-                        {table.getRowModel().rows.map((row) => (
+                        {table.getRowModel().rows.map((row, index) => (
                             <Fragment key={row.id}>
                                 <tr
                                     key={row.id}
@@ -172,7 +172,11 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                                     ...getCommonPinningStyles(
                                                         column,
                                                         "td"
-                                                    )
+                                                    ),
+                                                    backgroundColor:
+                                                        zebra && index % 2 == 0
+                                                            ? "#f2f2f2"
+                                                            : "white"
                                                 }}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
