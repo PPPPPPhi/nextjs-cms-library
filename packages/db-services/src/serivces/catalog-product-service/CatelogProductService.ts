@@ -4,6 +4,12 @@ import productModal from "../../database/models/product/Product"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import { getOperator } from "../auth-service/authService"
 import _ from "lodash"
+import {
+    FilterOrdersParam,
+    PaginatedParam,
+    getPaginatedQuery,
+    getParsedQuery
+} from "../utils"
 
 type orderType = {
     name: string
@@ -63,29 +69,27 @@ export const createCatelogProduct = async (f: orderType) => {
 //     }
 // }
 
-type FilterDateRange = {
-    $gte: Date
-    $lte: Date
-}
-
-type FilterCatelogProductsParam = {
-    id?: string | undefined
-    category?: string | undefined
-    product?: string | undefined
-    amount?: string | undefined
-    stock?: string | undefined
-}
-
-export const getFilterProducts = async (filter: FilterCatelogProductsParam) => {
+export const getFilterProducts = async (filter: FilterOrdersParam) => {
     try {
         await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
         let orders
+        const query = getParsedQuery(filter)
+        const res = getPaginatedQuery(
+            Product,
+            {
+                pageSize: filter?.pageSize,
+                pageNum: filter?.pageNum
+            },
+            query,
+            null
+        )
 
-        console.log(`getFilterCatelogProducts query`, filter)
+        console.log(`getFilterCatelogProducts query`, query)
         //@ts-ignore
-        orders = Product.find(filter)
+        // orders = Product.find(query)
+        orders = res
 
         if (orders) return orders
         else return []

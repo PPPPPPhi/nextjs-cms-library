@@ -5,7 +5,7 @@ import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import { getOperator } from "../auth-service/authService"
 import _ from "lodash"
 import { multiSelectFilterField } from "../../../../admin-components/src/filter/utils"
-import { getParsedQuery } from "../utils"
+import { FilterOrdersParam, getParsedQuery } from "../utils"
 
 type orderType = {
     name: string
@@ -64,24 +64,6 @@ export const createOrder = async (f: orderType) => {
 //         return { message: "Failed", status: 500 }
 //     }
 // }
-
-type FilterDateRange = {
-    $gte: Date
-    $lte: Date
-}
-
-type FilterOrdersParam = {
-    description?: string | undefined
-    startDate?: string | undefined
-    endDate?: string | undefined
-    orderStatus?: string | undefined
-    paymentStatus?: string | undefined
-    customerId?: string | undefined
-    total?: string | undefined
-    remark?: string | undefined
-    pickUp?: string | undefined
-    orderAddress?: string | undefined
-}
 
 export const getFilterOrders = async (filter: FilterOrdersParam) => {
     try {

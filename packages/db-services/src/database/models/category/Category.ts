@@ -1,4 +1,4 @@
-import mongoose, { Model, Date } from "mongoose"
+import mongoose, { Model } from "mongoose"
 import { ICategory } from "./interface"
 
 type CategoryModal = Model<ICategory, {}, {}>

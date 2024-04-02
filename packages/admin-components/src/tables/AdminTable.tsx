@@ -15,6 +15,9 @@ import { columnDefsType } from "../types/type"
 import { AdminDiffViewer } from "./AdminDiffViewer"
 import { AdminTablePagination } from "./components/AdminTablePagination"
 
+import { getCsvBlob } from "tanstack-table-export-to-csv"
+import FileSaver from "file-saver"
+
 interface AdminTableInterface {
     data: any[]
     pinColumns: string[]
@@ -111,6 +114,22 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
         )
     }
 
+    const handleExportToCsv = (): void => {
+        const headers = table
+            .getHeaderGroups()
+            .map((x) => x.headers)
+            .flat()
+
+        const rows = table.getRowModel().rows
+
+        const csvBlob = getCsvBlob(headers, rows)
+
+        console.log(`export csv`, headers, rows, csvBlob)
+
+        // exportToCsv("export_data", headers, rows)
+        FileSaver.saveAs(csvBlob, "data.csv")
+    }
+
     return (
         <div className="d-flex flex-column w-100 h-100">
             <div className="overflow-auto mb-3" style={{ minHeight: 400 }}>
@@ -205,6 +224,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                     targetJson={data[compareTarget]?.[compareField as string]}
                 />
             )}
+
+            <button onClick={handleExportToCsv}>Export to csv</button>
         </div>
     )
 }

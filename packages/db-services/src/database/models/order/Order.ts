@@ -1,4 +1,4 @@
-import mongoose, { Model, Date } from "mongoose"
+import mongoose, { Model } from "mongoose"
 import { IOrder } from "./interface"
 
 type OrderModal = Model<IOrder, {}, {}>

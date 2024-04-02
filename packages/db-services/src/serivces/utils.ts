@@ -1,7 +1,15 @@
+import mongoose, { Model } from "mongoose"
 import { multiSelectFilterField } from "../../../admin-components/src/filter/utils"
 import _ from "lodash"
 
 export type FilterOrdersParam = {
+    id?: string | undefined
+    pageNum?: string | undefined
+    pageSize?: string | undefined
+    category?: string | undefined
+    product?: string | undefined
+    amount?: string | undefined
+    stock?: string | undefined
     description?: string | undefined
     startDate?: string | undefined
     endDate?: string | undefined
@@ -14,8 +22,15 @@ export type FilterOrdersParam = {
     orderAddress?: string | undefined
 }
 
+export type PaginatedParam = {
+    searchBefore?: string | undefined
+    searchAfter?: string | undefined
+    pageSize?: string | undefined
+    pageNum?: string | undefined
+}
+
 export const getParsedQuery = (query: FilterOrdersParam) => {
-    const parsedQuery = query
+    const parsedQuery = _.cloneDeep(query)
 
     multiSelectFilterField.forEach((key: string) => {
         // @ts-ignore
@@ -41,5 +56,42 @@ export const getParsedQuery = (query: FilterOrdersParam) => {
         _.unset(parsedQuery, `endDate`)
     }
 
+    _.unset(parsedQuery, `pageNum`)
+    _.unset(parsedQuery, `pageSize`)
+
     return parsedQuery
+}
+
+export const getPaginatedQuery = (
+    model: Model<any, {}, {}, {}, any, any>,
+    param: PaginatedParam, // pagination param from router query
+    filter: FilterOrdersParam, // find or findOne filter can pass here
+    stage: any // other aggregation stage
+) => {
+    try {
+        let res
+
+        const skip =
+            parseInt(param?.pageSize ?? "") * parseInt(param?.pageNum ?? "")
+
+        const limit = parseInt(param?.pageSize ?? "")
+
+        const aggregation = [
+            { $match: filter },
+            { $skip: !_.isNaN(skip) ? skip : 0 },
+            { $limit: !_.isNaN(limit) ? limit : 10 }
+        ]
+
+        console.log(`aggregation`, aggregation)
+
+        if (!stage) {
+            res = model.aggregate(aggregation)
+        } else {
+            res = model.aggregate(stage.concat(aggregation))
+        }
+
+        return res
+    } catch (error) {
+        console.log(`Error occur: `, error)
+    }
 }
