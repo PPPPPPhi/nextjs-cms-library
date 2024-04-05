@@ -1,108 +1,66 @@
 "use client"
-import React, { Ref, useMemo, useState, useEffect } from "react"
+import React, { useMemo } from "react"
 import _ from "lodash"
 
 import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
-import { SubColumn } from "../common/index"
-import { LeftGridsRightColumnJson } from "../index"
-import { useDisplayPanelContext } from "../../elementor/drag-drop/DisplayPanelContext"
+import { SubColumn, ElementorSubColumn } from "../common/index"
 
 type LeftGridsRightColumnProps = WidgetProps &
     LayoutProps & {
         id?: string
         isPreview?: boolean
+        isMobileView?: boolean
+        isElementor?: boolean
+        selfData?: { children: any[] }
     }
 
 export const LeftGridsRightColumn: React.FC<LeftGridsRightColumnProps> = (
     props: LeftGridsRightColumnProps
 ) => {
-    const {
-        id,
-        isPreview,
-        children,
-        elements,
-        dropRef,
-        dropRefMap = new Map([])
-    } = props
+    const { id, isPreview, selfData, elements, isElementor, isMobileView } =
+        props
 
-    const { isMobileView } = useDisplayPanelContext()
+    const childrenValues = useMemo(() => {
+        return selfData?.children ?? []
+    }, [selfData])
 
-    const subColumnAcceptType = useMemo(() => {
-        return LeftGridsRightColumnJson?.propertyJson?.children?.map(
-            (child: any) => child?.childType
-        )
-    }, [])
+    const SubComponent = isElementor ? ElementorSubColumn : SubColumn
 
-    const { firstElement, secondElement, thirdElement } = useMemo(() => {
-        if (!elements || elements.length == 0)
-            return {
-                firstElement: null,
-                secondElement: null,
-                thirdElement: null
-            }
-
-        return {
-            firstElement: elements[0],
-            secondElement: elements[1],
-            thirdElement: elements[2]
-        }
+    const leftColumn = useMemo(() => {
+        return [...(elements ?? [])]?.splice(0, 2) ?? []
     }, [elements])
 
-    const { firstValues, secondValues, thirdValues } = useMemo(() => {
-        if (!children || children.length == 0)
-            return {
-                firstValues: null,
-                secondValues: null,
-                thirdValues: null
-            }
-
-        return {
-            firstValues: children[0],
-            secondValues: children[1],
-            thirdValues: children[2]
-        }
-    }, [children])
+    const rightColumn = useMemo(() => {
+        return [...(elements ?? [])]?.splice(2, 1) ?? []
+    }, [elements])
 
     return (
         <div>
             <div
-                ref={dropRef ?? null}
                 className={`d-flex flex-wrap`}
-                style={{ minHeight: !isPreview ? "150px" : "auto" }}>
+                style={{ minHeight: !isPreview ? 100 : "auto" }}>
                 <div
                     className={`d-flex flex-column col-${isMobileView ? 12 : 6}`}>
-                    {firstElement && (
-                        <div className="p-1" style={{ flex: 1 }}>
-                            <SubColumn
-                                {..._.merge(firstElement, firstValues)}
+                    {(leftColumn ?? []).map((k, idx) => (
+                        <div className={`p-1`} style={{ flex: 1 }}>
+                            <SubComponent
+                                {..._.merge(k, childrenValues[idx])}
                                 parentId={id}
                                 isPreview={isPreview}
-                                subColumnAcceptType={subColumnAcceptType}
                             />
                         </div>
-                    )}
-                    {secondElement && (
-                        <div className="p-1" style={{ flex: 1 }}>
-                            <SubColumn
-                                {..._.merge(secondElement, secondValues)}
-                                parentId={id}
-                                isPreview={isPreview}
-                                subColumnAcceptType={subColumnAcceptType}
-                            />
-                        </div>
-                    )}
+                    ))}
                 </div>
                 <div className={`col-${isMobileView ? 12 : 6}`}>
-                    {thirdElement && (
-                        <div className="p-1 h-100">
-                            <SubColumn
-                                {..._.merge(thirdElement, thirdValues)}
+                    {(rightColumn ?? []).map((k) => (
+                        <div className="h-100 p-1" style={{ flex: 1 }}>
+                            <SubComponent
+                                {..._.merge(k, childrenValues[2])}
                                 parentId={id}
                                 isPreview={isPreview}
-                                subColumnAcceptType={subColumnAcceptType}
                             />
                         </div>
-                    )}
+                    ))}
                 </div>
             </div>
         </div>

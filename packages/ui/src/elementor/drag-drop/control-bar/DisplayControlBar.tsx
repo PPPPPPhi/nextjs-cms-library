@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { useParams, useRouter } from "next/navigation"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
@@ -15,6 +15,9 @@ import {
     WebSvg
 } from "./DisplayControlButtons"
 
+import useDragDropControllerHook from "../hooks/useDragDropControllerHook"
+import useViewHook from "../hooks/useViewHook"
+
 type DisplayControllerButtonsProps = {
     svg: any
     handler: () => void
@@ -24,7 +27,7 @@ type DisplayControllerButtonsProps = {
 
 export const DisplayControllerButtons: React.FC<
     DisplayControllerButtonsProps
-> = ({ svg, handler, style = {}, className = "" }) => {
+> = ({ svg, handler, className = "" }) => {
     return (
         <div
             style={{ height: 50, width: 50, borderRadius: 25 }}
@@ -39,56 +42,39 @@ type DisplayControllerProps = {}
 
 export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
     const {
-        dragDropHistoryList,
         currentHistoryIndex,
         setCurrentHistoryIndex,
-        historyCapSize,
         isExpandView,
         setExpandView,
         isMobileView,
         setMobileView,
-        isPreview,
         setPreview,
         focusEditId,
         setFocusEditId,
-        readOnly
+        readOnly,
+        isPreview,
+        isHardPreview
     } = useDisplayPanelContext()
 
-    const [displayAllButtons, setDisplayAllButtons] = useState<boolean>(false)
+    const [isDisplayControl, setIsDisplayControl] = useState<boolean>(false)
     const router = useRouter()
-    const { site, pageId } = useParams()
+    const { site } = useParams()
 
-    const isDisplayAll = useMemo(() => {
-        console.log(`is display all`, displayAllButtons)
-        return displayAllButtons ? "flex" : "none"
-    }, [displayAllButtons])
-
-    const dimPrevious = useMemo(() => {
-        if (currentHistoryIndex == 0) return true
-
-        return false
-    }, [currentHistoryIndex, dragDropHistoryList])
-
-    const dimNext = useMemo(() => {
-        if (currentHistoryIndex >= historyCapSize - 1) return true
-        if (currentHistoryIndex == dragDropHistoryList.length - 1) return true
-
-        return false
-    }, [currentHistoryIndex, dragDropHistoryList])
+    const { isPreviousHistoryEnable, isNextHistoryEnable } =
+        useDragDropControllerHook()
 
     const navigatePreviousEdit = () => {
-        if (dimPrevious) return
-        if (currentHistoryIndex > 0)
-            setCurrentHistoryIndex(currentHistoryIndex - 1)
+        if (!isPreviousHistoryEnable) return
+        setCurrentHistoryIndex(currentHistoryIndex - 1)
     }
 
     const navigateNextEdit = () => {
-        if (dimNext) return
-        if (currentHistoryIndex < historyCapSize - 1)
-            setCurrentHistoryIndex(currentHistoryIndex + 1)
+        if (!isNextHistoryEnable) return
+        setCurrentHistoryIndex(currentHistoryIndex + 1)
     }
 
     const toggleExpandView = () => {
+        if (isHardPreview) return
         setExpandView(!isExpandView)
     }
 
@@ -97,6 +83,8 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
     }
 
     const togglePreview = () => {
+        if (isHardPreview) return
+
         setExpandView(!isPreview)
         setPreview(!isPreview)
     }
@@ -105,32 +93,40 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
         router.push(`/admin/${site}/pages`)
     }
 
+    const getButtonColor = (isActive: boolean) =>
+        isActive ? "currentColor" : "grey"
+    const getButtonCursor = (isActive: boolean) =>
+        isActive ? "pointer" : "not-allowed"
+
     const isExpandButton = useMemo(() => {
         if (isExpandView)
             setFocusEditId({ ...focusEditId, id: "", childType: "" })
 
-        return !isExpandView ? (
-            <ExpandSvg width={22} height={22} />
-        ) : (
-            <CollpaseSvg width={22} height={22} />
+        const Component = !isExpandView ? ExpandSvg : CollpaseSvg
+        return (
+            <Component
+                width={22}
+                height={22}
+                color={getButtonColor(!isHardPreview)}
+            />
         )
     }, [isExpandView])
 
     const isMobileButton = useMemo(() => {
-        return !isMobileView ? (
-            <MobileSvg width={22} height={22} />
-        ) : (
-            <WebSvg width={22} height={22} />
-        )
+        const Component = !isMobileView ? MobileSvg : WebSvg
+        return <Component width={22} height={22} />
     }, [isMobileView])
 
     const isPreviewButton = useMemo(() => {
-        return !isPreview ? (
-            <PreviewSvg width={22} height={22} />
-        ) : (
-            <PenSvg width={22} height={22} />
+        const Component = !isPreview || isHardPreview ? PreviewSvg : PenSvg
+        return (
+            <Component
+                width={22}
+                height={22}
+                color={getButtonColor(!isHardPreview)}
+            />
         )
-    }, [isPreview])
+    }, [isPreview, isHardPreview])
 
     return (
         <div
@@ -144,7 +140,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                 <div
                     className={`s-display-control-group flex flex-col space-y-4`}
                     style={{
-                        display: isDisplayAll
+                        display: isDisplayControl ? "flex" : "none"
                     }}>
                     <DisplayControllerButtons
                         svg={<HomeSvg width={22} height={22} />}
@@ -156,11 +152,15 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                             <UndoSvg
                                 width={22}
                                 height={22}
-                                color={dimPrevious ? "grey" : "currentColor"}
+                                color={getButtonColor(
+                                    isPreviousHistoryEnable as boolean
+                                )}
                             />
                         }
                         style={{
-                            cursor: dimPrevious ? "not-allowed" : "pointer"
+                            cursor: getButtonCursor(
+                                isPreviousHistoryEnable as boolean
+                            )
                         }}
                         handler={() => navigatePreviousEdit()}
                     />
@@ -170,16 +170,25 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                             <RedoSvg
                                 width={22}
                                 height={22}
-                                color={dimNext ? "grey" : "currentColor"}
+                                color={getButtonColor(
+                                    isNextHistoryEnable as boolean
+                                )}
                             />
                         }
-                        style={{ cursor: dimNext ? "not-allowed" : "pointer" }}
+                        style={{
+                            cursor: getButtonCursor(
+                                isNextHistoryEnable as boolean
+                            )
+                        }}
                         handler={() => navigateNextEdit()}
                     />
 
                     <DisplayControllerButtons
                         svg={isExpandButton}
                         handler={() => toggleExpandView()}
+                        style={{
+                            cursor: getButtonCursor(!isHardPreview as boolean)
+                        }}
                     />
 
                     <DisplayControllerButtons
@@ -190,13 +199,16 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                     <DisplayControllerButtons
                         svg={isPreviewButton}
                         handler={() => togglePreview()}
+                        style={{
+                            cursor: getButtonCursor(!isHardPreview as boolean)
+                        }}
                     />
                 </div>
 
                 <DisplayControllerButtons
                     svg={<ToolsSvg width={22} height={22} />}
                     className={"space-y-4"}
-                    handler={() => setDisplayAllButtons(!displayAllButtons)}
+                    handler={() => setIsDisplayControl(!isDisplayControl)}
                 />
             </div>
         </div>

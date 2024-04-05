@@ -1,0 +1,19 @@
+.jodit-workplace {
+    min-height: 500px !important;
+}
+
+.jodit-react-container {
+    min-height: 500px !important;
+}
+
+.jodit-container {
+    min-height: 500px !important;
+}
+
+.jodit-wysiwyg {
+    min-height: 500px !important;
+}
+
+.jodit-status-bar {
+    display: none !important;
+}

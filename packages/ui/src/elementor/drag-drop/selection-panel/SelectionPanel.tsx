@@ -1,20 +1,49 @@
-import React, { useEffect, useState } from "react"
-import {
-    DisplayPanelContextProvider,
-    useDisplayPanelContext
-} from "../DisplayPanelContext"
+import React from "react"
+import { useDisplayPanelContext } from "../DisplayPanelContext"
 import { SelectComponent } from "./SelectComponent"
-import { Tabs } from "flowbite-react"
-import { SubmissionButton } from "../control-bar/SubmissionButton"
-// import { AdminTabMenu } from "@/client/components/admin-components/AdminTabMenu"
+import { AdminTabMenu } from "@nextjs-cms-library/admin-components/index"
+import { SelectionJson } from "@nextjs-cms-library/ui/index"
 
-type SelectionPanelProps = {}
+const SECTION_PANEL_LIST = ["Layouts", "Elements"]
 
-export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
+interface SelectionPanelInterface {}
+interface PanelChildInterface {
+    isActive: boolean
+    childrens: Map<string, SelectionJson>
+}
+
+const PanelChild: React.FC<PanelChildInterface> = ({ isActive, childrens }) => {
+    return (
+        <div
+            className={"flex-wrap overflow-y-auto"}
+            style={{ display: isActive ? "flex" : "none", height: "auto" }}>
+            {childrens &&
+                Array.from(childrens.entries()).map((e: any, key: any) => {
+                    const value = e[1]
+                    const { element, icon, title } = value ?? {}
+                    return (
+                        <div
+                            key={key}
+                            className="col-6 d-flex justify-content-center">
+                            <SelectComponent
+                                element={element}
+                                icon={icon}
+                                title={title}
+                            />
+                        </div>
+                    )
+                })}
+        </div>
+    )
+}
+
+export const SelectionPanel: React.FC<SelectionPanelInterface> = ({}) => {
     const { elementsList, layoutList, isExpandView } = useDisplayPanelContext()
 
-    const selectionPanel = ["Layout", "Elements"]
-    const [isLayoutTab, setLayoutTab] = React.useState<boolean>(true)
+    const [panelTab, setPanelTab] = React.useState<string>("Layouts")
+
+    const isLayoutPage = panelTab === "Layouts"
+    const isElementPage = panelTab === "Elements"
 
     return (
         <div
@@ -23,75 +52,29 @@ export const SelectionPanel: React.FC<SelectionPanelProps> = ({}) => {
             aria-label="Sidebar"
             style={{
                 width: 300,
-                minWidth: 0,
                 left: 20,
                 display: !isExpandView ? "block" : "none",
                 top: 100,
                 height: "80%",
                 zIndex: 1
             }}>
-            <div className="overflow-y-auto h-100">
-                <div className="s-select-tab mb-3 flex flex-row justify-center">
-                    <div
-                        style={{ width: 120, height: 30, borderRadius: 25 }}
-                        onClick={() => setLayoutTab(true)}
-                        className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu rounded-full text-sm p-2.5 text-center items-center me-2 ${isLayoutTab ? "font-bold underline" : ""}`}>
-                        <span>Layout</span>
-                    </div>
-
-                    <div
-                        style={{ width: 120, height: 30, borderRadius: 25 }}
-                        onClick={() => setLayoutTab(false)}
-                        className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu rounded-full text-sm p-2.5 text-center items-center me-2 ${!isLayoutTab ? "font-bold underline" : ""}`}>
-                        <span>Elements</span>
-                    </div>
+            <div className="h-100 d-flex flex-column">
+                <div className="d-flex align-items-centrer px-2 w-100 py-3">
+                    <AdminTabMenu
+                        tabList={SECTION_PANEL_LIST}
+                        callback={(tab) => {
+                            setPanelTab(SECTION_PANEL_LIST[tab] as string)
+                        }}
+                    />
                 </div>
-
-                <div
-                    className={`s-select-area flex-wrap`}
-                    style={{ display: isLayoutTab ? "flex" : "none" }}>
-                    {layoutList &&
-                        Array.from(layoutList.entries()).map(
-                            (element: any, key: any) => {
-                                const value = element[1]
-
-                                return (
-                                    <div
-                                        key={key}
-                                        className="col-6 d-flex justify-content-center mt-2">
-                                        <SelectComponent
-                                            element={value?.element}
-                                            icon={value?.icon}
-                                            title={value?.title}
-                                        />
-                                    </div>
-                                )
-                            }
-                        )}
-                </div>
-
-                <div
-                    className={`s-select-area flex-wrap space-y-2`}
-                    style={{ display: !isLayoutTab ? "flex" : "none" }}>
-                    {elementsList &&
-                        Array.from(elementsList.entries()).map(
-                            (element: any, key: any) => {
-                                const value = element[1]
-
-                                return (
-                                    <div
-                                        key={key}
-                                        className="col-6 d-flex justify-content-center mt-2">
-                                        <SelectComponent
-                                            element={value?.element}
-                                            icon={value?.icon}
-                                            title={value?.title}
-                                        />
-                                    </div>
-                                )
-                            }
-                        )}
-                </div>
+                <PanelChild
+                    isActive={isLayoutPage}
+                    childrens={layoutList as Map<string, SelectionJson>}
+                />
+                <PanelChild
+                    isActive={isElementPage}
+                    childrens={elementsList as Map<string, SelectionJson>}
+                />
             </div>
         </div>
     )

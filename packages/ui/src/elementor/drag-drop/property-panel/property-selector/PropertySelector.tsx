@@ -1,16 +1,18 @@
+"use client"
+
 import React, { useState, useEffect } from "react"
 import Select from "react-select"
 
-interface SelectorInterface {
-    options: { label: string; value: any }[]
-    onSelect: (value: any) => void
+interface PropertySelectorInterface {
+    onChange: (value: any) => void
     defaultValue?: any
+    options?: { label: string; value: any }[]
     label?: string
 }
 
-export const Selector: React.FC<SelectorInterface> = ({
+export const PropertySelector: React.FC<PropertySelectorInterface> = ({
     options,
-    onSelect,
+    onChange,
     defaultValue,
     label
 }) => {
@@ -27,7 +29,7 @@ export const Selector: React.FC<SelectorInterface> = ({
     }, [defaultValue])
 
     useEffect(() => {
-        onSelect(selectedOption?.value)
+        onChange(selectedOption?.value)
     }, [selectedOption])
 
     return (

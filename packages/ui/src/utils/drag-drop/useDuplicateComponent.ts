@@ -67,7 +67,8 @@ export const useDuplicateComponent = () => {
             id: newId
         })
 
-        console.log("setPropertiesEditList  7")
+        console.log("uppppp 12", newDragDropList)
+        console.log("puuuuu 12")
 
         setDragDropEditList(newDragDropList)
         setPropertiesEditList(newPropertiesList)

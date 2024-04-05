@@ -44,7 +44,8 @@ export const useUpdateEditList = () => {
         const snapShotDragDrop = _.cloneDeep(newDragDropList)
         const snapShotProperty = _.cloneDeep(newPropertiesList)
 
-        console.log("setPropertiesEditList  10")
+        console.log("uppppp 15", snapShotDragDrop)
+        console.log("puuuuu 15")
 
         setDragDropEditList(snapShotDragDrop)
         setPropertiesEditList(snapShotProperty)

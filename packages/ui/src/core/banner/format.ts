@@ -18,24 +18,28 @@ export const propertyBannerJson: PropertyJson = {
     type: "banner",
     properties: [
         {
+            element_id: "banner_title",
             label: "Title",
             placeholder: "Input here ...",
             value: "Card Title",
             type: "text"
         },
         {
+            element_id: "banner_subtitle",
             label: "SubTitle",
             placeholder: "Input here ...",
             value: "Card SubTitle",
             type: "text"
         },
         {
+            element_id: "banner_text_color",
             label: "Text Color",
             placeholder: "",
             value: "#000000",
-            type: "colorPicker"
+            type: "color-picker"
         },
         {
+            element_id: "banner_alignment",
             label: "Alignment",
             value: "start",
             type: "select",
@@ -46,6 +50,7 @@ export const propertyBannerJson: PropertyJson = {
             ]
         },
         {
+            element_id: "banner_image_src",
             label: "Image",
             placeholder: "Input here ...",
             value: "",

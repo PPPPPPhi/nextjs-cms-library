@@ -1,33 +1,29 @@
-import React, { useEffect, useRef, useMemo } from "react"
-const { useDrop, useDragDropManager } = require("react-dnd")
+import React, { useEffect, useRef, useState } from "react"
+const { useDrop } = require("react-dnd")
 import { v4 as uuid_v4 } from "uuid"
 import _ from "lodash"
 
 import { DragDropEditType, PropertyEditType } from "../../../utils/index"
 import { useDisplayPanelContext } from "../DisplayPanelContext"
+import { EmptyLayoutGrid } from "@nextjs-cms-library/ui/index"
 import {
     DragDropJson,
     PropertyJson,
-    DragDropAccecptType,
-    EmptyLayoutGrid
+    DragDropAccecptType
 } from "@nextjs-cms-library/ui/index"
 import { DragDropComponent } from "./DragDropComponent"
 
-import {
-    useDuplicateComponent,
-    useDeleteComponent,
-    useDropComponentInLayout,
-    useNavigatePreviousNextStep,
-    useScrollDragArea,
-    useSwapLayoutChild
-} from "../../../utils/index"
 import { AddSvg } from "./DragDropButtons"
+
+import useDragDropOffsetHook from "../hooks/useDragDropOffsetHook"
+import useDragDropEditHook from "../hooks/useDragDropEditHook"
+import useDeleteComponentHook from "../hooks/useDeleteComponentHook"
+import useDuplicateComponentHook from "../hooks/useDuplicateComponentHook"
+import useViewHook from "../hooks/useViewHook"
 
 type DragDropAreaContentProps = {}
 
-export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
-    props: DragDropAreaContentProps
-) => {
+export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
     const {
         dragDropEditAcceptType,
         dragDropList,
@@ -38,170 +34,177 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
         layoutPropertiesList,
         propertiesEditList,
         setPropertiesEditList,
-        dragDropHistoryList,
-        setDragDropHistoryList,
-        propertiesHistoryList,
-        setPropertiesHistoryList,
-        currentHistoryIndex,
-        setCurrentHistoryIndex,
-        historyCapSize,
-        toggle,
-        isExpandView,
-        isMobileView,
-        reOrderDropInfo,
-        isPreview,
-        setReOrderDropInfo
+        setFocusEditId,
+        isPreview
     } = useDisplayPanelContext()
 
-    useDuplicateComponent()
-    useDeleteComponent()
-    useDropComponentInLayout()
-    useNavigatePreviousNextStep()
+    useDeleteComponentHook()
+    useDuplicateComponentHook()
+    // useDropComponentInLayout()
+    // useNavigatePreviousNextStep()
 
     const dragDropEditRef = useRef<any>()
     const propertiesEditRef = useRef<any>()
-    const dragDropHistoryRef = useRef<any>()
-    const propertiesHistoryRef = useRef<any>()
 
-    const scrollRef = useRef<any>()
-    const { updatePosition } = useScrollDragArea(scrollRef)
-
-    const dragDropManager = useDragDropManager()
-    const monitor = dragDropManager.getMonitor()
-
-    useEffect(() => {
-        const unsubscribe = monitor.subscribeToOffsetChange(() => {
-            const offset = monitor.getSourceClientOffset()?.y as number
-
-            updatePosition({
-                position: offset,
-                isScrollAllowed: true
-            })
-        })
-        return unsubscribe
-    }, [monitor, updatePosition])
-
-    const [{ canDrop }, drop] = useDrop(
-        () => ({
-            accept: _.concat(DragDropAccecptType, dragDropEditAcceptType),
-            hover: (item: any, monitor: any) => {},
-            drop: (_item: any, monitor: any) => {
-                console.log("dddddddrop", monitor.didDrop())
-
-                if (!monitor.didDrop()) {
-                    const item = monitor.getItemType() as string
-
-                    console.log("dddddddrop item", item)
-
-                    if (!item) return
-
-                    if (!item.includes("-edit")) {
-                        updateDraggedComponent(item)
-                    }
-
-                    return undefined
-                }
-            },
-            collect: (monitor: any) => ({
-                canDrop: monitor.canDrop()
-            })
-        }),
-        [dragDropList, dragDropEditAcceptType, currentHistoryIndex]
-    )
+    useDragDropEditHook()
+    const { offsetRefList, containerY } = useDragDropOffsetHook()
+    const [offsetPosition, setOffsetPosition] = useState(-99)
 
     useEffect(() => {
         dragDropEditRef.current = dragDropEditList
+        console.log("dragDropEditList??", dragDropEditList)
     }, [dragDropEditList])
 
     useEffect(() => {
         propertiesEditRef.current = propertiesEditList
     }, [propertiesEditList])
 
-    useEffect(() => {
-        dragDropHistoryRef.current = dragDropHistoryList
-    }, [dragDropHistoryList])
-
-    useEffect(() => {
-        propertiesHistoryRef.current = propertiesHistoryList
-    }, [propertiesHistoryList])
-
-    const updateDraggedComponent = (elementName: string) => {
+    const createDropItem = (itemType: string, idx: number) => {
         if (!dragDropList || !propertiesList) return
-
-        const newId = uuid_v4()
+        const elementId = uuid_v4()
 
         const newEditComponent: DragDropEditType = {
-            ...((dragDropList?.get(elementName) as DragDropJson) ??
-                (layoutDragDropList?.get(elementName) as DragDropJson)),
-            id: newId
+            ...((dragDropList?.get(itemType) as DragDropJson) ??
+                (layoutDragDropList?.get(itemType) as DragDropJson)),
+            id: elementId
         }
         const newPropertiesComponent: PropertyEditType = {
-            ...((propertiesList?.get(elementName) as PropertyJson) ??
-                (layoutPropertiesList?.get(elementName) as PropertyJson)),
-            id: newId
+            ...((propertiesList?.get(itemType) as PropertyJson) ??
+                (layoutPropertiesList?.get(itemType) as PropertyJson)),
+            id: elementId
         }
 
-        const newDnd = [
-            ...(dragDropHistoryList[currentHistoryIndex] ?? []),
-            newEditComponent
-        ]
+        const position = idx === -1 ? dragDropEditRef.current?.length ?? 0 : idx
 
-        const newProp = [
-            ...(propertiesHistoryList[currentHistoryIndex] ?? []),
-            newPropertiesComponent
-        ]
+        const newDragDropList = _.cloneDeep(dragDropEditRef.current)
+        newDragDropList.splice(position, 0, newEditComponent)
+        const newPropertyList = _.cloneDeep(propertiesEditRef.current)
+        newPropertyList.splice(position, 0, newPropertiesComponent)
 
-        console.log(`new drag `, newDnd, newProp)
+        console.log("uppppp 4", newDragDropList)
+        console.log("puuuuu 1")
 
-        setDragDropEditList([...dragDropEditRef.current, newEditComponent])
-
-        console.log("setPropertiesEditList  4")
-        setPropertiesEditList([
-            ...propertiesEditRef.current,
-            newPropertiesComponent
-        ])
-
-        const snapShotDragDrop = _.cloneDeep(newDnd)
-        const snapShotProperty = _.cloneDeep(newProp)
-
-        setDragDropHistoryList([
-            ...dragDropHistoryRef.current.slice(0, currentHistoryIndex + 1),
-            snapShotDragDrop
-        ])
-
-        setPropertiesHistoryList([
-            ...propertiesHistoryRef.current.slice(0, currentHistoryIndex + 1),
-            snapShotProperty
-        ])
-
-        if (currentHistoryIndex < historyCapSize - 1)
-            setCurrentHistoryIndex(currentHistoryIndex + 1)
-
-        console.log(`updated dragged list`, newPropertiesComponent)
-        return
+        setDragDropEditList(_.cloneDeep(newDragDropList))
+        setPropertiesEditList(_.cloneDeep(newPropertyList))
+        setFocusEditId({ id: elementId })
     }
 
-    const currentDragDropEdit = useMemo(() => {
-        const list = dragDropEditList
+    const updateDropItem = (itemId: string, idx: number, parentId: number) => {
+        if (dragDropEditRef.current.length <= 1 && !parentId) return
+        const currentIdx = dragDropEditRef?.current?.findIndex(
+            (l: any) => l.id === (parentId ?? itemId)
+        )
+        const currentItem = dragDropEditRef?.current?.find(
+            (l: any) => l.id === (parentId ?? itemId)
+        )
+        const currentPropItem = propertiesEditRef?.current?.find(
+            (l: any) => l.id === (parentId ?? itemId)
+        )
 
-        return list
-    }, [currentHistoryIndex, dragDropHistoryRef, toggle, dragDropEditList])
+        let position = 0
 
-    console.log("currentDragDropEditcurrentDragDropEdit", currentDragDropEdit)
+        const newDragDropList = _.cloneDeep(dragDropEditRef.current)
+        const newPropertyList = _.cloneDeep(propertiesEditRef.current)
+
+        if (parentId) {
+            position = idx === -1 ? dragDropEditRef.current?.length ?? 0 : idx
+
+            const currentChildIndex = newDragDropList[
+                currentIdx
+            ].elements.findIndex((l) => l.id === itemId)
+            const currentChild = newDragDropList[currentIdx].elements.find(
+                (l) => l.id === itemId
+            )
+            const currentChildProps = newPropertyList[currentIdx].children.find(
+                (l) => l.id === itemId
+            )
+
+            newDragDropList[currentIdx].elements[currentChildIndex] = {
+                element: "",
+                type: "",
+                childType: currentChild.childType,
+                label: "",
+                placeholder: "",
+                value: "",
+                component: EmptyLayoutGrid
+            }
+
+            newPropertyList[currentIdx].children[currentChildIndex] = {
+                element: "",
+                label: "",
+                placeholder: "",
+                value: "",
+                type: "",
+                childType: currentChild.childType
+            }
+
+            newDragDropList.splice(position, 0, { ...currentChild })
+            newPropertyList.splice(position, 0, { ...currentChildProps })
+            setFocusEditId({ id: currentChild?.id })
+        } else {
+            position =
+                idx === -1 ? dragDropEditRef.current?.length - 1 ?? 0 : idx
+            position =
+                position > currentIdx && idx !== -1 ? position - 1 : position
+
+            newDragDropList.splice(currentIdx, 1)
+            newPropertyList.splice(currentIdx, 1)
+
+            newDragDropList.splice(position, 0, currentItem)
+            newPropertyList.splice(position, 0, currentPropItem)
+            setFocusEditId({ id: currentItem?.id })
+        }
+
+        console.log("uppppp 5", newDragDropList)
+        console.log("puuuuu 2")
+
+        setDragDropEditList(_.cloneDeep(newDragDropList))
+        setPropertiesEditList(_.cloneDeep(newPropertyList))
+    }
+
+    const [{ isDragging }, drop] = useDrop(
+        () => ({
+            accept: _.concat(DragDropAccecptType, dragDropEditAcceptType),
+            hover: (item: any, monitor: any) => {
+                const { y: clientOffset } = monitor.getClientOffset()
+                const offsetIdx = offsetRefList.findIndex(
+                    (l) => l > clientOffset + containerY
+                )
+                setOffsetPosition(offsetIdx)
+            },
+            drop: (_item: any, monitor: any) => {
+                if (monitor.canDrop()) {
+                    const { y: clientOffset } = monitor.getClientOffset()
+                    const offsetIdx = offsetRefList.findIndex(
+                        (l) => l > clientOffset + containerY
+                    )
+                    if (!_item.id)
+                        createDropItem(
+                            monitor.getItemType() as string,
+                            offsetIdx
+                        )
+                    else updateDropItem(_item.id, offsetIdx, _item.parentId)
+                }
+            },
+            collect: (monitor: any) => ({
+                isDragging: monitor.isOver()
+            })
+        }),
+        [offsetRefList, dragDropEditAcceptType, containerY]
+    )
+
+    useEffect(() => {
+        if (!isDragging) setOffsetPosition(-99)
+    }, [isDragging])
 
     return (
         <div
             id="display-panel-drag-drop-area"
+            className="h-100"
             ref={drop}
-            style={{
-                //height: !isMobileView ? "95%" : "100%"
-                height: "100%"
-            }}>
-            {/* {(!currentDragDropEdit || currentDragDropEdit.length == 0) && (
-                <EmptyLayoutGrid />
-            )} */}
-            {currentDragDropEdit &&
-                currentDragDropEdit.map(
+            style={{ background: isDragging ? "#F6F6F6" : "white" }}>
+            {dragDropEditRef?.current &&
+                (dragDropEditRef?.current ?? []).map(
                     (
                         component: DragDropEditType & {
                             hoverIndex: number
@@ -212,6 +215,8 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
                             <div key={component?.id}>
                                 <DragDropComponent
                                     {...component}
+                                    elementIdx={index}
+                                    offsetIdx={offsetPosition}
                                     hoverIndex={component?.hoverIndex ?? index}
                                 />
                             </div>
@@ -219,25 +224,19 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = (
                     }
                 )}
 
-            {!isPreview && (
-                <div style={{padding: "60px 0px"}}>
-                    <div
-                        style={{
-                            borderBottom: "solid thin lightgrey"
-                        }}>
-                        <div
-                            style={{
-                                position: "relative",
-                                top: "10px",
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center"
-                            }}>
-                            <AddSvg width={20} height={20} />
-                        </div>
-                    </div>
+            <div
+                style={{
+                    display: isPreview ? "none" : "block",
+                    borderBottom: "thin dashed lightgrey"
+                }}>
+                <div
+                    className="d-flex justify-content-center position-relative"
+                    style={{
+                        top: 10
+                    }}>
+                    <AddSvg width={20} height={20} />
                 </div>
-            )}
+            </div>
         </div>
     )
 }

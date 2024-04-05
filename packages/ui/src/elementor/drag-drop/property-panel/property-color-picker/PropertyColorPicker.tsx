@@ -1,12 +1,14 @@
+"use client"
+
 import { HexColorPicker } from "react-colorful"
 import { useState, useEffect } from "react"
 
-interface ColorPickerInterface {
+interface PropertyColorPickerInterface {
     defaultValue: string
     onChange: (color: string) => void
 }
 
-export const ColorPicker: React.FC<ColorPickerInterface> = ({
+export const PropertyColorPicker: React.FC<PropertyColorPickerInterface> = ({
     defaultValue,
     onChange
 }) => {

@@ -1,19 +1,24 @@
 import React from "react"
 import { WidgetProps } from "../utils/type/index"
 import "./style.scss"
+import usePropertiesHook from "../hook/usePropertiesHook"
 
 type RichTextProps = WidgetProps & {}
 
 export const RichText: React.FC<RichTextProps> = ({ properties }) => {
-    const labelItem = properties?.find((l: any) => l.label === "Label")
-    const valueItem = properties?.find((l: any) => l.label === "Value")
+    const { values } = usePropertiesHook(properties)
+
+    const { rich_text_title, rich_text_value } = values
 
     return (
         <div>
             <div className={`text-level-headline text-font-bold`}>
-                {labelItem?.value}
+                {rich_text_title}
             </div>
-            <div className="richtext-container" dangerouslySetInnerHTML={{ __html: valueItem?.value ?? "" }} />
+            <div
+                className="richtext-container"
+                dangerouslySetInnerHTML={{ __html: rich_text_value ?? "" }}
+            />
         </div>
     )
 }

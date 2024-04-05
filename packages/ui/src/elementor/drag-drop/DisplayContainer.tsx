@@ -23,29 +23,31 @@ type DisplayContainerProps = {
     submit: (pageData: PropertiesComponentProps[]) => Promise<void>
     setModal: Dispatch<SetStateAction<any>>
     setLoading: Dispatch<SetStateAction<boolean>>
+    isHardView: boolean
     readOnly?: boolean
 }
 
 export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
+    const { isHardView } = props ?? {}
+
     return (
         <div className="d-flex h-100 w-100">
             <DisplayPanelContextProvider {...props}>
+                <DisplayController />
                 <DndProvider backend={HTML5Backend}>
-                    <DisplayController />
                     <div
-                        className="d-flex h-100 w-100 overflow-scroll"
+                        className="d-flex h-100 w-100 overflow-scroll justify-content-center"
                         style={{
-                            display: "flex",
-                            background: "#ffffff",
-                            flexDirection: "row",
-                            justifyContent: "center"
+                            background: "#FFF"
                         }}>
-                        <SelectionPanel />
-                        <DragDropArea />
+                        {!isHardView && <SelectionPanel />}
+                        {props.pageJson && (
+                            <DragDropArea pageJson={props.pageJson ?? {}} />
+                        )}
                         <SubmissionButton />
-                        <PropertiesPanelArea />
                     </div>
                 </DndProvider>
+                {!isHardView && <PropertiesPanelArea />}
             </DisplayPanelContextProvider>
         </div>
     )

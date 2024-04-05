@@ -17,16 +17,18 @@ type CardType = {
     action: () => void
     actionLabel: string
     desc: string
+    isFull?: boolean
 }
 
-const Card: React.FC<CardType> = ({ action, actionLabel, desc }) => {
+const Card: React.FC<CardType> = ({ action, actionLabel, desc, isFull }) => {
     const assistanceIdx = useMemo(
         () => Math.floor(Math.random() * 4),
         []
     ) as keyof typeof ASSISTANCE
 
     return (
-        <div className="col-12 col-md-6 col-lg-4 col-xl-3 p-2">
+        <div
+            className={`${isFull ? "w-100" : "col-12 col-md-6 col-lg-4 col-xl-3 p-2"}`}>
             <div
                 className="d-flex shadow rounded-2 h-100"
                 style={{ background: "white", minHeight: 100, flex: 1 }}>
@@ -66,12 +68,13 @@ export const AdminCard: React.FC<AdminCardInterface> = ({ cardsRef }) => {
     return (
         <div className="d-flex flex-wrap w-100 justify-content-end">
             {cardsRef.map((k) => {
-                const { actionLabel, desc, action } = k
+                const { actionLabel, desc, action, isFull } = k
                 return (
                     <Card
                         actionLabel={actionLabel}
                         desc={desc}
                         action={action}
+                        isFull={isFull}
                     />
                 )
             })}

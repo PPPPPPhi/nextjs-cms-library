@@ -18,18 +18,21 @@ export const propertyImageJson: PropertyJson = {
     type: "image",
     properties: [
         {
+            element_id: "image_label",
             label: "Label",
             placeholder: "Input here ...",
             value: "Image Label",
             type: "text"
         },
         {
+            element_id: "image_src",
             label: "Image",
             placeholder: "Input here ...",
             value: "",
             type: "image"
         },
         {
+            element_id: "image_alignment",
             label: "Alignment",
             value: "center",
             type: "select",
@@ -42,6 +45,7 @@ export const propertyImageJson: PropertyJson = {
             ]
         },
         {
+            element_id: "image_position",
             label: "Position",
             value: "contain",
             type: "select",

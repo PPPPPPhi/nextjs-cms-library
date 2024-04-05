@@ -1,297 +1,244 @@
-import React, { useMemo, useEffect, useState, useRef } from "react"
+import React, { useMemo, useEffect, useRef } from "react"
 import { useForm } from "react-hook-form"
 import _ from "lodash"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
-import { PropertyJson, LayoutNameMap } from "@nextjs-cms-library/ui/index"
+import { CorePropertyJson } from "@nextjs-cms-library/ui/index"
 import {
     DefaultPropertiesDataType,
-    ElementNameMap,
-    PropertiesComponentProps,
-    UpdateEditElementAction
+    PropertiesComponentProps
 } from "../../../utils/index"
 import { AdminButton } from "@nextjs-cms-library/admin-components/index"
 import { PropertiesChildInput } from "./PropertiesChildInput"
-import { ImageSelector } from "./file-handler/FileSelector"
+import DragDropIcon from "./dragdrop.png"
+
+type PropertiesChildEmptyProps = {}
+
+const PropertiesChildEmpty: React.FC<PropertiesChildEmptyProps> = ({}) => {
+    return (
+        <div className="flex flex-col justify-center text-center">
+            <span className="my-3  text-level-body text-font-bold">
+                Select an element to edit
+            </span>
+            <div className="my-3 flex flex-row justify-center">
+                <img className="w-24 h-24" src={DragDropIcon.src} />
+            </div>
+            <span className="my-3 text-level-remark text-font-medium">
+                None selected
+            </span>
+        </div>
+    )
+}
 
 export const PropertiesComponent: React.FC<
-    PropertiesComponentProps & DefaultPropertiesDataType
+    PropertiesComponentProps &
+        DefaultPropertiesDataType & { isWideMode: boolean }
 > = (props: PropertiesComponentProps & DefaultPropertiesDataType) => {
+    const { id, element, type, children, data, properties, isWideMode } = props
+
     const {
-        id,
-        element,
-        label,
-        placeholder,
-        value,
-        type,
-        index,
-        children,
-        data,
-        properties
-        // isLayout,
-    } = props
-
-    console.log("properties props", props)
-
-    const { focusEditId, setUpdateElementId } = useDisplayPanelContext()
-
+        focusEditId,
+        propertiesEditList,
+        dragDropEditList,
+        setPropertiesEditList,
+        setDragDropEditList
+    } = useDisplayPanelContext()
     const { control, getValues, setValue } = useForm({
         defaultValues: data
     })
-    const allowDisplay = useMemo(() => {
-        // console.log(`[edit] focusEdit `, focusEditId)
+    const isDisplayControl = useMemo(() => {
         return focusEditId?.id == id ? "block" : "none"
     }, [focusEditId])
 
+    const DEFAULT_PROPERTY = {
+        propertiesList: [],
+        propertyId: "",
+        propertyType: ""
+    }
+
+    const {
+        propertiesList,
+        propertyId,
+        propertyType
+    }: {
+        propertiesList: CorePropertyJson[]
+        propertyId: string
+        propertyType: string
+    } = useMemo(() => {
+        if (!focusEditId.id) return DEFAULT_PROPERTY
+
+        const focusEditRef = focusEditId.id
+        const eItem = propertiesEditList.find((k) => k.id === focusEditRef)
+
+        if (eItem?.properties && eItem?.properties.length)
+            return {
+                propertiesList: eItem.properties,
+                propertyId: eItem.id,
+                propertyType: eItem.type
+            }
+        else if (eItem?.children) {
+            const childEItem = eItem.children.find((k) => k.id === focusEditRef)
+            // if (childEItem?.properties && childEItem?.properties.length)
+            //     return {
+            //         propertiesList: childEItem.properties,
+            //         propertyId: childEItem.id,
+            //         propertyType: childEItem.type
+            //     }
+            // else return DEFAULT_PROPERTY
+            return DEFAULT_PROPERTY
+        } else if (!eItem) {
+            const pItem = propertiesEditList.find(
+                (k) => k.id === focusEditId.parentId
+            )
+            const cItem = pItem?.children?.find((k) => k.id === focusEditRef)
+            if (cItem)
+                return {
+                    propertiesList: cItem.properties,
+                    propertyId: cItem.id,
+                    propertyType: cItem.type
+                }
+            else return DEFAULT_PROPERTY
+        } else return DEFAULT_PROPERTY
+    }, [focusEditId, propertiesEditList, dragDropEditList])
+
     useEffect(() => {
-        if (!data) return
-
-        console.log("vvvvv dddd", data)
-
-        let defaultV = {}
-        data.properties?.forEach((k) => {
-            defaultV = { ...defaultV, [k.label]: k.value }
-        })
-
-        setValue(data.id, defaultV)
-
-        if (!children) return
-
-        children?.forEach((child: any, index: number) => {
-            let defaultChildV = {}
-            if (!child.properties) return
-            child?.properties?.forEach((k) => {
-                defaultChildV = { ...defaultChildV, [k.label]: k.value }
+        if (propertiesList.length) {
+            let defaultV = {}
+            propertiesList.forEach((k: any) => {
+                defaultV = { ...defaultV, [k.element_id]: k.value }
             })
-            // setValue(`children.${index}.label`, children?.[index]?.label ?? "")
-            // setValue(`children.${index}.value`, children?.[index]?.value ?? "")
-            setValue(child.id, defaultChildV)
-        })
-    }, [data])
+            //@ts-ignore
+            setValue(propertyId, defaultV)
+        }
+    }, [propertiesList, propertyId])
 
-    const isLayout = useMemo(() => {
-        // @ts-ignore
-        return Object.values(LayoutNameMap).includes(element)
-    }, [element, children])
+    const propertiesRef = useRef<any>()
+    const dragDropListRef = useRef<any>()
+    useEffect(() => {
+        propertiesRef.current = propertiesEditList
+    }, [propertiesEditList])
+    useEffect(() => {
+        dragDropListRef.current = dragDropEditList
+    }, [dragDropEditList])
 
     const updateProperties = () => {
-        console.log(`update properties getValues()`, children, getValues())
         const values = getValues()
 
-        console.log("KKKKKKKKKKKKKK", values)
-        console.log("EEEEEEEEEEEEEEEE", element)
-        const renewChild = () => {
-            const newChildren = children?.map((child: any, index: number) => {
-                console.log(`child update`, child.properties)
-                console.log("child update 2", values)
+        const focusEditRef = focusEditId.id
+        const focusEditRefParent = focusEditId.parentId
 
-                return {
-                    ...child,
-                    properties: child?.properties?.map((k) => {
-                        return {
-                            ...k,
-                            value: values[child.id][k.label]
-                        }
-                    })
-                }
-            })
+        if (!focusEditRef) return
 
-            return newChildren
-        }
-        setUpdateElementId({
-            action: UpdateEditElementAction.UPDATE,
-            id,
-            index,
-            values: {
-                ...(values as PropertiesComponentProps),
-                id: id,
-                properties: properties?.map((l) => {
-                    return { ...l, value: values[id][l.label] }
-                }),
-                element,
-                label,
-                placeholder,
-                value,
-                type,
-                index,
-                children: renewChild()
+        const updateValue = values[focusEditRef]
+
+        const newPropertiesList = _.cloneDeep(propertiesRef.current)
+
+        if (!focusEditRefParent) {
+            const currentItem = _.cloneDeep(
+                newPropertiesList.find((k) => k.id === focusEditRef)
+            )
+
+            const currentItemIdx = newPropertiesList.findIndex(
+                (l) => l.id === focusEditRef
+            )
+
+            const updatedItem = {
+                ...currentItem,
+                properties: currentItem?.properties.map((l) => {
+                    return {
+                        ...l,
+                        value: updateValue[l.element_id]
+                    }
+                })
             }
-        })
 
-        // if (!isLayout || focusEditId.childType == "parent") {
-        //     const values = getValues()
+            newPropertiesList[currentItemIdx] = updatedItem
 
-        //     console.log("KKKKKKKKKKKKKK",values)
-        //     console.log("EEEEEEEEEEEEEEEE", element)
-        //     setUpdateElementId({
-        //         action: UpdateEditElementAction.UPDATE,
-        //         id,
-        //         index,
-        //         values: {
-        //             ...(values as PropertiesComponentProps),
-        //             id: id,
-        //             properties: properties.map((l) => {
-        //                 return { ...l, value: values[id][l.label] }
-        //             }),
-        //             element
-        //         }
-        //     })
-        // } else {
-        //     if (!children) {
-        //         console.error(`[property] getValues() error`)
-        //         return
-        //     }
-        //     console.log("children", children)
+            console.log("puuuuu 6")
 
-        //     // const renewChild = (children: any, values: any) => {
-        //     //     children.map((child: any, index: number) => {
-        //     //         const childValue = values?.children?.[index]
+            setPropertiesEditList(_.cloneDeep(newPropertiesList))
+        } else {
+            console.log("inside parent")
+            const currentItem = _.cloneDeep(
+                newPropertiesList.find((k) => k.id === focusEditId.parentId)
+            )
+            const currentItemIdx = newPropertiesList.findIndex(
+                (l) => l.id === focusEditId.parentId
+            )
 
-        //     //         _.set(child, "label", childValue?.label)
-        //     //         _.set(child, "value", childValue?.value)
+            console.log("inside parent currentItem", currentItem)
+            console.log("inside parent currentItemIdx", currentItemIdx)
 
-        //     //         console.log(`child update`, child)
-        //     //     })
+            const updatedItem = {
+                ...currentItem,
+                children: currentItem?.children.map(
+                    (child: any, index: number) => {
+                        return {
+                            ...child,
+                            properties: child?.properties?.map((k) => {
+                                return {
+                                    ...k,
+                                    value: values[focusEditRef][k.element_id]
+                                }
+                            })
+                        }
+                    }
+                )
+            }
 
-        //     //     return children
-        //     // }
+            newPropertiesList[currentItemIdx] = updatedItem
 
-        //     const values = getValues()
-        //     const renewChild = () => {
-        //         const newChildren = children.map(
-        //             (child: any, index: number) => {
-        //                 console.log(`child update`, child.properties)
-        //                 console.log("child update 2", values)
+            console.log("puuuuu 7")
 
-        //                 return {
-        //                     ...child,
-        //                     properties: child?.properties?.map((k) => {
-        //                         return {
-        //                             ...k,
-        //                             value: values[child.id][k.label]
-        //                         }
-        //                     })
-        //                 }
-        //             }
-        //         )
-
-        //         return newChildren
-        //     }
-
-        //     setUpdateElementId({
-        //         action: UpdateEditElementAction.UPDATE,
-        //         id,
-        //         index,
-        //         values: {
-        //             ...(getValues() as PropertiesComponentProps),
-        //             id: id,
-        //             element: element,
-        //             label,
-        //             placeholder,
-        //             value,
-        //             type,
-        //             index,
-        //             children: renewChild()
-        //         }
-        //     })
-        // }
+            setPropertiesEditList(_.cloneDeep(newPropertiesList))
+            setDragDropEditList(_.cloneDeep(dragDropListRef.current))
+        }
     }
 
     return (
-        <div className="" style={{ display: allowDisplay }}>
-            <div className="s-text-color-alpha">
-                <span>{`Widget Type: ${element}`}</span>
+        <div
+            className="h-100 w-100 d-flex flex-column"
+            style={{ display: isDisplayControl }}>
+            <span className="s-text-color-alpha text-level-body text-font-light">{`Widget Type: ${element}`}</span>
+            <span
+                className="s-text-color-alpha text-level-body text-font-bold"
+                style={{
+                    textTransform: "capitalize"
+                }}>
+                {propertyType}
+            </span>
+            <div
+                className="d-flex flex-column overflow-y-auto py-2"
+                style={{ flex: 1 }}>
+                {propertiesList?.length === 0 && <PropertiesChildEmpty />}
+                {propertiesList?.map((l) => {
+                    return (
+                        <div key={`${id}-properties-container`}>
+                            <PropertiesChildInput
+                                key={`${id}-properties`}
+                                {...props}
+                                {...l}
+                                // @ts-ignore
+                                control={control}
+                                id={propertyId}
+                                parentId={id}
+                                updateProperties={updateProperties}
+                                setValue={setValue}
+                            />
+                        </div>
+                    )
+                })}
             </div>
-
-            <div className="overflow-y-auto">
-                {(!isLayout || focusEditId.childType == "parent") &&
-                    properties?.map((l) => {
-                        return (
-                            <div>
-                                <div>{`${focusEditId.childType}`}</div>
-                                <PropertiesChildInput
-                                    key={`${id}-main-${index}`}
-                                    {...props}
-                                    {...l}
-                                    // @ts-ignore
-                                    control={control}
-                                    parentId={id}
-                                    updateProperties={updateProperties}
-                                    setValue={setValue}
-                                />
-                            </div>
-                        )
-                    })}
-                {isLayout &&
-                    focusEditId.childType != "parent" &&
-                    children &&
-                    children.length != 0 &&
-                    children.map((item: PropertyJson, index: number) => {
-                        if (item.properties)
-                            return item?.properties?.map((l) => {
-                                return (
-                                    <div key={`property_child_input_${index}`}>
-                                        <PropertiesChildInput
-                                            key={`${id}-child-${index}`}
-                                            {...item}
-                                            {...l}
-                                            id={
-                                                item?.id ??
-                                                `${id}-child-${index}`
-                                            }
-                                            index={index}
-                                            // @ts-ignore
-                                            control={control}
-                                            isChildren={true}
-                                            parentId={id}
-                                            updateProperties={updateProperties}
-                                            setValue={setValue}
-                                        />
-                                    </div>
-                                )
-                            })
-                        else
-                            return (
-                                <div key={`property_child_input_${index}`}>
-                                    <PropertiesChildInput
-                                        key={`${id}-child-${index}`}
-                                        {...item}
-                                        id={item?.id ?? `${id}-child-${index}`}
-                                        index={index}
-                                        // @ts-ignore
-                                        control={control}
-                                        isChildren={true}
-                                        parentId={id}
-                                        updateProperties={updateProperties}
-                                        setValue={setValue}
-                                    />
-                                </div>
-                            )
-                    })}
-                <div
-                    style={{
-                        padding: 20,
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center"
-                    }}>
-                    <AdminButton
-                        label="Update"
-                        style={{ width: "100%" }}
-                        onClick={updateProperties}
-                    />
-
-                    {/* <div
-                            style={{
-                                width: "100%",
-                                height: 30,
-                                borderRadius: 25
-                            }}
-                            onClick={updateProperties}
-                            className={`flex justify-center cursor-pointer s-adminGradientBg shadow s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
-                            <span>Update</span>
-                        </div> */}
-                </div>
+            <div
+                className="d-flex justify-content-center"
+                style={{
+                    padding: 50
+                }}>
+                <AdminButton
+                    label="Update"
+                    style={{ width: "100%" }}
+                    onClick={() => updateProperties()}
+                />
             </div>
         </div>
     )

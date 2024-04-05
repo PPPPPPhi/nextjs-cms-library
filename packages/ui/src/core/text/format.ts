@@ -19,12 +19,14 @@ export const propertyTextJson: PropertyJson = {
     type: "text",
     properties: [
         {
+            element_id: "text_label",
             label: "Label",
             placeholder: "Input here ...",
             value: "Text Label",
             type: "text"
         },
         {
+            element_id: "text_value",
             label: "Value",
             placeholder: "Input here ...",
             value: "Morning World",
