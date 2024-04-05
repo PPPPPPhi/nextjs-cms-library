@@ -1,3 +1,3 @@
-import { GeneralColumn, SubColumn } from "./SubColumn"
+import { GeneralColumn, SubColumn, ElementorSubColumn } from "./SubColumn"
 
-export { GeneralColumn, SubColumn }
+export { GeneralColumn, SubColumn, ElementorSubColumn }

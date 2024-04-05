@@ -80,6 +80,24 @@ export const DragDropElementSelectFileList: string[] = [ElementNameMap.Image]
 
 export const DragDropElementRichText: string[] = [ElementNameMap.RichText]
 
+export const DragDropAccecptElementType: string[] = [
+    ElementNameMap.Text,
+    ElementNameMap.Image,
+    ElementNameMap.RichText,
+    ElementNameMap.Trophy,
+    ElementNameMap.Banner,
+    ElementNameMap.Card,
+    ElementNameMap.Contact,
+    ElementNameMap.Event,
+    ElementNameMap.HotProduct,
+    ElementNameMap.HTML,
+    ElementNameMap.InfoGraphic,
+    ElementNameMap.PhotoGallery,
+    ElementNameMap.SocialMedia,
+    ElementNameMap.Sponsor,
+    ElementNameMap.Webinar
+]
+
 export const DragDropAccecptType: string[] = [
     ElementNameMap.Text,
     ElementNameMap.Image,
@@ -124,6 +142,8 @@ export type DragDropEditType = DragDropJson &
 
 export type DragDropComponentProps = DragDropEditType & {
     hoverIndex: number
+    offsetIdx: number
+    elementIdx: number
 }
 
 export type PropertyEditType = PropertyJson &
@@ -139,6 +159,7 @@ export type PropertiesComponentProps = PropertyEditType & {
 export type FocusEditElementType = {
     id?: string
     childType?: string
+    parentId?: string
 }
 
 export type SwapLayoutChildType = {

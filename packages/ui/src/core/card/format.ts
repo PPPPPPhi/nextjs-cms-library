@@ -19,40 +19,46 @@ export const propertyCardJson: PropertyJson = {
     type: "card",
     properties: [
         {
+            element_id: "card_label",
             label: "Title",
             placeholder: "Input here ...",
             value: "Card Title",
             type: "text"
         },
         {
+            element_id: "card_image_src",
             label: "Image",
             placeholder: "Input here ...",
             value: "",
             type: "image"
         },
         {
+            element_id: "card_subtitle",
             label: "SubTitle",
             placeholder: "Input here ...",
             value: "Card SubTitle",
             type: "text"
         },
         {
+            element_id: "card_description",
             label: "Description",
             placeholder: "Input here ...",
             value: "Text Label",
             type: "text"
         },
         {
+            element_id: "card_text_color",
             label: "Text Color",
             placeholder: "",
             value: "#000000",
-            type: "colorPicker"
+            type: "color-picker"
         },
         {
+            element_id: "card_background_color",
             label: "Background Color",
             placeholder: "",
             value: "#FFFFFF",
-            type: "colorPicker"
+            type: "color-picker"
         }
     ]
 }

@@ -2,30 +2,31 @@ import React, { useEffect } from "react"
 
 import { WidgetProps } from "../utils/type/index"
 import { PreviewSelectImage } from "../utils"
-import { useDisplayPanelContext } from "../../elementor"
+import usePropertiesHook from "../hook/usePropertiesHook"
+import { useParams } from "next/navigation"
 
 type ImageProps = WidgetProps & {}
 
 export const Image: React.FC<ImageProps> = ({ properties }) => {
-    const { site } = useDisplayPanelContext()
-    const label = properties?.find((l: any) => l.label === "Label")?.value ?? ""
-    const valueItem = properties?.find((l: any) => l.label === "Image")
-    const alignment =
-        properties?.find((l: any) => l.label === "Alignment")?.value ?? "center"
-    const position =
-        properties?.find((l: any) => l.label === "Position")?.value ?? "contain"
+    const { site } = useParams()
+
+    const { values } = usePropertiesHook(properties)
+    const { image_label, image_src, image_alignment, image_position } =
+        values ?? {}
 
     return (
         <div className="w-100" style={{ overflowWrap: "break-word" }}>
-            <div className={`text-level-headline text-font-bold`}>{label}</div>
+            <div className={`text-level-headline text-font-bold`}>
+                {image_label}
+            </div>
 
-            {valueItem?.value && (
+            {image_src && (
                 <div className="col-12 col-md-4 position-relative h-100 w-100">
                     <PreviewSelectImage
-                        position={position}
-                        alignment={alignment}
+                        position={image_position}
+                        alignment={image_alignment}
                         site={site as string}
-                        value={valueItem?.value as string}
+                        value={image_src as string}
                         handler={() => {}}
                     />
                 </div>

@@ -5,51 +5,42 @@ import { InstragramSVG } from "./icon/InstragramSVG"
 import { XSVG } from "./icon/XSVG"
 import { WhatsappSVG } from "./icon/WhatsappSVG"
 import { YouTubeSVG } from "./icon/YouTubeSVG"
+import usePropertiesHook from "../hook/usePropertiesHook"
 
 type SocialMediaProps = WidgetProps & {}
 
 export const SocialMedia: React.FC<SocialMediaProps> = ({ properties }) => {
-    const facebookUrl =
-        properties?.find((property: any) => property.label === "Facebook url")
-            ?.value ?? ""
+    const { values } = usePropertiesHook(properties)
 
-    const instragramUrl =
-        properties?.find((property: any) => property.label === "Instragram url")
-            ?.value ?? ""
-
-    const xUrl =
-        properties?.find((property: any) => property.label === "X url")
-            ?.value ?? ""
-
-    const whatsappUrl =
-        properties?.find((property: any) => property.label === "whatsapp url")
-            ?.value ?? ""
-
-    const youtubeUrl =
-        properties?.find((property: any) => property.label === "YouTube url")
-            ?.value ?? ""
+    const {
+        social_media_facebook,
+        social_media_instagram,
+        social_media_x,
+        social_media_whatsapp,
+        social_media_youtube
+    } = values
 
     return (
         <div
             className="d-flex flex-wrap"
             style={{ overflowWrap: "break-word", flexDirection: "row" }}>
             <div>
-                <a target="_blank" href={facebookUrl}>
+                <a target="_blank" href={social_media_facebook}>
                     <FacebookSVG height="50px" width="50px" />
                 </a>
             </div>
             <div>
-                <a target="_blank" href={instragramUrl}>
+                <a target="_blank" href={social_media_instagram}>
                     <InstragramSVG height="50px" width="50px" />
                 </a>
             </div>
             <div>
-                <a target="_blank" href={xUrl}>
+                <a target="_blank" href={social_media_x}>
                     <XSVG height="50px" width="50px" />
                 </a>
             </div>
             <div>
-                <a target="_blank" href={youtubeUrl}>
+                <a target="_blank" href={social_media_youtube}>
                     <YouTubeSVG height="50px" width="50px" />
                 </a>
             </div>

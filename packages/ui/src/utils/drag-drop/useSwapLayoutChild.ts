@@ -149,7 +149,8 @@ export const useSwapLayoutChild = () => {
             const snapShotDragDrop = _.cloneDeep(newDragDropList)
             const snapShotProperty = _.cloneDeep(newPropertiesList)
 
-            console.log("setPropertiesEditList  9")
+            console.log("uppppp 14", snapShotDragDrop)
+            console.log("puuuuu 14")
 
             setDragDropEditList(snapShotDragDrop)
             setPropertiesEditList(snapShotProperty)

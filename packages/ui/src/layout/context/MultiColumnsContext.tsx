@@ -19,7 +19,13 @@ import {
     FocusEditElementType,
     SwapLayoutChildType
 } from "../../utils"
-import { TwoColumn, ThreeColumn, LeftGridsRightColumn, BentoGrid, RightGridsLeftColumn } from "../index"
+import {
+    TwoColumn,
+    ThreeColumn,
+    LeftGridsRightColumn,
+    BentoGrid,
+    RightGridsLeftColumn
+} from "../index"
 
 const { DndProvider } = require("react-dnd")
 const { HTML5Backend } = require("react-dnd-html5-backend")
@@ -68,10 +74,6 @@ export const MultiColumnsContextProvider: FC<
         ...rest
     } = props ?? {}
 
-    useEffect(() => {
-        console.log(`[context] context isPreview`, isPreview)
-    }, [isPreview])
-
     return (
         <DndProvider backend={HTML5Backend}>
             <MultiColumnsContext.Provider
@@ -101,10 +103,7 @@ export const MultiColumnsContextProvider: FC<
                 )}
 
                 {element == LayoutNameMap.BentoGrid && (
-                    <BentoGrid
-                        {...props}
-                        children={selfData?.children}
-                    />
+                    <BentoGrid {...props} children={selfData?.children} />
                 )}
             </MultiColumnsContext.Provider>
         </DndProvider>

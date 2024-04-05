@@ -1,4 +1,3 @@
-import { useDeleteComponent } from "./useDeleteComponent"
 import { useDropComponentInLayout } from "./useDropComponentInLayout"
 import { useDuplicateComponent } from "./useDuplicateComponent"
 import { useNavigatePreviousNextStep } from "./useNavigatePreviousNextStep"
@@ -21,7 +20,6 @@ import {
 // import { default as DragDropIcon } from "./dragdrop.png"
 
 export {
-    useDeleteComponent,
     useDropComponentInLayout,
     useDuplicateComponent,
     useNavigatePreviousNextStep,

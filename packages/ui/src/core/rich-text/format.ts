@@ -20,12 +20,14 @@ export const propertyRichTextJson: PropertyJson = {
     type: "rich-text",
     properties: [
         {
+            element_id: "rich_text_title",
             label: "Label",
             placeholder: "Input here ...",
             value: "Rich Text Editor",
             type: "text"
         },
         {
+            element_id: "rich_text_value",
             label: "Value",
             placeholder: "Input here ...",
             value: "",

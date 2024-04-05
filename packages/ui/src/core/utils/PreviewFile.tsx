@@ -1,19 +1,14 @@
 "use client"
 
 // import { imageType } from "@nextjs-cms-library/db-services/index"
-import { useState, useRef, useEffect } from "react"
-import { useParams } from "next/navigation"
+import { useState, useEffect } from "react"
 import {
     DragDropButton,
     ImageResourceAdaptor,
     ImageResourceOperator,
     NextImageApdator
 } from "../../utils/index"
-import { DisplayControllerButtons } from "../../elementor/drag-drop/control-bar/DisplayControlBar"
-import { CancelSvg } from "../../elementor/drag-drop/control-bar/DisplayControlButtons"
 import { DragDropComponentButtons } from "../../elementor/drag-drop/drag-drop-panel/DragDropComponent"
-import { imageType } from "@nextjs-cms-library/db-services/index"
-// import { AdminImageGallery } from "@nextjs-cms-library/admin-components/index"
 
 type PreviewSelectImageProps = {
     value: string
@@ -42,7 +37,6 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
 
     const getImageById = async () => {
         if (!value) return
-        console.log("imaggggg 1", site, value)
 
         const imageRes = await imageOperator
             .getImageById(site, value)

@@ -1,24 +1,23 @@
 import React from "react"
 import { WidgetProps } from "../utils/type/index"
 import { PreviewSelectImage } from "../utils"
-import { useDisplayPanelContext } from "../../elementor"
+import { useParams } from "next/navigation"
+import usePropertiesHook from "../hook/usePropertiesHook"
 
 type CardProps = WidgetProps & {}
 
 export const Card: React.FC<CardProps> = ({ properties }) => {
-    const { site } = useDisplayPanelContext()
+    const { site } = useParams() ?? {}
+    const { values } = usePropertiesHook(properties)
 
-    const title = properties?.find((l: any) => l.label === "Title")?.value ?? ""
-    const subTitle =
-        properties?.find((l: any) => l.label === "SubTitle")?.value ?? ""
-    const desc =
-        properties?.find((l: any) => l.label === "Description")?.value ?? ""
-    const textColor =
-        properties?.find((l: any) => l.label === "Text Color")?.value ?? ""
-    const backgroundColor =
-        properties?.find((l: any) => l.label === "Background Color")?.value ??
-        ""
-    const image = properties?.find((l: any) => l.label === "Image")?.value ?? ""
+    const {
+        card_label,
+        card_image_src,
+        card_subtitle,
+        card_description,
+        card_text_color,
+        card_background_color
+    } = values
 
     return (
         <div className="p-3 w-100">
@@ -26,25 +25,25 @@ export const Card: React.FC<CardProps> = ({ properties }) => {
                 className="w-100 d-flex flex-column shadow rounded-2 p-2"
                 style={{
                     overflowWrap: "break-word",
-                    color: textColor ?? "#FFFFFF",
-                    background: backgroundColor ?? "white"
+                    color: card_text_color ?? "#FFFFFF",
+                    background: card_background_color ?? "white"
                 }}>
                 <div className="w-100" style={{ flex: 1 }}>
-                    {image && (
+                    {card_image_src && (
                         <PreviewSelectImage
                             height={300}
                             site={site as string}
-                            value={image as string}
+                            value={card_image_src as string}
                             handler={() => {}}
                         />
                     )}
                 </div>
                 <div className={`text-level-headline text-font-bold py-2`}>
-                    {title}
+                    {card_label}
                 </div>
-                <div className={`text-level-body`}>{subTitle}</div>
+                <div className={`text-level-body`}>{card_subtitle}</div>
                 <div className={`text-level-remark text-font-light`}>
-                    {desc}
+                    {card_description}
                 </div>
             </div>
         </div>

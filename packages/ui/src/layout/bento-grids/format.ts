@@ -86,12 +86,12 @@ export const propertyJson: PropertyJson = {
     placeholder: "Input here ...",
     value: "Morning World bento-grid",
     type: "bento-grid",
-    properties: [        
+    properties: [
         {
             label: "Background Color",
             placeholder: "",
             value: "aliceblue",
-            type: "colorPicker"
+            type: "color-picker"
         }
     ],
     children: [

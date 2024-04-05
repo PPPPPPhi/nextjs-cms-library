@@ -5,6 +5,7 @@ import {
     LayoutProps,
     DragDropEditType,
     DragDropComponentProps,
+    DragDropAccecptElementType,
     PropertyEditType,
     PropertiesComponentProps,
     FocusEditElementType,
@@ -43,6 +44,7 @@ export type {
 
 export {
     DragDropAccecptType,
+    DragDropAccecptElementType,
     DragDropElementInputList,
     DragDropElementSelectFileList,
     DragDropElementRichText,
