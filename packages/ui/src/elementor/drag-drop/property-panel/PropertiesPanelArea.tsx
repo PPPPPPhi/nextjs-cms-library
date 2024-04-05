@@ -42,7 +42,13 @@ export const PropertiesPanelArea: React.FC<PropertiesPanelAreaProps> = (
                             }}
                         />
                     </div>
-                    <PropertiesComponent />
+                    <PropertiesComponent
+                        element={""}
+                        type={""}
+                        id={""}
+                        index={0}
+                        isWideMode={false}
+                    />
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import { SvgProps } from "../../../utils/index"
+import { SvgProps } from "../../../core/utils/index"
 
 export const DuplicateSvg: React.FC<SvgProps> = ({
     width = 16,

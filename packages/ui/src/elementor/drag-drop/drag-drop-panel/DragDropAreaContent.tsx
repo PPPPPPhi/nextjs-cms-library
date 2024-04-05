@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useRef, useState } from "react"
 const { useDrop } = require("react-dnd")
 import { v4 as uuid_v4 } from "uuid"

@@ -98,7 +98,9 @@ const contextDefaultValues: DisplayPanelContextProviderType = {
     isPreview: false,
     setPreview: () => null,
     isOnHoverLayout: false,
-    setIsOnHoverLayout: () => null
+    setIsOnHoverLayout: () => null,
+    isHardPreview: false,
+    setIsHardPreview: () => null
 }
 
 export type DisplayPanelContextProviderType = {
@@ -151,8 +153,8 @@ export type DisplayPanelContextProviderType = {
     setUpdateElementId: Dispatch<SetStateAction<UpdateEditElementType | null>>
     deleteElementId: string | null
     setDeleteElementId: Dispatch<SetStateAction<string | null>>
-    duplicateElementId: string | null
-    setDuplicateElementId: Dispatch<SetStateAction<string | null>>
+    duplicateElementId: any | null
+    setDuplicateElementId: Dispatch<SetStateAction<any | null>>
     dropComponentInLayout: any
     setDropComponentInLayout: Dispatch<SetStateAction<any>>
     historyCapSize: number

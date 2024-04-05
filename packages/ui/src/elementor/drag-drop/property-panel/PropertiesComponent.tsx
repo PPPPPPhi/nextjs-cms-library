@@ -34,7 +34,7 @@ export const PropertiesComponent: React.FC<
     PropertiesComponentProps &
         DefaultPropertiesDataType & { isWideMode: boolean }
 > = (props: PropertiesComponentProps & DefaultPropertiesDataType) => {
-    const { id, element, type, children, data, properties, isWideMode } = props
+    const { id, element, type, children, data, properties } = props
 
     const {
         focusEditId,
@@ -46,9 +46,6 @@ export const PropertiesComponent: React.FC<
     const { control, getValues, setValue } = useForm({
         defaultValues: data
     })
-    const isDisplayControl = useMemo(() => {
-        return focusEditId?.id == id ? "block" : "none"
-    }, [focusEditId])
 
     const DEFAULT_PROPERTY = {
         propertiesList: [],
@@ -129,6 +126,7 @@ export const PropertiesComponent: React.FC<
 
         if (!focusEditRef) return
 
+        // @ts-ignore
         const updateValue = values[focusEditRef]
 
         const newPropertiesList = _.cloneDeep(propertiesRef.current)
@@ -196,10 +194,8 @@ export const PropertiesComponent: React.FC<
     }
 
     return (
-        <div
-            className="h-100 w-100 d-flex flex-column"
-            style={{ display: isDisplayControl }}>
-            <span className="s-text-color-alpha text-level-body text-font-light">{`Widget Type: ${element}`}</span>
+        <div className="h-100 w-100 d-flex flex-column">
+            {/* <span className="s-text-color-alpha text-level-body text-font-light">{`Widget Type: ${element}`}</span> */}
             <span
                 className="s-text-color-alpha text-level-body text-font-bold"
                 style={{
@@ -222,8 +218,8 @@ export const PropertiesComponent: React.FC<
                                 control={control}
                                 id={propertyId}
                                 parentId={id}
-                                updateProperties={updateProperties}
-                                setValue={setValue}
+                                // updateProperties={updateProperties}
+                                // setValue={setValue}
                             />
                         </div>
                     )

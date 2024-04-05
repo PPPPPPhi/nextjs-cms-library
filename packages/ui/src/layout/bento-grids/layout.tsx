@@ -12,7 +12,7 @@ type BentoGridProps = WidgetProps &
         isPreview?: boolean
         isMobileView?: boolean
         isElementor?: boolean
-        selfData?: { children: any[] }
+        selfData?: { children: any[]; properties: any }
     }
 
 export const BentoGrid: React.FC<BentoGridProps> = (props: BentoGridProps) => {

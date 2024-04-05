@@ -1,4 +1,4 @@
-import { SvgProps } from "../utils/type/index"
+import { SvgProps } from "../../utils/index"
 
 export const WhatsappSVG: React.FC<SvgProps> = ({
     classname,
@@ -15,7 +15,7 @@ export const WhatsappSVG: React.FC<SvgProps> = ({
             id="Layer_1"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 308 308"
-            xml:space="preserve">
+            xmlSpace="preserve">
             <g id="XMLID_468_">
                 <path
                     id="XMLID_469_"
