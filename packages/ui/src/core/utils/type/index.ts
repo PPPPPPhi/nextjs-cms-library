@@ -5,7 +5,8 @@ import {
     DragDropJson,
     WidgetProps,
     CorePropertyJson,
-    PropertyJson
+    PropertyJson,
+    WidgetPropertiesProps
 } from "./formatType"
 
 export type {
@@ -15,5 +16,6 @@ export type {
     DragDropJson,
     WidgetProps,
     CorePropertyJson,
-    PropertyJson
+    PropertyJson,
+    WidgetPropertiesProps
 }

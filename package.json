@@ -39,6 +39,7 @@
         "axios": "^1.6.7",
         "bcryptjs": "^2.4.3",
         "changeset": "^0.2.6",
+        "deep-parse-json": "^2.0.0",
         "draftjs-to-html": "^0.9.1",
         "esbuild-sass-plugin": "^3.1.0",
         "file-saver": "^2.0.5",
