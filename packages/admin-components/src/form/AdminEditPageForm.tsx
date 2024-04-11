@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { AdminTextInput, AdminSelect } from "../input"
 
 interface AdminEditPageFormInterface {
@@ -22,6 +22,11 @@ export const AdminEditPageForm: React.FC<AdminEditPageFormInterface> = ({
     const handleChange = (field: string, value: string | File) => {
         setInput((v) => ({ ...(v as editPageFormType), [field]: value }))
     }
+
+    useEffect(() => {
+        if (inputs) onFormValueChange(inputs as editPageFormType)
+    }, [inputs])
+
     return (
         <div className="d-flex flex-column space-y-6 s-section-quaternary p-2">
             <AdminTextInput

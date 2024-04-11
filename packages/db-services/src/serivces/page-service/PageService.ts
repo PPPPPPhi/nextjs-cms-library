@@ -43,10 +43,37 @@ export const createPage = async (page: pageType) => {
         })
 
         const result = await page.save()
-        return { message: "Success", status: 200, _id:result._id }
+        return { message: "Success", status: 200, _id: result._id }
     } catch (e) {
         console.log("Error in Getting Image", e)
         return { message: "Fail", status: 500 }
+    }
+}
+
+export const updatePage = async (
+    pageId: string,
+    pageDetails: { name: string; description: string }
+) => {
+    try {
+        await connectMongoDB()
+
+        const { name, description } = pageDetails ?? {}
+        const operator = await getOperator()
+
+        const result = await Page.findOneAndUpdate(
+            { _id: pageId },
+            {
+                name,
+                description,
+                updatedBy: operator
+            },
+            { upsert: false }
+        )
+
+        return { message: "Success", status: 200 }
+    } catch (error) {
+        console.log("Error occured when creating Footer", error)
+        return { message: "Failed", status: 500 }
     }
 }
 

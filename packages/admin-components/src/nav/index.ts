@@ -1,1 +1,1 @@
-export * from "./AdminNavigationDisplay"
+export * from "./AdminNavigationContainer"

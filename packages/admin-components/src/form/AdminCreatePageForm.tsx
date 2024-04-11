@@ -28,7 +28,6 @@ export const AdminCreatePageForm: React.FC<AdminCreatePageFormInterface> = ({
     }
 
     useEffect(() => {
-        console.log("lannnnns", langs)
         setLangList(langs)
     }, [langs])
 

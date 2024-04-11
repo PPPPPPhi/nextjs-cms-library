@@ -38,7 +38,6 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
     props: GeneralColumnProps
 ) => {
     const { id, component, elements, isPreview } = props
-
     return (
         <>
             {component &&
@@ -46,7 +45,7 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
                     ...props,
                     elements: elements,
                     id: id,
-                    isPreview: isPreview
+                    isPreview
                 })}
         </>
     )

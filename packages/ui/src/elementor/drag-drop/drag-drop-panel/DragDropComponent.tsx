@@ -100,7 +100,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         collect: (monitor: any) => ({})
     }))
 
-    console.log("parennnnnt", props)
     const selfData = useMemo(() => {
         const data = propertiesEditList.find(
             (element: PropertyEditType) => element?.id == id

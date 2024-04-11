@@ -190,7 +190,6 @@ export const DisplayPanelContextProvider: FC<
         submit,
         setModal,
         setLoading,
-        isHardView,
         ...rest
     } = props ?? {}
 
@@ -248,7 +247,7 @@ export const DisplayPanelContextProvider: FC<
     const [isExpandView, setExpandView] = useState<boolean>(readOnly)
     const [isMobileView, setMobileView] = useState<boolean>(false)
     const [isPreview, setPreview] = useState<boolean>(readOnly)
-    const [isHardPreview, setIsHardPreview] = useState<boolean>(isHardView)
+    const [isHardPreview, setIsHardPreview] = useState<boolean>(readOnly)
 
     const [dragDropEditAcceptType, setDragDropEditAcceptType] = useState<
         string[]
@@ -257,20 +256,6 @@ export const DisplayPanelContextProvider: FC<
         useState<string[]>([])
 
     const [isOnHoverLayout, setIsOnHoverLayout] = useState(false)
-
-    // useEffect(() => {
-    //     if (!dragDropHistoryList) {
-    //         setDragDropEditAcceptType(["default"])
-    //         return
-    //     }
-
-    //     // @ts-ignore
-    //     const acceptIds: string[] = dragDropHistoryList[
-    //         currentHistoryIndex
-    //     ].map((item: DragDropComponentProps) => item?.id)
-
-    //     setDragDropEditAcceptType(acceptIds)
-    // }, [dragDropHistoryList, currentHistoryIndex])
 
     const elementsList = elementInstance.getSelectionList()
     const dragDropList = elementInstance.getComponentsList()

@@ -1,3 +1,4 @@
+import { useActionAuthorizationHook } from "@nextjs-cms-library/role-management/index"
 import styles from "../AdminControl.module.scss"
 import { CSSProperties } from "react"
 
@@ -13,6 +14,11 @@ interface AdminButtonInterface {
 export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
     const { label, onClick, Icon, disabled, style, inverseStyle } = buttonProps
 
+    const { checkAuthorization } = useActionAuthorizationHook()
+
+    const isAuthorized = disabled ? false : checkAuthorization()
+    const isDisabled = disabled || !isAuthorized
+
     return (
         <div
             className={`${
@@ -20,10 +26,15 @@ export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
             } d-flex align-items-center justify-content-center shadow`}
             style={{
                 ...style,
-                cursor: disabled ? "default" : "pointer",
-                background: disabled ? "#CCCCCC" : "var(--static-color-primary)"
+                cursor: isDisabled ? "default" : "pointer",
+                background: isDisabled
+                    ? "#CCCCCC"
+                    : "var(--static-color-primary)"
             }}
-            onClick={onClick}>
+            onClick={() => {
+                if (isDisabled) return
+                onClick()
+            }}>
             {Icon && <Icon className="text-level-button s-text-color-nu" />}
             <span className="text-level-remark s-text-color-nu">{label}</span>
         </div>

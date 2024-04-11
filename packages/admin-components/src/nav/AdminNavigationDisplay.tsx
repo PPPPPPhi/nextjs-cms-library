@@ -1,16 +1,13 @@
 import { useRef, useState, useCallback, useEffect } from "react"
-import { useCollapse } from "react-collapsed"
-import { HiChevronUp, HiChevronDown } from "react-icons/hi"
 import { AdminNavButton } from "./AdminNavButton"
-import {
-    HiFolderAdd,
-    HiPencil,
-    HiDocumentRemove,
-    HiFolderRemove
-} from "react-icons/hi"
+import { HiFolderAdd } from "react-icons/hi"
 import { AdminCreateNavItemForm } from "../form"
 import * as _ from "lodash"
 import { AdminCard } from "../core"
+import { AdminNavigationItem } from "./AdminNavigationItem"
+import useNavigationOffsetHook from "./hooks/useNavigationOffsetHook"
+import { useAdminNavigationContext } from "./context/AdminNavigationContext"
+const { useDrop } = require("react-dnd")
 
 export type naviagtionType = {
     name: string
@@ -26,169 +23,51 @@ interface AdminNavigationDisplayInterface {
     setModal: (details: any) => void
 }
 
-interface CollapsedInterface {
-    navItem: naviagtionType
-    idx: number
-    refIdx: number[]
-    onAddNavItem: (refIdx: number[]) => void
-    onEditNavItem: (refIdx: number[]) => void
-    onRemoveNavItem: (refIdx: number[]) => void
-    disableSetting: boolean
-}
-
-interface BadgeInterface {
-    label: "_blank" | "_self"
-}
-
-const NAV_TARGET_BADGE_COLOR = {
-    _blank: "red",
-    _self: "yellow"
-}
-const MAX_LEVEL = 3
-
-const Badge: React.FC<BadgeInterface> = ({ label }) => {
-    return (
-        <div
-            className="d-flex align-items-center rounded-5 mx-2 px-2 shadow"
-            style={{ background: "black" }}>
-            <span
-                className="text-level-remark"
-                style={{
-                    color: NAV_TARGET_BADGE_COLOR[label]
-                }}>
-                {label}
-            </span>
-        </div>
-    )
-}
-
-interface AdminNavNavigationButton {
-    icon: React.ReactNode
-    onActionClick: () => void
-}
-const NavActionButton: React.FC<AdminNavNavigationButton> = ({
-    icon,
-    onActionClick
-}) => {
-    const Icon = useCallback(() => {
-        if (icon) return icon
-        else return <></>
-    }, [icon])
-
-    return (
-        <div
-            className="cursor-pointer text-level-subtitle s-text-color-alpha"
-            onClick={(e) => {
-                e.preventDefault()
-                onActionClick()
-            }}>
-            <Icon />
-        </div>
-    )
-}
-
-const Collapsed: React.FC<CollapsedInterface> = ({
-    navItem,
-    idx,
-    refIdx,
-    onAddNavItem,
-    onEditNavItem,
-    onRemoveNavItem,
-    disableSetting
-}) => {
-    const [isExpanded, setExpanded] = useState(false)
-    const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
-
-    const { name, url, target, children, level = 1 } = navItem
-
-    const isMaxLevel = level === MAX_LEVEL
-
-    return (
-        <div className="d-flex w-100 flex-column px-3">
-            <div
-                className="d-flex w-100 s-section-primary p-2 align-items-center flex-wrap shadow rounded-2"
-                style={{ cursor: !isMaxLevel ? "pointer" : "default" }}>
-                <div
-                    className="d-flex w-100"
-                    {...getToggleProps({
-                        onClick: () => {
-                            if (!isMaxLevel)
-                                setExpanded((prevExpanded) => !prevExpanded)
-                        }
-                    })}
-                    style={{ flex: 1 }}>
-                    <span>{name}</span>
-                    <Badge label={target} />
-                    <span className="text-level-remark">{url}</span>
-                </div>
-                <NavActionButton
-                    icon={<HiPencil />}
-                    onActionClick={() => {
-                        onEditNavItem(refIdx)
-                    }}
-                />
-                <NavActionButton
-                    icon={
-                        !isMaxLevel ? <HiFolderRemove /> : <HiDocumentRemove />
-                    }
-                    onActionClick={() => {
-                        onRemoveNavItem(refIdx)
-                    }}
-                />
-                {!isMaxLevel && (
-                    <div className="d-flex px-2">
-                        {isExpanded ? <HiChevronUp /> : <HiChevronDown />}
-                    </div>
-                )}
-            </div>
-            <section {...getCollapseProps()} className="p-2">
-                {children?.map((l, subIdx) => {
-                    const newRefIdx = [...refIdx, subIdx]
-
-                    return (
-                        <Collapsed
-                            key={`nav_collapsed_${subIdx}`}
-                            navItem={{
-                                ...l,
-                                level: level + 1
-                            }}
-                            idx={subIdx}
-                            refIdx={newRefIdx}
-                            onAddNavItem={onAddNavItem}
-                            onEditNavItem={onEditNavItem}
-                            onRemoveNavItem={onRemoveNavItem}
-                            disableSetting={disableSetting}
-                        />
-                    )
-                })}
-            </section>
-            {!isMaxLevel && (
-                <AdminNavButton
-                    icon={<HiFolderAdd />}
-                    label={name}
-                    onNavClick={() => {
-                        onAddNavItem(refIdx)
-                    }}
-                    disabled={disableSetting}
-                />
-            )}
-        </div>
-    )
-}
-
-// const CollapseNavEditor = withNavEditor(Collapsed)
-
 export const AdminNavigationDisplay: React.FC<
     AdminNavigationDisplayInterface
 > = ({ navJson, saveNav, setModal }) => {
     const formRef = useRef<any>()
 
     const [navigation, setNavigation] = useState<naviagtionType[]>(navJson)
-    const [isShowSetting, setIsShowSetting] = useState(true)
+    const {
+        isDraggable,
+        setIsDraggable,
+        isShowSetting,
+        setIsShowSetting,
+        setIsCollapsing,
+        osPosition,
+        setOsPosition
+    } = useAdminNavigationContext()
+
+    const { offsetRefList, containerY } = useNavigationOffsetHook(navJson)
 
     useEffect(() => {
+        console.log("navJson", navJson)
         setNavigation(navJson)
     }, [navJson])
+
+    const [{}, drop] = useDrop(
+        () => ({
+            accept: "collapsible_menu",
+            hover: (item: any, monitor: any) => {
+                const { y: clientOffset } = monitor.getClientOffset()
+                const offsetIdx = offsetRefList.findIndex(
+                    (l) => l > clientOffset + containerY
+                )
+
+                const htmlPosiion =
+                    offsetIdx === -1 ? offsetRefList.length - 1 : offsetIdx - 1
+                setOsPosition(htmlPosiion)
+            },
+            drop: (_item: any, monitor: any) => {
+                setOsPosition(-99)
+            },
+            collect: (monitor: any) => ({
+                isDragging: monitor.isOver()
+            })
+        }),
+        [offsetRefList]
+    )
 
     const createNewNavItem = (refIdx: number[]) => {
         setModal({
@@ -321,10 +200,18 @@ export const AdminNavigationDisplay: React.FC<
     }
 
     return (
-        <div className="d-flex flex-column w-100 space-y-3">
+        <div className="d-flex flex-column w-100">
             <div className="d-flex pb-3">
                 <AdminCard
                     cardsRef={[
+                        {
+                            actionLabel: "Move Position",
+                            desc: "Move Position",
+                            action: () => {
+                                setIsCollapsing(!isDraggable ? true : false)
+                                setIsDraggable(!isDraggable)
+                            }
+                        },
                         {
                             actionLabel: "Show / Hide Setting",
                             desc: "Show/Hide setting for editing/viewing the navigation menu",
@@ -350,24 +237,26 @@ export const AdminNavigationDisplay: React.FC<
                 }}
                 disabled={!isShowSetting}
             />
-            {navigation.map((k, idx) => (
-                <Collapsed
-                    key={`collapsed_${idx}`}
-                    navItem={k}
-                    idx={idx}
-                    refIdx={[idx]}
-                    onAddNavItem={(r) => {
-                        createNewNavItem(r)
-                    }}
-                    onEditNavItem={(r) => {
-                        editNavItem(r)
-                    }}
-                    onRemoveNavItem={(r) => {
-                        removeNavItem(r)
-                    }}
-                    disableSetting={!isShowSetting}
-                />
-            ))}
+            <div className="d-flex flex-column w-100" ref={drop}>
+                {navigation.map((k, idx) => (
+                    <AdminNavigationItem
+                        key={`collapsed_${idx}`}
+                        id={`collapsed_parent_${idx}`}
+                        navItem={k}
+                        idx={idx}
+                        refIdx={[idx]}
+                        onAddNavItem={(r) => {
+                            createNewNavItem(r)
+                        }}
+                        onEditNavItem={(r) => {
+                            editNavItem(r)
+                        }}
+                        onRemoveNavItem={(r) => {
+                            removeNavItem(r)
+                        }}
+                    />
+                ))}
+            </div>
         </div>
     )
 }

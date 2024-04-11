@@ -16,8 +16,6 @@ import {
 } from "./DisplayControlButtons"
 
 import useDragDropControllerHook from "../hooks/useDragDropControllerHook"
-import useViewHook from "../hooks/useViewHook"
-
 type DisplayControllerButtonsProps = {
     svg: any
     handler: () => void

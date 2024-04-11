@@ -23,12 +23,11 @@ type DisplayContainerProps = {
     submit: (pageData: PropertiesComponentProps[]) => Promise<void>
     setModal: Dispatch<SetStateAction<any>>
     setLoading: Dispatch<SetStateAction<boolean>>
-    isHardView: boolean
     readOnly?: boolean
 }
 
 export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
-    const { isHardView } = props ?? {}
+    const { readOnly } = props ?? {}
 
     return (
         <div className="d-flex h-100 w-100">
@@ -40,14 +39,14 @@ export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
                         style={{
                             background: "#FFF"
                         }}>
-                        {!isHardView && <SelectionPanel />}
+                        {!readOnly && <SelectionPanel />}
                         {props.pageJson && (
                             <DragDropArea pageJson={props.pageJson ?? {}} />
                         )}
                         <SubmissionButton />
                     </div>
                 </DndProvider>
-                {!isHardView && <PropertiesPanelArea />}
+                {!readOnly && <PropertiesPanelArea />}
             </DisplayPanelContextProvider>
         </div>
     )
