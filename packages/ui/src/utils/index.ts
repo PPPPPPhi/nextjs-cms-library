@@ -39,3 +39,4 @@ export {
 export * from "./type"
 export * from "./image-resource"
 export * from "./drag-drop"
+export * from "./parser"

@@ -15,7 +15,7 @@ type RichTextEditInputProps = {
     name: string
     label: string
     value: string
-    control: Control<PropertyJson, any, PropertyJson>
+    control: Control<PropertyJson, PropertyJson>
     element: string
     isChildren?: boolean
     setValue?: UseFormSetValue<PropertiesComponentProps>

@@ -45,7 +45,8 @@ export const PropertyRichText: React.FC<PropertyRichTextInterface> = ({
             ref={editor}
             value={content}
             config={{}}
-            tabIndex={1} // tabIndex of textarea
+            // tabIndex={1} // tabIndex of textarea
+            // @ts-ignore
             onBlur={(newContent) => {
                 setContent(newContent)
                 onChange(newContent)

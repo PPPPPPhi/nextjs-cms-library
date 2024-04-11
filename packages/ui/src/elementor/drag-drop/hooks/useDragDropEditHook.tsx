@@ -15,6 +15,7 @@ const useDragDropEditHook = () => {
             const layoutMaps = Object.values(LayoutNameMap)
             const elementIds = dragDropEditList
                 .map((l) => {
+                    // @ts-ignore
                     if (layoutMaps.includes(l.element)) return
                     else return l.id
                 })

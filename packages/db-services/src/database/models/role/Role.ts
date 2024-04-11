@@ -8,8 +8,9 @@ const roleSchema = new mongoose.Schema<IRole, RoleModel, {}>(
     {
         name: String,
         description: String,
-        functions: Array<ObjectId>,
-        sites: Schema.Types.Mixed,
+        functions_lookUp: Array<Schema.Types.Mixed>,
+        sites: Array<String>,
+        userIds: Array<ObjectId>,
         createdBy: String,
         updatedBy: String
     },

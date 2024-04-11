@@ -16,7 +16,7 @@ export const AdminTableBadge: React.FC<AdminTableBadgeInterface> = ({
     const badgeValue = useMemo(() => {
         if (badgeTitle) return badgeTitle[value] ?? value
         else return value
-    }, [badgeTitle])
+    }, [badgeTitle, value])
 
     return (
         <div

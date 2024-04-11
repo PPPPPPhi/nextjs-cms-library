@@ -1,5 +1,6 @@
 import { Ref } from "react"
 import { ElementNameMap, LayoutNameMap } from "../NameMap"
+import { WidgetPropertiesProps } from "../../core/utils/type"
 
 export type SvgProps = {
     classname?: string
@@ -30,7 +31,8 @@ export type WidgetProps = {
     label?: string
     value?: string
     placeholder?: string
-    properties?: any
+    properties?: WidgetPropertiesProps[]
+    element_id?: string
 }
 
 export type CorePropertyJson = WidgetProps & {
@@ -172,4 +174,35 @@ export enum DragDropButton {
     duplicate = "DUPLICATE",
     delete = "DELETE",
     add = "ADD"
+}
+
+export type RawElementChildrenType = {
+    element: string
+    type: string
+    properties: WidgetProps[]
+    id: string
+    childType: string
+}
+
+export type RawElementType = WidgetProps & {
+    element: string
+    type: string
+    children: RawElementChildrenType[]
+    id: string
+    index: string
+}
+
+export type ViewPageElementChildType = RawElementChildrenType & {
+    component: React.FC<any>
+}
+
+export type ViewPageElementType = WidgetProps & {
+    element: string
+    type: string
+    id: string
+    index: string
+    component: React.FC<any>
+    elements: ViewPageElementChildType[]
+    properties: WidgetPropertiesProps[]
+    selfData?: { children: any[] }
 }

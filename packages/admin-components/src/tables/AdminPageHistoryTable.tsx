@@ -1,7 +1,7 @@
 import { AdminTable } from "@nextjs-cms-library/admin-components/index"
 import { useParams, useRouter } from "next/navigation"
 import { pageRowType } from "@nextjs-cms-library/admin-components/index"
-import { HiPencil } from "react-icons/hi"
+import { HiEye } from "react-icons/hi"
 
 interface AdminPageHistoryTableInterface {
     data: pageRowType[]
@@ -39,7 +39,7 @@ export const AdminPageHistoryTable: React.FC<
                         accessorKey: "_id",
                         header: "",
                         cellType: "action",
-                        headerIcon: <HiPencil />,
+                        headerIcon: <HiEye />,
                         size: 100,
                         action: (data) => {
                             const { _id, version} = data

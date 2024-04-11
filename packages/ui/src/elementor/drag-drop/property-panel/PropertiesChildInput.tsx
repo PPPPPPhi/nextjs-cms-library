@@ -11,7 +11,7 @@ type PropertiesChildSubInputProps = {
     type: string
     name: string
     label: string
-    control: Control<PropertyJson, any, PropertyJson>
+    control: Control<PropertyJson, PropertyJson>
     isChildren?: boolean
     options?: string[]
 }
@@ -56,11 +56,11 @@ export const PropertiesChildSubInput: React.FC<
 
 type PropertiesChildInputProps = PropertiesComponentProps & {
     element_id: string
-    control: Control<PropertyJson, any, PropertyJson>
-    updateProperties: () => void
+    control: Control<PropertyJson, PropertyJson>
+    // updateProperties: () => void
     isChildren?: boolean
     parentId?: string
-    setValue?: UseFormSetValue<PropertiesComponentProps>
+    // setValue?: UseFormSetValue<PropertiesComponentProps>
     options?: string[]
 }
 

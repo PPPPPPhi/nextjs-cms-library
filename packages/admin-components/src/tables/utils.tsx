@@ -10,14 +10,16 @@ import {
     AdminTableCollapse,
     AdminTableDescRowCell,
     AdminTableViewButton,
-    AdminTableBadgeList
+    AdminTableBadgeList,
+    AdminTablePreviewPhoto
 } from "./components"
 import { CellContext } from "@tanstack/react-table"
 import { columnDefsType, cellComponentType } from "../types/type"
 
 export const getCommonPinningStyles = (
     column: Column<any>,
-    type: "th" | "td"
+    type: "th" | "td",
+    zebra = false
 ): CSSProperties => {
     const isPinned = column.getIsPinned()
     const isLastLeftPinnedColumn =
@@ -63,6 +65,9 @@ export const getCellComponents: any = (cellType: cellComponentType) => {
             break
         case "badgeList":
             Component = AdminTableBadgeList
+            break
+        case "photo":
+            Component = AdminTablePreviewPhoto
             break
         default:
             Component = AdminTableRowCell
@@ -237,10 +242,8 @@ export const getColumnDefinition = (
                                     isExpanded={row.getIsExpanded()}
                                     action={row.getToggleExpandedHandler()}
                                 />
-                            ) : (
-
-                                (!k.shouldShow || k.shouldShow(original))?
-                                (<Component
+                            ) : !k.shouldShow || k.shouldShow(original) ? (
+                                <Component
                                     icon={k.headerIcon}
                                     label={getActionTitle(
                                         original._id,
@@ -254,8 +257,9 @@ export const getColumnDefinition = (
                                         k.action && k.action(original)
                                     }}
                                     disabled={k.isDisabled && !original._id}
-                                />):
-                                (<></>)
+                                />
+                            ) : (
+                                <></>
                             )}
                         </div>
                     )
@@ -263,57 +267,64 @@ export const getColumnDefinition = (
                 return (
                     <>
                         {((isCompatibleMode && k.isCompatible) ||
-                            !k.isCompatible) && 
-                            (!k.shouldShow || k.shouldShow(original))&&
-                            (
-                            <Component
-                                icon={k.headerIcon}
-                                label={getTDTitle(k, original, mode)}
-                                value={
-                                    k.cellRef ? original[k.cellRef] : getValue()
-                                }
-                                badgeTitle={k.badgeTitle}
-                                customWidth={k.size ?? null}
-                                customStyle={k.customStyle}
-                                action={() => {
-                                    if (k.isCompatible && compareTools) {
-                                        if (mode === "COMPARE")
-                                            compareTools.setCompareSource(
-                                                rowIdx
-                                            )
-                                        else if (mode === "COMPARING") {
-                                            compareTools.setCompareSource(-1)
-                                            compareTools.setCompareTarget(-1)
-                                        } else
-                                            compareTools.setCompareTarget(
-                                                rowIdx
-                                            )
-                                    } else if (k.isClonable && cloneTools) {
-                                        if (mode === "CLONE") {
-                                            cloneTools.setCloneSource(rowIdx)
-                                            cloneTools.setCloneSlug(
-                                                original.slug
-                                            )
-                                        } else if (mode === "CLONNING") {
-                                            cloneTools.setCloneSource(-1)
-                                            cloneTools.setCloneTarget(-1)
-                                            cloneTools.setCloneSlug("")
-                                        } else {
-                                            k.action &&
-                                                k.action({
-                                                    ...original,
-                                                    refLangIdx:
-                                                        cloneTools.cloneSource
-                                                })
-                                            cloneTools.setCloneSource(-1)
-                                            cloneTools.setCloneTarget(-1)
-                                            cloneTools.setCloneSlug("")
-                                        }
-                                    } else k.action && k.action(original)
-                                }}
-                                disabled={k.isDisabled && !original._id}
-                            />
-                        )}
+                            !k.isCompatible) &&
+                            (!k.shouldShow || k.shouldShow(original)) && (
+                                <Component
+                                    icon={k.headerIcon}
+                                    label={getTDTitle(k, original, mode)}
+                                    value={
+                                        k.cellRef
+                                            ? original[k.cellRef]
+                                            : getValue()
+                                    }
+                                    badgeTitle={k.badgeTitle}
+                                    customWidth={k.size ?? null}
+                                    customStyle={k.customStyle}
+                                    action={() => {
+                                        if (k.isCompatible && compareTools) {
+                                            if (mode === "COMPARE")
+                                                compareTools.setCompareSource(
+                                                    rowIdx
+                                                )
+                                            else if (mode === "COMPARING") {
+                                                compareTools.setCompareSource(
+                                                    -1
+                                                )
+                                                compareTools.setCompareTarget(
+                                                    -1
+                                                )
+                                            } else
+                                                compareTools.setCompareTarget(
+                                                    rowIdx
+                                                )
+                                        } else if (k.isClonable && cloneTools) {
+                                            if (mode === "CLONE") {
+                                                cloneTools.setCloneSource(
+                                                    rowIdx
+                                                )
+                                                cloneTools.setCloneSlug(
+                                                    original.slug
+                                                )
+                                            } else if (mode === "CLONNING") {
+                                                cloneTools.setCloneSource(-1)
+                                                cloneTools.setCloneTarget(-1)
+                                                cloneTools.setCloneSlug("")
+                                            } else {
+                                                k.action &&
+                                                    k.action({
+                                                        ...original,
+                                                        refLangIdx:
+                                                            cloneTools.cloneSource
+                                                    })
+                                                cloneTools.setCloneSource(-1)
+                                                cloneTools.setCloneTarget(-1)
+                                                cloneTools.setCloneSlug("")
+                                            }
+                                        } else k.action && k.action(original)
+                                    }}
+                                    disabled={k.isDisabled && !original._id}
+                                />
+                            )}
                     </>
                 )
             },

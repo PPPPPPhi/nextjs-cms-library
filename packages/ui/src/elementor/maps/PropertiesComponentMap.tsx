@@ -7,6 +7,7 @@ import {
     PropertyImageSelector
 } from "../../elementor/drag-drop/property-panel/index"
 
+// @ts-ignore
 export const propertiesComponentMap: Map<string, FC<any>> = new Map([
     ["text", PropertyText],
     ["editor", PropertyRichText],

@@ -23,6 +23,7 @@ export const PropertySelector: React.FC<PropertySelectorInterface> = ({
 
     useEffect(() => {
         if (!isSettle && defaultValue) {
+            // @ts-ignore
             setSelectedOption(defaultOption)
             setIsSettle(true)
         }

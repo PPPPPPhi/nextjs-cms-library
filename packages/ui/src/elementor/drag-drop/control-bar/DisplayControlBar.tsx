@@ -132,7 +132,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
             style={{
                 position: "fixed",
                 bottom: 20,
-                display: !readOnly ? "flex" : "none"
+                display: "flex"
             }}>
             <div className={`space-y-4`}>
                 <div

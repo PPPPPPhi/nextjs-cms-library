@@ -150,3 +150,14 @@
     position: relative;
     top: "15px";
 }
+
+.s-filter-dropdown {
+    background: white !important;
+    color: var(--static-color-text-alpha) !important;
+}
+
+.s-zebra-hover {
+    .hover {
+        background-color: lightslategrey;
+    }
+}

@@ -13,7 +13,11 @@ import {
     DragDropElementInputList,
     DragDropElementSelectFileList,
     DragDropElementRichText,
-    DragDropButton
+    DragDropButton,
+    RawElementChildrenType,
+    RawElementType,
+    ViewPageElementChildType,
+    ViewPageElementType
 } from "./componentFormat"
 import {
     SelectionListMap,
@@ -39,7 +43,11 @@ export type {
     PropertyEditType,
     PropertiesComponentProps,
     FocusEditElementType,
-    SwapLayoutChildType
+    SwapLayoutChildType,
+    RawElementChildrenType,
+    RawElementType,
+    ViewPageElementChildType,
+    ViewPageElementType
 }
 
 export {

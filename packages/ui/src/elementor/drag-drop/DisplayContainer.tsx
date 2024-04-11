@@ -17,6 +17,7 @@ import { PropertiesPanelArea } from "./property-panel/PropertiesPanelArea"
 import { PropertiesComponentProps } from "../../utils/index"
 import { DisplayController } from "./control-bar/DisplayControlBar"
 import { SubmissionButton } from "./control-bar/SubmissionButton"
+import { useParams } from "next/navigation"
 
 type DisplayContainerProps = {
     pageJson: PropertiesComponentProps | {}

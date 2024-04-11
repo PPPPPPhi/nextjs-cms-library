@@ -2,10 +2,12 @@ import { useDisplayPanelContext } from "../DisplayPanelContext"
 const { useDrop } = require("react-dnd")
 import { DragDropAccecptType } from "@nextjs-cms-library/ui/index"
 import { useEffect } from "react"
+import _ from "lodash"
 import { getLayoutsComponent } from "../../../elementor/maps/LayoutsComponentMap"
 
 interface DragDropLayoutContainerProps {
     element: any
+    selfData: any
 }
 
 export const DragDropLayoutContainer: React.FC<DragDropLayoutContainerProps> = (

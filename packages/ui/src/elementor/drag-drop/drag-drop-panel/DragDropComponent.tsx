@@ -152,7 +152,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 {isHoverTop && <HoverBorder />}
                 <div
                     style={{
-                        display: allowDisplay,
+                        display: !readOnly ? allowDisplay : "none",
                         flexDirection: "row",
                         justifyContent: "flex-end",
                         position: "relative",

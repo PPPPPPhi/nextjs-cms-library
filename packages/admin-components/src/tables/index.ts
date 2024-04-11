@@ -7,6 +7,10 @@ export * from "./AdminPublicationHistoryTable"
 export * from "./AdminUserManagementTable"
 export * from "./AdminSiteSettingHistoryTable"
 export * from "./AdminSiteSettingPublicationHistoryTable"
+export * from "./AdminProductOrderTable"
+export * from "./AdminProductListTable"
+export * from "./AdminProductCategoryTable"
+export * from "./AdminProductPromotionTable"
 
 import AdminWordMatrix from "./AdminWordMatrix"
 export { AdminWordMatrix }

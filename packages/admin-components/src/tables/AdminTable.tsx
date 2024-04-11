@@ -15,6 +15,9 @@ import { columnDefsType } from "../types/type"
 import { AdminDiffViewer } from "./AdminDiffViewer"
 import { AdminTablePagination } from "./components/AdminTablePagination"
 
+import { getCsvBlob } from "tanstack-table-export-to-csv"
+import FileSaver from "file-saver"
+
 interface AdminTableInterface {
     data: any[]
     pinColumns: string[]
@@ -22,6 +25,7 @@ interface AdminTableInterface {
     compareField?: string
     isCompatible?: boolean
     isSubComponent?: boolean
+    zebra?: boolean
 }
 
 export const AdminTable: React.FC<AdminTableInterface> = ({
@@ -30,7 +34,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
     columnDefs,
     compareField,
     isCompatible,
-    isSubComponent
+    isSubComponent,
+    zebra = false
 }) => {
     const [expanded, setExpanded] = useState<ExpandedState>({})
     const [compareSource, setCompareSource] = useState<number>(-1)
@@ -109,6 +114,22 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
         )
     }
 
+    const handleExportToCsv = (): void => {
+        const headers = table
+            .getHeaderGroups()
+            .map((x) => x.headers)
+            .flat()
+
+        const rows = table.getRowModel().rows
+
+        const csvBlob = getCsvBlob(headers, rows)
+
+        console.log(`export csv`, headers, rows, csvBlob)
+
+        // exportToCsv("export_data", headers, rows)
+        FileSaver.saveAs(csvBlob, "data.csv")
+    }
+
     return (
         <div className="d-flex flex-column w-100 h-100">
             <div className="overflow-auto mb-3" style={{ minHeight: 400 }}>
@@ -131,7 +152,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                             style={{
                                                 ...getCommonPinningStyles(
                                                     column,
-                                                    "th"
+                                                    "th",
+                                                    true
                                                 )
                                             }}>
                                             <div className="whitespace-nowrap">
@@ -150,14 +172,15 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                         ))}
                     </thead>
                     <tbody>
-                        {table.getRowModel().rows.map((row) => (
+                        {table.getRowModel().rows.map((row, index) => (
                             <Fragment key={row.id}>
                                 <tr
                                     key={row.id}
                                     style={{
                                         borderBottom: "1px solid black",
                                         height: 35
-                                    }}>
+                                    }}
+                                    className={`whitespace-nowrap ${zebra ? "s-zebra-hover" : ""}`}>
                                     {row.getVisibleCells().map((cell) => {
                                         const { column } = cell
                                         return (
@@ -168,7 +191,11 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                                     ...getCommonPinningStyles(
                                                         column,
                                                         "td"
-                                                    )
+                                                    ),
+                                                    backgroundColor:
+                                                        zebra && index % 2 == 0
+                                                            ? "#f2f2f2"
+                                                            : "white"
                                                 }}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
@@ -197,6 +224,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                     targetJson={data[compareTarget]?.[compareField as string]}
                 />
             )}
+
+            <button onClick={handleExportToCsv}>Export to csv</button>
         </div>
     )
 }

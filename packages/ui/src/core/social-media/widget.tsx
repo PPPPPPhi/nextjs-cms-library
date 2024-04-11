@@ -26,22 +26,22 @@ export const SocialMedia: React.FC<SocialMediaProps> = ({ properties }) => {
             style={{ overflowWrap: "break-word", flexDirection: "row" }}>
             <div>
                 <a target="_blank" href={social_media_facebook}>
-                    <FacebookSVG height="50px" width="50px" />
+                    <FacebookSVG height={50} width={50} />
                 </a>
             </div>
             <div>
                 <a target="_blank" href={social_media_instagram}>
-                    <InstragramSVG height="50px" width="50px" />
+                    <InstragramSVG height={50} width={50} />
                 </a>
             </div>
             <div>
                 <a target="_blank" href={social_media_x}>
-                    <XSVG height="50px" width="50px" />
+                    <XSVG height={50} width={50} />
                 </a>
             </div>
             <div>
                 <a target="_blank" href={social_media_youtube}>
-                    <YouTubeSVG height="50px" width="50px" />
+                    <YouTubeSVG height={50} width={50} />
                 </a>
             </div>
         </div>

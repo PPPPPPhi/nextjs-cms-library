@@ -125,6 +125,7 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                                 EDITOR_WIDTH_PERCENTAGE[tab] as string
                             )
                         }}
+                        defaultTab={1}
                     />
                     <div style={{ flex: 1 }} />
                     <AdminButton

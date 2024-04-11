@@ -1,5 +1,23 @@
 # @repo/ui
 
+## 0.1.25
+
+### Patch Changes
+
+- fix footer setting default tab selection problem
+
+## 0.1.24
+
+### Patch Changes
+
+- fix default tab problem in footer setting
+
+## 0.1.23
+
+### Patch Changes
+
+- remove redirect after page update, change to readonly if viewing history
+
 ## 0.1.22
 
 ### Patch Changes

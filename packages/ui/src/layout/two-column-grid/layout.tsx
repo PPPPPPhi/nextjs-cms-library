@@ -30,7 +30,9 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                 className={`d-flex flex-wrap`}
                 style={{ minHeight: !isPreview ? 100 : "auto" }}>
                 {(elements ?? []).map((k, idx) => (
-                    <div className={`p-1 col-${isMobileView ? 12 : 6}`}>
+                    <div
+                        className={`p-1 col-${isMobileView ? 12 : 6}`}
+                        key={`${id}-${idx}`}>
                         <SubComponent
                             {..._.merge(k, childrenValues[idx])}
                             parentId={id}
