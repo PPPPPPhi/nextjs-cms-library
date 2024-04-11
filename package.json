@@ -72,6 +72,7 @@
         "sass-loader": "^14.1.1",
         "tanstack-table-export-to-csv": "^1.0.3",
         "uuid": "^9.0.1",
-        "zod": "^3.22.4"
+        "zod": "^3.22.4",
+        "rxjs": "^7.8.1"
     }
 }
