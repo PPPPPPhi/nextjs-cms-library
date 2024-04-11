@@ -7,7 +7,6 @@ export interface IUser {
     password: string
     email: string
     avator: string
-    sites: []
     roles: []
     status: number
     createdBy: string

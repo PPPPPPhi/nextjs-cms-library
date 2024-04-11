@@ -22,11 +22,13 @@ export type FilterOrdersParam = {
     orderAddress?: string | undefined
 }
 
+const PROJECT_ALL_KEY = "document"
+
 export type FilterQueryParam = { [s: string]: any }
 
 export type FilterProjectParam = {
-    key: string
-    rename: string
+    from: string
+    to: string
 }
 
 export type PaginatedParam = {
@@ -120,13 +122,18 @@ export const getProjectedQuery = async (
         if (stage) {
             pipeline = stage.concat(filterPipeline)
         }
-        if (projectFields.length != 0 && pipeline) {
-            const projectFilter = { _id: 0 }
 
-            projectFields.map((key: string) => {
+        const projectFilter = { _id: 0 }
+
+        projectFields?.map((key: string) => {
+            if (key == PROJECT_ALL_KEY) {
+                return
+            } else {
                 _.set(projectFilter, key, 1)
-            })
+            }
+        })
 
+        if (Object.keys(projectFilter).length > 1 && pipeline) {
             const projectPipeline = {
                 $project: projectFilter
             }
@@ -134,8 +141,31 @@ export const getProjectedQuery = async (
             pipeline.push(projectPipeline)
         }
 
+        if (renameFields?.length != 0 && pipeline) {
+            const renameFilter = {}
+            const unsetKeyFilter: string[] = []
+
+            renameFields?.map((param: FilterProjectParam) => {
+                const { from, to } = param
+
+                _.set(renameFilter, to, `$${from}`)
+                unsetKeyFilter.push(from)
+            })
+
+            pipeline.push(
+                {
+                    $addFields: renameFilter
+                },
+                {
+                    $unset: unsetKeyFilter
+                }
+            )
+        }
+
         console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
         res = await model.aggregate(pipeline)
+
+        console.log(`[getProjectedQuery] res`, JSON.stringify(res))
 
         return res
     } catch (error) {
@@ -155,3 +185,21 @@ export const getMergedQueryRes = (data: { primary: any; secondary: any }) => {
 
     return res
 }
+
+export const getUpdateDocumentQuery = async (
+    model: Model<any, {}, {}, {}, any, any>,
+    // param: PaginatedParam, // pagination param from router query
+    filter: FilterQueryParam, // find or findOne filter can pass here
+    operation: FilterQueryParam // other aggregation stage,
+    // projectFields: string[]
+) => {
+    try {
+        const res = model.updateMany(filter, operation)
+
+        return res
+    } catch (error) {
+        console.log(`Error occur: `, error)
+    }
+}
+
+export const getBulkWriteQuery = async (operation: any[]) => {}

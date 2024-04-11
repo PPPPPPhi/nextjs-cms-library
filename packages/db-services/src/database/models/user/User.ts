@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema<IUser, UserModel, UserMethods>(
         firstName: String,
         lastName: String,
         email: String,
-        sites: [],
         roles: [],
         password: String,
         avator: String,

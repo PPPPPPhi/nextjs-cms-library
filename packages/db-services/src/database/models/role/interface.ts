@@ -9,7 +9,7 @@ export type IRoleFunctionType = {
 }
 
 export interface IRole {
-    name: string
+    roleName: string
     description: string
     functions_lookUp: Array<IRoleFunctionType | string>
     sites: string[]

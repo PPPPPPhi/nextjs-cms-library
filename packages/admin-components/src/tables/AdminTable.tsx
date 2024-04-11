@@ -17,6 +17,7 @@ import { AdminTablePagination } from "./components/AdminTablePagination"
 
 import { getCsvBlob } from "tanstack-table-export-to-csv"
 import FileSaver from "file-saver"
+import { AdminCard } from "../core/AdminCard"
 
 interface AdminTableInterface {
     data: any[]
@@ -225,7 +226,15 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                 />
             )}
 
-            <button onClick={handleExportToCsv}>Export to csv</button>
+            <AdminCard
+                cardsRef={[
+                    {
+                        actionLabel: "Export Excel",
+                        desc: "Export CSV file to view in Excel.",
+                        action: handleExportToCsv
+                    }
+                ]}
+            />
         </div>
     )
 }

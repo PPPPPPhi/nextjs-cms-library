@@ -9,7 +9,7 @@ export type roleFunctionType = {
 }
 
 export type roleType = {
-    name: string
+    roleName: string
     description: string
     functions_lookUp: Array<roleFunctionType | string>
     sites: string[]
