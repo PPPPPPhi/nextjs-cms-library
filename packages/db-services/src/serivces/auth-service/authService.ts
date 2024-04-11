@@ -1,7 +1,16 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import User from "../..//database/models/user/User"
+import Role from "../../database/models/role/Role"
+import Function from "../../database/models/function/Function"
 import { getServerAuthSession } from "./auth"
 import { ErrorCode } from "../../constants/"
+import _, { merge } from "lodash"
+import {
+    getMergedQueryRes,
+    getPaginatedQuery,
+    getProjectedQuery
+} from "../utils"
+import { forkJoin, switchMap, firstValueFrom, of } from "rxjs"
 
 type userType = {
     userName: string
@@ -42,10 +51,46 @@ export const authenticateUser = async (account: string, password: string) => {
 export const getUserAuthProfile = async (userId: string) => {
     try {
         await connectMongoDB()
-        //@ts-ignore
-        const user = await User.findOne({ _id: userId }, "-password")
 
-        if (user) return user
+        const user = getProjectedQuery(
+            User,
+            { _id: userId },
+            [],
+            ["userName", "firstName", "lastName", "email"]
+        )
+
+        const roles = getProjectedQuery(
+            Role,
+            {
+                userIds: { $in: [userId] }
+            },
+            [],
+            [
+                "roleName",
+                "description",
+                "sites",
+                "functions_lookUp.functionId",
+                "functions_lookUp.description"
+            ]
+        )
+
+        const query = forkJoin([user, roles]).pipe(
+            switchMap((res: any) => {
+                const [user = res[0], roles = res[1]] = res
+
+                return of({ primary: user, secondary: roles })
+            })
+        )
+        const res = await firstValueFrom(query)
+
+        const mergedRes = getMergedQueryRes(res)
+
+        console.log(
+            `[getUserAuthProfile] user`,
+            mergedRes,
+            JSON.stringify(mergedRes)
+        )
+        if (mergedRes) return mergedRes
         else throw new Error(ErrorCode.USER_NOT_FOUND)
     } catch (e) {
         console.log("Error in Authenication", e)

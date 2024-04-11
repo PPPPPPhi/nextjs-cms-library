@@ -22,6 +22,13 @@ export type FilterOrdersParam = {
     orderAddress?: string | undefined
 }
 
+export type FilterQueryParam = { [s: string]: any }
+
+export type FilterProjectParam = {
+    key: string
+    rename: string
+}
+
 export type PaginatedParam = {
     searchBefore?: string | undefined
     searchAfter?: string | undefined
@@ -94,4 +101,57 @@ export const getPaginatedQuery = (
     } catch (error) {
         console.log(`Error occur: `, error)
     }
+}
+
+export const getProjectedQuery = async (
+    model: Model<any, {}, {}, {}, any, any>,
+    // param: PaginatedParam, // pagination param from router query
+    filter: FilterQueryParam, // find or findOne filter can pass here
+    stage: any, // other aggregation stage,
+    projectFields: string[],
+    renameFields?: FilterProjectParam[]
+) => {
+    try {
+        let res
+        let pipeline: Array<any> = []
+
+        const filterPipeline = [{ $match: filter }]
+
+        if (stage) {
+            pipeline = stage.concat(filterPipeline)
+        }
+        if (projectFields.length != 0 && pipeline) {
+            const projectFilter = { _id: 0 }
+
+            projectFields.map((key: string) => {
+                _.set(projectFilter, key, 1)
+            })
+
+            const projectPipeline = {
+                $project: projectFilter
+            }
+
+            pipeline.push(projectPipeline)
+        }
+
+        console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
+        res = await model.aggregate(pipeline)
+
+        return res
+    } catch (error) {
+        console.log(`Error occur: `, error)
+    }
+}
+
+export const getMergedQueryRes = (data: { primary: any; secondary: any }) => {
+    const { primary, secondary } = data
+    const res: FilterQueryParam[] = []
+
+    const primaryData = _.cloneDeep(primary[0])
+
+    secondary.map((data: FilterQueryParam) => {
+        res.push({ ...primaryData, ...data })
+    })
+
+    return res
 }
