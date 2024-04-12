@@ -31,6 +31,33 @@ export type FilterProjectParam = {
     to: string
 }
 
+export enum QueryOperatior {
+    MATCH = "$match",
+    ADDTOSET = "$addToSet",
+    PULL = "$pull"
+}
+
+export const useQueryOperatorFilter = (
+    queryFilter: Object,
+    operation: string,
+    key: string,
+    data: any
+) => {
+    switch (operation) {
+        case QueryOperatior.ADDTOSET:
+            _.set(queryFilter, `${operation}.${key}`, { $each: data })
+            break
+        case QueryOperatior.PULL:
+            _.set(queryFilter, `${operation}.${key}`, { $in: data })
+            break
+        default:
+            _.set(queryFilter, `${QueryOperatior.MATCH}._id`, { $exists: true })
+            break
+    }
+
+    return queryFilter
+}
+
 export type PaginatedParam = {
     searchBefore?: string | undefined
     searchAfter?: string | undefined
@@ -201,5 +228,3 @@ export const getUpdateDocumentQuery = async (
         console.log(`Error occur: `, error)
     }
 }
-
-export const getBulkWriteQuery = async (operation: any[]) => {}

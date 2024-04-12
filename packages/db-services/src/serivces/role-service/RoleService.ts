@@ -1,12 +1,15 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Role from "../../database/models/role/Role"
 import User from "../../database/models/user/User"
-import { getOperator } from "../auth-service/authService"
+import { getOperator, getOperatorId } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { assingRoleToUser } from "../user-service/UserService"
 import { Types } from "mongoose"
-import { getProjectedQuery, getUpdateDocumentQuery } from "../utils"
-import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
+import { getProjectedQuery, QueryOperatior } from "../utils"
+import {
+    UserRoleUpdateType,
+    getUpdateUserRoleWithHistory
+} from "./roleServiceUtils"
 
 type roleType = {
     roleName: string
@@ -69,48 +72,6 @@ export const getRoleList = async () => {
     try {
         await connectMongoDB()
 
-        // const roles = await Role.aggregate([
-        //     { $unwind: "$functions_lookUp" },
-        //     {
-        //         $lookup: {
-        //             from: "functions",
-        //             localField: "functions_lookUp",
-        //             foreignField: "_id",
-        //             as: "functionItem"
-        //         }
-        //     },
-        //     {
-        //         $group: {
-        //             _id: "$_id",
-        //             details: { $push: "$$ROOT" }
-        //         }
-        //     }
-        // ])
-
-        // const reformatted = (roles || []).map((k) => {
-        //     return {
-        //         _id: k._id,
-        //         name: k.details[0].name,
-        //         sites: k.details[0].sites,
-        //         description: k.details[0].description,
-        //         functions: (k.details || []).map(
-        //             (l: {
-        //                 functionItem: {
-        //                     _id: string
-        //                     name: string
-        //                     description: string
-        //                 }[]
-        //             }) => {
-        //                 return {
-        //                     functionId: l.functionItem[0]?._id,
-        //                     functionName: l.functionItem[0]?.name,
-        //                     functionDescription: l.functionItem[0]?.description
-        //                 }
-        //             }
-        //         )
-        //     }
-        // })
-
         const getRoles = await getProjectedQuery(
             Role,
             { _id: { $exists: true } },
@@ -160,30 +121,21 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
 }
 
 // update roles.userIds & user.roles
-export const updateAddUserRole = async (userId: string[], roleId: string[]) => {
+export const updateAddUserRole = async (userRole: UserRoleUpdateType) => {
     try {
-        const updateRole = Role.updateMany(
-            {
-                _id: roleId
-            },
-            {
-                $addToSet: { userIds: { $each: userId } }
-            }
-        )
+        const operator = await getOperator()
+        const operatorId = await getOperatorId()
 
-        const updateUser = User.updateMany(
-            {
-                _id: userId
-            },
-            {
-                $addToSet: { roles: { $each: roleId } }
-            }
+        const res = await getUpdateUserRoleWithHistory(
+            QueryOperatior.ADDTOSET,
+            { name: operator, id: operatorId },
+            userRole
         )
-
-        const query = forkJoin([updateRole, updateUser])
-        const res = await firstValueFrom(query)
 
         console.log(`[role-service] updateAddUserRole`, res)
+
+        if (res) return { status: 200 }
+        else throw new Error("Error in updating role")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Failed", status: 500 }
@@ -191,30 +143,21 @@ export const updateAddUserRole = async (userId: string[], roleId: string[]) => {
 }
 
 // update roles.userIds & user.roles
-export const updateRemoveUserRole = async (userId: string, roleId: string) => {
+export const updateRemoveUserRole = async (userRole: UserRoleUpdateType) => {
     try {
-        const updateRole = Role.updateMany(
-            {
-                _id: roleId
-            },
-            {
-                $pull: { userIds: { $in: userId } }
-            }
-        )
+        const operator = await getOperator()
+        const operatorId = await getOperatorId()
 
-        const updateUser = User.updateMany(
-            {
-                _id: userId
-            },
-            {
-                $pull: { roles: { $in: roleId } }
-            }
+        const res = await getUpdateUserRoleWithHistory(
+            QueryOperatior.PULL,
+            { name: operator, id: operatorId },
+            userRole
         )
-
-        const query = forkJoin([updateRole, updateUser])
-        const res = await firstValueFrom(query)
 
         console.log(`[role-service] updateRemoveUserRole`, res)
+
+        if (res) return { status: 200 }
+        else throw new Error("Error in updating role")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Failed", status: 500 }
