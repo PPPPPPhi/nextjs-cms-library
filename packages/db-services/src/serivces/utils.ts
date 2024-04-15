@@ -1,6 +1,16 @@
 import mongoose, { Model } from "mongoose"
-import { multiSelectFilterField } from "../../../admin-components/src/filter/utils"
 import _ from "lodash"
+
+export type userSessionType = {
+    id?: string
+    email?: string
+    roles?: string
+    userName?: string
+    firstName?: string
+    lastName?: string
+}
+
+export const multiSelectFilterField = ["orderStatus", "paymentStatus"]
 
 export type FilterOrdersParam = {
     id?: string | undefined
