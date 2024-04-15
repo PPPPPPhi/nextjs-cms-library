@@ -7,6 +7,7 @@ export type adminModalType = {
     cancelCTAText?: string
     confirmHandler?: () => void
     closeHandler?: () => void
+    isNoCloseBtn?: boolean
 }
 
 export type adminToastType = {

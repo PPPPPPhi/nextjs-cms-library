@@ -10,6 +10,7 @@ import {
 } from "react"
 import { HookWrapper } from "../wrappers/HookWrapper"
 import { useSession } from "next-auth/react"
+import { roleType, authUserType } from "./type"
 
 interface AdminAuthorizationProps {
     children: any
@@ -18,15 +19,23 @@ interface AdminAuthorizationProps {
 export type AdminAuthorizationContextProps = {
     role: string | undefined
     setRole: Dispatch<SetStateAction<string | undefined>>
-    roleList: any[]
-    setRoleList: Dispatch<SetStateAction<any[]>>
+    roleList: roleType[]
+    setRoleList: Dispatch<SetStateAction<roleType[]>>
+    roleFairList: string[]
+    setRoleFairList: Dispatch<SetStateAction<string[]>>
+    user: authUserType | undefined
+    setUser: Dispatch<SetStateAction<authUserType | undefined>>
 }
 
 const contextDefaultValues: AdminAuthorizationContextProps = {
     role: "",
     setRole: () => undefined,
     roleList: [],
-    setRoleList: () => []
+    setRoleList: () => [],
+    roleFairList: [],
+    setRoleFairList: () => [],
+    user: undefined,
+    setUser: () => undefined
 }
 
 export const AdminAuthorizationContext =
@@ -39,6 +48,8 @@ const AdminAuthorizationContextProvider: FC<AdminAuthorizationProps> = ({
 
     const [role, setRole] = useState<string | undefined>(undefined)
     const [roleList, setRoleList] = useState<any[]>([])
+    const [user, setUser] = useState<authUserType | undefined>()
+    const [roleFairList, setRoleFairList] = useState<string[]>([])
 
     console.log("auth context", session, status)
 
@@ -48,7 +59,11 @@ const AdminAuthorizationContextProvider: FC<AdminAuthorizationProps> = ({
                 role,
                 setRole,
                 roleList,
-                setRoleList
+                setRoleList,
+                roleFairList,
+                setRoleFairList,
+                user,
+                setUser
             }}>
             <HookWrapper>{children}</HookWrapper>
         </AdminAuthorizationContext.Provider>

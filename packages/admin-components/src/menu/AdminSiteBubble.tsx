@@ -9,6 +9,7 @@ import {
 
 import { siteType } from "@nextjs-cms-library/db-services/index"
 import { useParams, useRouter } from "next/navigation"
+import { useAdminAuthorizationContext } from "../../../role-management/src/contexts"
 
 interface AdminSiteBubbleInterface {
     sites: siteType[]
@@ -20,18 +21,33 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
     isCollapsed
 }) => {
     const [options, setOptions] = useState<{ label: string; value: string }[]>()
+    const { roleFairList } = useAdminAuthorizationContext()
 
     const { site } = useParams()
     const router = useRouter()
 
     useEffect(() => {
-        if (sites?.length)
+        if (sites?.length) {
+            let roleSiteList = []
+
+            if (roleFairList.includes("*")) roleSiteList = sites
+            else {
+                roleSiteList =
+                    sites
+                        .map((l) => {
+                            if (roleFairList.includes(l.slug)) return l
+                            else return undefined
+                        })
+                        .filter((l) => l) ?? []
+            }
+
             setOptions(
-                sites.map((l) => {
+                (roleSiteList as siteType[]).map((l) => {
                     return { label: l.name, value: l.slug }
                 })
             )
-    }, [sites])
+        }
+    }, [sites, roleFairList])
 
     return (
         <div className="d-flex w-100 p-3" style={{ height: 90 }}>

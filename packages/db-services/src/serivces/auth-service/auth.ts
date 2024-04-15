@@ -17,28 +17,13 @@ export const authOptions: NextAuthOptions = {
                     ...user,
                     userId: providerAccountId
                 }
+                return { token, user }
             }
-            return token
+            return { token }
         },
         // @ts-ignore
         async session({ session, token, user }) {
             // @ts-ignore
-            const { userName, firstName, lastName, email, roles } =
-                token?._doc || {}
-            const { userId } = token
-
-            let sessionProfile = {
-                user: {
-                    id: userId,
-                    email,
-                    roles,
-                    userName,
-                    firstName,
-                    lastName
-                }
-            }
-
-            return sessionProfile
         }
     },
     pages: {
