@@ -6,11 +6,10 @@ type UserModel = Model<IUser, {}, UserMethods>
 
 const userSchema = new mongoose.Schema<IUser, UserModel, UserMethods>(
     {
-        userName: String,
+        userName: { type: String, unique: true },
         firstName: String,
         lastName: String,
         email: String,
-        sites: [],
         roles: [],
         password: String,
         avator: String,

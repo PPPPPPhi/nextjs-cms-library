@@ -6,6 +6,7 @@ import {
 } from "../auth-service/authService"
 import { ErrorCode } from "../../constants/"
 import { Types } from "mongoose"
+import { getProjectedQuery } from "../utils"
 
 export type userRegType = {
     userName: string
@@ -114,16 +115,23 @@ export const getUserList = async () => {
     try {
         await connectMongoDB()
 
-        const users = await User.aggregate([
-            {
-                $lookup: {
-                    from: "roles",
-                    localField: "roles",
-                    foreignField: "_id",
-                    as: "roleItem"
+        const users = await getProjectedQuery(
+            User,
+            { _id: { $exists: true } },
+            [
+                { $unwind: "$roles" },
+                {
+                    $lookup: {
+                        from: "roles",
+                        localField: "roles",
+                        foreignField: "_id",
+                        as: "roleItem"
+                    }
                 }
-            }
-        ])
+            ],
+            [],
+            [{ from: "roleItem.roleName", to: "roleItem.name" }]
+        )
 
         return users
     } catch (error) {

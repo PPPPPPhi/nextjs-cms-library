@@ -6,7 +6,7 @@ type RoleModel = Model<IRole, {}, {}>
 
 const roleSchema = new mongoose.Schema<IRole, RoleModel, {}>(
     {
-        name: String,
+        roleName: { type: String, unique: true },
         description: String,
         functions_lookUp: Array<Schema.Types.Mixed>,
         sites: Array<String>,
