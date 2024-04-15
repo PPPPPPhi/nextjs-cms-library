@@ -25,23 +25,23 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
         const { id, userName } = user ?? {}
 
         console.log(`[audit] init watch `, userName, id, operatorId)
-        // Role.watch([], { fullDocument: "updateLookup" }).on(
-        //     "change",
-        //     (event: any) => {
-        //         console.log(`[audit] ROLE`, event)
+        Role.watch([], { fullDocument: "updateLookup" }).on(
+            "change",
+            (event: any) => {
+                console.log(`[audit] ROLE`, event)
 
-        //         const { fullDocument, ns, _id } = event
+                const { fullDocument, ns, _id } = event
 
-        //         Audit.insertMany([
-        //             {
-        //                 dataId: _id?._data,
-        //                 user: userName ?? id ?? operatorId,
-        //                 category: ns?.coll,
-        //                 action: fullDocument
-        //             }
-        //         ])
-        //     }
-        // )
+                Audit.insertMany([
+                    {
+                        dataId: _id?._data,
+                        user: userName ?? id ?? operatorId,
+                        category: ns?.coll,
+                        action: fullDocument
+                    }
+                ])
+            }
+        )
 
         return { status: 200 }
     } catch (err) {
