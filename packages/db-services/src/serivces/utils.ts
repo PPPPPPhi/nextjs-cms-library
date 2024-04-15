@@ -168,7 +168,7 @@ export const getProjectedQuery = async (
             pipeline.push(projectPipeline)
         }
 
-        if (renameFields?.length != 0 && pipeline) {
+        if (renameFields?.length != 0 && renameFields) {
             const renameFilter = {}
             const unsetKeyFilter: string[] = []
 
