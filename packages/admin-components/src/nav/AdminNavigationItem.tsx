@@ -1,7 +1,11 @@
 import { useMemo, useState, useCallback, useEffect } from "react"
 import { useCollapse } from "react-collapsed"
 import { HiChevronUp, HiChevronDown } from "react-icons/hi"
-import { HiMiniBars4 } from "react-icons/hi2"
+import {
+    HiMiniBars4,
+    HiArrowUpCircle,
+    HiArrowDownCircle
+} from "react-icons/hi2"
 import { AdminNavButton } from "./AdminNavButton"
 import { v4 as uuid_v4 } from "uuid"
 const { useDrag } = require("react-dnd")
@@ -72,6 +76,9 @@ interface AdminNavigationItemInterface {
     onAddNavItem: (refIdx: number[]) => void
     onEditNavItem: (refIdx: number[]) => void
     onRemoveNavItem: (refIdx: number[]) => void
+    isOutermost?: boolean
+    isLast?: boolean
+    updateNavParentLevel?: (position: number, action: "u" | "d") => void
 }
 
 export type naviagtionType = {
@@ -91,7 +98,10 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
     refIdx,
     onAddNavItem,
     onEditNavItem,
-    onRemoveNavItem
+    onRemoveNavItem,
+    isOutermost,
+    isLast,
+    updateNavParentLevel
 }) => {
     const [isExpanded, setExpanded] = useState(false)
     const {
@@ -124,19 +134,21 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
 
     const isMaxLevel = level === MAX_LEVEL
 
+    const ddKey = useMemo(() => {
+        return uuid_v4()
+    }, [])
+
     const [{ isDragging }, drag] = useDrag(
         () => ({
             type: isDraggable ? "collapsible_menu" : "Not-draggable",
             collect: (monitor: any) => ({
                 isDragging: !!monitor.isDragging()
-            })
+            }),
+            item: { id: ddKey }
         }),
-        [isDraggable]
+        [isDraggable, ddKey]
     )
 
-    const ddKey = useMemo(() => {
-        return uuid_v4()
-    }, [])
     const isFitOffset = useMemo(() => {
         if (osPosition !== -99 && osIdRefList.length > 0) {
             if (osIdRefList[osPosition] === ddKey) return true
@@ -174,6 +186,24 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                         icon={<HiPencil />}
                         onActionClick={() => {
                             onEditNavItem(refIdx)
+                        }}
+                    />
+                )}
+                {isDraggable && isOutermost && idx !== 0 && (
+                    <HiArrowUpCircle
+                        style={{ width: 24, height: 24 }}
+                        onClick={() => {
+                            updateNavParentLevel &&
+                                updateNavParentLevel(idx, "u")
+                        }}
+                    />
+                )}
+                {isDraggable && isOutermost && !isLast && (
+                    <HiArrowDownCircle
+                        style={{ width: 24, height: 24 }}
+                        onClick={() => {
+                            updateNavParentLevel &&
+                                updateNavParentLevel(idx, "d")
                         }}
                     />
                 )}

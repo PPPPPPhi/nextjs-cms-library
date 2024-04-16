@@ -45,6 +45,8 @@ const useRoleHandlerHook = () => {
         if (user && user.length) {
             const orderedList = _.sortBy(user, ["sites"], ["desc"])
 
+            console.log("orderedList", orderedList)
+
             setUser(user[0])
             setRoleList(orderedList as roleType[])
         }
