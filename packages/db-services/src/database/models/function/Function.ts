@@ -5,7 +5,7 @@ type FunctionModal = Model<IFunction, {}, {}>
 
 const functionSchema = new mongoose.Schema<IFunction, FunctionModal, {}>(
     {
-        name: String,
+        name: { type: String, unique: true },
         description: String
     },
     {
