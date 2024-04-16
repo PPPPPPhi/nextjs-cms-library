@@ -1,5 +1,3 @@
-import { Date } from "mongoose"
-
 export interface IUser {
     userName: string
     firstName: string

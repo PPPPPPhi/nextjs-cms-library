@@ -38,10 +38,12 @@ const insertAuditLog = (
             const { fullDocument, ns, _id } = event
             const { userName, id, operatorId } = userInfo
 
+            const userId = new Types.ObjectId(userName ?? id ?? operatorId)
+
             Audit.insertMany([
                 {
                     dataId: _id?._data,
-                    user: userName ?? id ?? operatorId,
+                    user_fk: userId,
                     category: ns?.coll,
                     action: fullDocument
                 }
@@ -143,9 +145,11 @@ export const getAuditRecordByUser = async (auditId: string) => {
     try {
         await connectMongoDB()
 
+        const userId = new Types.ObjectId(auditId)
+
         const resp = await getProjectedQuery(
             Audit,
-            { user: auditId },
+            { user_fk: userId },
             [],
             ["dataId", "user", "category", "action", "updatedAt"]
         )

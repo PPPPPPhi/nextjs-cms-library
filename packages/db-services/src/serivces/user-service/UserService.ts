@@ -36,19 +36,6 @@ export const registerUserByForm = async (user: userRegType) => {
         if (checkAccountResp.status === 400 || checkAccountResp.status === 401)
             throw new Error(checkAccountResp.message)
 
-        // const user = new User({
-        //     userName: userName,
-        //     firstName: firstName,
-        //     lastName: lastName,
-        //     email: email,
-        //     roles: [],
-        //     password: password,
-        //     avator: "",
-        //     status: 1,
-        //     createdBy: userName,
-        //     updatedBy: userName
-        // })
-
         const newDocument = {
             userName: userName,
             firstName: firstName,

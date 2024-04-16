@@ -49,13 +49,15 @@ export const authenticateUser = async (account: string, password: string) => {
     }
 }
 
-export const getUserAuthProfile = async (userId: string) => {
+export const getUserAuthProfile = async (userId: any) => {
     try {
         await connectMongoDB()
 
+        const userObjId = new Types.ObjectId(userId)
+
         const user = getProjectedQuery(
             User,
-            { _id: new Types.ObjectId(userId) },
+            { _id: userObjId },
             [],
             ["userName", "firstName", "lastName", "email", "_id"]
         )
@@ -63,7 +65,7 @@ export const getUserAuthProfile = async (userId: string) => {
         const roles = getProjectedQuery(
             Role,
             {
-                userIds: { $in: [userId] }
+                userIds: { $in: [userObjId] }
             },
             [],
             [

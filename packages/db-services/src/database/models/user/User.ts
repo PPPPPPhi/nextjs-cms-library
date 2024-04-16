@@ -1,4 +1,4 @@
-import mongoose, { Model } from "mongoose"
+import mongoose, { Types, Model } from "mongoose"
 import { compare, hash } from "bcryptjs"
 import { IUser, UserMethods } from "./interface"
 
