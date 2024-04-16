@@ -2,14 +2,11 @@ import connectMongoDB from "../../database/connectMongoDB"
 import Audit from "../../database/models/audit/Audit"
 import User from "../../database/models/user/User"
 import Role from "../../database/models/role/Role"
+import Function from "../../database/models/function/Function"
 import { getOperator, getOperatorId } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
-import { Types } from "mongoose"
-import {
-    getProjectedQuery,
-    getUpdateDocumentQuery,
-    userSessionType
-} from "../utils"
+import { Model, Types } from "mongoose"
+import { getProjectedQuery, userSessionType } from "../utils"
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 
 type auditType = {
@@ -19,29 +16,45 @@ type auditType = {
     sites: string[]
 }
 
+type auditUserType = {
+    operatorId: string
+    userName?: string
+    id?: string
+}
+
+const insertAuditLog = (
+    model: Model<any, {}, {}, {}, any, any>,
+    userInfo: auditUserType
+) => {
+    model
+        .watch([], { fullDocument: "updateLookup" })
+        .on("change", (event: any) => {
+            console.log(`[audit] ROLE`, event)
+
+            const { fullDocument, ns, _id } = event
+            const { userName, id, operatorId } = userInfo
+
+            Audit.insertMany([
+                {
+                    dataId: _id?._data,
+                    user: userName ?? id ?? operatorId,
+                    category: ns?.coll,
+                    action: fullDocument
+                }
+            ])
+        })
+}
+
 export const initAuditWatchHistory = async (user: userSessionType) => {
     try {
         const operatorId = await getOperatorId()
         const { id, userName } = user ?? {}
 
         console.log(`[audit] init watch `, userName, id, operatorId)
-        Role.watch([], { fullDocument: "updateLookup" }).on(
-            "change",
-            (event: any) => {
-                console.log(`[audit] ROLE`, event)
 
-                const { fullDocument, ns, _id } = event
-
-                Audit.insertMany([
-                    {
-                        dataId: _id?._data,
-                        user: userName ?? id ?? operatorId,
-                        category: ns?.coll,
-                        action: fullDocument
-                    }
-                ])
-            }
-        )
+        insertAuditLog(Role, { operatorId, userName, id })
+        insertAuditLog(User, { operatorId, userName, id })
+        insertAuditLog(Function, { operatorId, userName, id })
 
         return { status: 200 }
     } catch (err) {

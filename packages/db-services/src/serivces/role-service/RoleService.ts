@@ -1,15 +1,22 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Role from "../../database/models/role/Role"
 import User from "../../database/models/user/User"
+import Function from "../../database/models/function/Function"
 import { getOperator, getOperatorId } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { assingRoleToUser } from "../user-service/UserService"
 import { Types } from "mongoose"
-import { getProjectedQuery, QueryOperatior } from "../utils"
+import {
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery,
+    QueryOperatior,
+    useQueryOperatorFilter
+} from "../utils"
 import {
     UserRoleUpdateType,
     getUpdateUserRoleWithHistory
 } from "./roleServiceUtils"
+import { FunctionService } from ".."
 
 type roleType = {
     roleName: string
@@ -50,18 +57,40 @@ export const createRole = async (role: roleType) => {
     try {
         await connectMongoDB()
         const operator = await getOperator()
+        const operatorId = await getOperatorId()
 
-        const role = new Role({
+        const getSelectedFunctions = await FunctionService.getFunctionsById(
+            role?.functions
+        )
+
+        const newDocument = {
             roleName,
             description,
-            functions_lookUp: functions.map((l) => new Types.ObjectId(l)),
+            functions_lookUp: getSelectedFunctions,
             sites,
             createdBy: operator,
             updatedBy: operator
-        })
+        }
 
-        const roleItem = await role.save()
-        return { message: "Success", status: 200, roleId: roleItem._id }
+        const upsertRole = await getUpsertSingleDocumentQuery(
+            QueryOperatior.CREATE,
+            {
+                name: operator,
+                id: operatorId,
+                historyData: { method: "createRole", event: "Create Role" }
+            },
+            Role,
+            { roleName: roleName },
+            newDocument
+        )
+
+        console.log(`[upsert Role] createRole`, upsertRole)
+
+        return {
+            message: "Success",
+            status: 200,
+            roleId: upsertRole?.id
+        }
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Failed", status: 500 }
@@ -99,20 +128,39 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
         const { roleName, sites, functions, description } = role
 
         const operator = await getOperator()
+        const operatorId = await getOperatorId()
 
-        const resp = await Role.updateOne(
-            { _id: roleId },
-            {
-                name,
-                sites,
-                functions_lookUp: { $addToSet: functions },
-                description,
-                updatedBy: operator,
-                updatedAt: new Date()
-            }
+        const getSelectedFunctions = await FunctionService.getFunctionsById(
+            role?.functions
         )
 
-        if (resp.acknowledged) return { status: 200 }
+        const newDocument = {
+            roleName,
+            sites,
+            functions_lookUp: getSelectedFunctions,
+            description,
+            updatedBy: operator,
+            updatedAt: new Date()
+        }
+
+        const upsertRole = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operator,
+                id: operatorId,
+                historyData: {
+                    method: "updateRoleById",
+                    event: "Update Role By Id"
+                }
+            },
+            Role,
+            { _id: roleId },
+            newDocument
+        )
+
+        console.log(`[upsert Role] updateRoleById`, upsertRole)
+
+        if (upsertRole) return { status: 200 }
         else throw new Error("Error in updating role")
     } catch (error) {
         console.log("Error occured ", error)

@@ -1,5 +1,6 @@
 import mongoose, { Model } from "mongoose"
 import _ from "lodash"
+import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 
 export type userSessionType = {
     id?: string
@@ -8,6 +9,7 @@ export type userSessionType = {
     userName?: string
     firstName?: string
     lastName?: string
+    password?: string
 }
 
 export const multiSelectFilterField = ["orderStatus", "paymentStatus"]
@@ -44,7 +46,10 @@ export type FilterProjectParam = {
 export enum QueryOperatior {
     MATCH = "$match",
     ADDTOSET = "$addToSet",
-    PULL = "$pull"
+    PULL = "$pull",
+    SET = "$set",
+    CREATE = "CREATE",
+    UPDATE = "UPDATE"
 }
 
 export const useQueryOperatorFilter = (
@@ -60,8 +65,15 @@ export const useQueryOperatorFilter = (
         case QueryOperatior.PULL:
             _.set(queryFilter, `${operation}.${key}`, { $in: data })
             break
+        case QueryOperatior.MATCH:
+            _.set(queryFilter, `${operation}.${key}`, { $exists: true })
+            break
+        case QueryOperatior.SET:
+            queryFilter = data
+            break
+        case QueryOperatior.CREATE:
+            break
         default:
-            _.set(queryFilter, `${QueryOperatior.MATCH}._id`, { $exists: true })
             break
     }
 
@@ -237,4 +249,72 @@ export const getUpdateDocumentQuery = async (
     } catch (error) {
         console.log(`Error occur: `, error)
     }
+}
+
+export type UpdateDocumentHistoryRemark = {
+    event?: string
+    type?: string
+    method?: string
+}
+
+/**
+ * for create new document (e.g. user/ role)
+ * or update single document
+ */
+export const getUpsertSingleDocumentQuery = async (
+    operation: string,
+    operator: {
+        name?: string
+        id?: string
+        reason?: string
+        historyData?: any
+    },
+    model: Model<any, {}, {}, {}, any, any>,
+    filter: FilterQueryParam,
+    data: any
+) => {
+    const { name, id, reason, historyData } = operator
+
+    const updateFilter = filter ?? {}
+
+    console.log(`[upsert] updateQuery`, data)
+
+    const updateQuery = {
+        $set: data
+    }
+
+    console.log(`[upsert] filter`, operation, updateFilter, updateQuery)
+
+    const updateDocument = model.findOneAndUpdate(updateFilter, updateQuery, {
+        new: true,
+        upsert: true
+    })
+
+    const query = forkJoin([updateDocument]).pipe(
+        switchMap((res: any) => {
+            const [data = res[0]] = res
+
+            console.log(`[query] res`, res)
+
+            if (!data) throw new Error("Error in updating data")
+
+            const { event, type, method } = historyData
+
+            data.updatedAt = data?.updatedAt
+            ;(data.updatedBy = name ?? "GUEST"),
+                (data.__history = {
+                    event: event ?? "",
+                    user: id ?? res?.id, // An object id of the user that generate the event
+                    reason: reason ?? undefined,
+                    data: historyData ?? undefined, // Additional data to save with the event
+                    type: type ?? "", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
+                    method: method ?? "" // Optional and intended for method reference
+                })
+
+            return of(data.save())
+        })
+    )
+
+    const res = await firstValueFrom(query)
+    return res
 }
