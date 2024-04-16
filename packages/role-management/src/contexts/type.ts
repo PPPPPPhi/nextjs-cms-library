@@ -9,6 +9,7 @@ export type roleType = {
 }
 
 export type authUserType = {
+    _id: string
     email: string
     firstName: string
     lastName: string

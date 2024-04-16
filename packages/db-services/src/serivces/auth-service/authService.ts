@@ -1,3 +1,4 @@
+import { Types } from "mongoose"
 import connectMongoDB from "../../database/connectMongoDB"
 import User from "../..//database/models/user/User"
 import Role from "../../database/models/role/Role"
@@ -54,9 +55,9 @@ export const getUserAuthProfile = async (userId: string) => {
 
         const user = getProjectedQuery(
             User,
-            { _id: userId },
+            { _id: new Types.ObjectId(userId) },
             [],
-            ["userName", "firstName", "lastName", "email"]
+            ["userName", "firstName", "lastName", "email", "_id"]
         )
 
         const roles = getProjectedQuery(
