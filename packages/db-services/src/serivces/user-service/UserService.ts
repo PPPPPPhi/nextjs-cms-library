@@ -2,7 +2,8 @@ import connectMongoDB from "../../database/connectMongoDB"
 import User from "../../database/models/user/User"
 import {
     checkAccountAvailablility,
-    getOperator
+    getOperator,
+    getOperatorId
 } from "../auth-service/authService"
 import { ErrorCode } from "../../constants/"
 import { Types } from "mongoose"
@@ -25,6 +26,9 @@ export const registerUserByForm = async (user: userRegType) => {
 
     try {
         await connectMongoDB()
+        const operator = await getOperator()
+        const operatorId = await getOperatorId()
+
         const checkAccountResp = await checkAccountAvailablility(
             userName,
             email
@@ -61,6 +65,8 @@ export const registerUserByForm = async (user: userRegType) => {
         const createUser = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
+                name: operator,
+                id: operatorId,
                 historyData: {
                     method: "registerUserByForm",
                     event: "Register New User"
@@ -116,32 +122,6 @@ export const updateUserProfile = async (
         return 500
     }
 }
-
-// export const assingRoleToUser = async (roleIds: string[], userName: string) => {
-//     try {
-//         await connectMongoDB()
-//         const operator = await getOperator()
-//         const user = await User.updateOne(
-//             { userName },
-//             {
-//                 $push: {
-//                     roles: {
-//                         $each: roleIds
-//                     }
-//                 },
-//                 createdBy: operator,
-//                 updatedBy: operator
-//             }
-//         )
-
-//         console.log("userrrrr", user)
-
-//         return { message: "Success", status: 200 }
-//     } catch (error) {
-//         console.log("Error occured in assigning role ", error)
-//         return { message: "Failed", status: 500 }
-//     }
-// }
 
 export const getUserList = async () => {
     try {

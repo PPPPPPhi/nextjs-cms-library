@@ -5,6 +5,12 @@ import { getOperator } from "../auth-service/authService"
 import * as _ from "lodash"
 import { siteSettingType as sType } from "../.."
 import { HistoryService } from "../index"
+import {
+    QueryOperatior,
+    getProjectedVersionQuery,
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
 
 export const initializeSiteSetting = async (site: string) => {
     try {
@@ -12,8 +18,8 @@ export const initializeSiteSetting = async (site: string) => {
         const operator = await getOperator()
         const operatorId = await getOperatorId()
 
-        const setting = {
-            site,
+        const newDocument = {
+            siteSlug: site,
             properties: {
                 cms_language: {
                     name: "Website Language",
@@ -26,24 +32,27 @@ export const initializeSiteSetting = async (site: string) => {
                     }
                 }
             },
-            __history: {
-                event: "Initialize site setting",
-                user: operatorId, // An object id of the user that generate the event
-                reason: undefined,
-                data: undefined, // Additional data to save with the event
-                type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
-                method: "initializeSiteSetting" // Optional and intended for method reference
-            }
-        }
-
-        const settings = new SiteSetting({
-            ...setting,
             createdBy: operator,
             updatedBy: operator
-        })
+        }
 
-        await settings.save()
-        return { status: 200, message: "Success" }
+        const createRes = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operator,
+                id: operatorId,
+                historyData: {
+                    event: "Initialize site setting",
+                    method: "initializeSiteSetting"
+                }
+            },
+            SiteSetting,
+            { siteSlug: site },
+            newDocument
+        )
+
+        if (createRes) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
     } catch (e) {
         console.log("Error occured in initializing site setting", e)
         return { message: e, status: 500 }
@@ -62,14 +71,20 @@ export const getSiteSetting = async (site: string, version?: string) => {
         console.log("version", version)
         console.log("setting sitesitesite", site)
 
+        console.log(`[SiteSetting] setting`, setting)
+
         let versionSetting = null
 
         if (version) {
             const versionResp = await setting.getVersion(version)
+
+            console.log(`[SiteSetting] getVersion`, versionResp)
+
             const settingVersion = versionResp.version
             versionSetting = { ...versionResp.object, settingVersion }
         } else {
             const settingVersionResp = await setting.getDiffs({ limit: 1 })
+            console.log(`[SiteSetting] getDiffs`, settingVersionResp)
             setting = {
                 ...setting._doc,
                 settingVersion: settingVersionResp[0]?.version
@@ -88,12 +103,14 @@ export const getSiteSettingByKey = async (site: string, key: string) => {
     try {
         await connectMongoDB()
 
-        const setting = await SiteSetting.findOne(
-            { site, [`properties.${key}`]: { $ne: null } },
-            "-createdAt -createdBy"
+        const setting = await getProjectedQuery(
+            SiteSetting,
+            { siteSlug: site, [`properties.${key}`]: { $ne: null } },
+            [],
+            [`properties.${key}`]
         )
 
-        if (setting) return setting.properties[key]
+        if (setting) return setting[0].properties[key]
         else return null
     } catch (e) {
         console.log("Error occured in getting site setting")
@@ -110,23 +127,33 @@ export const updateSiteSetting = async (
         const operator = await getOperator()
         const operatorId = await getOperatorId()
 
-        const settings = (await SiteSetting.findOne({ site })) as sType
-        const { createdAt } = settings
+        console.log(`[SiteSetting] updateSiteSetting`, site, properties)
 
-        settings.createdAt = createdAt
-        settings.properties = properties
-        settings.updatedBy = operator
-        settings.__history = {
-            event: "updating site setting",
-            user: operatorId, // An object id of the user that generate the event
-            reason: undefined,
-            data: undefined, // Additional data to save with the event
-            type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
-            method: "updateSiteSetting" // Optional and intended for method reference
+        const newDocument = {
+            properties,
+            updatedBy: operator,
+            updatedAt: new Date()
         }
 
-        await settings.save()
-        return { message: "Success", status: 200 }
+        const upsertRole = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operator,
+                id: operatorId,
+                historyData: {
+                    method: "updateSiteSetting",
+                    event: "updating site setting"
+                }
+            },
+            SiteSetting,
+            { siteSlug: site },
+            newDocument
+        )
+
+        console.log(`[SiteSetting] updateSiteSetting`, upsertRole)
+
+        if (upsertRole) return { message: "Success", status: 200 }
+        else throw new Error("Error in updating role")
     } catch (e) {
         console.log("Error when updating site settings", e)
         return { status: 500, message: "Site settings is not be updated" }

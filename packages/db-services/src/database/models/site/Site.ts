@@ -6,7 +6,7 @@ export type SiteModel = Model<ISite, {}, {}>
 const siteSchema = new mongoose.Schema<ISite, SiteModel, {}>(
     {
         name: String,
-        slug: String,
+        slug: { type: String, unique: true },
         image: String,
         description: String,
         status: Number,

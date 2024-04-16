@@ -8,6 +8,7 @@ import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
+import { getOperator, getOperatorId } from "../auth-service/authService"
 
 type functionType = {
     name: string
@@ -38,6 +39,9 @@ export const createFunction = async (f: functionType) => {
     try {
         await connectMongoDB()
 
+        const operator = await getOperator()
+        const operatorId = await getOperatorId()
+
         const newDocument = {
             name,
             description
@@ -46,9 +50,11 @@ export const createFunction = async (f: functionType) => {
         const createRes = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
+                name: operator,
+                id: operatorId,
                 historyData: {
-                    method: "registerUserByForm",
-                    event: "Register New User"
+                    method: "createFunction",
+                    event: "Create New Function"
                 }
             },
             Function,

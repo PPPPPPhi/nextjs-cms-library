@@ -1,7 +1,7 @@
 import { Date } from "mongoose"
 
 export interface ISiteSetting {
-    site: string
+    siteSlug: string
     properties: {
         [key: string]: any
     }

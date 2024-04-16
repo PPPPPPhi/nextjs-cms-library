@@ -1,6 +1,7 @@
 import mongoose, { Model } from "mongoose"
 import _ from "lodash"
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
+import { historySchemaType } from "../types"
 
 export type userSessionType = {
     id?: string
@@ -169,7 +170,7 @@ export const getProjectedQuery = async (
         const filterPipeline = [{ $match: filter }]
 
         if (stage) {
-            pipeline = stage.concat(filterPipeline)
+            pipeline = filterPipeline.concat(stage)
         }
 
         const projectFilter = { _id: 0 }
@@ -301,15 +302,15 @@ export const getUpsertSingleDocumentQuery = async (
             const { event, type, method } = historyData
 
             data.updatedAt = data?.updatedAt
-            ;(data.updatedBy = name ?? "GUEST"),
-                (data.__history = {
-                    event: event ?? "",
-                    user: id ?? res?.id, // An object id of the user that generate the event
-                    reason: reason ?? undefined,
-                    data: historyData ?? undefined, // Additional data to save with the event
-                    type: type ?? "", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
-                    method: method ?? "" // Optional and intended for method reference
-                })
+            data.updatedBy = name ?? "GUEST"
+            data.__history = {
+                event: event ?? "",
+                user: id ?? res?.id, // An object id of the user that generate the event
+                reason: reason ?? undefined,
+                data: historyData ?? undefined, // Additional data to save with the event
+                type: type ?? "", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
+                method: method ?? "" // Optional and intended for method reference
+            }
 
             return of(data.save())
         })
@@ -317,4 +318,54 @@ export const getUpsertSingleDocumentQuery = async (
 
     const res = await firstValueFrom(query)
     return res
+}
+
+export type HistoryDocumentType = historySchemaType<any> & any
+
+export const getProjectedVersionQuery = async (
+    model: Model<any, {}, {}, {}, any, any>,
+    // param: PaginatedParam, // pagination param from router query
+    filter: FilterQueryParam, // find or findOne filter can pass here
+    stage: any, // other aggregation stage,
+    projectFields: string[],
+    renameFields: FilterProjectParam[],
+    version: string | undefined
+) => {
+    try {
+        const projecteQuery = await getProjectedQuery(
+            model,
+            filter,
+            stage,
+            projectFields,
+            renameFields ?? undefined
+        )
+
+        const projectRes: HistoryDocumentType = projecteQuery?.[0]
+
+        console.log(
+            `[getProjectedHistoryDiffQuery] projectedRes`,
+            projectRes,
+            projectRes?.getDiffs
+        )
+
+        let projectedVersion: string = "0.0.0"
+
+        if (version) {
+            const history = await projectRes.getVersion(version)
+            projectedVersion = history?.version
+        } else {
+            const diff = await projectRes.getDiffs({ limit: 1 })
+            projectedVersion = diff?.version
+        }
+
+        console.log(
+            `[getProjectedHistoryDiffQuery] res + ver`,
+            projectRes,
+            version
+        )
+
+        return { ...projectRes, settingVersion: projectedVersion }
+    } catch (err) {
+        console.log(`Error occur at getProjectedVersionQuery: `, err)
+    }
 }

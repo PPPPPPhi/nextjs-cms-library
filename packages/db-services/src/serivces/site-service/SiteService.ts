@@ -1,11 +1,12 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Site from "../../database/models/site/Site"
-import { getOperator } from "../auth-service/authService"
+import { getOperator, getOperatorId } from "../auth-service/authService"
 import {
     ImageResourceAdaptor,
     ImageResourceOperator,
     imageResourceAdaptorType
 } from "@nextjs-cms-library/ui/index"
+import { QueryOperatior, getUpsertSingleDocumentQuery } from "../utils"
 
 type createSiteType = {
     name: string
@@ -38,15 +39,10 @@ export const createSite = async (siteReq: createSiteType) => {
         const imageOperator = ImageResourceOperator.getInstance(
             imageApdator as imageResourceAdaptorType
         )
-        // const uploadImageReq = await imageOperator.uploadImage(image, slug)
-
         const operator = await getOperator()
+        const operatorId = await getOperatorId()
 
-        //@ts-ignore
-        // if (uploadImageReq?.data?.status === 500)
-        //     throw new Error("Error returned from upload image")
-
-        const site = new Site({
+        const newDocument = {
             name,
             slug,
             description,
@@ -54,10 +50,25 @@ export const createSite = async (siteReq: createSiteType) => {
             image: image,
             updatedBy: operator,
             createdBy: operator
-        })
+        }
 
-        await site.save()
-        return { message: "Success", status: 200 }
+        const createRes = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operator,
+                id: operatorId,
+                historyData: {
+                    method: "createSite",
+                    event: "Create New Site"
+                }
+            },
+            Site,
+            { slug: slug },
+            newDocument
+        )
+
+        if (createRes) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
     } catch (e) {
         console.log("Error in Getting Image", e)
         return { message: "Fail", status: 500 }
