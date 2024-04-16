@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useAdminNavigationContext } from "../context/AdminNavigationContext"
 
-const useNavigationOffsetHook = (navJson: any) => {
+const useNavigationOffsetHook = (navJson: any, navigation: any) => {
     const [offsetRefList, setOffsetRefList] = useState<number[]>([])
     const [offsetIdRefList, setOffsetIdRefList] = useState<string[]>([])
     const [containerY, setContainerY] = useState(0)
@@ -26,8 +26,6 @@ const useNavigationOffsetHook = (navJson: any) => {
     }, [])
 
     useEffect(() => {
-        console.log("offsetArray changed", isCollapsing)
-
         if (!isCollapsing) {
             const AdminNavItems =
                 document.getElementsByClassName("AdminNavItem")
@@ -54,7 +52,7 @@ const useNavigationOffsetHook = (navJson: any) => {
             setOffsetRefList(offsetArray)
             setOffsetIdRefList(offsetIdArray)
         }
-    }, [navJson, isCollapsing])
+    }, [navJson, isCollapsing, navigation])
 
     useEffect(() => {
         setOsIdRefList(offsetIdRefList)
