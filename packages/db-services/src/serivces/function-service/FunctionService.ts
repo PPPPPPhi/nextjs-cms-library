@@ -1,7 +1,13 @@
+import { Types } from "mongoose"
 import connectMongoDB from "../../database/connectMongoDB"
 import Function from "../../database/models/function/Function"
 import functionModal from "../../database/models/function/Function"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
+import {
+    QueryOperatior,
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
 
 type functionType = {
     name: string
@@ -32,13 +38,26 @@ export const createFunction = async (f: functionType) => {
     try {
         await connectMongoDB()
 
-        const func = new functionModal({
+        const newDocument = {
             name,
             description
-        })
+        }
 
-        await func.save()
-        return { message: "Success", status: 200 }
+        const createRes = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                historyData: {
+                    method: "registerUserByForm",
+                    event: "Register New User"
+                }
+            },
+            Function,
+            { name: name },
+            newDocument
+        )
+
+        if (createRes) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Fail", status: 500 }
@@ -51,6 +70,37 @@ export const getAllFunctions = async () => {
 
         //@ts-ignore
         const functions = Function.find({}, "-updatedAt -updatedAt")
+        if (functions) return functions
+        else return []
+    } catch (error) {
+        console.log("Error occured ", error)
+        return error
+    }
+}
+
+export const getFunctionsById = async (functionIds: string[]) => {
+    try {
+        await connectMongoDB()
+
+        const selectedFunctions = functionIds?.map(
+            (l: string) => new Types.ObjectId(l)
+        )
+
+        const functions = await getProjectedQuery(
+            Function,
+            { _id: { $in: selectedFunctions } },
+            [],
+            [
+                "_id",
+                "name",
+                "description",
+                "__v",
+                "createdAt",
+                "updatedAt",
+                "functionId"
+            ]
+        )
+
         if (functions) return functions
         else return []
     } catch (error) {

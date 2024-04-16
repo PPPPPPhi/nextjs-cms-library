@@ -6,7 +6,11 @@ import {
 } from "../auth-service/authService"
 import { ErrorCode } from "../../constants/"
 import { Types } from "mongoose"
-import { getProjectedQuery } from "../utils"
+import {
+    QueryOperatior,
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
 
 export type userRegType = {
     userName: string
@@ -28,7 +32,20 @@ export const registerUserByForm = async (user: userRegType) => {
         if (checkAccountResp.status === 400 || checkAccountResp.status === 401)
             throw new Error(checkAccountResp.message)
 
-        const user = new User({
+        // const user = new User({
+        //     userName: userName,
+        //     firstName: firstName,
+        //     lastName: lastName,
+        //     email: email,
+        //     roles: [],
+        //     password: password,
+        //     avator: "",
+        //     status: 1,
+        //     createdBy: userName,
+        //     updatedBy: userName
+        // })
+
+        const newDocument = {
             userName: userName,
             firstName: firstName,
             lastName: lastName,
@@ -39,10 +56,25 @@ export const registerUserByForm = async (user: userRegType) => {
             status: 1,
             createdBy: userName,
             updatedBy: userName
-        })
+        }
 
-        await user.save()
-        return { message: "Success", status: 200 }
+        const createUser = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                historyData: {
+                    method: "registerUserByForm",
+                    event: "Register New User"
+                }
+            },
+            User,
+            { userName: userName },
+            newDocument
+        )
+
+        console.log(`[upsert Role] updateRoleById`, createUser)
+
+        if (createUser) return { status: 200 }
+        else throw new Error("Error in register new user")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Failed", status: 500 }
@@ -85,31 +117,31 @@ export const updateUserProfile = async (
     }
 }
 
-export const assingRoleToUser = async (roleIds: string[], userName: string) => {
-    try {
-        await connectMongoDB()
-        const operator = await getOperator()
-        const user = await User.updateOne(
-            { userName },
-            {
-                $push: {
-                    roles: {
-                        $each: roleIds
-                    }
-                },
-                createdBy: operator,
-                updatedBy: operator
-            }
-        )
+// export const assingRoleToUser = async (roleIds: string[], userName: string) => {
+//     try {
+//         await connectMongoDB()
+//         const operator = await getOperator()
+//         const user = await User.updateOne(
+//             { userName },
+//             {
+//                 $push: {
+//                     roles: {
+//                         $each: roleIds
+//                     }
+//                 },
+//                 createdBy: operator,
+//                 updatedBy: operator
+//             }
+//         )
 
-        console.log("userrrrr", user)
+//         console.log("userrrrr", user)
 
-        return { message: "Success", status: 200 }
-    } catch (error) {
-        console.log("Error occured in assigning role ", error)
-        return { message: "Failed", status: 500 }
-    }
-}
+//         return { message: "Success", status: 200 }
+//     } catch (error) {
+//         console.log("Error occured in assigning role ", error)
+//         return { message: "Failed", status: 500 }
+//     }
+// }
 
 export const getUserList = async () => {
     try {

@@ -17,6 +17,9 @@ import * as OrderService from "./order-service/OrderService"
 import * as CatelogProductService from "./catalog-product-service/CatelogProductService"
 import * as CatalogCategoryService from "./catalog-category-service/CatelogCategoryService"
 import * as PromotionService from "./promotion-service/PromotionService"
+import * as AuditService from "./audit-service/AuditService"
+
+import { userSessionType } from "./utils"
 
 export {
     PageService,
@@ -34,5 +37,8 @@ export {
     OrderService,
     CatelogProductService,
     CatalogCategoryService,
-    PromotionService
+    PromotionService,
+    AuditService
 }
+
+export type { userSessionType }

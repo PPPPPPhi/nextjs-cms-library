@@ -42,12 +42,12 @@ const useRoleHandlerHook = () => {
     }
 
     useEffect(() => {
-        if (user && user.length) {
+        // @ts-ignore
+        if (user && user?.length) {
             const orderedList = _.sortBy(user, ["sites"], ["desc"])
-
-            console.log("orderedList", orderedList)
-
-            setUser(user[0])
+            // @ts-ignore
+            setUser(user?.[0])
+            // @ts-ignore
             setRoleList(orderedList as roleType[])
         }
     }, [user])

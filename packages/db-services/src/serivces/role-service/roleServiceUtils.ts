@@ -1,5 +1,4 @@
 import mongoose, { Model, Types } from "mongoose"
-import { multiSelectFilterField } from "../../../admin-components/src/filter/utils"
 import _ from "lodash"
 import Role from "../../database/models/role/Role"
 import User from "../../database/models/user/User"

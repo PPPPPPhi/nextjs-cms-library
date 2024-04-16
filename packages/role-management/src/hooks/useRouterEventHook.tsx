@@ -24,6 +24,7 @@ const useRouterEventHook = (STATIC_ROUTE_NAV: any) => {
             Object.keys(STATIC_ROUTE_NAV).forEach((j) => {
                 adminNavObj = {
                     ...adminNavObj,
+                    // @ts-ignore
                     [j.replace(regEx, params[l])]: STATIC_ROUTE_NAV[j]
                 }
             })
@@ -38,6 +39,7 @@ const useRouterEventHook = (STATIC_ROUTE_NAV: any) => {
             let isUpdated = false
 
             Object.keys(params).forEach((k: string) => {
+                // @ts-ignore
                 if (pathParams[k] === params[k]) return
                 else {
                     pathParams = { ...pathParams, [k]: params[k] }
