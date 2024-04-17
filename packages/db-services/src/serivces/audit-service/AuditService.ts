@@ -3,6 +3,10 @@ import Audit from "../../database/models/audit/Audit"
 import User from "../../database/models/user/User"
 import Role from "../../database/models/role/Role"
 import Function from "../../database/models/function/Function"
+import Site from "../../database/models/site/Site"
+import SiteSetting from "../../database/models/site-setting/SiteSetting"
+import Page from "../../database/models/page/Page"
+import Publication from "../../database/models/publication/Publication"
 import { getOperator, getOperatorId } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { Model, Types } from "mongoose"
@@ -34,10 +38,12 @@ const insertAuditLog = (
             const { fullDocument, ns, _id } = event
             const { userName, id, operatorId } = userInfo
 
+            const userId = new Types.ObjectId(userName ?? id ?? operatorId)
+
             Audit.insertMany([
                 {
                     dataId: _id?._data,
-                    user: userName ?? id ?? operatorId,
+                    user_fk: userId,
                     category: ns?.coll,
                     action: fullDocument
                 }
@@ -55,6 +61,10 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
         insertAuditLog(Role, { operatorId, userName, id })
         insertAuditLog(User, { operatorId, userName, id })
         insertAuditLog(Function, { operatorId, userName, id })
+        insertAuditLog(Site, { operatorId, userName, id })
+        insertAuditLog(SiteSetting, { operatorId, userName, id })
+        insertAuditLog(Page, { operatorId, userName, id })
+        insertAuditLog(Publication, { operatorId, userName, id })
 
         return { status: 200 }
     } catch (err) {
@@ -131,28 +141,20 @@ export const getAuditList = async () => {
     }
 }
 
-export const getAuditRecordByUser = async (
-    auditId: string,
-    audit: auditType
-) => {
+export const getAuditRecordByUser = async (auditId: string) => {
     try {
-        const { auditName, sites, functions, description } = audit
+        await connectMongoDB()
 
-        const operator = await getOperator()
+        const userId = new Types.ObjectId(auditId)
 
-        const resp = await Audit.updateOne(
-            { _id: auditId },
-            {
-                name,
-                sites,
-                functions_lookUp: { $addToSet: functions },
-                description,
-                updatedBy: operator,
-                updatedAt: new Date()
-            }
+        const resp = await getProjectedQuery(
+            Audit,
+            { user_fk: userId },
+            [],
+            ["dataId", "user", "category", "action", "updatedAt"]
         )
 
-        if (resp.acknowledged) return { status: 200 }
+        if (resp) return { message: "Success", status: 200, audits: resp ?? [] }
         else throw new Error("Error in updating audit")
     } catch (error) {
         console.log("Error occured ", error)

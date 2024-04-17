@@ -1,8 +1,8 @@
-import { Date, ObjectId } from "mongoose"
+import { Date, ObjectId, Types } from "mongoose"
 
 export interface IAudit {
     dataId: string
-    user: string
+    user_fk: Types.ObjectId
     category: string
     action: Object
 }

@@ -11,7 +11,7 @@ const siteSettingSchema = new mongoose.Schema<
     {}
 >(
     {
-        site: String,
+        siteSlug: { type: String, unique: true },
         createdBy: String,
         updatedBy: String,
         properties: Schema.Types.Mixed
