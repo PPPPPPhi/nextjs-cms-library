@@ -99,16 +99,20 @@ export const getSiteSetting = async (site: string, version?: string) => {
     }
 }
 
-export const getSiteSettingByKey = async (site: string, key: string) => {
+export const getSiteSettingByKey = async (siteSlug: string, key: string) => {
     try {
         await connectMongoDB()
 
+        console.log(`[siteSetting] by key`, siteSlug, key)
+
         const setting = await getProjectedQuery(
             SiteSetting,
-            { siteSlug: site, [`properties.${key}`]: { $ne: null } },
+            { siteSlug, [`properties.${key}`]: { $ne: null } },
             [],
             [`properties.${key}`]
         )
+
+        console.log(`[siteSetting] by key`, setting)
 
         if (setting) return setting[0].properties[key]
         else return null

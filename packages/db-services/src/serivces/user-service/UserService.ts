@@ -118,7 +118,6 @@ export const getUserList = async () => {
             User,
             { _id: { $exists: true } },
             [
-                { $unwind: "$roles" },
                 {
                     $lookup: {
                         from: "roles",
@@ -128,9 +127,22 @@ export const getUserList = async () => {
                     }
                 }
             ],
-            [],
+            [
+                "userName",
+                "firstName",
+                "lastName",
+                "email",
+                "roles",
+                "avator",
+                "status",
+                "updatedBy",
+                "updatedAt",
+                "roleItem"
+            ],
             [{ from: "roleItem.roleName", to: "roleItem.name" }]
         )
+
+        console.log(`[userlist] users`, users)
 
         return users
     } catch (error) {
