@@ -29,7 +29,6 @@ export const authenticateUser = async (account: string, password: string) => {
 
         if (user) {
             const isValid = await user.isValidPassword(password)
-            console.log("sdadas", user)
 
             const { userName, _id, firstName, lastName, email } = user
             if (isValid)
@@ -57,13 +56,21 @@ export const getUserAuthProfile = async (userId: string) => {
             User,
             { _id: new Types.ObjectId(userId) },
             [],
-            ["userName", "firstName", "lastName", "email", "_id"]
+            [
+                "userName",
+                "firstName",
+                "lastName",
+                "email",
+                "_id",
+                "status",
+                "createdAt"
+            ]
         )
 
         const roles = getProjectedQuery(
             Role,
             {
-                userIds: { $in: [userId] }
+                userIds: { $in: [new Types.ObjectId(userId)] }
             },
             [],
             [

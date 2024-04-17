@@ -14,4 +14,6 @@ export type authUserType = {
     firstName: string
     lastName: string
     userName: string
+    status: number
+    createdAt: string
 }

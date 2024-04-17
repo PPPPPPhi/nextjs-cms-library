@@ -1,5 +1,7 @@
 import mongoose, { Model } from "mongoose"
 import _ from "lodash"
+import { Types } from "mongoose"
+
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 
 export type userSessionType = {

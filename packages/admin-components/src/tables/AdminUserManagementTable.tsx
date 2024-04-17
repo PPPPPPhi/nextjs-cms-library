@@ -68,7 +68,6 @@ export const AdminUserManagementTable: React.FC<
                         accessorKey: "roleItem",
                         header: "Role",
                         cellType: "badgeList",
-                        badgeRef: "name",
                         customStyle: { background: "black", color: "white" },
                         size: 250
                     },

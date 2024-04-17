@@ -2,7 +2,6 @@ import { CSSProperties, useMemo } from "react"
 
 interface AdminTableBadgeListInterface {
     value: any[]
-    badgeRef: string
     customStyle?: CSSProperties
     customWidth?: number
     badgeTitle?: any
@@ -22,7 +21,7 @@ export const AdminTableBadgeList: React.FC<AdminTableBadgeListInterface> = ({
                     className="s-section-primary px-3 rounded-4 d-flex align-items-center my-1 mx-1"
                     style={{ ...customStyle }}>
                     <span className="text-level-caption text-font-medium">
-                        {l.name}
+                        {l.name ?? l}
                     </span>
                 </div>
             ))}
