@@ -7,10 +7,14 @@ import Site from "../../database/models/site/Site"
 import SiteSetting from "../../database/models/site-setting/SiteSetting"
 import Page from "../../database/models/page/Page"
 import Publication from "../../database/models/publication/Publication"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import {
+    getOperator,
+    getOperatorId,
+    getOperatorInfo
+} from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { Model, Types } from "mongoose"
-import { getProjectedQuery, userSessionType, SYSTEM_USER } from "../utils"
+import { getProjectedQuery, userSessionType } from "../utils"
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 
 type auditType = {
@@ -55,18 +59,18 @@ const insertAuditLog = (
 
 export const initAuditWatchHistory = async (user: userSessionType) => {
     try {
-        const operatorId = await getOperatorId()
-        const { id, userName } = user ?? {}
+        const operator = await getOperatorInfo()
+        const { id: operatorId } = operator
 
-        console.log(`[audit] init watch `, userName, id, operatorId)
+        console.log(`[audit] init watch `, JSON.stringify(operator), operatorId)
 
-        insertAuditLog(Role, { operatorId, userName, id })
-        insertAuditLog(User, { operatorId, userName, id })
-        insertAuditLog(Function, { operatorId, userName, id })
-        insertAuditLog(Site, { operatorId, userName, id })
-        insertAuditLog(SiteSetting, { operatorId, userName, id })
-        insertAuditLog(Page, { operatorId, userName, id })
-        insertAuditLog(Publication, { operatorId, userName, id })
+        insertAuditLog(Role, { operatorId })
+        insertAuditLog(User, { operatorId })
+        insertAuditLog(Function, { operatorId })
+        insertAuditLog(Site, { operatorId })
+        insertAuditLog(SiteSetting, { operatorId })
+        insertAuditLog(Page, { operatorId })
+        insertAuditLog(Publication, { operatorId })
 
         return { status: 200 }
     } catch (err) {

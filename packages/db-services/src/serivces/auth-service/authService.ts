@@ -130,7 +130,23 @@ export const getOperator = async (): Promise<string> => {
 
 export const getOperatorId = async (): Promise<string> => {
     const authSession = await getServerAuthSession()
-    console.log("authSession", authSession?.user, authSession)
     //@ts-ignore
     return authSession?.user?.id || "SYSTEM"
+}
+
+type OperatorInfoType = {
+    name: string
+    email: string
+    image: string
+    id: string
+}
+
+export const getOperatorInfo = async (): Promise<OperatorInfoType> => {
+    const authSession = await getServerAuthSession()
+    // @ts-ignore
+    const userInfo = authSession?.token?.user
+
+    const { userName, email, image, _id } = userInfo[0]
+    // @ts-ignore
+    return { name: userName, email, image, id: _id }
 }

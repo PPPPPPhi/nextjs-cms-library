@@ -1,6 +1,6 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import SiteSetting from "../../database/models/site-setting/SiteSetting"
-import { getOperatorId } from "../auth-service/authService"
+import { getOperatorId, getOperatorInfo } from "../auth-service/authService"
 import { getOperator } from "../auth-service/authService"
 import * as _ from "lodash"
 import { siteSettingType as sType } from "../.."
@@ -15,8 +15,8 @@ import {
 export const initializeSiteSetting = async (site: string) => {
     try {
         await connectMongoDB()
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const newDocument = {
             siteSlug: site,
@@ -39,7 +39,7 @@ export const initializeSiteSetting = async (site: string) => {
         const createRes = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: operator,
+                name: operatorName,
                 id: operatorId,
                 historyData: {
                     event: "Initialize site setting",
@@ -128,8 +128,8 @@ export const updateSiteSetting = async (
 ): Promise<{ status: number; message: string }> => {
     try {
         await connectMongoDB()
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         console.log(`[SiteSetting] updateSiteSetting`, site, properties)
 
@@ -142,7 +142,7 @@ export const updateSiteSetting = async (
         const upsertRole = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: operator,
+                name: operatorName,
                 id: operatorId,
                 historyData: {
                     method: "updateSiteSetting",

@@ -4,7 +4,7 @@ export type pageType = {
     name: string
     description: string
     language: string
-    site: string
+    siteSlug: string
     slug: string
     status: boolean
     pageJson: string

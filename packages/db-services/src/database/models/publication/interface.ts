@@ -6,10 +6,10 @@ export interface IPublication {
     pageVersion: string
     description: string
     language: string
-    site: string
+    siteSlug: string
     slug: string
     status: boolean
-    pageJson: string
+    pagePageJson: string
     createdBy: string
     updatedBy: string
     updatedAt: Date
