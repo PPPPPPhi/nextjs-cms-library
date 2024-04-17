@@ -16,7 +16,7 @@ import {
     UserRoleUpdateType,
     getUpdateUserRoleWithHistory
 } from "./roleServiceUtils"
-import { FunctionService } from ".."
+import { AuditService, FunctionService } from ".."
 
 type roleType = {
     roleName: string
@@ -106,6 +106,7 @@ export const getRoleList = async () => {
             { _id: { $exists: true } },
             [],
             [
+                "_id",
                 "roleName",
                 "description",
                 "sites",

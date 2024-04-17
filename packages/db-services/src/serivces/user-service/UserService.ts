@@ -12,6 +12,7 @@ import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
+import { AuditService } from ".."
 
 export type userRegType = {
     userName: string
@@ -128,6 +129,7 @@ export const getUserList = async () => {
                 }
             ],
             [
+                "_id",
                 "userName",
                 "firstName",
                 "lastName",
@@ -163,6 +165,7 @@ export const activateUser = async (userName: string, status: number) => {
                 updatedBy: operator
             }
         )
+
         if (user.acknowledged) return { status: 200 }
         else throw new Error("Error in activate user")
     } catch (e) {
