@@ -133,10 +133,7 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
 
     return (
         <div className="d-flex flex-column w-100 h-100">
-            <div
-                className="overflow-auto mb-3"
-                // style={{ minHeight: 400 }}
-            >
+            <div className="overflow-auto mb-3" style={{ minHeight: 400 }}>
                 <table className="shadow w-100 overflow-auto">
                     <thead
                         style={{

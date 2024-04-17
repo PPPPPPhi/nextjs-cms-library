@@ -51,8 +51,7 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                             const { _id } = data
                             if (_id) {
                                 router.push(`pages/${_id}`)
-                            }
-                            else {
+                            } else {
                                 createNewPage(data)
                             }
                         }
@@ -116,7 +115,7 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                         action: (data) => {
                             publishPage(data)
                         },
-                        shouldShow: (data)=>{
+                        shouldShow: (data) => {
                             return !!data?._id
                         }
                     },
@@ -130,7 +129,7 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                             const { _id } = data
                             router.push(`pages/${_id}/history`)
                         },
-                        shouldShow: (data)=>{
+                        shouldShow: (data) => {
                             return !!data?._id
                         }
                     }

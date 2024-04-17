@@ -8,6 +8,8 @@ export type adminModalType = {
     confirmHandler?: () => void
     closeHandler?: () => void
     isNoCloseBtn?: boolean
+    pannelWidth?: number
+    pannelHeight?: number
 }
 
 export type adminToastType = {

@@ -2,7 +2,7 @@ import { AdminTable } from "@nextjs-cms-library/admin-components/index"
 import { useParams, useRouter } from "next/navigation"
 
 import { userType, roleType } from "@nextjs-cms-library/db-services/index"
-import { HiPencil } from "react-icons/hi"
+import { HiEye, HiPencil } from "react-icons/hi"
 
 interface AdminUserManagementTableInterface {
     data: userRowType[]
@@ -22,17 +22,30 @@ export const AdminUserManagementTable: React.FC<
         <div className="d-flex w-100 overflow-auto">
             <AdminTable
                 data={data ?? []}
-                pinColumns={["_id", "_activate"]}
+                pinColumns={["_id", "_idx", "_activate"]}
                 columnDefs={[
                     {
                         accessorKey: "_id",
                         header: "",
                         cellType: "action",
                         actionTitle: "",
+                        headerIcon: <HiEye />,
+                        size: 100,
+                        action: (data) => {
+                            const { _id } = data
+                            router.push(`/admin/user-management/${_id}`)
+                        }
+                    },
+                    {
+                        accessorKey: "_idx",
+                        header: "",
+                        cellType: "action",
+                        actionTitle: "",
                         headerIcon: <HiPencil />,
                         size: 100,
                         action: (data) => {
-                            editUser(data)
+                            const { _id } = data
+                            editUser(_id)
                         }
                     },
                     {
