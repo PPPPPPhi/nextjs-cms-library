@@ -131,33 +131,23 @@ export const updateSiteSetting = async (
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
-        console.log(`[SiteSetting] updateSiteSetting`, site, properties)
+        const settings = (await SiteSetting.findOne({ site })) as sType
+        const { createdAt } = settings
 
-        const newDocument = {
-            properties,
-            updatedBy: operator,
-            updatedAt: new Date()
+        settings.createdAt = createdAt
+        settings.properties = properties
+        settings.updatedBy = operatorName
+        settings.__history = {
+            event: "updating site setting",
+            user: operatorId, // An object id of the user that generate the event
+            reason: undefined,
+            data: undefined, // Additional data to save with the event
+            type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
+            method: "updateSiteSetting" // Optional and intended for method reference
         }
 
-        const upsertRole = await getUpsertSingleDocumentQuery(
-            QueryOperatior.SET,
-            {
-                name: operatorName,
-                id: operatorId,
-                historyData: {
-                    method: "updateSiteSetting",
-                    event: "updating site setting"
-                }
-            },
-            SiteSetting,
-            { siteSlug: site },
-            newDocument
-        )
-
-        console.log(`[SiteSetting] updateSiteSetting`, upsertRole)
-
-        if (upsertRole) return { message: "Success", status: 200 }
-        else throw new Error("Error in updating role")
+        await settings.save()
+        return { message: "Success", status: 200 }
     } catch (e) {
         console.log("Error when updating site settings", e)
         return { status: 500, message: "Site settings is not be updated" }
