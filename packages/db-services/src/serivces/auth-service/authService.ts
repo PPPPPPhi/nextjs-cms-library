@@ -1,4 +1,4 @@
-import { Types } from "mongoose"
+import { Types, ObjectId } from "mongoose"
 import connectMongoDB from "../../database/connectMongoDB"
 import User from "../..//database/models/user/User"
 import Role from "../../database/models/role/Role"
@@ -49,15 +49,17 @@ export const authenticateUser = async (account: string, password: string) => {
     }
 }
 
-export const getUserAuthProfile = async (userId: any) => {
+export const getUserAuthProfile = async (userId: string) => {
     try {
         await connectMongoDB()
+        console.log(`[getUserAuthProfile] input userId`, userId)
 
-        const userObjId = new Types.ObjectId(userId)
+        const userObjId: Types.ObjectId = new Types.ObjectId(userId)
+        console.log(`[getUserAuthProfile] input userObjId`, userObjId)
 
         const user = getProjectedQuery(
             User,
-            { _id: userObjId },
+            { _id: { $in: [userObjId] } },
             [],
             ["userName", "firstName", "lastName", "email", "_id"]
         )
@@ -80,7 +82,7 @@ export const getUserAuthProfile = async (userId: any) => {
         const query = forkJoin([user, roles]).pipe(
             switchMap((res: any) => {
                 const [user = res[0], roles = res[1]] = res
-
+                console.log(`[getUserAuthProfile]`, user, roles)
                 return of({ primary: user, secondary: roles })
             })
         )
@@ -128,7 +130,7 @@ export const getOperator = async (): Promise<string> => {
 
 export const getOperatorId = async (): Promise<string> => {
     const authSession = await getServerAuthSession()
-    console.log("authSession", authSession?.user)
+    console.log("authSession", authSession?.user, authSession)
     //@ts-ignore
     return authSession?.user?.id || "SYSTEM"
 }
