@@ -141,8 +141,7 @@ export const getUserList = async () => {
                 "updatedBy",
                 "updatedAt",
                 "roleItem"
-            ],
-            [{ from: "roleItem.roleName", to: "roleItem.name" }]
+            ]
         )
 
         console.log(`[userlist] users`, users)
