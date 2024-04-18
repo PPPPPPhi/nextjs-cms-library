@@ -29,8 +29,11 @@ export const AdminIconButton: React.FC<AdminIconButtonInterface> = ({
                 if (!isAuthorized) return
                 e.preventDefault()
                 onActionClick()
+            }}
+            style={{
+                ...(!isAuthorized && { color: "#CCC", cursor: "default" })
             }}>
-            <Icon style={{ ...(!isAuthorized && { background: "#CCC" }) }} />
+            <Icon />
         </div>
     )
 }

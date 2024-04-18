@@ -208,7 +208,7 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                     />
                 )}
                 {!excludeSetting && (
-                    <NavActionButton
+                    <AdminIconButton
                         icon={
                             !isMaxLevel ? (
                                 <HiFolderRemove />
@@ -216,6 +216,7 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                                 <HiDocumentRemove />
                             )
                         }
+                        authCode="EDIT_NAVIGATION"
                         onActionClick={() => {
                             onRemoveNavItem(refIdx)
                         }}
@@ -261,6 +262,7 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                     onNavClick={() => {
                         onAddNavItem(refIdx)
                     }}
+                    authCode="EDIT_NAVIGATION"
                     disabled={!isShowSetting || isDraggable}
                 />
             )}

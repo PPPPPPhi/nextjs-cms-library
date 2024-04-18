@@ -21,7 +21,7 @@ export const AdminTableBadgeList: React.FC<AdminTableBadgeListInterface> = ({
                     className="s-section-primary px-3 rounded-4 d-flex align-items-center my-1 mx-1"
                     style={{ ...customStyle }}>
                     <span className="text-level-caption text-font-medium">
-                        {l.name ?? l}
+                        {typeof l === "object" ? l.name || l.roleName : l}
                     </span>
                 </div>
             ))}

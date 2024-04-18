@@ -125,11 +125,13 @@ const HeaderImageSection: React.FC<HeaderImageSectionInterface> = ({
                             setImagePath(path as string)
                         }}
                         style={{ height: 30 }}
+                        authCode="EDIT_HEADER_SETTING"
                     />
                 </div>
                 <AdminButton
                     label="Choose from Image Gallery"
                     onClick={() => setMode("comp")}
+                    authCode="EDIT_HEADER_SETTING"
                 />
             </div>
             <div className="col-12 col-md-4 position-relative">
@@ -198,7 +200,8 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                                     headerLargeRatio: headerRatio,
                                     headerSmallRatio: mobileRatio
                                 })
-                            }
+                            },
+                            authCode: "EDIT_HEADER_SETTING"
                         }
                     ]}
                 />

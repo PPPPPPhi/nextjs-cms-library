@@ -53,7 +53,7 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
     }, [properties])
 
     useEffect(() => {
-        if(value) setDefaultValue(value)
+        if (value) setDefaultValue(value)
     }, [mode])
 
     useEffect(() => {
@@ -86,6 +86,7 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                             "<!-- You may update your html code here -->"
                         }
                         onCodeChange={(v) => setFooterValue("footerHtml", v)}
+                        authCode="EDIT_FOOTER_SETTING"
                     />
                 )}
                 {mode === "css" && (
@@ -97,6 +98,7 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                             "/* You may update your css here */"
                         }
                         onCodeChange={(v) => setFooterValue("footerCss", v)}
+                        authCode="EDIT_FOOTER_SETTING"
                     />
                 )}
                 {mode === "script" && (
@@ -108,6 +110,7 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                             "// You may update your css here"
                         }
                         onCodeChange={(v) => setFooterValue("footerScript", v)}
+                        authCode="EDIT_FOOTER_SETTING"
                     />
                 )}
                 <iframe
@@ -134,6 +137,7 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                         onClick={() => {
                             saveFooter(value as footerPropertiesType)
                         }}
+                        authCode="EDIT_FOOTER_SETTING"
                     />
                 </div>
             </div>

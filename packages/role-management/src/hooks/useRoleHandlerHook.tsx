@@ -11,8 +11,15 @@ import * as _ from "lodash"
 import { useCookies } from "react-cookie"
 
 const useRoleHandlerHook = () => {
-    const { role, setRoleList, roleList, setRoleFairList, setRole, setUser } =
-        useAdminAuthorizationContext()
+    const {
+        role,
+        setRoleList,
+        roleList,
+        setRoleFairList,
+        setRoleFunctionList,
+        setRole,
+        setUser
+    } = useAdminAuthorizationContext()
     const [cookies, setCookie, removeCookie] = useCookies(["nextjs-admin-role"])
 
     const { setModal } = useAdminContext()
@@ -57,6 +64,9 @@ const useRoleHandlerHook = () => {
         if (roleSelected) {
             setRole(preRole)
             setRoleFairList(roleSelected.sites)
+            setRoleFunctionList(
+                roleSelected.functions_lookUp.map((l) => l.functionId)
+            )
             return true
         }
         return false
@@ -70,6 +80,7 @@ const useRoleHandlerHook = () => {
             }
             selectRole()
             setRoleFairList([])
+            setRoleFunctionList([])
         } else if (role) {
             const isSettled = setPreSelectedRole(role)
             if (isSettled)

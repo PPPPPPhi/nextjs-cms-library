@@ -23,6 +23,8 @@ export type AdminAuthorizationContextProps = {
     setRoleList: Dispatch<SetStateAction<roleType[]>>
     roleFairList: string[]
     setRoleFairList: Dispatch<SetStateAction<string[]>>
+    roleFunctionList: string[]
+    setRoleFunctionList: Dispatch<SetStateAction<string[]>>
     user: authUserType | undefined
     setUser: Dispatch<SetStateAction<authUserType | undefined>>
     isAuthorized: boolean
@@ -38,6 +40,8 @@ const contextDefaultValues: AdminAuthorizationContextProps = {
     setRoleList: () => [],
     roleFairList: [],
     setRoleFairList: () => [],
+    roleFunctionList: [],
+    setRoleFunctionList: () => [],
     user: undefined,
     setUser: () => undefined,
     isAuthorized: false,
@@ -60,6 +64,7 @@ const AdminAuthorizationContextProvider: FC<AdminAuthorizationProps> = ({
     const [roleFairList, setRoleFairList] = useState<string[]>([])
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false)
     const [isAuthorizing, setIsAuthorizing] = useState<boolean>(false)
+    const [roleFunctionList, setRoleFunctionList] = useState<string[]>([])
 
     console.log("auth context", session, status)
 
@@ -72,6 +77,8 @@ const AdminAuthorizationContextProvider: FC<AdminAuthorizationProps> = ({
                 setRoleList,
                 roleFairList,
                 setRoleFairList,
+                roleFunctionList,
+                setRoleFunctionList,
                 user,
                 setUser,
                 isAuthorized,

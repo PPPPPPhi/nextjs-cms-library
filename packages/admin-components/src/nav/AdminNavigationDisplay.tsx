@@ -382,6 +382,7 @@ export const AdminNavigationDisplay: React.FC<
                 onNavClick={() => {
                     createNewNavItem([])
                 }}
+                authCode="EDIT_NAVIGATION"
                 disabled={!isShowSetting}
             />
             <div className="d-flex flex-column w-100" ref={drop}>

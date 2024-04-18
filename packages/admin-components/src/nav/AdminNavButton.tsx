@@ -1,24 +1,32 @@
 import { useCallback } from "react"
+import {
+    ACTION_TYPE,
+    useActionAuthorizationHook
+} from "@nextjs-cms-library/role-management/index"
 
 interface AdminCircularButtonInterface {
     icon: React.ReactNode
     label: string
     disabled: boolean
     onNavClick: () => void
+    authCode?: keyof ACTION_TYPE
 }
 
 export const AdminNavButton: React.FC<AdminCircularButtonInterface> = ({
     icon,
     label,
     disabled,
-    onNavClick = () => {}
+    onNavClick = () => {},
+    authCode
 }) => {
     const Icon = useCallback(() => {
         if (icon) return icon
         else return <></>
     }, [icon])
 
-    if (disabled) return <></>
+    const { isAuthorized } = useActionAuthorizationHook(authCode)
+
+    if (disabled || !isAuthorized) return <></>
 
     return (
         <div className="d-flex align-items-center rounded-5">

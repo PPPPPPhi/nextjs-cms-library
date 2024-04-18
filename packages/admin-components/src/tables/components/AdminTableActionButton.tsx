@@ -44,7 +44,12 @@ export const AdminTableActionButton: React.FC<RowCellInterface> = ({
                                 ? styles.adminTableButtonInverse
                                 : styles.adminTableButton
                         } s-text-color-nu`}
-                        style={{ ...(!isAuthorized && { background: "#CCC" }) }}
+                        style={{
+                            ...(!isAuthorized && {
+                                background: "#CCC",
+                                cursor: "default"
+                            })
+                        }}
                         onClick={isAuthorized ? action : () => {}}>
                         <Icon />
                         <span className="text-level-caption text-font-bold s-text-color-nu">

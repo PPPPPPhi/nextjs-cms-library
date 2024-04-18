@@ -67,11 +67,7 @@ const usePageAuthorizationHook = () => {
     }, [nextJsRoutePathName, role])
 
     useEffect(() => {
-        console.log("vvvvvvvvvvvv router")
-
         return () => {
-            console.log("vvvvvvvvvvvv router leave")
-
             setIsAuthorized(false)
         }
     }, [pathname])
