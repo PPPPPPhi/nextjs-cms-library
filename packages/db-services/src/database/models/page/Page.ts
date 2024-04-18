@@ -10,7 +10,7 @@ const pageSchema = new mongoose.Schema<IPage, PageModel, {}>(
         name: String,
         description: String,
         language: String,
-        site: String,
+        siteSlug: String,
         slug: String,
         status: Number,
         pageJson: String,

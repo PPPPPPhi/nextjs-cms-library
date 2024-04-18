@@ -7,7 +7,11 @@ import Site from "../../database/models/site/Site"
 import SiteSetting from "../../database/models/site-setting/SiteSetting"
 import Page from "../../database/models/page/Page"
 import Publication from "../../database/models/publication/Publication"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import {
+    getOperator,
+    getOperatorId,
+    getOperatorInfo
+} from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { Model, Types } from "mongoose"
 import { getProjectedQuery, userSessionType } from "../utils"
@@ -33,19 +37,21 @@ const insertAuditLog = (
     model
         .watch([], { fullDocument: "updateLookup" })
         .on("change", (event: any) => {
-            console.log(`[audit] ROLE`, event)
-
-            const { fullDocument, ns, _id } = event
+            const { fullDocument, operationType, ns, _id } = event
             const { userName, id, operatorId } = userInfo
 
-            const userId = new Types.ObjectId(userName ?? id ?? operatorId)
+            const userId = userName ?? id ?? operatorId
+
+            console.log(`[audit] ${ns?.coll} ${operationType}`, event)
 
             Audit.insertMany([
                 {
                     dataId: _id?._data,
-                    user_fk: userId,
+                    // @ts-ignore
+                    user: userId,
                     category: ns?.coll,
-                    action: fullDocument
+                    action: `${operationType} ${ns?.coll}`,
+                    details: fullDocument
                 }
             ])
         })
@@ -53,18 +59,18 @@ const insertAuditLog = (
 
 export const initAuditWatchHistory = async (user: userSessionType) => {
     try {
-        const operatorId = await getOperatorId()
-        const { id, userName } = user ?? {}
+        const operator = await getOperatorInfo()
+        const { id: operatorId } = operator
 
-        console.log(`[audit] init watch `, userName, id, operatorId)
+        console.log(`[audit] init watch `, JSON.stringify(operator), operatorId)
 
-        insertAuditLog(Role, { operatorId, userName, id })
-        insertAuditLog(User, { operatorId, userName, id })
-        insertAuditLog(Function, { operatorId, userName, id })
-        insertAuditLog(Site, { operatorId, userName, id })
-        insertAuditLog(SiteSetting, { operatorId, userName, id })
-        insertAuditLog(Page, { operatorId, userName, id })
-        insertAuditLog(Publication, { operatorId, userName, id })
+        insertAuditLog(Role, { operatorId })
+        insertAuditLog(User, { operatorId })
+        insertAuditLog(Function, { operatorId })
+        insertAuditLog(Site, { operatorId })
+        insertAuditLog(SiteSetting, { operatorId })
+        insertAuditLog(Page, { operatorId })
+        insertAuditLog(Publication, { operatorId })
 
         return { status: 200 }
     } catch (err) {
@@ -76,48 +82,6 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
 export const getAuditList = async () => {
     try {
         await connectMongoDB()
-
-        // const audits = await Audit.aggregate([
-        //     { $unwind: "$functions_lookUp" },
-        //     {
-        //         $lookup: {
-        //             from: "functions",
-        //             localField: "functions_lookUp",
-        //             foreignField: "_id",
-        //             as: "functionItem"
-        //         }
-        //     },
-        //     {
-        //         $group: {
-        //             _id: "$_id",
-        //             details: { $push: "$$ROOT" }
-        //         }
-        //     }
-        // ])
-
-        // const reformatted = (audits || []).map((k) => {
-        //     return {
-        //         _id: k._id,
-        //         name: k.details[0].name,
-        //         sites: k.details[0].sites,
-        //         description: k.details[0].description,
-        //         functions: (k.details || []).map(
-        //             (l: {
-        //                 functionItem: {
-        //                     _id: string
-        //                     name: string
-        //                     description: string
-        //                 }[]
-        //             }) => {
-        //                 return {
-        //                     functionId: l.functionItem[0]?._id,
-        //                     functionName: l.functionItem[0]?.name,
-        //                     functionDescription: l.functionItem[0]?.description
-        //                 }
-        //             }
-        //         )
-        //     }
-        // })
 
         const getAudits = await getProjectedQuery(
             Audit,
@@ -145,11 +109,11 @@ export const getAuditRecordByUser = async (auditId: string) => {
     try {
         await connectMongoDB()
 
-        const userId = new Types.ObjectId(auditId)
+        const parsedId = new Types.ObjectId(auditId)
 
         const resp = await getProjectedQuery(
             Audit,
-            { user_fk: userId },
+            { user: { $in: [auditId, parsedId] } },
             [],
             ["dataId", "user", "category", "action", "updatedAt"]
         )

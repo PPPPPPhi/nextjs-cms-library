@@ -7,8 +7,7 @@ const categorySchema = new mongoose.Schema<ICategory, CategoryModal, {}>(
     {
         category: String,
         subCategory: String,
-        createdAt: Date,
-        updatedAt: Date
+        site: String
     },
     {
         timestamps: true

@@ -3,7 +3,8 @@ import User from "../../database/models/user/User"
 import {
     checkAccountAvailablility,
     getOperator,
-    getOperatorId
+    getOperatorId,
+    getOperatorInfo
 } from "../auth-service/authService"
 import { ErrorCode } from "../../constants/"
 import { Types } from "mongoose"
@@ -12,6 +13,7 @@ import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
+import { AuditService } from ".."
 
 export type userRegType = {
     userName: string
@@ -26,8 +28,8 @@ export const registerUserByForm = async (user: userRegType) => {
 
     try {
         await connectMongoDB()
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const checkAccountResp = await checkAccountAvailablility(
             userName,
@@ -52,7 +54,7 @@ export const registerUserByForm = async (user: userRegType) => {
         const createUser = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: operator,
+                name: name ?? "SYSTEM",
                 id: operatorId,
                 historyData: {
                     method: "registerUserByForm",
@@ -66,7 +68,7 @@ export const registerUserByForm = async (user: userRegType) => {
 
         console.log(`[upsert Role] updateRoleById`, createUser)
 
-        if (createUser) return { status: 200 }
+        if (createUser) return { message: "Success", status: 200 }
         else throw new Error("Error in register new user")
     } catch (error) {
         console.log("Error occured ", error)
@@ -139,8 +141,7 @@ export const getUserList = async () => {
                 "updatedBy",
                 "updatedAt",
                 "roleItem"
-            ],
-            [{ from: "roleItem.roleName", to: "roleItem.name" }]
+            ]
         )
 
         console.log(`[userlist] users`, users)
@@ -155,15 +156,17 @@ export const getUserList = async () => {
 export const activateUser = async (userName: string, status: number) => {
     try {
         await connectMongoDB()
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const user = await User.updateOne(
             { userName },
             {
                 status,
-                updatedBy: operator
+                updatedBy: name
             }
         )
+
         if (user.acknowledged) return { status: 200 }
         else throw new Error("Error in activate user")
     } catch (e) {
@@ -182,14 +185,15 @@ export const updateUser = async (
 ) => {
     try {
         await connectMongoDB()
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const userResp = await User.updateOne(
             { userName },
             {
                 ...user,
                 roles: user?.roles?.map((l) => new Types.ObjectId(l)),
-                updatedBy: operator
+                updatedBy: name
             }
         )
         if (userResp.acknowledged) return { status: 200 }

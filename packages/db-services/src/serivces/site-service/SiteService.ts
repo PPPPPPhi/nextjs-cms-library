@@ -1,6 +1,10 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Site from "../../database/models/site/Site"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import {
+    getOperator,
+    getOperatorId,
+    getOperatorInfo
+} from "../auth-service/authService"
 import {
     ImageResourceAdaptor,
     ImageResourceOperator,
@@ -39,8 +43,8 @@ export const createSite = async (siteReq: createSiteType) => {
         const imageOperator = ImageResourceOperator.getInstance(
             imageApdator as imageResourceAdaptorType
         )
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const newDocument = {
             name,
@@ -55,7 +59,7 @@ export const createSite = async (siteReq: createSiteType) => {
         const createRes = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: operator,
+                name: operatorName,
                 id: operatorId,
                 historyData: {
                     method: "createSite",

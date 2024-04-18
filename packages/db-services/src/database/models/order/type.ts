@@ -1,5 +1,4 @@
 export type orderType = {
-    _id: string
     description: string
     createdAt: Date
     updatedAt: Date
@@ -9,5 +8,8 @@ export type orderType = {
     total: number
     remark: string
     pickUp: boolean
-    orderAddress: string
+    site: string
+    orderAddress: {
+        [key: string]: [value: any]
+    }
 }

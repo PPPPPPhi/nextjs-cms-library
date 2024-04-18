@@ -1,47 +1,53 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Category from "../../database/models/category/Category"
-import categoryModal from "../../database/models/category/Category"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
-import { getOperator } from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
-import { getParsedQuery } from "../utils"
+import {
+    FilterOrdersParam,
+    QueryOperatior,
+    getParsedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
+import { Types } from "mongoose"
 
-type orderType = {
-    name: string
-    description: string
+type createCategoryType = {
+    category: string
+    subCategory: string
+    site: string
 }
 
-export const initializeFunction = async () => {
+export const createCatelogCategory = async (f: createCategoryType) => {
+    const { category, subCategory, site } = f
+
     try {
         await connectMongoDB()
-        const defaultFunctions = RoleFunction.role
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
-        //@ts-ignore
-        const category = await Category.insertMany(defaultFunctions)
-        return {
-            message: "Success",
-            status: 200,
-            orderIds: category.map((l: any) => l._id)
+        const newDocument = {
+            category,
+            subCategory,
+            site
         }
-    } catch (error) {
-        console.log("Error occured ", error)
-        return { message: "Fail", status: 500 }
-    }
-}
 
-export const createCatelogProduct = async (f: orderType) => {
-    const { name, description } = f
+        const create = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: name ?? "SYSTEM",
+                id: operatorId,
+                historyData: {
+                    method: "createCatelogCategory",
+                    event: "Register New category"
+                }
+            },
+            Category,
+            { _id: new Types.ObjectId() },
+            newDocument
+        )
 
-    try {
-        await connectMongoDB()
-
-        const func = new categoryModal({
-            name,
-            description
-        })
-
-        await func.save()
-        return { message: "Success", status: 200 }
+        if (create) return { message: "Success", status: 200 }
+        else throw new Error("Error in Register New category")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Fail", status: 500 }
@@ -63,11 +69,6 @@ export const createCatelogProduct = async (f: orderType) => {
 //         return { message: "Failed", status: 500 }
 //     }
 // }
-
-type FilterDateRange = {
-    $gte: Date
-    $lte: Date
-}
 
 type FilterCatelogCategoryParam = {
     category: string | undefined

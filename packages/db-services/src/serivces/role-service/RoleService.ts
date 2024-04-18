@@ -2,21 +2,26 @@ import connectMongoDB from "../../database/connectMongoDB"
 import Role from "../../database/models/role/Role"
 import User from "../../database/models/user/User"
 import Function from "../../database/models/function/Function"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import {
+    getOperator,
+    getOperatorId,
+    getOperatorInfo
+} from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
-import { assingRoleToUser } from "../user-service/UserService"
 import { Types } from "mongoose"
 import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery,
     QueryOperatior,
-    useQueryOperatorFilter
+    useQueryOperatorFilter,
+    RoleFunctionUpdateType
 } from "../utils"
 import {
     UserRoleUpdateType,
     getUpdateUserRoleWithHistory
 } from "./roleServiceUtils"
-import { FunctionService } from ".."
+import { AuditService, FunctionService } from ".."
+import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 
 type roleType = {
     roleName: string
@@ -27,7 +32,8 @@ type roleType = {
 
 export const initializeSuperAdminRole = async () => {
     try {
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const functionResp = await initializeFunction()
         if (functionResp.status === 200) {
@@ -39,7 +45,10 @@ export const initializeSuperAdminRole = async () => {
             })
 
             if (resp?.status === 200) {
-                const userResp = await assingRoleToUser([resp.roleId], operator)
+                const userResp = await updateAddUserRole({
+                    userId: [operatorId],
+                    roleId: [resp?.roleId]
+                })
                 if (userResp.status === 200)
                     return { message: "Success", status: 200 }
                 else throw new Error("Error happened in assigning functions")
@@ -56,8 +65,8 @@ export const createRole = async (role: roleType) => {
 
     try {
         await connectMongoDB()
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const getSelectedFunctions = await FunctionService.getFunctionsById(
             role?.functions
@@ -75,7 +84,7 @@ export const createRole = async (role: roleType) => {
         const upsertRole = await getUpsertSingleDocumentQuery(
             QueryOperatior.CREATE,
             {
-                name: operator,
+                name,
                 id: operatorId,
                 historyData: { method: "createRole", event: "Create Role" }
             },
@@ -106,6 +115,7 @@ export const getRoleList = async () => {
             { _id: { $exists: true } },
             [],
             [
+                "_id",
                 "roleName",
                 "description",
                 "sites",
@@ -127,8 +137,8 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
     try {
         const { roleName, sites, functions, description } = role
 
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const getSelectedFunctions = await FunctionService.getFunctionsById(
             role?.functions
@@ -146,7 +156,7 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
         const upsertRole = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: operator,
+                name,
                 id: operatorId,
                 historyData: {
                     method: "updateRoleById",
@@ -169,14 +179,135 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
 }
 
 // update roles.userIds & user.roles
+export const updateAddRoleFunction = async (
+    roleFunction: RoleFunctionUpdateType
+) => {
+    try {
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+        const { roleId, functionId } = roleFunction
+
+        const roleIds = roleId?.map((l: string) => new Types.ObjectId(l))
+
+        const getFunctions = await FunctionService.getFunctionsById(
+            functionId as string[]
+        )
+
+        const updateRoleFilter = useQueryOperatorFilter(
+            {},
+            QueryOperatior.ADDTOSET,
+            "functions_lookUp",
+            getFunctions
+        )
+
+        // @ts-ignore
+        const updateRole: Promise<any> = Role.findOneAndUpdate(
+            {
+                _id: { $in: roleIds }
+            },
+            updateRoleFilter,
+            { new: true }
+        )
+
+        const res = forkJoin([updateRole]).pipe(
+            switchMap((res: any) => {
+                const [role = res[0], user = res[1]] = res
+
+                if (!role || !user?.acknowledged)
+                    throw new Error("Error in updating role")
+
+                console.log(`[query] res`, role, user)
+
+                role.updatedAt = role?.updatedAt
+                role.updatedBy = operatorName
+                role.__history = {
+                    event: "Update Role Function",
+                    user: operatorId,
+                    type: "major",
+                    method: "updateAddRoleFunction"
+                }
+
+                return of(role.save())
+            })
+        )
+
+        console.log(`[role-service] updateAddRoleFunction`, res)
+
+        if (res) return { status: 200 }
+        else throw new Error("Error in updating role")
+    } catch (error) {
+        console.log("Error occured ", error)
+        return { message: "Failed", status: 500 }
+    }
+}
+
+// update roles.userIds & user.roles
+export const updateRemoveRoleFunction = async (
+    roleFunction: RoleFunctionUpdateType
+) => {
+    try {
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+        const { roleId, functionId } = roleFunction
+
+        const roleIds = roleId?.map((l: string) => new Types.ObjectId(l))
+
+        // @ts-ignore
+        const updateRole: Promise<any> = Role.findOneAndUpdate(
+            {
+                _id: { $in: roleIds }
+            },
+            {
+                $pull: {
+                    functions_lookUp: {
+                        functionId: { $in: functionId }
+                    }
+                }
+            },
+            { new: true }
+        )
+
+        const res = forkJoin([updateRole]).pipe(
+            switchMap((res: any) => {
+                const [role = res[0], user = res[1]] = res
+
+                if (!role || !user?.acknowledged)
+                    throw new Error("Error in updating role")
+
+                console.log(`[query] res`, role, user)
+
+                role.updatedAt = role?.updatedAt
+                role.updatedBy = operatorName
+                role.__history = {
+                    event: "Update Role Function",
+                    user: operatorId,
+                    type: "major",
+                    method: "updateRemoveRoleFunction"
+                }
+
+                return of(role.save())
+            })
+        )
+
+        console.log(`[role-service] updateRemoveRoleFunction`, res)
+
+        if (res) return { status: 200 }
+        else throw new Error("Error in updating role")
+    } catch (error) {
+        console.log("Error occured ", error)
+        return { message: "Failed", status: 500 }
+    }
+}
+
+// update roles.userIds & user.roles
 export const updateAddUserRole = async (userRole: UserRoleUpdateType) => {
     try {
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const res = await getUpdateUserRoleWithHistory(
             QueryOperatior.ADDTOSET,
-            { name: operator, id: operatorId },
+            { name, id: operatorId },
             userRole
         )
 
@@ -193,12 +324,12 @@ export const updateAddUserRole = async (userRole: UserRoleUpdateType) => {
 // update roles.userIds & user.roles
 export const updateRemoveUserRole = async (userRole: UserRoleUpdateType) => {
     try {
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
         const res = await getUpdateUserRoleWithHistory(
             QueryOperatior.PULL,
-            { name: operator, id: operatorId },
+            { name, id: operatorId },
             userRole
         )
 

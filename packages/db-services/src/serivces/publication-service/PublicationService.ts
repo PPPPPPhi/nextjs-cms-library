@@ -1,17 +1,24 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Publication from "../../database/models/publication/Publication"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import {
+    getOperator,
+    getOperatorId,
+    getOperatorInfo
+} from "../auth-service/authService"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
 import { getPageById } from "../page-service/PageService"
 import * as _ from "lodash"
 import { HistoryService } from "../../"
+import { Types } from "mongoose"
 
 export const publishPage = async (pageId: string, version?: string) => {
     try {
         await connectMongoDB()
 
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId } = operator
+
+        const parsedPageId = new Types.ObjectId(pageId)
 
         const versionHistory = HistoryService.getFullVersion(version as string)
 
@@ -32,24 +39,27 @@ export const publishPage = async (pageId: string, version?: string) => {
         }
 
         if (page) {
-            const {
-                name,
-                slug,
-                description,
-                language,
-                pageJson,
-                site,
-                pageVersion
-            } = page
+            const { _doc, pageVersion } = page
 
-            if (!publication) {
+            const { name, slug, description, language, pageJson, siteSlug } =
+                _doc
+
+            console.log(
+                `[publish] page`,
+                page,
+                publication,
+                JSON.stringify(operator)
+            )
+
+            if (!publication || publication?.status == 500) {
+                console.log(`[publish] create new publication`)
                 const newPublication = new Publication({
                     name,
                     slug,
                     description,
                     language,
-                    pageJson,
-                    site,
+                    pagePageJson: pageJson,
+                    siteSlug,
                     createdBy: operator,
                     updatedBy: operator,
                     pageId,
@@ -57,21 +67,25 @@ export const publishPage = async (pageId: string, version?: string) => {
                     status: 1,
                     __history: pageHistoryRecorder.__history
                 })
+
+                console.log(`[publish] new publication`, newPublication)
                 await newPublication.save()
                 return { message: "Success", status: 200 }
             } else {
                 const { createdAt } = publication
                 publication.createdAt = createdAt
                 publication.pageVersion = versionHistory ?? pageVersion
-                publication.pageJson = pageJson
+                publication.pagePageJson = pageJson
                 publication.__history = pageHistoryRecorder.__history
+
+                console.log(`[publish] publication`, publication)
 
                 await publication.save()
                 return { message: "Success", status: 200 }
             }
         }
     } catch (e) {
-        console.log("Error in Getting Image", e)
+        console.log("Error in publishPage", e)
         return { message: "Fail", status: 500 }
     }
 }
@@ -79,24 +93,27 @@ export const publishPage = async (pageId: string, version?: string) => {
 export const getPublicationByPageId = async (pageId: string) => {
     try {
         await connectMongoDB()
+        const parsedPageId = new Types.ObjectId(pageId)
         //@ts-ignore
         const publicaiton = await Publication.findOne({ pageId })
 
-        if (publicaiton._id) return publicaiton
-        else throw new Error("No publicaiton yet")
+        console.log(`[publication] no publication`, pageId)
+
+        if (publicaiton?._id) return publicaiton
+        else return { message: "Fail", status: 500 }
     } catch (e) {
         console.log("Error in getting publicaiton", e)
         return null
     }
 }
 
-export const getPublicationList = async (site: string) => {
+export const getPublicationList = async (siteSlug: string) => {
     try {
         await connectMongoDB()
 
-        const siteSettingResp = getSiteSettingByKey(site, "cms_language")
+        const siteSettingResp = getSiteSettingByKey(siteSlug, "cms_language")
         const publicationResp = Publication.aggregate([
-            { $match: { site } },
+            { $match: { siteSlug } },
             { $group: { _id: "$slug", details: { $push: "$$ROOT" } } }
         ])
 
@@ -112,16 +129,16 @@ export const getPublicationList = async (site: string) => {
             details: {
                 id: string
                 slug: string
-                site: string
+                siteSlug: string
                 language: string
             }[]
         }[] = resp[1]
 
         const reformatted = publicationList.map((k) => {
-            const { site, slug } = k.details[0] ?? {}
+            const { siteSlug, slug } = k.details[0] ?? {}
 
             return {
-                site,
+                siteSlug,
                 slug,
                 details: languageList.map((l) => {
                     const page = k.details.find((m) => m.language === l)
@@ -142,7 +159,7 @@ export const getPublicationList = async (site: string) => {
             publications: reformatted ?? []
         }
     } catch (error) {
-        console.log("Error occured when getting page list", error)
+        console.log("Error occured when getting publications", error)
         return { message: "Failed", status: 500 }
     }
 }

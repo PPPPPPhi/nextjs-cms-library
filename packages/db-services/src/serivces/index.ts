@@ -20,7 +20,11 @@ import * as PromotionService from "./promotion-service/PromotionService"
 import * as AuditService from "./audit-service/AuditService"
 import * as AuthService from "./auth-service/authService"
 
-import { userSessionType } from "./utils"
+import {
+    userSessionType,
+    UserRoleUpdateType,
+    RoleFunctionUpdateType
+} from "./utils"
 
 export {
     PageService,
@@ -43,4 +47,4 @@ export {
     AuthService
 }
 
-export type { userSessionType }
+export type { userSessionType, UserRoleUpdateType, RoleFunctionUpdateType }

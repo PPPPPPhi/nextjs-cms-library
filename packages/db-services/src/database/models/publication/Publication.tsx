@@ -16,10 +16,10 @@ const publicationSchema = new mongoose.Schema<
         language: String,
         pageId: String,
         pageVersion: String,
-        site: String,
+        siteSlug: String,
         slug: String,
         status: Number,
-        pageJson: String,
+        pagePageJson: String,
         createdBy: String,
         updatedBy: String
     },

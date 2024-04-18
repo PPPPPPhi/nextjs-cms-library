@@ -1,8 +1,9 @@
-import { Date, ObjectId, Types } from "mongoose"
+import { Date, ObjectId, Types, Schema } from "mongoose"
 
 export type auditType = {
     dataId: string
-    user_fk: Types.ObjectId
+    user: string
     category: string
-    action: Object
+    action: string
+    details: Object
 }

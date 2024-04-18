@@ -1,9 +1,18 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Page from "../../database/models/page/Page"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import {
+    getOperator,
+    getOperatorId,
+    getOperatorInfo
+} from "../auth-service/authService"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
 import * as _ from "lodash"
 import { pageType as pType } from "../.."
+import {
+    QueryOperatior,
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
 
 type pageType = {
     name: string
@@ -19,31 +28,47 @@ export const createPage = async (page: pageType) => {
     try {
         await connectMongoDB()
 
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
-        const page = new Page({
+        console.log(`[page] create page`, page)
+
+        const newDocument = {
             name,
             slug,
             description,
             language,
-            site,
+            siteSlug: site,
             pageJson: "{}",
             status: 1,
             updatedBy: operator,
-            createdBy: operator,
-            __history: {
-                event: "Create Page",
-                user: operatorId, // An object id of the user that generate the event
-                reason: undefined,
-                data: undefined, // Additional data to save with the event
-                type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
-                method: "createPage" // Optional and intended for method reference
-            }
-        })
+            createdBy: operator
+        }
 
-        const result = await page.save()
-        return { message: "Success", status: 200, _id: result._id }
+        const createRes = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operatorName,
+                id: operatorId,
+                historyData: {
+                    method: "createPage",
+                    event: "Create Page"
+                }
+            },
+            Page,
+            { slug: slug },
+            newDocument
+        )
+
+        console.log(`[upsert Role] updateRoleById`, createRes)
+
+        if (createRes)
+            return {
+                message: "Success",
+                status: 200,
+                _id: createRes?.fullDocument?._id ?? ""
+            }
+        else throw new Error("Error in register new user")
     } catch (e) {
         console.log("Error in Getting Image", e)
         return { message: "Fail", status: 500 }
@@ -58,14 +83,14 @@ export const updatePage = async (
         await connectMongoDB()
 
         const { name, description } = pageDetails ?? {}
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
 
         const result = await Page.findOneAndUpdate(
             { _id: pageId },
             {
                 name,
                 description,
-                updatedBy: operator
+                updatedBy: operator?.name
             },
             { upsert: false }
         )
@@ -78,7 +103,7 @@ export const updatePage = async (
 }
 
 export const cloneLanguagePage = async (
-    site: string,
+    siteSlug: string,
     slug: string,
     refLanguage: string,
     language: string
@@ -86,10 +111,14 @@ export const cloneLanguagePage = async (
     try {
         await connectMongoDB()
 
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId } = operator
 
-        const page = await Page.findOne({ site, slug, language: refLanguage })
+        const page = await Page.findOne({
+            siteSlug,
+            slug,
+            language: refLanguage
+        })
 
         const { description, name, pageJson } = (page as pType) ?? {}
 
@@ -98,7 +127,7 @@ export const cloneLanguagePage = async (
             slug,
             description,
             language,
-            site,
+            siteSlug,
             pageJson,
             status: 1,
             updatedBy: operator,
@@ -121,31 +150,45 @@ export const cloneLanguagePage = async (
     }
 }
 
-export const getPageList = async (site: string) => {
+export const getPageList = async (siteSlug: string) => {
     try {
         await connectMongoDB()
 
-        const siteSettingResp = await getSiteSettingByKey(site, "cms_language")
-        const pageResp = Page.aggregate([
-            { $match: { site } },
-            { $group: { _id: "$slug", details: { $push: "$$ROOT" } } }
-        ])
+        const operator = await getOperator()
 
-        const resp = await Promise.all([siteSettingResp, pageResp])
+        const siteSettingResp = await getSiteSettingByKey(
+            siteSlug,
+            "cms_language"
+        )
+
+        const pageList = await getProjectedQuery(
+            Page,
+            { siteSlug },
+            [
+                {
+                    $group: {
+                        _id: "$slug",
+                        siteSlug: { $first: "$siteSlug" },
+                        slug: { $first: "$slug" },
+                        details: { $push: "$$ROOT" }
+                    }
+                }
+            ],
+            ["site", "slug", "details"]
+        )
+
+        const resp = await Promise.all([siteSettingResp, pageList])
 
         if (!resp[0]) throw new Error("Error when getting site setting")
 
         const languageList = resp[0]?.value as string[]
 
-        const pageList = resp[1]
-
         //@ts-ignore
         const reformatted = pageList.map((k) => {
-            const { name, description, site, slug } = k.details[0]
+            const { slug } = k.details[0]
 
             return {
-                site,
-                slug,
+                ...k,
                 details: languageList.map((l: string) => {
                     const page = k.details.find(
                         (m: { language: string }) => m.language === l
@@ -160,6 +203,12 @@ export const getPageList = async (site: string) => {
                 })
             }
         })
+
+        console.log(
+            `[getPageList] reformatted`,
+            JSON.stringify(operator),
+            JSON.stringify(reformatted)
+        )
 
         return {
             message: "Success",
@@ -176,7 +225,8 @@ export const getPageById = async (pageId: string, version?: string) => {
     try {
         await connectMongoDB()
         //@ts-ignore
-        let page = await Page.findOne({ _id: pageId })
+        const page = await Page.findOne({ _id: pageId })
+        let pageWithVersion
 
         let versionPage = null
 
@@ -184,15 +234,22 @@ export const getPageById = async (pageId: string, version?: string) => {
             //@ts-ignore
             const versionResp = await page.getVersion(version)
             const pageVersion = versionResp.version
+
+            console.log(`[page] getVersion`, versionResp, page)
+
             versionPage = { ...versionResp.object, pageVersion }
         } else {
             //@ts-ignore
             const pageVersionResp = await page.getDiffs({ limit: 1 })
+            console.log(`[page] getDiffs`, pageVersionResp, page)
             //@ts-ignore
-            page = { ...page._doc, pageVersion: pageVersionResp[0].version }
+            pageWithVersion = {
+                ...(page ?? {}),
+                pageVersion: pageVersionResp[0]?.version ?? "0.0.0"
+            }
         }
 
-        if (page) return versionPage ?? page
+        if (page) return versionPage ?? pageWithVersion
         else throw new Error("Error in getting page")
     } catch (e) {
         console.log("Error in getting page", e)
@@ -203,8 +260,8 @@ export const getPageById = async (pageId: string, version?: string) => {
 export const updatePageJson = async (pageId: string, pageJson: string) => {
     try {
         await connectMongoDB()
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId } = operator
 
         //@ts-ignore
         const page = await Page.findOne({ _id: pageId })

@@ -1,7 +1,6 @@
 import { Date } from "mongoose"
 
 export interface IOrder {
-    _id: string
     description: string
     createdAt: Date
     updatedAt: Date
@@ -11,5 +10,8 @@ export interface IOrder {
     total: number
     remark: string
     pickUp: boolean
-    orderAddress: string
+    site: string
+    orderAddress: {
+        [key: string]: [value: any]
+    }
 }

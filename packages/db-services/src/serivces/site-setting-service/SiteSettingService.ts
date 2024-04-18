@@ -1,6 +1,6 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import SiteSetting from "../../database/models/site-setting/SiteSetting"
-import { getOperatorId } from "../auth-service/authService"
+import { getOperatorId, getOperatorInfo } from "../auth-service/authService"
 import { getOperator } from "../auth-service/authService"
 import * as _ from "lodash"
 import { siteSettingType as sType } from "../.."
@@ -15,8 +15,8 @@ import {
 export const initializeSiteSetting = async (site: string) => {
     try {
         await connectMongoDB()
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const newDocument = {
             siteSlug: site,
@@ -39,7 +39,7 @@ export const initializeSiteSetting = async (site: string) => {
         const createRes = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: operator,
+                name: operatorName,
                 id: operatorId,
                 historyData: {
                     event: "Initialize site setting",
@@ -128,36 +128,26 @@ export const updateSiteSetting = async (
 ): Promise<{ status: number; message: string }> => {
     try {
         await connectMongoDB()
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
-        console.log(`[SiteSetting] updateSiteSetting`, site, properties)
+        const settings = (await SiteSetting.findOne({ site })) as sType
+        const { createdAt } = settings
 
-        const newDocument = {
-            properties,
-            updatedBy: operator,
-            updatedAt: new Date()
+        settings.createdAt = createdAt
+        settings.properties = properties
+        settings.updatedBy = operatorName
+        settings.__history = {
+            event: "updating site setting",
+            user: operatorId, // An object id of the user that generate the event
+            reason: undefined,
+            data: undefined, // Additional data to save with the event
+            type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
+            method: "updateSiteSetting" // Optional and intended for method reference
         }
 
-        const upsertRole = await getUpsertSingleDocumentQuery(
-            QueryOperatior.SET,
-            {
-                name: operator,
-                id: operatorId,
-                historyData: {
-                    method: "updateSiteSetting",
-                    event: "updating site setting"
-                }
-            },
-            SiteSetting,
-            { siteSlug: site },
-            newDocument
-        )
-
-        console.log(`[SiteSetting] updateSiteSetting`, upsertRole)
-
-        if (upsertRole) return { message: "Success", status: 200 }
-        else throw new Error("Error in updating role")
+        await settings.save()
+        return { message: "Success", status: 200 }
     } catch (e) {
         console.log("Error when updating site settings", e)
         return { status: 500, message: "Site settings is not be updated" }

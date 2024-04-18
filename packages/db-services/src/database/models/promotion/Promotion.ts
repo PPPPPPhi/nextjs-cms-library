@@ -9,7 +9,8 @@ const promotionSchema = new mongoose.Schema<IPromotion, PromotionModal, {}>(
         startDate: Date,
         endDate: Date,
         items: Array<String>,
-        promotionCode: String
+        promotionCode: String,
+        site: String
     },
     {
         timestamps: true
