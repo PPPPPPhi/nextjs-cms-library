@@ -13,6 +13,16 @@ export type userSessionType = {
     password?: string
 }
 
+export type UserRoleUpdateType = {
+    userId: string
+    roleId: string
+}
+
+export type RoleFunctionUpdateType = {
+    roleId: string[]
+    functionId: string[]
+}
+
 export const multiSelectFilterField = ["orderStatus", "paymentStatus"]
 
 export type FilterOrdersParam = {

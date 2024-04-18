@@ -16,10 +16,12 @@ import {
     useQueryOperatorFilter
 } from "../utils"
 import {
+    RoleFunctionUpdateType,
     UserRoleUpdateType,
     getUpdateUserRoleWithHistory
 } from "./roleServiceUtils"
 import { AuditService, FunctionService } from ".."
+import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 
 type roleType = {
     roleName: string
@@ -169,6 +171,127 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
         console.log(`[upsert Role] updateRoleById`, upsertRole)
 
         if (upsertRole) return { status: 200 }
+        else throw new Error("Error in updating role")
+    } catch (error) {
+        console.log("Error occured ", error)
+        return { message: "Failed", status: 500 }
+    }
+}
+
+// update roles.userIds & user.roles
+export const updateAddRoleFunction = async (
+    roleFunction: RoleFunctionUpdateType
+) => {
+    try {
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+        const { roleId, functionId } = roleFunction
+
+        const roleIds = roleId?.map((l: string) => new Types.ObjectId(l))
+
+        const getFunctions = await FunctionService.getFunctionsById(
+            functionId as string[]
+        )
+
+        const updateRoleFilter = useQueryOperatorFilter(
+            {},
+            QueryOperatior.ADDTOSET,
+            "functions_lookUp",
+            getFunctions
+        )
+
+        // @ts-ignore
+        const updateRole: Promise<any> = Role.findOneAndUpdate(
+            {
+                _id: { $in: roleIds }
+            },
+            updateRoleFilter,
+            { new: true }
+        )
+
+        const res = forkJoin([updateRole]).pipe(
+            switchMap((res: any) => {
+                const [role = res[0], user = res[1]] = res
+
+                if (!role || !user?.acknowledged)
+                    throw new Error("Error in updating role")
+
+                console.log(`[query] res`, role, user)
+
+                role.updatedAt = role?.updatedAt
+                role.updatedBy = operatorName
+                role.__history = {
+                    event: "Update Role Function",
+                    user: operatorId,
+                    type: "major",
+                    method: "updateAddRoleFunction"
+                }
+
+                return of(role.save())
+            })
+        )
+
+        console.log(`[role-service] updateAddRoleFunction`, res)
+
+        if (res) return { status: 200 }
+        else throw new Error("Error in updating role")
+    } catch (error) {
+        console.log("Error occured ", error)
+        return { message: "Failed", status: 500 }
+    }
+}
+
+// update roles.userIds & user.roles
+export const updateRemoveRoleFunction = async (
+    roleFunction: RoleFunctionUpdateType
+) => {
+    try {
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+        const { roleId, functionId } = roleFunction
+
+        const roleIds = roleId?.map((l: string) => new Types.ObjectId(l))
+
+        // @ts-ignore
+        const updateRole: Promise<any> = Role.findOneAndUpdate(
+            {
+                _id: { $in: roleIds }
+            },
+            {
+                $pull: {
+                    functions_lookUp: {
+                        functionId: { $in: functionId }
+                    }
+                }
+            },
+            { new: true }
+        )
+
+        const res = forkJoin([updateRole]).pipe(
+            switchMap((res: any) => {
+                const [role = res[0], user = res[1]] = res
+
+                if (!role || !user?.acknowledged)
+                    throw new Error("Error in updating role")
+
+                console.log(`[query] res`, role, user)
+
+                role.updatedAt = role?.updatedAt
+                role.updatedBy = operatorName
+                role.__history = {
+                    event: "Update Role Function",
+                    user: operatorId,
+                    type: "major",
+                    method: "updateRemoveRoleFunction"
+                }
+
+                return of(role.save())
+            })
+        )
+
+        console.log(`[role-service] updateRemoveRoleFunction`, res)
+
+        if (res) return { status: 200 }
         else throw new Error("Error in updating role")
     } catch (error) {
         console.log("Error occured ", error)

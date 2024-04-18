@@ -8,11 +8,16 @@ import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import {
+    getOperator,
+    getOperatorId,
+    getOperatorInfo
+} from "../auth-service/authService"
 
 type functionType = {
     name: string
     description: string
+    functionId: number
 }
 
 export const initializeFunction = async () => {
@@ -34,23 +39,24 @@ export const initializeFunction = async () => {
 }
 
 export const createFunction = async (f: functionType) => {
-    const { name, description } = f
+    const { name, description, functionId } = f
 
     try {
         await connectMongoDB()
 
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const newDocument = {
             name,
-            description
+            description,
+            functionId
         }
 
         const createRes = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: operator,
+                name: operatorName,
                 id: operatorId,
                 historyData: {
                     method: "createFunction",
@@ -88,13 +94,9 @@ export const getFunctionsById = async (functionIds: string[]) => {
     try {
         await connectMongoDB()
 
-        const selectedFunctions = functionIds?.map(
-            (l: string) => new Types.ObjectId(l)
-        )
-
         const functions = await getProjectedQuery(
             Function,
-            { _id: { $in: selectedFunctions } },
+            { functionIds: { $in: functionIds } },
             [],
             [
                 "_id",

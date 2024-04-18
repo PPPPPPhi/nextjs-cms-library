@@ -1,4 +1,4 @@
-import mongoose, { Model } from "mongoose"
+import mongoose, { Model, Schema } from "mongoose"
 import { IOrder } from "./interface"
 
 type OrderModal = Model<IOrder, {}, {}>
@@ -14,7 +14,8 @@ const orderSchema = new mongoose.Schema<IOrder, OrderModal, {}>(
         total: Number,
         remark: String,
         pickUp: Boolean,
-        orderAddress: String
+        site: String,
+        orderAddress: Schema.Types.Mixed
     },
     {
         timestamps: true

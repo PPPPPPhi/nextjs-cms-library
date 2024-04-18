@@ -7,38 +7,44 @@ import _ from "lodash"
 import { multiSelectFilterField } from "../../../../admin-components/src/filter/utils"
 import { FilterOrdersParam, getParsedQuery } from "../utils"
 
-type orderType = {
-    name: string
+type createOrderType = {
+    site: string
     description: string
+    orderStatus: string
+    paymentStatus: boolean
+    customerId: string
+    total: number
+    remark: string
+    pickUp: boolean
+    orderAddress: Object
 }
 
-export const initializeFunction = async () => {
-    try {
-        await connectMongoDB()
-        const defaultFunctions = RoleFunction.role
-
-        //@ts-ignore
-        const orders = await Order.insertMany(defaultFunctions)
-        return {
-            message: "Success",
-            status: 200,
-            orderIds: orders.map((l) => l._id)
-        }
-    } catch (error) {
-        console.log("Error occured ", error)
-        return { message: "Fail", status: 500 }
-    }
-}
-
-export const createOrder = async (f: orderType) => {
-    const { name, description } = f
+export const createOrder = async (f: createOrderType) => {
+    const {
+        description,
+        orderStatus,
+        paymentStatus,
+        customerId,
+        total,
+        remark,
+        pickUp,
+        site,
+        orderAddress
+    } = f
 
     try {
         await connectMongoDB()
 
         const func = new orderModal({
-            name,
-            description
+            description,
+            orderStatus,
+            paymentStatus,
+            customerId,
+            total,
+            remark,
+            pickUp,
+            orderAddress,
+            site
         })
 
         await func.save()
