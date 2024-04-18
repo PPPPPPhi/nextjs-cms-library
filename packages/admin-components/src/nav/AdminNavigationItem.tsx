@@ -9,7 +9,7 @@ import {
 import { AdminNavButton } from "./AdminNavButton"
 import { v4 as uuid_v4 } from "uuid"
 const { useDrag } = require("react-dnd")
-
+import { AdminIconButton } from "../core"
 import {
     HiFolderAdd,
     HiPencil,
@@ -156,7 +156,6 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
         }
         return false
     }, [ddKey, osIdRefList, osPosition])
-    console.log("isFitOffset", isFitOffset)
 
     return (
         <div className="d-flex w-100 flex-column px-3 py-2">
@@ -182,8 +181,9 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                 </div>
 
                 {!excludeSetting && (
-                    <NavActionButton
+                    <AdminIconButton
                         icon={<HiPencil />}
+                        authCode="EDIT_NAVIGATION"
                         onActionClick={() => {
                             onEditNavItem(refIdx)
                         }}

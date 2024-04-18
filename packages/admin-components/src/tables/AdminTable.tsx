@@ -18,6 +18,7 @@ import { AdminTablePagination } from "./components/AdminTablePagination"
 import { getCsvBlob } from "tanstack-table-export-to-csv"
 import FileSaver from "file-saver"
 import { AdminCard } from "../core/AdminCard"
+import { ACTION_TYPE } from "@nextjs-cms-library/role-management/index"
 
 interface AdminTableInterface {
     data: any[]
@@ -27,6 +28,7 @@ interface AdminTableInterface {
     isCompatible?: boolean
     isSubComponent?: boolean
     zebra?: boolean
+    exportAuthCode?: keyof ACTION_TYPE
 }
 
 export const AdminTable: React.FC<AdminTableInterface> = ({
@@ -36,7 +38,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
     compareField,
     isCompatible,
     isSubComponent,
-    zebra = false
+    zebra = false,
+    exportAuthCode
 }) => {
     const [expanded, setExpanded] = useState<ExpandedState>({})
     const [compareSource, setCompareSource] = useState<number>(-1)
@@ -231,7 +234,8 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                     {
                         actionLabel: "Export Excel",
                         desc: "Export CSV file to view in Excel.",
-                        action: handleExportToCsv
+                        action: handleExportToCsv,
+                        authCode: exportAuthCode ?? "AVAILABLE_CODE"
                     }
                 ]}
             />

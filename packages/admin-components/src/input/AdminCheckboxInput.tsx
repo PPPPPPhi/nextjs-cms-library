@@ -24,7 +24,7 @@ export const AdminCheckboxInput: React.FC<AdminCheckboxInputInterface> = ({
                     {inputLabel}
                 </label>
             )}
-            <div className="d-flex flex-wrap">
+            <div className="d-flex">
                 <input
                     id="checkbox"
                     name={typeof label === "string" ? label : "checkbox"}

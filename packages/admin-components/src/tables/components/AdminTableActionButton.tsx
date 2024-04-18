@@ -1,5 +1,9 @@
 import { useCallback } from "react"
 import styles from "../../AdminControl.module.scss"
+import {
+    ACTION_TYPE,
+    useActionAuthorizationHook
+} from "@nextjs-cms-library/role-management/index"
 
 interface RowCellInterface {
     action: () => void
@@ -7,6 +11,7 @@ interface RowCellInterface {
     icon?: React.ReactNode
     customWidth?: number
     inverseStyle?: boolean
+    authCode?: keyof ACTION_TYPE
 }
 
 export const AdminTableActionButton: React.FC<RowCellInterface> = ({
@@ -14,12 +19,15 @@ export const AdminTableActionButton: React.FC<RowCellInterface> = ({
     icon,
     action,
     customWidth,
-    inverseStyle
+    inverseStyle,
+    authCode
 }) => {
     const Icon = useCallback(() => {
         if (icon) return icon
         else return <></>
     }, [icon])
+
+    const { isAuthorized } = useActionAuthorizationHook(authCode)
 
     return (
         <>
@@ -36,7 +44,8 @@ export const AdminTableActionButton: React.FC<RowCellInterface> = ({
                                 ? styles.adminTableButtonInverse
                                 : styles.adminTableButton
                         } s-text-color-nu`}
-                        onClick={action}>
+                        style={{ ...(!isAuthorized && { background: "#CCC" }) }}
+                        onClick={isAuthorized ? action : () => {}}>
                         <Icon />
                         <span className="text-level-caption text-font-bold s-text-color-nu">
                             {label}

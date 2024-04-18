@@ -24,6 +24,7 @@ export const authOptions: NextAuthOptions = {
         // @ts-ignore
         async session({ session, token, user }) {
             // @ts-ignore
+            return session
         }
     },
     pages: {

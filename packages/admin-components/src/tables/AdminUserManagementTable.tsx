@@ -16,13 +16,13 @@ export const AdminUserManagementTable: React.FC<
     AdminUserManagementTableInterface
 > = ({ data, updateActivationStatus, editUser }) => {
     const router = useRouter()
-    const { site } = useParams()
 
     return (
         <div className="d-flex w-100 overflow-auto">
             <AdminTable
                 data={data ?? []}
                 pinColumns={["_id", "_idx", "_activate"]}
+                exportAuthCode="USER_VIEW_ROLE"
                 columnDefs={[
                     {
                         accessorKey: "_id",
@@ -31,6 +31,7 @@ export const AdminUserManagementTable: React.FC<
                         actionTitle: "",
                         headerIcon: <HiEye />,
                         size: 100,
+                        authCode: "VIEW_USER_DETAIL",
                         action: (data) => {
                             const { _id } = data
                             router.push(`/admin/user-management/${_id}`)
@@ -43,6 +44,7 @@ export const AdminUserManagementTable: React.FC<
                         actionTitle: "",
                         headerIcon: <HiPencil />,
                         size: 100,
+                        authCode: "EDIT_OTHER_USER",
                         action: (data) => {
                             const { _id } = data
                             editUser(_id)
@@ -56,6 +58,7 @@ export const AdminUserManagementTable: React.FC<
                         actionInverseTitle: "InActive",
                         isActivate: true,
                         size: 120,
+                        authCode: "ACTIVATE_USER_STATUS",
                         action: (data) => {
                             updateActivationStatus(data)
                         }

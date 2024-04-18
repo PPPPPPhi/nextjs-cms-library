@@ -128,6 +128,7 @@ export const getUserList = async () => {
                 }
             ],
             [
+                "_id",
                 "userName",
                 "firstName",
                 "lastName",

@@ -70,7 +70,6 @@ const useRouterEventHook = (STATIC_ROUTE_NAV: any) => {
     useEffect(() => {
         if (nextJsPath) {
             console.log("navTypenavType", nextJsPath)
-            setNextJsRoutePathName(nextJsPath)
             setNavType(adminNav[nextJsPath])
         }
     }, [nextJsPath])

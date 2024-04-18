@@ -25,6 +25,10 @@ export type AdminAuthorizationContextProps = {
     setRoleFairList: Dispatch<SetStateAction<string[]>>
     user: authUserType | undefined
     setUser: Dispatch<SetStateAction<authUserType | undefined>>
+    isAuthorized: boolean
+    setIsAuthorized: Dispatch<SetStateAction<boolean>>
+    isAuthorizing: boolean
+    setIsAuthorizing: Dispatch<SetStateAction<boolean>>
 }
 
 const contextDefaultValues: AdminAuthorizationContextProps = {
@@ -35,7 +39,11 @@ const contextDefaultValues: AdminAuthorizationContextProps = {
     roleFairList: [],
     setRoleFairList: () => [],
     user: undefined,
-    setUser: () => undefined
+    setUser: () => undefined,
+    isAuthorized: false,
+    setIsAuthorized: () => false,
+    isAuthorizing: false,
+    setIsAuthorizing: () => {}
 }
 
 export const AdminAuthorizationContext =
@@ -50,6 +58,8 @@ const AdminAuthorizationContextProvider: FC<AdminAuthorizationProps> = ({
     const [roleList, setRoleList] = useState<any[]>([])
     const [user, setUser] = useState<authUserType | undefined>()
     const [roleFairList, setRoleFairList] = useState<string[]>([])
+    const [isAuthorized, setIsAuthorized] = useState<boolean>(false)
+    const [isAuthorizing, setIsAuthorizing] = useState<boolean>(false)
 
     console.log("auth context", session, status)
 
@@ -63,7 +73,11 @@ const AdminAuthorizationContextProvider: FC<AdminAuthorizationProps> = ({
                 roleFairList,
                 setRoleFairList,
                 user,
-                setUser
+                setUser,
+                isAuthorized,
+                setIsAuthorized,
+                isAuthorizing,
+                setIsAuthorizing
             }}>
             <HookWrapper>{children}</HookWrapper>
         </AdminAuthorizationContext.Provider>

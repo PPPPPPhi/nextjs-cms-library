@@ -1,7 +1,7 @@
 import { NextImageApdator } from "@nextjs-cms-library/ui/index"
 import { AdminButton } from "./AdminButton"
 import { useMemo } from "react"
-
+import { ACTION_TYPE } from "@nextjs-cms-library/role-management/index"
 interface AdminCardInterface {
     cardsRef: CardType[]
 }
@@ -18,9 +18,16 @@ type CardType = {
     actionLabel: string
     desc: string
     isFull?: boolean
+    authCode?: keyof ACTION_TYPE
 }
 
-const Card: React.FC<CardType> = ({ action, actionLabel, desc, isFull }) => {
+const Card: React.FC<CardType> = ({
+    action,
+    actionLabel,
+    desc,
+    isFull,
+    authCode
+}) => {
     const assistanceIdx = useMemo(
         () => Math.floor(Math.random() * 4),
         []
@@ -52,6 +59,7 @@ const Card: React.FC<CardType> = ({ action, actionLabel, desc, isFull }) => {
                         onClick={() => {
                             action()
                         }}
+                        authCode={authCode}
                     />
                     <div>
                         <span className="s-text-color-alpha text-level-remark text-right">
@@ -68,13 +76,14 @@ export const AdminCard: React.FC<AdminCardInterface> = ({ cardsRef }) => {
     return (
         <div className="d-flex flex-wrap w-100 justify-content-end">
             {cardsRef.map((k) => {
-                const { actionLabel, desc, action, isFull } = k
+                const { actionLabel, desc, action, isFull, authCode } = k
                 return (
                     <Card
                         actionLabel={actionLabel}
                         desc={desc}
                         action={action}
                         isFull={isFull}
+                        authCode={authCode}
                     />
                 )
             })}

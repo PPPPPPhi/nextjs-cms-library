@@ -330,35 +330,51 @@ export const AdminNavigationDisplay: React.FC<
         else return false
     }, [osPosition, osIdRefList])
 
+    const cardsRef = useMemo(() => {
+        const navCard = [
+            {
+                actionLabel: "Move Position",
+                desc: "Move Position",
+                action: () => {
+                    setIsCollapsing(!isDraggable ? true : false)
+                    setIsDraggable(!isDraggable)
+                },
+                authCode: "EDIT_NAVIGATION"
+            },
+            {
+                actionLabel: "Show / Hide Setting",
+                desc: "Show/Hide setting for editing/viewing the navigation menu",
+                action: () => {
+                    setIsShowSetting(!isShowSetting)
+                }
+            },
+            {
+                actionLabel: "Save",
+                desc: "Save existing navigation to your site",
+                action: () => {
+                    saveNav(navigation)
+                },
+                authCode: "EDIT_NAVIGATION"
+            }
+        ]
+
+        if (!navJson?.length)
+            navCard.unshift({
+                actionLabel: "Clone",
+                desc: "Save existing navigation to your site",
+                action: () => {
+                    saveNav(navigation)
+                },
+                authCode: "EDIT_NAVIGATION"
+            })
+
+        return navCard
+    }, [navJson])
+
     return (
         <div className="d-flex flex-column w-100">
             <div className="d-flex pb-3">
-                <AdminCard
-                    cardsRef={[
-                        {
-                            actionLabel: "Move Position",
-                            desc: "Move Position",
-                            action: () => {
-                                setIsCollapsing(!isDraggable ? true : false)
-                                setIsDraggable(!isDraggable)
-                            }
-                        },
-                        {
-                            actionLabel: "Show / Hide Setting",
-                            desc: "Show/Hide setting for editing/viewing the navigation menu",
-                            action: () => {
-                                setIsShowSetting(!isShowSetting)
-                            }
-                        },
-                        {
-                            actionLabel: "Save",
-                            desc: "Save existing navigation to your site",
-                            action: () => {
-                                saveNav(navigation)
-                            }
-                        }
-                    ]}
-                />
+                <AdminCard cardsRef={cardsRef ?? []} />
             </div>
             <AdminNavButton
                 icon={<HiFolderAdd />}

@@ -256,6 +256,7 @@ export const getColumnDefinition = (
                                     action={() => {
                                         k.action && k.action(original)
                                     }}
+                                    authCode={k.authCode}
                                     disabled={k.isDisabled && !original._id}
                                 />
                             ) : (
@@ -322,6 +323,7 @@ export const getColumnDefinition = (
                                             }
                                         } else k.action && k.action(original)
                                     }}
+                                    authCode={k.authCode}
                                     disabled={k.isDisabled && !original._id}
                                 />
                             )}

@@ -5,6 +5,8 @@ import useRolePermissionHandlerHook from "./useRolePermissionHandlerHook"
 import useAccessHook from "./useAccessHook"
 import useRouterEventHook from "./useRouterEventHook"
 import useSignOutHook from "./useSignOutHook"
+import useNextRouterHook from "./useNextRouterHook"
+import usePageCheckAuthorizationHook from "./usePageCheckAuthorizationHook"
 
 export {
     useActionAuthorizationHook,
@@ -13,5 +15,7 @@ export {
     useRolePermissionHandlerHook,
     useAccessHook,
     useRouterEventHook,
-    useSignOutHook
+    useSignOutHook,
+    useNextRouterHook,
+    usePageCheckAuthorizationHook
 }
