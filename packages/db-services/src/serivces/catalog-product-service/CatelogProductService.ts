@@ -1,52 +1,60 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Product from "../../database/models/product/Product"
-import productModal from "../../database/models/product/Product"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
-import { getOperator } from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
 import {
     FilterOrdersParam,
-    PaginatedParam,
+    QueryOperatior,
     getPaginatedQuery,
-    getParsedQuery
+    getParsedQuery,
+    getUpsertSingleDocumentQuery
 } from "../utils"
+import { Types } from "mongoose"
 
-type orderType = {
-    name: string
-    description: string
+type createProductType = {
+    site: string
+    category: string
+    product: string
+    amount: string
+    stock: string
+    photo?: string
 }
 
-export const initializeFunction = async () => {
+export const createCatelogProduct = async (f: createProductType) => {
+    const { category, product, amount, stock, photo, site } = f
+
     try {
         await connectMongoDB()
-        const defaultFunctions = RoleFunction.role
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
 
-        //@ts-ignore
-        const products = await Product.insertMany(defaultFunctions)
-        return {
-            message: "Success",
-            status: 200,
-            orderIds: products.map((l: any) => l._id)
+        const newDocument = {
+            category,
+            product,
+            amount,
+            stock,
+            photo,
+            site
         }
-    } catch (error) {
-        console.log("Error occured ", error)
-        return { message: "Fail", status: 500 }
-    }
-}
 
-export const createCatelogProduct = async (f: orderType) => {
-    const { name, description } = f
+        const create = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: name ?? "SYSTEM",
+                id: operatorId,
+                historyData: {
+                    method: "createCatelogProduct",
+                    event: "Register New product"
+                }
+            },
+            Product,
+            { _id: new Types.ObjectId() },
+            newDocument
+        )
 
-    try {
-        await connectMongoDB()
-
-        const func = new productModal({
-            name,
-            description
-        })
-
-        await func.save()
-        return { message: "Success", status: 200 }
+        if (create) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new product")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Fail", status: 500 }

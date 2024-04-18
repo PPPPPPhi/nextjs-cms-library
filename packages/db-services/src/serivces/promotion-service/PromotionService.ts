@@ -1,47 +1,59 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Promotion from "../../database/models/promotion/Promotion"
-import promotionModal from "../../database/models/promotion/Promotion"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
-import { getOperator } from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
-import { getParsedQuery } from "../utils"
+import {
+    FilterOrdersParam,
+    QueryOperatior,
+    getParsedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
+import { Types } from "mongoose"
 
-type promotionType = {
-    name: string
-    description: string
+type createPromotionType = {
+    site: string
+    promotion: string
+    startDate: string
+    endDate: string
+    items: string[]
+    promotionCode: string
 }
 
-export const initializeFunction = async () => {
+export const createPromotion = async (f: createPromotionType) => {
+    const { promotion, startDate, endDate, items, promotionCode } = f
+
     try {
         await connectMongoDB()
-        const defaultFunctions = RoleFunction.role
 
-        //@ts-ignore
-        const promotions = await Promotion.insertMany(defaultFunctions)
-        return {
-            message: "Success",
-            status: 200,
-            promotionIds: promotions.map((l) => l._id)
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
+
+        const newDocument = {
+            promotion,
+            startDate,
+            endDate,
+            items,
+            promotionCode
         }
-    } catch (error) {
-        console.log("Error occured ", error)
-        return { message: "Fail", status: 500 }
-    }
-}
 
-export const createPromotion = async (f: promotionType) => {
-    const { name, description } = f
+        const create = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: name ?? "SYSTEM",
+                id: operatorId,
+                historyData: {
+                    method: "createPromotion",
+                    event: "Register New Promotion"
+                }
+            },
+            Promotion,
+            { _id: new Types.ObjectId() },
+            newDocument
+        )
 
-    try {
-        await connectMongoDB()
-
-        const func = new promotionModal({
-            name,
-            description
-        })
-
-        await func.save()
-        return { message: "Success", status: 200 }
+        if (create) return { message: "Success", status: 200 }
+        else throw new Error("Error in Register New Promotion")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Fail", status: 500 }

@@ -1,7 +1,6 @@
 import { Date } from "mongoose"
 
 export interface IOrder {
-    _id: string
     description: string
     createdAt: Date
     updatedAt: Date

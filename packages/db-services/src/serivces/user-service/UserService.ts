@@ -68,7 +68,7 @@ export const registerUserByForm = async (user: userRegType) => {
 
         console.log(`[upsert Role] updateRoleById`, createUser)
 
-        if (createUser) return { status: 200 }
+        if (createUser) return { message: "Success", status: 200 }
         else throw new Error("Error in register new user")
     } catch (error) {
         console.log("Error occured ", error)

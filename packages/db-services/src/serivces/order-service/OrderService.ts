@@ -1,11 +1,16 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Order from "../../database/models/order/Order"
-import orderModal from "../../database/models/order/Order"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
-import { getOperator } from "../auth-service/authService"
+import { getOperator, getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
 import { multiSelectFilterField } from "../../../../admin-components/src/filter/utils"
-import { FilterOrdersParam, getParsedQuery } from "../utils"
+import {
+    FilterOrdersParam,
+    QueryOperatior,
+    getParsedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
+import { Types } from "mongoose"
 
 type createOrderType = {
     site: string
@@ -35,7 +40,10 @@ export const createOrder = async (f: createOrderType) => {
     try {
         await connectMongoDB()
 
-        const func = new orderModal({
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
+
+        const newDocument = {
             description,
             orderStatus,
             paymentStatus,
@@ -45,10 +53,25 @@ export const createOrder = async (f: createOrderType) => {
             pickUp,
             orderAddress,
             site
-        })
+        }
 
-        await func.save()
-        return { message: "Success", status: 200 }
+        const create = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: name ?? "SYSTEM",
+                id: operatorId,
+                historyData: {
+                    method: "createOrder",
+                    event: "Register New Order"
+                }
+            },
+            Order,
+            { _id: new Types.ObjectId() },
+            newDocument
+        )
+
+        if (create) return { message: "Success", status: 200 }
+        else throw new Error("Error in Register New Order")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Fail", status: 500 }

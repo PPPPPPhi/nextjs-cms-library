@@ -13,10 +13,10 @@ import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery,
     QueryOperatior,
-    useQueryOperatorFilter
+    useQueryOperatorFilter,
+    RoleFunctionUpdateType
 } from "../utils"
 import {
-    RoleFunctionUpdateType,
     UserRoleUpdateType,
     getUpdateUserRoleWithHistory
 } from "./roleServiceUtils"

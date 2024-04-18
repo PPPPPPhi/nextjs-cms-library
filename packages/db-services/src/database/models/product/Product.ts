@@ -9,7 +9,8 @@ const productSchema = new mongoose.Schema<IProduct, ProductModal, {}>(
         product: String,
         amount: String,
         stock: String,
-        photo: String
+        photo: String,
+        site: String
     },
     {
         timestamps: true

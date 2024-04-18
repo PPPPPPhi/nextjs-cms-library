@@ -1,5 +1,4 @@
 export type orderType = {
-    _id: string
     description: string
     createdAt: Date
     updatedAt: Date
