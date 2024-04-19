@@ -1,7 +1,5 @@
 import mongoose, { Model } from "mongoose"
 import _ from "lodash"
-import { Types } from "mongoose"
-
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 import { historySchemaType } from "../types"
 
@@ -17,12 +15,15 @@ export type userSessionType = {
 
 export type UserRoleUpdateType = {
     userId: string
-    roleId: string
+    roleId: string[]
 }
 
 export type RoleFunctionUpdateType = {
-    roleId: string[]
-    functionId: string[]
+    roleId: string
+    roleName: string
+    description: string
+    sites: string
+    functionId: string
 }
 
 export const multiSelectFilterField = ["orderStatus", "paymentStatus"]
