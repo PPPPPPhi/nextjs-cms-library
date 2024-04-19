@@ -1,10 +1,16 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Image from "../../database/models/image/Image"
-import { getOperator } from "../auth-service/authService"
+import { getOperator, getOperatorInfo } from "../auth-service/authService"
 import { ObjectId } from "mongoose"
+import {
+    QueryOperatior,
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
+import { Types } from "mongoose"
 
 type imageType = {
-    site: string
+    siteSlug: string
     fileName: string
     fileSize: number
     width: number
@@ -12,11 +18,32 @@ type imageType = {
     fileExtension: string
 }
 
-export const getImagesBySite = async (site: string) => {
+export const getImagesBySite = async (siteSlug: string) => {
     try {
         await connectMongoDB()
         //@ts-ignore
-        const images = await Image.find({ site })
+        // const images = await Image.find({ site })
+
+        const images = await getProjectedQuery(
+            Image,
+            { siteSlug },
+            [],
+            [
+                "_id",
+                "siteSlug",
+                "relativePath",
+                "isArchived",
+                "name",
+                "width",
+                "height",
+                "size",
+                "description",
+                "extension",
+                "createdBy",
+                "updatedBy"
+            ],
+            []
+        )
 
         if (images) return images
         else return []
@@ -27,14 +54,15 @@ export const getImagesBySite = async (site: string) => {
 }
 
 export const saveImageBySite = async (image: imageType) => {
-    const { site, fileName, fileSize, width, height, fileExtension } = image
+    const { siteSlug, fileName, fileSize, width, height, fileExtension } = image
 
     try {
         await connectMongoDB()
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
-        const image = new Image({
-            site,
+        const newDocument = {
+            siteSlug,
             relativePath: `/${fileName}`,
             isArchived: false,
             name: fileName,
@@ -45,10 +73,25 @@ export const saveImageBySite = async (image: imageType) => {
             extension: fileExtension,
             createdBy: operator,
             updatedBy: operator
-        })
+        }
 
-        await image.save()
-        return { message: "Success", status: 200 }
+        const createImage = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operatorName,
+                id: operatorId,
+                historyData: {
+                    method: "registerUserByForm",
+                    event: "Register New User"
+                }
+            },
+            Image,
+            { _id: new Types.ObjectId() },
+            newDocument
+        )
+
+        if (createImage) return { status: 200 }
+        else throw new Error("Error in register new user")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Failed", status: 500 }
@@ -60,9 +103,31 @@ export const getImagesById = async (id: string) => {
         await connectMongoDB()
         console.log(`[getImagesById] images`, id)
         //@ts-ignore
-        const images = await Image.find({ _id: id })
+        const parseId = new Types.ObjectId(id)
+
+        const images = await getProjectedQuery(
+            Image,
+            { _id: parseId },
+            [],
+            [
+                "_id",
+                "siteSlug",
+                "relativePath",
+                "isArchived",
+                "name",
+                "width",
+                "height",
+                "size",
+                "description",
+                "extension",
+                "createdBy",
+                "updatedBy"
+            ],
+            []
+        )
+
         console.log(`[getImagesById] images`, images)
-        if (images) return images
+        if (images?.[0]?._id) return images[0]
         else return []
     } catch (e) {
         console.log("Error in Getting Image", e)

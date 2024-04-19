@@ -7,11 +7,8 @@ import Site from "../../database/models/site/Site"
 import SiteSetting from "../../database/models/site-setting/SiteSetting"
 import Page from "../../database/models/page/Page"
 import Publication from "../../database/models/publication/Publication"
-import {
-    getOperator,
-    getOperatorId,
-    getOperatorInfo
-} from "../auth-service/authService"
+import { Marginal, Navigation } from "../.."
+import { getOperatorInfo } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { Model, Types } from "mongoose"
 import { getProjectedQuery, userSessionType } from "../utils"
@@ -42,7 +39,7 @@ const insertAuditLog = (
 
             const userId = userName ?? id ?? operatorId
 
-            console.log(`[audit] ${ns?.coll} ${operationType}`, event)
+            // console.log(`[audit] ${ns?.coll} ${operationType}`, event)
 
             Audit.insertMany([
                 {
@@ -62,7 +59,7 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
         const operator = await getOperatorInfo()
         const { id: operatorId } = operator
 
-        console.log(`[audit] init watch `, JSON.stringify(operator), operatorId)
+        // console.log(`[audit] init watch `, JSON.stringify(operator), operatorId)
 
         insertAuditLog(Role, { operatorId })
         insertAuditLog(User, { operatorId })
@@ -71,11 +68,13 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
         insertAuditLog(SiteSetting, { operatorId })
         insertAuditLog(Page, { operatorId })
         insertAuditLog(Publication, { operatorId })
+        insertAuditLog(Marginal, { operatorId })
+        insertAuditLog(Navigation, { operatorId })
 
         return { status: 200 }
     } catch (err) {
-        console.log("Error occured ", err)
-        return { message: "Failed", status: 500 }
+        // console.log("Error occured ", err)
+        // return { message: "Failed", status: 500 }
     }
 }
 

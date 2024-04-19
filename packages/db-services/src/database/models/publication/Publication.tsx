@@ -16,7 +16,7 @@ const publicationSchema = new mongoose.Schema<
         language: String,
         pageId: String,
         pageVersion: String,
-        siteSlug: String,
+        site: String,
         slug: String,
         status: Number,
         pagePageJson: String,

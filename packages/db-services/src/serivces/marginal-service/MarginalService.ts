@@ -1,6 +1,12 @@
+import { Navigation, NavigationService } from "../.."
 import connectMongoDB from "../../database/connectMongoDB"
 import Marginal from "../../database/models/marginal/Marginal"
-import { getOperator } from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
+import {
+    QueryOperatior,
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
 
 type marginalFooterType = {
     footerHtml: string
@@ -20,8 +26,21 @@ type marginalNavType = {
 export const getMarginal = async (site: string, type: string, lang: string) => {
     try {
         await connectMongoDB()
-        const marginals = await Marginal.findOne({ site, type, language: lang })
 
+        const marginals = await getProjectedQuery(
+            Marginal,
+            { site, type, language: lang },
+            [],
+            [
+                "_id",
+                "site",
+                "type",
+                "propertie",
+                "language",
+                "createdBy",
+                "updatedBy"
+            ]
+        )
         return {
             message: "Success",
             status: 200,
@@ -41,7 +60,8 @@ export const createMarginal = async (
     try {
         await connectMongoDB()
 
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const marginal = new Marginal({
             site,
@@ -49,8 +69,8 @@ export const createMarginal = async (
             properties: {
                 ...properties
             },
-            createdBy: operator,
-            updatedBy: operator
+            createdBy: operatorName,
+            updatedBy: operatorName
         })
 
         await marginal.save()
@@ -70,15 +90,37 @@ export const saveMarginal = async (
     try {
         await connectMongoDB()
 
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+
+        const marginalProp = {
+            ...properties
+        }
+
+        console.log(`[marginal] save`, marginalProp, properties)
+
         const marginal = await Marginal.findOneAndUpdate(
             { site, type, language },
             {
-                properties: { ...properties },
-                updatedBy: operator
+                $set: {
+                    properties: marginalProp,
+                    updatedBy: operatorName
+                }
             },
-            { upsert: true }
+            { new: true, upsert: true }
         )
+
+        console.log(`[marginal] save`, marginal, properties)
+
+        if (type == "nav") {
+            const { navJson } = properties as marginalNavType
+
+            await NavigationService.createNavtion({
+                site,
+                language,
+                navJson: JSON.stringify(navJson)
+            })
+        }
 
         return { message: "Success", status: 200 }
     } catch (error) {

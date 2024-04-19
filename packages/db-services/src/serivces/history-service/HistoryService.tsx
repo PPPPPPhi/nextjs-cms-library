@@ -1,5 +1,5 @@
 import connectMongoDB from "../../database/connectMongoDB"
-import { getOperator, getOperatorId } from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
 
 import { Model } from "mongoose"
 import * as _ from "lodash"
@@ -47,8 +47,8 @@ export const publicateSchema = async (
     publication?: any
 ) => {
     try {
-        const operator = await getOperator()
-        const operatorId = await getOperatorId()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const historyRecord = {
             __history: {
@@ -64,8 +64,8 @@ export const publicateSchema = async (
         if (!publication) {
             const newPublication = new Model({
                 ...source,
-                createdBy: operator,
-                updatedBy: operator,
+                createdBy: operatorName,
+                updatedBy: operatorName,
                 __history: historyRecord.__history
             })
             await newPublication.save()
