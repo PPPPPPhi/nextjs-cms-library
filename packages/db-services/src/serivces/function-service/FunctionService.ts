@@ -96,7 +96,7 @@ export const getFunctionsById = async (functionIds: string[]) => {
 
         const functions = await getProjectedQuery(
             Function,
-            { functionIds: { $in: functionIds } },
+            { functionId: { $in: functionIds } },
             [],
             [
                 "_id",
