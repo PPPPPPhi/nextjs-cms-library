@@ -18,7 +18,10 @@ import { AdminTablePagination } from "./components/AdminTablePagination"
 import { getCsvBlob } from "tanstack-table-export-to-csv"
 import FileSaver from "file-saver"
 import { AdminCard } from "../core/AdminCard"
-import { ACTION_TYPE } from "@nextjs-cms-library/role-management/index"
+import {
+    ACTION_TYPE,
+    VIEW_TYPE
+} from "@nextjs-cms-library/role-management/index"
 
 interface AdminTableInterface {
     data: any[]
@@ -28,7 +31,7 @@ interface AdminTableInterface {
     isCompatible?: boolean
     isSubComponent?: boolean
     zebra?: boolean
-    exportAuthCode?: keyof ACTION_TYPE
+    exportAuthCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
 export const AdminTable: React.FC<AdminTableInterface> = ({
@@ -139,6 +142,7 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
             <div className="overflow-auto mb-3" style={{ minHeight: 400 }}>
                 <table className="shadow w-100 overflow-auto">
                     <thead
+                        className="s-section-primary"
                         style={{
                             position: "sticky",
                             top: 0,

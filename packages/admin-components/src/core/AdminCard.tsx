@@ -1,7 +1,7 @@
 import { NextImageApdator } from "@nextjs-cms-library/ui/index"
 import { AdminButton } from "./AdminButton"
 import { useMemo } from "react"
-import { ACTION_TYPE } from "@nextjs-cms-library/role-management/index"
+import { ACTION_TYPE, VIEW_TYPE } from "@nextjs-cms-library/role-management/index"
 interface AdminCardInterface {
     cardsRef: CardType[]
 }
@@ -18,7 +18,7 @@ type CardType = {
     actionLabel: string
     desc: string
     isFull?: boolean
-    authCode?: keyof ACTION_TYPE
+    authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
 const Card: React.FC<CardType> = ({

@@ -47,6 +47,7 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                         header: "Slug",
                         cellType: "edit",
                         isExpandable: true,
+                        enableResize: true,
                         action: (data) => {
                             const { _id } = data
                             if (_id) {
@@ -65,7 +66,8 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                     {
                         accessorKey: "name",
                         header: "Name",
-                        cellType: "cell"
+                        cellType: "cell",
+                        enableResize: true
                     },
                     {
                         accessorKey: "createdBy",

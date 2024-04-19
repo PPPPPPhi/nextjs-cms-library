@@ -1,13 +1,14 @@
 import { useCallback } from "react"
 import {
     ACTION_TYPE,
+    VIEW_TYPE,
     useActionAuthorizationHook
 } from "@nextjs-cms-library/role-management/index"
 
 interface AdminIconButtonInterface {
     icon: React.ReactNode
     onActionClick: () => void
-    authCode?: keyof ACTION_TYPE
+    authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
 export const AdminIconButton: React.FC<AdminIconButtonInterface> = ({

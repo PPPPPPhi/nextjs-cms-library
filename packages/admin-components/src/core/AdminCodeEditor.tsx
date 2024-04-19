@@ -2,7 +2,8 @@ import Editor from "@monaco-editor/react"
 import { useRef, useState, useEffect } from "react"
 import {
     useActionAuthorizationHook,
-    ACTION_TYPE
+    ACTION_TYPE,
+    VIEW_TYPE
 } from "@nextjs-cms-library/role-management/index"
 import { HiOutlineFaceFrown } from "react-icons/hi2"
 
@@ -11,7 +12,7 @@ interface AdminCodeEditorInterface {
     onCodeChange: (v: string) => void
     mode: string
     width?: string
-    authCode?: keyof ACTION_TYPE
+    authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
 const NotAuthorizedFooterContainer: React.FC<{}> = ({}) => {

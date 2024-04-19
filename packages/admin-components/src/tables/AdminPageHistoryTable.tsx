@@ -42,8 +42,10 @@ export const AdminPageHistoryTable: React.FC<
                         headerIcon: <HiEye />,
                         size: 100,
                         action: (data) => {
-                            const { _id, version} = data
-                             router.push(`/admin/${site}/pages/${_id}/${version}`)
+                            const { _id, version } = data
+                            router.push(
+                                `/admin/${site}/pages/${_id}/${version}`
+                            )
                         }
                     },
                     {
@@ -51,6 +53,7 @@ export const AdminPageHistoryTable: React.FC<
                         header: "Slug",
                         cellType: "edit",
                         isExpandable: true,
+                        enableResize: true,
                         action: (data) => {
                             // const { _id } = data
                             // if (_id) router.push(`pages/${_id}`)
@@ -72,7 +75,8 @@ export const AdminPageHistoryTable: React.FC<
                     {
                         accessorKey: "name",
                         header: "Name",
-                        cellType: "cell"
+                        cellType: "cell",
+                        enableResize: true
                     },
                     {
                         accessorKey: "event",

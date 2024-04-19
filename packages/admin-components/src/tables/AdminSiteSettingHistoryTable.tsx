@@ -26,6 +26,7 @@ export const AdminSiteSettingHistoryTable: React.FC<
                 data={data ?? []}
                 pinColumns={["_id", "slug", "language", "version"]}
                 isCompatible={isCompatible}
+                exportAuthCode="VIEW_SITE_SETTING_HISTORY"
                 isSubComponent
                 compareField="properties"
                 columnDefs={[
@@ -34,10 +35,13 @@ export const AdminSiteSettingHistoryTable: React.FC<
                         header: "",
                         cellType: "action",
                         headerIcon: <HiEye />,
+                        authCode: "VIEW_SITE_SETTING_VERSION",
                         size: 180,
                         action: (data) => {
                             const { version } = data
-                            router.push(`/admin/${site}/site-setting/${version}`)
+                            router.push(
+                                `/admin/${site}/site-setting/${version}`
+                            )
                         }
                     },
                     {
@@ -76,6 +80,7 @@ export const AdminSiteSettingHistoryTable: React.FC<
                         header: "",
                         cellType: "action",
                         actionTitle: "Publish",
+                        authCode: "PUBLISH_SITE_SETTING",
                         size: 180,
                         action: (data) => {
                             publishSiteSetting(data)

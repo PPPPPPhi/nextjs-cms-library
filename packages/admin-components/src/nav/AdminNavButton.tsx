@@ -1,6 +1,7 @@
 import { useCallback } from "react"
 import {
     ACTION_TYPE,
+    VIEW_TYPE,
     useActionAuthorizationHook
 } from "@nextjs-cms-library/role-management/index"
 
@@ -9,7 +10,7 @@ interface AdminCircularButtonInterface {
     label: string
     disabled: boolean
     onNavClick: () => void
-    authCode?: keyof ACTION_TYPE
+    authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
 export const AdminNavButton: React.FC<AdminCircularButtonInterface> = ({

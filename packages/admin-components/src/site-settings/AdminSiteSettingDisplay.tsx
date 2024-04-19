@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { AdminTextInput } from "../input"
 import { AdminButton } from "../core"
 import { useParams } from "next/navigation"
+import { useActionAuthorizationHook } from "@nextjs-cms-library/role-management/index"
 
 interface AdminSiteSettingDisplayInterface {
     label: string
@@ -43,9 +44,11 @@ export const AdminSiteSettingDisplay: React.FC<
     const [isLangOption, setIsLangOption] = useState(false)
     const [isCMSLang, setIsCMSLang] = useState(false)
 
-    const { version } = useParams();
+    const { isAuthorized } = useActionAuthorizationHook("EDIT_SITE_SETTING")
+
+    const { version } = useParams()
     // @ts-ignore
-    const isFromHistory = version === 0 || !!version;
+    const isFromHistory = version === 0 || !!version
     useEffect(() => {
         if (settingKey === "cms_language") setIsCMSLang(true)
         else if (value) setIsLangOption(typeof value === "object")
@@ -67,15 +70,17 @@ export const AdminSiteSettingDisplay: React.FC<
                         ))}
                         <div style={{ flex: 1 }} />
 
-                        {
-                            !isFromHistory?
-                                (<AdminButton
-                                    onClick={() => {
-                                        createNewLanguage()
-                                    }}
-                                    label="Create New Language"
-                                />): <></>
-                        }
+                        {!isFromHistory ? (
+                            <AdminButton
+                                onClick={() => {
+                                    createNewLanguage()
+                                }}
+                                label="Create New Language"
+                                authCode="CREATE_SITE_SETTING"
+                            />
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 )}
                 {isLangOption &&
@@ -86,6 +91,7 @@ export const AdminSiteSettingDisplay: React.FC<
                             key={`setting_child_${idx}`}>
                             <LanguageBadge lang={l} />
                             <AdminTextInput
+                                disabled={!isAuthorized}
                                 onChange={(v) => {
                                     updateHandler(settingKey, v, l)
                                 }}
@@ -102,6 +108,7 @@ export const AdminSiteSettingDisplay: React.FC<
                     ))}
                 {!isLangOption && !isCMSLang && (
                     <AdminTextInput
+                        disabled={!isAuthorized}
                         onChange={(v) => {
                             updateHandler(settingKey, v as string)
                         }}

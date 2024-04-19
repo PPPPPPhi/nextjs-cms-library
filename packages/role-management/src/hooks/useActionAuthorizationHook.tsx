@@ -2,10 +2,12 @@
 
 import { useMemo } from "react"
 import { getActionAuthorization } from "../maps/RoleFunctionMaps"
-import { ACTION_TYPE } from "../constants/Functions"
+import { ACTION_TYPE, VIEW_TYPE } from "../constants/Functions"
 import { useAdminAuthorizationContext } from "../contexts"
 
-const useActionAuthorization = (action?: keyof ACTION_TYPE) => {
+const useActionAuthorization = (
+    action?: keyof ACTION_TYPE | keyof VIEW_TYPE
+) => {
     const { role, roleList } = useAdminAuthorizationContext()
 
     const userFunctionsList = useMemo(() => {

@@ -2,6 +2,7 @@ import { useCallback } from "react"
 import styles from "../../AdminControl.module.scss"
 import {
     ACTION_TYPE,
+    VIEW_TYPE,
     useActionAuthorizationHook
 } from "@nextjs-cms-library/role-management/index"
 
@@ -11,7 +12,7 @@ interface RowCellInterface {
     icon?: React.ReactNode
     customWidth?: number
     inverseStyle?: boolean
-    authCode?: keyof ACTION_TYPE
+    authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
 export const AdminTableActionButton: React.FC<RowCellInterface> = ({

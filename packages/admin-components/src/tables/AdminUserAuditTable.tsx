@@ -16,6 +16,8 @@ type AuditProfileType = {
 export const AdminUserAuditTable: React.FC<AdminUserAuditTableInterface> = ({
     data
 }) => {
+    console.log("datadata", data)
+
     return (
         <div className="d-flex w-100 overflow-auto">
             <AdminTable
@@ -23,21 +25,22 @@ export const AdminUserAuditTable: React.FC<AdminUserAuditTableInterface> = ({
                 pinColumns={[]}
                 columnDefs={[
                     {
-                        accessorKey: "createdAt",
+                        accessorKey: "updatedAt",
                         header: "Action Time",
                         cellType: "date",
                         size: 200
                     },
                     {
-                        accessorKey: "action",
-                        header: "Action",
-                        cellType: "cell"
+                        accessorKey: "category",
+                        header: "Category",
+                        cellType: "cell",
+                        size: 150
                     },
                     {
-                        accessorKey: "description",
-                        header: "Description",
+                        accessorKey: "action",
+                        header: "Action",
                         cellType: "cell",
-                        size: 360
+                        enableResize: true
                     }
                 ]}
             />

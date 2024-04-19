@@ -1,4 +1,7 @@
-import { ACTION_TYPE } from "@nextjs-cms-library/role-management/index"
+import {
+    ACTION_TYPE,
+    VIEW_TYPE
+} from "@nextjs-cms-library/role-management/index"
 
 export type cellComponentType =
     | "badge"
@@ -14,7 +17,7 @@ export type cellComponentType =
 export type columnDefsType = {
     accessorKey: string
     header: string
-    authCode?: keyof ACTION_TYPE
+    authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
     actionInverseTitle?: string
     badgeRef?: any
     badgeTitle?: any
@@ -32,4 +35,5 @@ export type columnDefsType = {
     customStyle?: React.CSSProperties
     isDisabled?: boolean
     isActivate?: boolean
+    enableResize?: true
 }

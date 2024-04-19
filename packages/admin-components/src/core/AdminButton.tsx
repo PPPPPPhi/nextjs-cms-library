@@ -1,6 +1,7 @@
 import {
     ACTION_TYPE,
-    useActionAuthorizationHook
+    useActionAuthorizationHook,
+    VIEW_TYPE
 } from "@nextjs-cms-library/role-management/index"
 import styles from "../AdminControl.module.scss"
 import { CSSProperties } from "react"
@@ -11,14 +12,16 @@ interface AdminButtonInterface {
     inverseStyle?: boolean
     disabled?: boolean
     style?: CSSProperties
-    authCode?: keyof ACTION_TYPE
+    authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
 export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
     const { label, onClick, Icon, disabled, style, inverseStyle, authCode } =
         buttonProps
 
-    const { isAuthorized } = useActionAuthorizationHook(authCode)
+    const { isAuthorized } = useActionAuthorizationHook(
+        authCode ?? "AVAILABLE_CODE"
+    )
     const isDisabled = disabled || !isAuthorized
 
     return (

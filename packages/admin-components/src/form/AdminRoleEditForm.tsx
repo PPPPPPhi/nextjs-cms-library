@@ -103,7 +103,7 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
     }, [inputs])
 
     return (
-        <div className="d-flex flex-column space-y-6 s-section-quaternary p-2">
+        <div className="d-flex flex-column space-y-6 s-section-primary p-2">
             <AdminTextInput
                 label="Name"
                 defaultValue={roleName}

@@ -21,6 +21,8 @@ export const getCommonPinningStyles = (
     type: "th" | "td",
     zebra = false
 ): CSSProperties => {
+    console.log("columnnnnnn", column)
+
     const isPinned = column.getIsPinned()
     const isLastLeftPinnedColumn =
         isPinned === "left" && column.getIsLastColumn("left")
@@ -31,7 +33,8 @@ export const getCommonPinningStyles = (
         left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
         opacity: isPinned ? 1 : 1,
         position: isPinned ? "sticky" : "relative",
-        width: column.getSize() ?? "auto",
+        width: column.columnDef.enableResizing ? "auto" : column.getSize(),
+        minWidth: 100,
         zIndex: isPinned ? 10 : 0,
         padding: 0,
         minHeight: 35,
@@ -216,7 +219,9 @@ export const getColumnDefinition = (
     const columns = columnDefs.map((k) => {
         return {
             accessorKey: k.accessorKey,
-            header: () => <AdminTableHeaderCell label={k.header} />,
+            header: () => (
+                <AdminTableHeaderCell label={k.header} customWidth={k.size} />
+            ),
             cell: (r: CellContext<any, any>) => {
                 const { row, getValue } = r
                 const original = row.original ?? {}
@@ -330,7 +335,10 @@ export const getColumnDefinition = (
                     </>
                 )
             },
-            size: k.size ?? undefined
+            size: k.size ?? undefined,
+            enableResizing: k.enableResize,
+            minWidth: k.size ?? "none",
+            maxWidth: k.size ?? "none"
         }
     })
 
