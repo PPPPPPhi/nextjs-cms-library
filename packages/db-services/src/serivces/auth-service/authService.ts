@@ -2,6 +2,7 @@ import { Types, ObjectId } from "mongoose"
 import connectMongoDB from "../../database/connectMongoDB"
 import User from "../..//database/models/user/User"
 import Role from "../../database/models/role/Role"
+import Audit from "../../database/models/audit/Audit"
 import Function from "../../database/models/function/Function"
 import { getServerAuthSession } from "./auth"
 import { ErrorCode } from "../../constants/"
@@ -12,6 +13,7 @@ import {
     getProjectedQuery
 } from "../utils"
 import { forkJoin, switchMap, firstValueFrom, of } from "rxjs"
+import { v4 as uuidv4 } from "uuid"
 
 type userType = {
     userName: string
@@ -32,8 +34,8 @@ export const authenticateUser = async (account: string, password: string) => {
             console.log("sdadas", user)
 
             const { userName, _id, firstName, lastName, email } = user
-            if (isValid)
-                return {
+            if (isValid) {
+                const userDoc = {
                     id: _id,
                     userId: _id,
                     userName,
@@ -41,7 +43,19 @@ export const authenticateUser = async (account: string, password: string) => {
                     lastName,
                     email
                 }
-            else throw new Error(ErrorCode.PASSWORD_NOT_MATCH)
+                await Audit.insertMany([
+                    {
+                        dataId: uuidv4(),
+                        // @ts-ignore
+                        user: _id,
+                        category: "users",
+                        action: `users login`,
+                        details: userDoc
+                    }
+                ])
+
+                return userDoc
+            } else throw new Error(ErrorCode.PASSWORD_NOT_MATCH)
         } else throw new Error(ErrorCode.USER_NOT_FOUND)
     } catch (e) {
         console.log("Error in Authenication", e)
@@ -149,4 +163,29 @@ export const getOperatorInfo = async (): Promise<OperatorInfoType> => {
     const { userName, email, image, _id } = userInfo[0]
     // @ts-ignore
     return { name: userName, email, image, id: _id }
+}
+
+export const updateUserLogout = async () => {
+    try {
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name } = operator
+
+        console.log(`[user] logout`, operatorId)
+
+        await Audit.insertMany([
+            {
+                dataId: uuidv4(),
+                // @ts-ignore
+                user: operatorId,
+                category: "users",
+                action: `users logout`,
+                details: {}
+            }
+        ])
+
+        return { message: "Success", status: 200 }
+    } catch (err) {
+        console.log(`Error occur:`, err)
+        return { message: "Failed", status: 500 }
+    }
 }
