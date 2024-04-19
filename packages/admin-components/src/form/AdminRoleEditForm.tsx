@@ -72,7 +72,7 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
     const handleSiteChange = (name: string) => {
         let editList = []
 
-        if (inputs.sites === "*") editList = sites.map((l) => l.name)
+        if (inputs.sites.includes("*")) editList = sites.map((l) => l.name)
         else editList = [...(inputs.sites as string[])]
 
         const editListIdx = editList.findIndex((l) => l === name)
@@ -80,7 +80,7 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
         else editList.push(name)
         setInput((v) => ({
             ...(v as roleType),
-            sites: editList.length === sites.length ? "*" : editList
+            sites: editList.length === sites.length ? ["*"] : editList
         }))
     }
 
@@ -169,7 +169,7 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
                                             }
                                             onChange={(v) => {
                                                 console.log("kkkkk", k)
-                                                // handleFunctionChange(k._id, v)
+                                                handleFunctionChange(k._id, v)
                                             }}
                                         />
                                     </div>
