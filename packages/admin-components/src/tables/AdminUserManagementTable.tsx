@@ -2,26 +2,27 @@ import { AdminTable } from "@nextjs-cms-library/admin-components/index"
 import { useParams, useRouter } from "next/navigation"
 
 import { userType, roleType } from "@nextjs-cms-library/db-services/index"
-import { HiEye, HiPencil } from "react-icons/hi"
+import { HiEye, HiPencil, HiUsers } from "react-icons/hi"
 
 interface AdminUserManagementTableInterface {
     data: userRowType[]
     updateActivationStatus: (d: userRowType) => void
     editUser: (d: userRowType) => void
+    assignRole: (d: userRowType) => void
 }
 
 export type userRowType = userType & { roleItem: roleType[] }
 
 export const AdminUserManagementTable: React.FC<
     AdminUserManagementTableInterface
-> = ({ data, updateActivationStatus, editUser }) => {
+> = ({ data, updateActivationStatus, editUser, assignRole }) => {
     const router = useRouter()
 
     return (
         <div className="d-flex w-100 overflow-auto">
             <AdminTable
                 data={data ?? []}
-                pinColumns={["_id", "_idx", "_activate"]}
+                pinColumns={["_id", "_idx", "_idxx", "_activate"]}
                 exportAuthCode="USER_VIEW_ROLE"
                 columnDefs={[
                     {
@@ -46,8 +47,19 @@ export const AdminUserManagementTable: React.FC<
                         size: 100,
                         authCode: "EDIT_OTHER_USER",
                         action: (data) => {
-                            const { _id } = data
-                            editUser(_id)
+                            editUser(data)
+                        }
+                    },
+                    {
+                        accessorKey: "_idxx",
+                        header: "",
+                        cellType: "action",
+                        actionTitle: "",
+                        headerIcon: <HiUsers />,
+                        size: 100,
+                        authCode: "EDIT_OTHER_USER",
+                        action: (data) => {
+                            assignRole(data)
                         }
                     },
                     {
@@ -66,7 +78,8 @@ export const AdminUserManagementTable: React.FC<
                     {
                         accessorKey: "userName",
                         header: "User Name",
-                        cellType: "cell"
+                        cellType: "cell",
+                        enableResize: true
                     },
                     {
                         accessorKey: "firstName",

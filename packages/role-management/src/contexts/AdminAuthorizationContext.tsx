@@ -66,8 +66,6 @@ const AdminAuthorizationContextProvider: FC<AdminAuthorizationProps> = ({
     const [isAuthorizing, setIsAuthorizing] = useState<boolean>(false)
     const [roleFunctionList, setRoleFunctionList] = useState<string[]>([])
 
-    console.log("auth context", session, status)
-
     return (
         <AdminAuthorizationContext.Provider
             value={{

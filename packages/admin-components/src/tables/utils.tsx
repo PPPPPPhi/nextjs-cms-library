@@ -21,8 +21,6 @@ export const getCommonPinningStyles = (
     type: "th" | "td",
     zebra = false
 ): CSSProperties => {
-    console.log("columnnnnnn", column)
-
     const isPinned = column.getIsPinned()
     const isLastLeftPinnedColumn =
         isPinned === "left" && column.getIsLastColumn("left")
@@ -34,7 +32,7 @@ export const getCommonPinningStyles = (
         opacity: isPinned ? 1 : 1,
         position: isPinned ? "sticky" : "relative",
         width: column.columnDef.enableResizing ? "auto" : column.getSize(),
-        minWidth: 100,
+        minWidth: column.columnDef.enableResizing ? 120 : "none",
         zIndex: isPinned ? 10 : 0,
         padding: 0,
         minHeight: 35,

@@ -69,12 +69,14 @@ export const AdminProductPromotionTable: React.FC<
                         {
                             accessorKey: "startDate",
                             header: "startDate",
-                            cellType: "desc"
+                            cellType: "desc",
+                            enableResize: true
                         },
                         {
                             accessorKey: "endDate",
                             header: "endDate",
-                            cellType: "desc"
+                            cellType: "desc",
+                            enableResize: true
                         },
                         {
                             accessorKey: "items",

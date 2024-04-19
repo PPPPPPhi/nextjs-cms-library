@@ -59,12 +59,14 @@ export const AdminProductOrderTable: React.FC<
                         {
                             accessorKey: "createdAt",
                             header: "createdAt",
-                            cellType: "date"
+                            cellType: "date",
+                            enableResize: true
                         },
                         {
                             accessorKey: "updatedAt",
                             header: "updatedAt",
-                            cellType: "date"
+                            cellType: "date",
+                            enableResize: true
                         },
                         {
                             accessorKey: "orderStatus",

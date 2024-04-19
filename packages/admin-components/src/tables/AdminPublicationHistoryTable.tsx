@@ -80,7 +80,8 @@ export const AdminPublicationHistoryTable: React.FC<
                     {
                         accessorKey: "name",
                         header: "Name",
-                        cellType: "cell"
+                        cellType: "cell",
+                        enableResize: true
                     },
                     {
                         accessorKey: "event",

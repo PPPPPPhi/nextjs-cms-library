@@ -17,20 +17,21 @@ export const AdminUserRoleTable: React.FC<AdminUserRoleTableInterface> = ({
                     {
                         accessorKey: "roleName",
                         header: "Role Name",
-                        cellType: "cell"
+                        cellType: "cell",
+                        size: 250
                     },
                     {
                         accessorKey: "description",
                         header: "Description",
                         cellType: "cell",
-                        size: 360
+                        size: 250
                     },
                     {
                         accessorKey: "sites",
                         header: "Sites",
                         cellType: "badgeList",
                         customStyle: { background: "black", color: "white" },
-                        size: 250
+                        enableResize: true
                     }
                 ]}
             />

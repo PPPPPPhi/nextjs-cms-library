@@ -62,7 +62,8 @@ export const AdminProductListTable: React.FC<
                         {
                             accessorKey: "photo",
                             header: "photo",
-                            cellType: "photo"
+                            cellType: "photo",
+                            enableResize: true
                         },
                         {
                             accessorKey: "category",
@@ -73,12 +74,14 @@ export const AdminProductListTable: React.FC<
                         {
                             accessorKey: "product",
                             header: "product",
-                            cellType: "desc"
+                            cellType: "desc",
+                            enableResize: true
                         },
                         {
                             accessorKey: "amount",
                             header: "amount",
-                            cellType: "desc"
+                            cellType: "desc",
+                            enableResize: true
                         },
                         {
                             accessorKey: "stock",
