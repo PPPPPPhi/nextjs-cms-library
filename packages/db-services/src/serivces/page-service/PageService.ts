@@ -38,7 +38,7 @@ export const createPage = async (page: pageType) => {
             slug,
             description,
             language,
-            siteSlug: site,
+            site: site,
             pageJson: "{}",
             status: 1,
             updatedBy: operator,
@@ -103,7 +103,7 @@ export const updatePage = async (
 }
 
 export const cloneLanguagePage = async (
-    siteSlug: string,
+    site: string,
     slug: string,
     refLanguage: string,
     language: string
@@ -115,7 +115,7 @@ export const cloneLanguagePage = async (
         const { id: operatorId } = operator
 
         const page = await Page.findOne({
-            siteSlug,
+            site,
             slug,
             language: refLanguage
         })
@@ -127,7 +127,7 @@ export const cloneLanguagePage = async (
             slug,
             description,
             language,
-            siteSlug,
+            site,
             pageJson,
             status: 1,
             updatedBy: operator,
@@ -150,31 +150,28 @@ export const cloneLanguagePage = async (
     }
 }
 
-export const getPageList = async (siteSlug: string) => {
+export const getPageList = async (site: string) => {
     try {
         await connectMongoDB()
 
         const operator = await getOperator()
 
-        const siteSettingResp = await getSiteSettingByKey(
-            siteSlug,
-            "cms_language"
-        )
+        const siteSettingResp = await getSiteSettingByKey(site, "cms_language")
 
         const pageList = await getProjectedQuery(
             Page,
-            { siteSlug },
+            { site },
             [
                 {
                     $group: {
                         _id: "$slug",
-                        siteSlug: { $first: "$siteSlug" },
+                        site: { $first: "$site" },
                         slug: { $first: "$slug" },
                         details: { $push: "$$ROOT" }
                     }
                 }
             ],
-            ["site", "slug", "details"]
+            ["_id", "site", "slug", "details"]
         )
 
         const resp = await Promise.all([siteSettingResp, pageList])

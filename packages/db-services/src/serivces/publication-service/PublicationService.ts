@@ -41,8 +41,7 @@ export const publishPage = async (pageId: string, version?: string) => {
         if (page) {
             const { _doc, pageVersion } = page
 
-            const { name, slug, description, language, pageJson, siteSlug } =
-                _doc
+            const { name, slug, description, language, pageJson, site } = _doc
 
             console.log(
                 `[publish] page`,
@@ -59,7 +58,7 @@ export const publishPage = async (pageId: string, version?: string) => {
                     description,
                     language,
                     pagePageJson: pageJson,
-                    siteSlug,
+                    site,
                     createdBy: operator,
                     updatedBy: operator,
                     pageId,
@@ -107,17 +106,18 @@ export const getPublicationByPageId = async (pageId: string) => {
     }
 }
 
-export const getPublicationList = async (siteSlug: string) => {
+export const getPublicationList = async (site: string) => {
     try {
         await connectMongoDB()
 
-        const siteSettingResp = getSiteSettingByKey(siteSlug, "cms_language")
+        const siteSettingResp = getSiteSettingByKey(site, "cms_language")
         const publicationResp = Publication.aggregate([
-            { $match: { siteSlug } },
+            { $match: { site } },
             { $group: { _id: "$slug", details: { $push: "$$ROOT" } } }
         ])
 
         const resp = await Promise.all([siteSettingResp, publicationResp])
+        console.log(`[publication] resp`, resp, site)
 
         // @ts-ignore
         if (!resp[0] || resp[0].length === 0)
@@ -129,16 +129,16 @@ export const getPublicationList = async (siteSlug: string) => {
             details: {
                 id: string
                 slug: string
-                siteSlug: string
+                site: string
                 language: string
             }[]
         }[] = resp[1]
 
         const reformatted = publicationList.map((k) => {
-            const { siteSlug, slug } = k.details[0] ?? {}
+            const { site, slug } = k.details[0] ?? {}
 
             return {
-                siteSlug,
+                site,
                 slug,
                 details: languageList.map((l) => {
                     const page = k.details.find((m) => m.language === l)

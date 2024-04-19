@@ -19,7 +19,7 @@ export const initializeSiteSetting = async (site: string) => {
         const { id: operatorId, name: operatorName } = operator
 
         const newDocument = {
-            siteSlug: site,
+            site: site,
             properties: {
                 cms_language: {
                     name: "Website Language",
@@ -47,7 +47,7 @@ export const initializeSiteSetting = async (site: string) => {
                 }
             },
             SiteSetting,
-            { siteSlug: site },
+            { site: site },
             newDocument
         )
 
@@ -99,15 +99,15 @@ export const getSiteSetting = async (site: string, version?: string) => {
     }
 }
 
-export const getSiteSettingByKey = async (siteSlug: string, key: string) => {
+export const getSiteSettingByKey = async (site: string, key: string) => {
     try {
         await connectMongoDB()
 
-        console.log(`[siteSetting] by key`, siteSlug, key)
+        console.log(`[siteSetting] by key`, site, key)
 
         const setting = await getProjectedQuery(
             SiteSetting,
-            { siteSlug, [`properties.${key}`]: { $ne: null } },
+            { site, [`properties.${key}`]: { $ne: null } },
             [],
             [`properties.${key}`]
         )
@@ -156,10 +156,11 @@ export const updateSiteSetting = async (
 
 export const getSiteSettingHistory = async (site: string) => {
     try {
+        console.log(`[getSiteSettingHistory]`)
         const historyResp = await HistoryService.getSchemaHistory(SiteSetting, {
             site
         })
-
+        console.log(`[getSiteSettingHistory]`, historyResp)
         if (historyResp.status === 200) return historyResp
         else throw new Error("Error in getting site setting history")
     } catch (e) {

@@ -74,8 +74,8 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
 
         return { status: 200 }
     } catch (err) {
-        console.log("Error occured ", err)
-        return { message: "Failed", status: 500 }
+        // console.log("Error occured ", err)
+        // return { message: "Failed", status: 500 }
     }
 }
 

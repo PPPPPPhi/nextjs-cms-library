@@ -3,7 +3,7 @@ import { historySchemaType } from "../../../types"
 
 export type siteSettingType = {
     _id: string
-    siteSlug: string
+    site: string
     properties: {
         [key: string]: [value: any]
     }
@@ -14,7 +14,7 @@ export type siteSettingType = {
     _doc: any
 } & historySchemaType<{
     _id: string
-    siteSlug: string
+    site: string
     properties: {
         [key: string]: [value: any]
     }
