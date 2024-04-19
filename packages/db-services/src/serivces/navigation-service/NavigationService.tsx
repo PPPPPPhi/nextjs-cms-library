@@ -1,21 +1,31 @@
 import connectMongoDB from "../../database/connectMongoDB"
 import Navigation from "../../database/models/navigation/Navigation"
-import { getOperator } from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
+import {
+    QueryOperatior,
+    getProjectedQuery,
+    getUpsertSingleDocumentQuery
+} from "../utils"
+import { Types, Date } from "mongoose"
+import { firstValueFrom, forkJoin } from "rxjs"
 
 type navType = {
-    name: string
-    site: string
-    navJson: string
+    site: String
+    language: String
+    navJson: String
 }
 
-export const getNavigationList = async (site: string) => {
+export const getNavigationList = async (siteSlug: string) => {
     try {
         await connectMongoDB()
 
-        const siteSettingResp = await getSiteSettingByKey(site, "cms_language")
+        const siteSettingResp = await getSiteSettingByKey(
+            siteSlug,
+            "cms_language"
+        )
         const navResp = Navigation.aggregate([
-            { $match: { site } },
+            { $match: { siteSlug } },
             { $group: { _id: "$site", details: { $push: "$$ROOT" } } }
         ])
 
@@ -29,7 +39,7 @@ export const getNavigationList = async (site: string) => {
         //@ts-ignore
         const reformatted = navList.map((k) => {
             return {
-                site,
+                siteSlug,
                 details: languageList.map((l: string) => {
                     const nav = k.details.find(
                         (m: { language: string }) => m.language === l
@@ -38,7 +48,7 @@ export const getNavigationList = async (site: string) => {
                     else
                         return {
                             _id: 0,
-                            site,
+                            siteSlug,
                             language: l
                         }
                 })
@@ -54,23 +64,112 @@ export const getNavigationList = async (site: string) => {
 
 export const createNavtion = async (nav: navType) => {
     try {
-        const { name, site, navJson } = nav
+        const { site, language, navJson } = nav
 
         await connectMongoDB()
-        const operator = await getOperator()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
-        const navigation = new Navigation({
-            name,
-            navJson,
+        const newDocument = {
             site,
-            createdBy: operator,
-            createdAt: operator
-        })
+            language,
+            navJson,
+            createdBy: operatorName,
+            updatedBy: operatorName
+        }
 
-        await navigation.save()
-        return { message: "Success", status: 200 }
+        console.log(`[nav] new nav`, newDocument)
+
+        const createNav = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operatorName,
+                id: operatorId,
+                historyData: {
+                    method: "createNavigation",
+                    event: "Register New Navigation"
+                }
+            },
+            Navigation,
+            { _id: new Types.ObjectId() },
+            newDocument
+        )
+
+        if (createNav) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
     } catch (e) {
         console.log("Error in creating navigation", e)
+        return { message: "Fail", status: 500 }
+    }
+}
+
+type cloneNavType = {
+    lang: string
+    site: string
+}
+
+export const cloneNavigation = async (nav: cloneNavType) => {
+    try {
+        const { lang, site } = nav
+
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+
+        const siteLangList = await getSiteSettingByKey(site, "cms_language")
+
+        const currentNav = await getProjectedQuery(
+            Navigation,
+            { language: lang },
+            [],
+            ["siteSlug", "language", "navJson"]
+        )
+
+        if (!currentNav?.[0]) throw new Error("Error in clone navigation")
+        const foundNavJson = currentNav?.[0]?.navJson
+
+        const cloneLangList: any[] = []
+
+        console.log(`[cloneNavigation] navJson`, foundNavJson)
+
+        siteLangList?.value?.map((siteLang: string) => {
+            if (siteLang == lang) return
+
+            const newDocument = {
+                site: site,
+                navJson: foundNavJson,
+                language: siteLang,
+                createdBy: operatorName,
+                updatedBy: operatorName
+            }
+
+            const res = getUpsertSingleDocumentQuery(
+                QueryOperatior.SET,
+                {
+                    name: operatorName ?? "SYSTEM",
+                    id: operatorId,
+                    historyData: {
+                        method: "cloneNavigation",
+                        event: `Clone Nav from ${lang} to ${siteLang}`
+                    }
+                },
+                Navigation,
+                { _id: new Types.ObjectId() },
+                newDocument
+            )
+
+            cloneLangList.push(res)
+            return
+        })
+
+        const cloneNav = forkJoin(cloneLangList)
+        const cloneRes = await firstValueFrom(cloneNav)
+
+        console.log(`[nav] clone`, cloneRes)
+
+        if (cloneRes) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
+    } catch (e) {
+        console.log("Error in clone navigation", e)
         return { message: "Fail", status: 500 }
     }
 }
