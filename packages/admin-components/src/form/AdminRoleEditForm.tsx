@@ -135,7 +135,8 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
                                             key={`admin_check_box_input_${idx}`}
                                             inputLabel={
                                                 idx === 0
-                                                    ? FUNCTION_CATEGORIES[l] ??
+                                                    ? //@ts-ignore
+                                                      FUNCTION_CATEGORIES[l] ??
                                                       "Custom"
                                                     : null
                                             }

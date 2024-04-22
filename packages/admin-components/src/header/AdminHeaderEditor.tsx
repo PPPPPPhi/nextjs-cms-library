@@ -4,6 +4,7 @@ import { NextImageApdator } from "@nextjs-cms-library/ui/index"
 import { AdminImageGalleryModal } from "../image"
 import { useState, useEffect } from "react"
 import { AdminCard } from "../core"
+import { useRouter } from "next/navigation"
 
 interface AdminHeaderInterface {
     header: {
@@ -168,6 +169,7 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
 
     const [headerRatio, setHeaderRatio] = useState<string>("")
     const [mobileRatio, setMobileRatio] = useState<string>("")
+    const router = useRouter()
 
     useEffect(() => {
         if (header) {
@@ -183,6 +185,14 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
             <div className="d-flex w-100">
                 <AdminCard
                     cardsRef={[
+                        {
+                            actionLabel: "View History",
+                            desc: "View history of header",
+                            action: () => {
+                                router.push("./header/history")
+                            },
+                            authCode: "VIEW_FOOTER_SETTING_HISTORY"
+                        },
                         {
                             actionLabel: darkMode ? "Light Mode" : "Dark Mode",
                             desc: "Turn on light/dark mode to view different color of logo",

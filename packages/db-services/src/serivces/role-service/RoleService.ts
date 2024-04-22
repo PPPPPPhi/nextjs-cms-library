@@ -18,6 +18,7 @@ import {
 } from "../utils"
 import {
     UserRoleUpdateType,
+    UserRoleUpdateRequestType,
     getUpdateUserRoleWithHistory
 } from "./roleServiceUtils"
 import { AuditService, FunctionService } from ".."
@@ -244,13 +245,16 @@ export const updateAddRoleFunction = async (
 }
 
 // update roles.userIds & user.roles
-export const updateAddUserRole = async (userRole: UserRoleUpdateType) => {
+export const updateAddUserRole = async (
+    userRole: UserRoleUpdateRequestType | UserRoleUpdateType
+) => {
     try {
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
         const { userId, roleId } = userRole
 
+        //@ts-ignore
         const roleIds = JSON.parse(roleId)?.map(
             (l: string) => new Types.ObjectId(l)
         )

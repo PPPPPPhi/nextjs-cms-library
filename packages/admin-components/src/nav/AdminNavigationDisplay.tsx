@@ -1,12 +1,13 @@
 import { useRef, useState, useMemo, useEffect } from "react"
 import { AdminNavButton } from "./AdminNavButton"
 import { HiFolderAdd } from "react-icons/hi"
-import { AdminCreateNavItemForm } from "../form"
+import { AdminCreateNavItemForm, AdminLanguageSelectForm } from "../form"
 import * as _ from "lodash"
 import { AdminCard } from "../core"
 import { AdminNavigationItem } from "./AdminNavigationItem"
 import useNavigationOffsetHook from "./hooks/useNavigationOffsetHook"
 import { useAdminNavigationContext } from "./context/AdminNavigationContext"
+import { useRouter } from "next/navigation"
 const { useDrop } = require("react-dnd")
 
 export type naviagtionType = {
@@ -23,13 +24,17 @@ interface AdminNavigationDisplayInterface {
     navJson: naviagtionType[]
     saveNav: (n: naviagtionType[]) => void
     setModal: (details: any) => void
-    cloneNav: () => void
+    cloneNav: (targetLang: string) => void
+    lang: string
 }
 
 export const AdminNavigationDisplay: React.FC<
     AdminNavigationDisplayInterface
-> = ({ navJson, saveNav, setModal, cloneNav }) => {
+> = ({ navJson, saveNav, setModal, cloneNav, lang }) => {
     const formRef = useRef<any>()
+    const cloneFormRef = useRef<string>()
+
+    const router = useRouter()
 
     const [navigation, setNavigation] = useState<naviagtionType[]>(navJson)
     const {
@@ -257,6 +262,26 @@ export const AdminNavigationDisplay: React.FC<
         })
     }
 
+    const setCloneTargetLanguage = () => {
+        setModal({
+            title: "Clone Navigation",
+            content: (
+                <AdminLanguageSelectForm
+                    isExcludeSelf
+                    currentLang={lang}
+                    onFormValueChange={(v) => {
+                        cloneFormRef.current = v
+                    }}
+                />
+            ),
+            confirmCTAText: "Confirm",
+            confirmHandler: () => {
+                cloneNav(cloneFormRef.current as string)
+            },
+            cancelCTAText: "Cancel"
+        })
+    }
+
     const getNavItem = (refIdx: number[]) => {
         const navList = [...navigation]
         let navLevelItem: any = []
@@ -331,43 +356,53 @@ export const AdminNavigationDisplay: React.FC<
         else return false
     }, [osPosition, osIdRefList])
 
-    const cardsRef = useMemo(() => {
-        const navCard = [
-            {
-                actionLabel: "Move Position",
-                desc: "Move Position",
-                action: () => {
-                    setIsCollapsing(!isDraggable ? true : false)
-                    setIsDraggable(!isDraggable)
-                },
-                authCode: "EDIT_NAVIGATION"
-            },
-            {
-                actionLabel: "Show / Hide Setting",
-                desc: "Show/Hide setting for editing/viewing the navigation menu",
-                action: () => {
-                    setIsShowSetting(!isShowSetting)
-                }
-            },
-            {
-                actionLabel: "Save",
-                desc: "Save existing navigation to your site",
-                action: () => {
-                    saveNav(navigation)
-                },
-                authCode: "EDIT_NAVIGATION"
-            }
-        ]
-
-        if (navJson?.length) navCard.unshift()
-
-        return navCard
-    }, [navJson, navigation])
-
     return (
         <div className="d-flex flex-column w-100">
             <div className="d-flex pb-3">
-                <AdminCard cardsRef={cardsRef} />
+                <AdminCard
+                    cardsRef={[
+                        {
+                            actionLabel: "Clone",
+                            desc: "Clone navigation of current language to target language",
+                            action: () => {
+                                setCloneTargetLanguage()
+                            },
+                            authCode: "CLONE_NAVIGATION"
+                        },
+                        {
+                            actionLabel: "Move Position",
+                            desc: "Move Position",
+                            action: () => {
+                                setIsCollapsing(!isDraggable ? true : false)
+                                setIsDraggable(!isDraggable)
+                            },
+                            authCode: "EDIT_NAVIGATION"
+                        },
+                        {
+                            actionLabel: "Show / Hide Setting",
+                            desc: "Show/Hide setting for editing/viewing the navigation menu",
+                            action: () => {
+                                setIsShowSetting(!isShowSetting)
+                            }
+                        },
+                        {
+                            actionLabel: "Save",
+                            desc: "Save existing navigation to your site",
+                            action: () => {
+                                saveNav(navigation)
+                            },
+                            authCode: "EDIT_NAVIGATION"
+                        },
+                        {
+                            actionLabel: "View History",
+                            desc: "View history of navigation",
+                            action: () => {
+                                router.push("./navigations/history")
+                            },
+                            authCode: "VIEW_FOOTER_SETTING_HISTORY"
+                        }
+                    ]}
+                />
             </div>
             <AdminNavButton
                 icon={<HiFolderAdd />}

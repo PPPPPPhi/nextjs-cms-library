@@ -1,7 +1,8 @@
 import {
     PAGE_AUTHORIZATION_MAP,
     ACTION_AUTHORIZATION_MAP,
-    ACTION_TYPE
+    ACTION_TYPE,
+    VIEW_TYPE
 } from "../constants/Functions"
 
 export const pageAuthorizationMap: Map<string, number> = new Map([
@@ -62,6 +63,8 @@ export const getPageAuthorization = (pathname: string) => {
     return pageAuthorizationMap.get(pathname) ?? -99
 }
 
-export const getActionAuthorization = (action: keyof ACTION_TYPE) => {
+export const getActionAuthorization = (
+    action: keyof ACTION_TYPE | keyof VIEW_TYPE
+) => {
     return ACTION_AUTHORIZATION_MAP[action] ?? -99
 }

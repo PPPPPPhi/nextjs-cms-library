@@ -28,6 +28,7 @@ export const NextImageApdator: React.FC<
     return (
         <div className="w-100 h-100" style={{ display: "" }}>
             <div style={{ visibility: isError ? "hidden" : "visible" }}>
+                {/*@ts-ignore*/}
                 <Image
                     loader={imageLoader}
                     {...rest}
