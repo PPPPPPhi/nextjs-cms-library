@@ -68,7 +68,8 @@ export const AdminPublicationListTable: React.FC<
                     {
                         accessorKey: "name",
                         header: "Name",
-                        cellType: "cell"
+                        cellType: "cell",
+                        enableResize: true
                     },
                     {
                         accessorKey: "createdBy",
@@ -100,7 +101,8 @@ export const AdminPublicationListTable: React.FC<
                         cellType: "action",
                         action: (data) => {
                             updatePublicationStatus(data)
-                        }
+                        },
+                        enableResize: true
                     },
                     {
                         accessorKey: "_id",

@@ -7,11 +7,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { MultiSelect } from "react-multi-select-component"
 import { useState } from "react"
 
-import {
-    HiChevronDown,
-    HiChevronUp,
-    HiGlobeAsiaAustralia
-} from "react-icons/hi2"
+import { HiChevronDown, HiChevronUp } from "react-icons/hi2"
 import {
     MagnifyingGlassSvg,
     booleanDropDown,
@@ -21,14 +17,6 @@ import {
     getDropDownOptions,
     getParsedFilterValues
 } from "./utils"
-import {
-    HiArrowDown,
-    HiArrowUp,
-    HiOutlineArrowDown,
-    HiOutlineArrowNarrowDown,
-    HiOutlineArrowNarrowUp,
-    HiOutlineArrowUp
-} from "react-icons/hi"
 
 export type FilterSearchField = {
     field: string
@@ -93,36 +81,39 @@ export const AdminFilterPanel: React.FC<FilterPanelInterface> = ({
     return (
         <div className="shadow p-2 mb-4">
             <div
-                className="d-flex flex-row justify-content-between text-level-headline text-font-bold s-text-color-alpha p-3"
+                className="d-flex cursor-pointer flex-row align-itmes-center justify-content-between text-level-headline text-font-bold s-text-color-alpha p-2 s-section-primary rounded-2 "
                 onClick={() => setDisplay(!isDisplay)}>
-                <div className="d-flex flex-row">
+                <div className="d-flex flex-row align-items-center">
                     <span className="px-2">
-                        <MagnifyingGlassSvg width={32} height={32} />
+                        <MagnifyingGlassSvg width={24} height={24} />
                     </span>
-                    <span className="px-2">Search</span>
+                    <span className="px-2 text-level-headline text-font-bold">
+                        Search
+                    </span>
                 </div>
 
-                <div className="rounded border p-2">
+                <div className="rounded d-flex align-itmes-center p-2">
                     <div className={`${isDisplay ? "d-block" : "d-none"}`}>
-                        <HiArrowUp />
+                        <HiChevronUp width={24} height={24} />
                     </div>
                     <div className={`${!isDisplay ? "d-block" : "d-none"}`}>
-                        <HiArrowDown />
+                        <HiChevronDown width={24} height={24} />
                     </div>
                 </div>
             </div>
 
             <div className={`${isDisplay ? "d-block" : "d-none"}`}>
-                <div className={`s-select-area`}>
+                <div className="d-flex flex-wrap">
                     {searchFieldKeys &&
                         searchFieldKeys.map((search: string, index: number) => (
-                            <div className={`px-3 py-1 s-select-area`}>
-                                <div className="text-lg text-font-bold">
+                            <div className={`px-3 py-1 col-12 col-sm-6 d-flex`}>
+                                <div className="text-lg text-font-bold col-6">
                                     {searchFieldLabels[index]}
                                 </div>
 
                                 <div
-                                    className={`border-solid border-2 border-indigo-600`}>
+                                    className={`col-6`}
+                                    style={{ border: "1px solid #8F8F8F" }}>
                                     <Controller
                                         control={control}
                                         // @ts-ignore
@@ -135,66 +126,74 @@ export const AdminFilterPanel: React.FC<FilterPanelInterface> = ({
 
                                             if (type === "string")
                                                 return (
-                                                    <div>
-                                                        <textarea
-                                                            id="message"
-                                                            rows={1}
-                                                            className="s-text-color-alpha"
-                                                            style={{
-                                                                resize: "none"
-                                                            }}
-                                                            onChange={(evt) => {
-                                                                onChange(evt)
-                                                            }}
-                                                            // @ts-ignore
-                                                            value={
-                                                                value
-                                                            }></textarea>
-                                                    </div>
+                                                    <input
+                                                        id="message"
+                                                        className="w-100 s-text-color-alpha"
+                                                        style={{
+                                                            height: 36,
+                                                            resize: "none",
+                                                            padding: 5
+                                                        }}
+                                                        onChange={(evt) => {
+                                                            onChange(evt)
+                                                        }}
+                                                        // @ts-ignore
+                                                        value={value}></input>
+                                                )
+                                            else if (type === "number")
+                                                return (
+                                                    <input
+                                                        id="message"
+                                                        className="w-100 s-text-color-alpha"
+                                                        type="number"
+                                                        style={{
+                                                            height: 36,
+                                                            resize: "none",
+                                                            padding: 5
+                                                        }}
+                                                        onChange={(evt) => {
+                                                            onChange(evt)
+                                                        }}
+                                                        // @ts-ignore
+                                                        value={value}></input>
                                                 )
                                             else if (type === "date") {
                                                 return (
-                                                    <div>
-                                                        <DatePicker
-                                                            selected={
-                                                                (value as Date) ??
-                                                                new Date()
-                                                            }
-                                                            onChange={(evt) => {
-                                                                console.log(
-                                                                    `date picker`,
-                                                                    evt
-                                                                )
-                                                                onChange(evt)
-                                                            }} //only when value has changed
-                                                        />
-                                                    </div>
+                                                    <DatePicker
+                                                        selected={
+                                                            (value as Date) ??
+                                                            new Date()
+                                                        }
+                                                        onChange={(evt) => {
+                                                            console.log(
+                                                                `date picker`,
+                                                                evt
+                                                            )
+                                                            onChange(evt)
+                                                        }} //only when value has changed
+                                                    />
                                                 )
                                             } else if (type === "dropdown") {
                                                 return (
-                                                    <div>
-                                                        <MultiSelect
-                                                            className={`s-filter-dropdown`}
-                                                            options={getDropDownOptions(
-                                                                search
-                                                            )}
-                                                            labelledBy={
-                                                                "Select"
-                                                            }
-                                                            isCreatable={true}
-                                                            onChange={(
-                                                                evt: any
-                                                            ) => {
-                                                                onChange(evt)
-                                                                return
-                                                            }}
-                                                            // @ts-ignore
-                                                            value={
-                                                                (value as string[]) ??
-                                                                []
-                                                            }
-                                                        />
-                                                    </div>
+                                                    <MultiSelect
+                                                        className={`s-filter-dropdown`}
+                                                        options={getDropDownOptions(
+                                                            search
+                                                        )}
+                                                        labelledBy={"Select"}
+                                                        isCreatable={true}
+                                                        onChange={(
+                                                            evt: any
+                                                        ) => {
+                                                            onChange(evt)
+                                                            return
+                                                        }}
+                                                        // @ts-ignore
+                                                        value={
+                                                            (value as string[]) ??
+                                                            []
+                                                        }
+                                                    />
                                                 )
                                             }
                                         }}
@@ -204,13 +203,7 @@ export const AdminFilterPanel: React.FC<FilterPanelInterface> = ({
                         ))}
                 </div>
 
-                <div
-                    className="text-level-body p-4"
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "center"
-                    }}>
+                <div className="text-level-body p-4 d-flex justify-content-end">
                     <AdminButton
                         label="Search"
                         style={{ width: "250px" }}

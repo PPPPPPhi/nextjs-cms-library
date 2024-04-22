@@ -137,6 +137,24 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
         FileSaver.saveAs(csvBlob, "data.csv")
     }
 
+    const { tableFlatRow, tableGenRow } = useMemo(() => {
+        return {
+            tableFlatRow: table.getExpandedRowModel()?.flatRows?.length ?? 0,
+            tableGenRow: table.getExpandedRowModel()?.rows?.length ?? 0
+        }
+    }, [table.getExpandedRowModel()?.flatRows?.length ?? 0])
+
+    useEffect(() => {
+        if (tableGenRow !== tableFlatRow && tableGenRow !== 0) {
+            setPagination({
+                pageIndex: pagination.pageIndex,
+                pageSize: tableFlatRow
+            })
+        }
+    }, [tableGenRow, tableFlatRow])
+
+    console.log("ttttttable", table.getExpandedRowModel())
+
     return (
         <div className="d-flex flex-column w-100 h-100">
             <div className="overflow-auto mb-3" style={{ minHeight: 400 }}>
@@ -195,7 +213,6 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                             <td
                                                 key={cell.id}
                                                 style={{
-                                                    width: 180,
                                                     ...getCommonPinningStyles(
                                                         column,
                                                         "td"

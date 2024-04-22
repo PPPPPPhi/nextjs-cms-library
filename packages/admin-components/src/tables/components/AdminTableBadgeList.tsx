@@ -15,7 +15,7 @@ export const AdminTableBadgeList: React.FC<AdminTableBadgeListInterface> = ({
     return (
         <div
             className="d-flex flex-wrap align-items-center justify-content-center overflow-y-auto"
-            style={{ width: customWidth ?? 180, height: 35 }}>
+            style={{ width: customWidth ?? "auto", height: 35 }}>
             {value?.map((l) => (
                 <div
                     className="s-section-primary px-3 rounded-4 d-flex align-items-center my-1 mx-1"

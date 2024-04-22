@@ -15,6 +15,8 @@ interface AdminNavigationContainerInterface {
     navJson: naviagtionType[]
     saveNav: (n: naviagtionType[]) => void
     setModal: (details: any) => void
+    cloneNav: (targetLang: string) => void
+    lang: string
 }
 
 export const AdminNavigationContainer: React.FC<

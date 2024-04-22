@@ -67,12 +67,14 @@ export const AdminProductCategoryTable: React.FC<
                         {
                             accessorKey: "subCategory",
                             header: "subCategory",
-                            cellType: "desc"
+                            cellType: "desc",
+                            enableResize: true
                         },
                         {
                             accessorKey: "createdAt",
                             header: "createdAt",
-                            cellType: "desc"
+                            cellType: "desc",
+                            enableResize: true
                         },
                         {
                             accessorKey: "updatedAt",

@@ -37,7 +37,7 @@ export const AdminTableActionButton: React.FC<RowCellInterface> = ({
                     className={`d-flex align-items-center px-2 justify-content-center`}
                     style={{
                         minHeight: 35,
-                        width: customWidth ?? 180
+                        width: customWidth ?? "auto"
                     }}>
                     <div
                         className={`rounded-2 px-3 cursor-pointer shadow ${

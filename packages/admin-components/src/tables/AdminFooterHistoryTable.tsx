@@ -1,26 +1,23 @@
 import { AdminTable } from "@nextjs-cms-library/admin-components/index"
 import { useParams, useRouter } from "next/navigation"
-import {
-    publicationRowType,
-    publishDetailType
-} from "@nextjs-cms-library/admin-components/index"
-import { HiEye, HiPencil } from "react-icons/hi"
+import { pageRowType } from "@nextjs-cms-library/admin-components/index"
+import { HiEye } from "react-icons/hi"
 
-interface AdminPublicationHistoryTableInterface {
-    data: publicationRowType[]
+interface AdminFooterHistoryTableInterface {
+    data: pageRowType[]
     isCompatible: boolean
     // createNewPage: (d: pageRowType) => void
-    publishPage: (d: publishDetailType & { version: string }) => void
+    // publishPage: (d: pageRowType) => void
 }
 
-export type pagePublicationHistoryRowType = publicationRowType & {
-    event: string
-    version: number
-}
-
-export const AdminPublicationHistoryTable: React.FC<
-    AdminPublicationHistoryTableInterface
-> = ({ data, isCompatible, publishPage }) => {
+export const AdminFooterHistoryTable: React.FC<
+    AdminFooterHistoryTableInterface
+> = ({
+    data,
+    isCompatible
+    // createNewPage,
+    // publishPage
+}) => {
     const router = useRouter()
     const { site } = useParams()
 
@@ -28,7 +25,7 @@ export const AdminPublicationHistoryTable: React.FC<
         <div className="d-flex w-100 overflow-auto">
             <AdminTable
                 data={data ?? []}
-                pinColumns={["_id", "slug", "language", "pageVersion"]}
+                pinColumns={["_id", "slug", "language", "version"]}
                 isCompatible={isCompatible}
                 isSubComponent
                 compareField="pageJson"
@@ -40,11 +37,9 @@ export const AdminPublicationHistoryTable: React.FC<
                         headerIcon: <HiEye />,
                         size: 100,
                         action: (data) => {
-                            const { pageId, pageVersion } = data
+                            const { _id, version } = data
                             router.push(
-                                `../../pages/${pageId}/${
-                                    pageVersion.split(".")[0]
-                                }`
+                                `/admin/${site}/pages/${_id}/${version}`
                             )
                         }
                     },
@@ -53,17 +48,12 @@ export const AdminPublicationHistoryTable: React.FC<
                         header: "Slug",
                         cellType: "edit",
                         isExpandable: true,
+                        enableResize: true,
                         action: (data) => {
-                            // await putAdminClientAPI(
-                            //     `page/${site}/${row.original._id}`,
-                            //     {
-                            //         pageJson: JSON.stringify({
-                            //             x: Math.random()
-                            //         })
-                            //     }
-                            // )
-                        },
-                        size: 180
+                            // const { _id } = data
+                            // if (_id) router.push(`pages/${_id}`)
+                            // else createNewPage(data)
+                        }
                     },
                     {
                         accessorKey: "language",
@@ -72,8 +62,8 @@ export const AdminPublicationHistoryTable: React.FC<
                         size: 100
                     },
                     {
-                        accessorKey: "pageVersion",
-                        header: "Page Version",
+                        accessorKey: "version",
+                        header: "Version",
                         cellType: "cell",
                         size: 80
                     },
@@ -108,8 +98,7 @@ export const AdminPublicationHistoryTable: React.FC<
                         actionTitle: "Publish",
                         size: 100,
                         action: (data) => {
-                            const version = data?.pageVersion?.split(".")[0]
-                            publishPage({ ...data, version })
+                            console.log("publish", data)
                         }
                     },
                     {

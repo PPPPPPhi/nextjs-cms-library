@@ -23,6 +23,7 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
         const images = await NextAPIInstance.get(
             `/image/${site}/getImageFromNext`
         )
+
         return images
     }
 

@@ -6,6 +6,11 @@ import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 import { QueryOperatior, useQueryOperatorFilter } from "../utils"
 
 export type UserRoleUpdateType = {
+    userId: string[]
+    roleId: string[]
+}
+
+export type UserRoleUpdateRequestType = {
     userId: string
     roleId: string
 }
@@ -13,7 +18,7 @@ export type UserRoleUpdateType = {
 export const getUpdateUserRoleWithHistory = async (
     operation: string,
     operator: { name: string; id: string; reason?: string; historyData?: any },
-    userRole: UserRoleUpdateType
+    userRole: UserRoleUpdateRequestType
 ) => {
     const { name, id, reason, historyData } = operator
     const { userId, roleId } = userRole

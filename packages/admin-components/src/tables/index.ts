@@ -13,6 +13,9 @@ export * from "./AdminProductCategoryTable"
 export * from "./AdminProductPromotionTable"
 export * from "./AdminUserRoleTable"
 export * from "./AdminUserAuditTable"
+export * from "./AdminFooterHistoryTable"
+export * from "./AdminHeaderHistoryTable"
+export * from "./AdminNaviationHistoryTable"
 
 import AdminWordMatrix from "./AdminWordMatrix"
 export { AdminWordMatrix }

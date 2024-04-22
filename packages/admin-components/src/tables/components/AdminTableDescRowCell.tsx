@@ -12,7 +12,7 @@ export const AdminTableDescRowCell: React.FC<RowCellInterface> = ({
             className="d-flex align-items-center text-font-bold px-2"
             style={{
                 minHeight: 35,
-                width: customWidth ?? 180,
+                width: customWidth ?? "auto",
                 position: "relative",
                 display: "inline-block"
             }}>

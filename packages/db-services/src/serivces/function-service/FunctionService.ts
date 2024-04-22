@@ -90,7 +90,7 @@ export const getAllFunctions = async () => {
     }
 }
 
-export const getFunctionsById = async (functionIds: number[]) => {
+export const getFunctionsById = async (functionIds: number[] | string[]) => {
     try {
         await connectMongoDB()
 

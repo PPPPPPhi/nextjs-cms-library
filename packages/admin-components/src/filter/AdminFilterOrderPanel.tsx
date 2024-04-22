@@ -48,7 +48,7 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
             label: "Customer ID"
         },
         total: {
-            type: "string",
+            type: "number",
             value: "",
             label: "Order Total ($)"
         },

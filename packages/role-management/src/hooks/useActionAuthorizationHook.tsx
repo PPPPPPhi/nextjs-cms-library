@@ -15,7 +15,7 @@ const useActionAuthorization = (
         return roleItem?.functions_lookUp.map((k) => k.functionId) ?? []
     }, [role, roleList])
 
-    const checkAuthorization = (ac: keyof ACTION_TYPE) => {
+    const checkAuthorization = (ac: keyof ACTION_TYPE | keyof VIEW_TYPE) => {
         const actionAuthCode = getActionAuthorization(ac)
         if (actionAuthCode === -99) return true
         else {

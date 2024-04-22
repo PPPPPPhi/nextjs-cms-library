@@ -2,6 +2,8 @@ import { AdminButton, AdminCodeEditor } from "../core"
 import { useEffect, useState } from "react"
 import useFooterGenerator from "../hook/useFooterGenerator"
 import { AdminTabMenu } from "../menu"
+import { AdminCard } from "../core"
+import { useRouter } from "next/navigation"
 
 const FOOTER_TAB_MENU = ["html", "css", "script"]
 const EDITOR_WIDTH_PERCENTAGE = ["25%", "50%", "75%"]
@@ -65,8 +67,22 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
         setFooter(template)
     }, [template])
 
+    const router = useRouter()
+
     return (
         <div className="d-flex flex-column w-100 h-100">
+            <AdminCard
+                cardsRef={[
+                    {
+                        actionLabel: "View History",
+                        desc: "View history of footer",
+                        action: () => {
+                            router.push("./footer/history")
+                        },
+                        authCode: "VIEW_FOOTER_SETTING_HISTORY"
+                    }
+                ]}
+            />
             <div className="d-flex w-100 py-2">
                 <AdminTabMenu
                     tabList={["html", "css", "script"]}
