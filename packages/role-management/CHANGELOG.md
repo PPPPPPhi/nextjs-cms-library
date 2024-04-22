@@ -1,5 +1,11 @@
 # @nextjs-cms-library/role-management
 
+## 1.1.0
+
+### Minor Changes
+
+- update restructured library
+
 ## 1.0.15
 
 ### Patch Changes

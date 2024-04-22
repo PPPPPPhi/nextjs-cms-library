@@ -54,31 +54,31 @@ export const AdminProductListTable: React.FC<
                         },
                         {
                             accessorKey: "photo",
-                            header: "photo",
+                            header: "Photo",
                             cellType: "photo",
                             size: 100
                         },
                         {
                             accessorKey: "category",
-                            header: "category",
+                            header: "Category",
                             cellType: "cell",
                             size: 120
                         },
                         {
                             accessorKey: "product",
-                            header: "product",
+                            header: "Product",
                             cellType: "cell",
                             enableResize: true
                         },
                         {
                             accessorKey: "amount",
-                            header: "amount",
+                            header: "Amount",
                             cellType: "cell",
                             enableResize: true
                         },
                         {
                             accessorKey: "stock",
-                            header: "stock",
+                            header: "Stock",
                             cellType: "cell",
                             size: 220
                         }

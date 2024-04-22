@@ -1,6 +1,6 @@
 {
     "name": "@nextjs-cms-library/ui",
-    "version": "0.1.25",
+    "version": "0.2.0",
     "exports": {
         "./index": "./src/index.ts"
     },
@@ -15,7 +15,7 @@
         "link:clean": "yarn unlink react && yarn unlink react-dom && yarn unlink react-i18next && yarn unlink i18next && yarn unlink next"
     },
     "devDependencies": {
-        "@nextjs-cms-library/admin-components": "1.0.14",
+        "@nextjs-cms-library/admin-components": "1.1.0",
         "@turbo/gen": "^1.11.3",
         "@types/eslint": "^8.56.1",
         "@types/node": "^20.10.6",

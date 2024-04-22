@@ -32,14 +32,7 @@ export const AdminProductPromotionTable: React.FC<
             <>
                 <AdminTable
                     data={data ?? []}
-                    pinColumns={[
-                        "_id",
-                        "promotion",
-                        "startDate",
-                        "endDate",
-                        "items",
-                        "promotionCode"
-                    ]}
+                    pinColumns={[]}
                     isCompatible={isCompatible}
                     isSubComponent
                     compareField="pageJson"
@@ -60,32 +53,32 @@ export const AdminProductPromotionTable: React.FC<
                         },
                         {
                             accessorKey: "promotion",
-                            header: "promotion",
-                            cellType: "desc",
-                            size: 100
+                            header: "Promotion",
+                            cellType: "cell",
+                            size: 200
                         },
                         {
-                            accessorKey: "startDate",
-                            header: "startDate",
-                            cellType: "desc",
+                            accessorKey: "createdAt",
+                            header: "Start Date",
+                            cellType: "date",
                             enableResize: true
                         },
                         {
-                            accessorKey: "endDate",
-                            header: "endDate",
-                            cellType: "desc",
+                            accessorKey: "updatedAt",
+                            header: "End Date",
+                            cellType: "date",
                             enableResize: true
                         },
                         {
                             accessorKey: "items",
-                            header: "items",
-                            cellType: "desc",
+                            header: "Items",
+                            cellType: "cell",
                             size: 220
                         },
                         {
                             accessorKey: "promotionCode",
-                            header: "promotionCode",
-                            cellType: "desc",
+                            header: "Promotion Code",
+                            cellType: "cell",
                             size: 220
                         }
                     ]}

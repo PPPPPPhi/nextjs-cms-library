@@ -55,11 +55,13 @@ export const AdminNavigationDisplay: React.FC<
     const navigationRef = useRef<any>()
 
     useEffect(() => {
+        console.log("navJsonnavJsonnavJson", navJson)
         setNavigation(navJson)
     }, [navJson])
 
     useEffect(() => {
         navigationRef.current = navigation
+        console.log("navJsonnavJsonnavJson 222", navigation)
     }, [navigation])
 
     const updateNavLevel = (itemId: string, position: number) => {
@@ -414,7 +416,7 @@ export const AdminNavigationDisplay: React.FC<
                 disabled={!isShowSetting}
             />
             <div className="d-flex flex-column w-100" ref={drop}>
-                {navigation.map((k, idx) => (
+                {(navigation ?? []).map((k, idx) => (
                     <AdminNavigationItem
                         key={`collapsed_${idx}`}
                         id={`collapsed_parent_${idx}`}

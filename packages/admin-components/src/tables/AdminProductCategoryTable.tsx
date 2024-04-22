@@ -32,13 +32,7 @@ export const AdminProductCategoryTable: React.FC<
             <>
                 <AdminTable
                     data={data ?? []}
-                    pinColumns={[
-                        "_id",
-                        "category",
-                        "subCategory",
-                        "createdAt",
-                        "updatedAt"
-                    ]}
+                    pinColumns={[]}
                     isCompatible={isCompatible}
                     isSubComponent
                     compareField="pageJson"
@@ -60,26 +54,26 @@ export const AdminProductCategoryTable: React.FC<
                         },
                         {
                             accessorKey: "category",
-                            header: "category",
-                            cellType: "desc",
+                            header: "Category",
+                            cellType: "cell",
                             size: 100
                         },
                         {
                             accessorKey: "subCategory",
-                            header: "subCategory",
-                            cellType: "desc",
+                            header: "Sub Category",
+                            cellType: "cell",
                             enableResize: true
                         },
                         {
                             accessorKey: "createdAt",
-                            header: "createdAt",
-                            cellType: "desc",
+                            header: "Created At",
+                            cellType: "cell",
                             enableResize: true
                         },
                         {
                             accessorKey: "updatedAt",
-                            header: "updatedAt",
-                            cellType: "desc",
+                            header: "Updated At",
+                            cellType: "cell",
                             size: 220
                         }
                     ]}

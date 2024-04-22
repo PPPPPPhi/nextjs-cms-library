@@ -17,13 +17,13 @@ type PropertiesChildEmptyProps = {}
 const PropertiesChildEmpty: React.FC<PropertiesChildEmptyProps> = ({}) => {
     return (
         <div className="flex flex-col justify-center text-center">
-            <span className="my-3  text-level-body text-font-bold">
+            <span className="my-3 text-level-body text-font-bold s-text-color-alpha">
                 Select an element to edit
             </span>
             <div className="my-3 flex flex-row justify-center">
                 <img className="w-24 h-24" src={DragDropIcon.src} />
             </div>
-            <span className="my-3 text-level-remark text-font-medium">
+            <span className="my-3 text-level-remark text-font-medium s-text-color-alpha">
                 None selected
             </span>
         </div>
