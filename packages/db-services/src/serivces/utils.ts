@@ -22,8 +22,9 @@ export type RoleFunctionUpdateType = {
     roleId: string
     roleName: string
     description: string
-    sites: string
-    functionId: string
+    sites: string[]
+    functionId: number[]
+    isCreate?: boolean
 }
 
 export const multiSelectFilterField = ["orderStatus", "paymentStatus"]
@@ -225,10 +226,10 @@ export const getProjectedQuery = async (
             )
         }
 
-        console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
+        // console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
         res = await model.aggregate(pipeline)
 
-        console.log(`[getProjectedQuery] res`, JSON.stringify(res))
+        // console.log(`[getProjectedQuery] res`, JSON.stringify(res))
 
         return res
     } catch (error) {
@@ -291,13 +292,13 @@ export const getUpsertSingleDocumentQuery = async (
 
     const updateFilter = filter ?? {}
 
-    console.log(`[upsert] updateQuery`, data)
+    // console.log(`[upsert] updateQuery`, data)
 
     const updateQuery = {
         $set: data
     }
 
-    console.log(`[upsert] filter`, operation, updateFilter, updateQuery)
+    // console.log(`[upsert] filter`, operation, updateFilter, updateQuery)
 
     const updateDocument = model.findOneAndUpdate(updateFilter, updateQuery, {
         new: true,

@@ -184,13 +184,11 @@ export const updateAddRoleFunction = async (
     roleFunction: RoleFunctionUpdateType
 ) => {
     try {
-        const { roleId, roleName, sites, description, functionId } =
+        const { roleId, roleName, sites, description, functionId, isCreate } =
             roleFunction
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
-
-        console.log(`[updateAddRoleFunction] functionId`, functionId)
 
         const getFunctions = await FunctionService.getFunctionsById(functionId)
 
@@ -205,12 +203,12 @@ export const updateAddRoleFunction = async (
             updatedAt: new Date()
         }
 
-        const updateRoleId = !roleId ? new Types.ObjectId() : roleId
+        const foundRoleId = isCreate ? new Types.ObjectId() : roleId
 
         // @ts-ignore
         const updateRole: Promise<any> = Role.findOneAndUpdate(
             {
-                _id: updateRoleId
+                _id: foundRoleId
             },
             newDocument,
             { new: true, upsert: true }
