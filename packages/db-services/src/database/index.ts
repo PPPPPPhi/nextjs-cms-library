@@ -1,7 +1,6 @@
 export * from "./models/function"
 export * from "./models/image"
 export * from "./models/marginal"
-export * from "./models/navigation"
 export * from "./models/page"
 export * from "./models/publication"
 export * from "./models/role"

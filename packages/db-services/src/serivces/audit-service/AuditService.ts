@@ -7,7 +7,7 @@ import Site from "../../database/models/site/Site"
 import SiteSetting from "../../database/models/site-setting/SiteSetting"
 import Page from "../../database/models/page/Page"
 import Publication from "../../database/models/publication/Publication"
-import { Marginal, Navigation } from "../.."
+import { Marginal } from "../.."
 import { getOperatorInfo } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
 import { Model, Types } from "mongoose"
@@ -69,7 +69,6 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
         insertAuditLog(Page, { operatorId })
         insertAuditLog(Publication, { operatorId })
         insertAuditLog(Marginal, { operatorId })
-        insertAuditLog(Navigation, { operatorId })
 
         return { status: 200 }
     } catch (err) {
