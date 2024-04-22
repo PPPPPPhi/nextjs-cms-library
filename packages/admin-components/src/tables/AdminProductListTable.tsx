@@ -62,7 +62,8 @@ export const AdminProductListTable: React.FC<
                         {
                             accessorKey: "photo",
                             header: "photo",
-                            cellType: "photo"
+                            cellType: "photo",
+                            size: 150
                         },
                         {
                             accessorKey: "category",

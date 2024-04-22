@@ -10,13 +10,14 @@ export const AdminTablePreviewPhoto: React.FC<
     AdminTablePreviewPhotoInterface
 > = ({ value, customStyle, customWidth }) => {
     return (
-        <div
-            className="d-flex align-items-center justify-content-center "
-            style={{ width: 300, objectFit: "contain" }}>
+        <div className="d-flex align-items-center justify-content-center ">
             <div
-                className=" px-3 rounded-4 d-flex align-items-center"
+                className="rounded-4 d-flex align-items-center"
                 style={{ ...customStyle }}>
-                <img src={value} />
+                <img
+                    src={value}
+                    style={{ width: 150, height: 150, objectFit: "cover" }}
+                />
             </div>
         </div>
     )
