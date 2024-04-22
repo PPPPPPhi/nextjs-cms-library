@@ -52,8 +52,8 @@ export const createSite = async (siteReq: createSiteType) => {
             description,
             status: 1,
             image: image,
-            updatedBy: operator,
-            createdBy: operator
+            updatedBy: operatorName,
+            createdBy: operatorName
         }
 
         const createRes = await getUpsertSingleDocumentQuery(

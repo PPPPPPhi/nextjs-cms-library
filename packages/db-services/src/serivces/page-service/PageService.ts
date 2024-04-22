@@ -84,13 +84,14 @@ export const updatePage = async (
 
         const { name, description } = pageDetails ?? {}
         const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const result = await Page.findOneAndUpdate(
             { _id: pageId },
             {
                 name,
                 description,
-                updatedBy: operator?.name
+                updatedBy: operatorName
             },
             { upsert: false }
         )
@@ -112,7 +113,7 @@ export const cloneLanguagePage = async (
         await connectMongoDB()
 
         const operator = await getOperatorInfo()
-        const { id: operatorId } = operator
+        const { id: operatorId, name: operatorName } = operator
 
         const page = await Page.findOne({
             site,
@@ -130,8 +131,8 @@ export const cloneLanguagePage = async (
             site,
             pageJson,
             status: 1,
-            updatedBy: operator,
-            createdBy: operator,
+            updatedBy: operatorName,
+            createdBy: operatorName,
             __history: {
                 event: "Clone Page",
                 user: operatorId, // An object id of the user that generate the event
@@ -253,7 +254,7 @@ export const updatePageJson = async (pageId: string, pageJson: string) => {
     try {
         await connectMongoDB()
         const operator = await getOperatorInfo()
-        const { id: operatorId } = operator
+        const { id: operatorId, name: operatorName } = operator
 
         //@ts-ignore
         const page = await Page.findOne({ _id: pageId })
@@ -264,7 +265,7 @@ export const updatePageJson = async (pageId: string, pageJson: string) => {
 
         page.createdAt = createdAt
         //@ts-ignore
-        page.updatedBy = operator
+        page.updatedBy = operatorName
         //@ts-ignore
         page.pageJson = pageJson
         //@ts-ignore

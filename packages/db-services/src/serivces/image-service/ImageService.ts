@@ -73,8 +73,8 @@ export const saveImageBySite = async (image: imageType) => {
             width,
             height,
             extension: fileExtension,
-            createdBy: operator,
-            updatedBy: operator
+            createdBy: operatorName,
+            updatedBy: operatorName
         }
 
         const createImage = await getUpsertSingleDocumentQuery(
