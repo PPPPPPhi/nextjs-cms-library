@@ -1,4 +1,3 @@
-import { Navigation, NavigationService } from "../.."
 import connectMongoDB from "../../database/connectMongoDB"
 import Marginal from "../../database/models/marginal/Marginal"
 import { getOperatorInfo } from "../auth-service/authService"
@@ -9,11 +8,15 @@ import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
+import _ from "lodash"
+
+type marginalCommonType = {
+    footerCss: string
+    footerScript: string
+}
 
 type marginalFooterType = {
     footerHtml: string
-    footerCss: string
-    footerScript: string
 }
 
 type marginalHeaderType = {
@@ -25,13 +28,26 @@ type marginalNavType = {
     navJson: string
 }
 
-export const getMarginal = async (site: string, type: string, lang: string) => {
+export const getMarginal = async (
+    site: string,
+    type: string,
+    language?: string
+) => {
     try {
         await connectMongoDB()
 
+        const filter = _.omitBy(
+            {
+                site,
+                type,
+                language
+            },
+            _.isEmpty
+        )
+
         const marginals = await getProjectedQuery(
             Marginal,
-            { site, type, language: lang },
+            filter,
             [],
             [
                 "_id",
@@ -43,6 +59,7 @@ export const getMarginal = async (site: string, type: string, lang: string) => {
                 "updatedBy"
             ]
         )
+
         return {
             message: "Success",
             status: 200,
@@ -56,8 +73,12 @@ export const getMarginal = async (site: string, type: string, lang: string) => {
 
 export const createMarginal = async (
     site: string,
-    type: "footer" | "header" | "nav",
-    properties: marginalFooterType | marginalHeaderType | marginalNavType
+    type: "footer" | "header" | "nav" | "common",
+    properties:
+        | marginalFooterType
+        | marginalHeaderType
+        | marginalNavType
+        | marginalCommonType
 ) => {
     try {
         await connectMongoDB()
@@ -83,11 +104,71 @@ export const createMarginal = async (
     }
 }
 
+type MarginalPropsType = {
+    footerCss?: string
+    footerHtml?: string
+    footerScript?: string
+    navJson?: string
+    headerLargeLogo?: string
+    headerSmallLogo?: string
+}
+
+export const getMarginalPropsByType = (
+    type: string,
+    properties: MarginalPropsType
+) => {
+    let props
+
+    const {
+        footerCss,
+        footerHtml,
+        footerScript,
+        navJson,
+        headerLargeLogo,
+        headerSmallLogo
+    } = properties
+
+    switch (type) {
+        case "common":
+            props = {
+                footerCss,
+                footerScript
+            }
+            break
+        case "nav":
+            props = {
+                navJson
+            }
+        case "header":
+            props = {
+                headerLargeLogo,
+                headerSmallLogo
+            }
+
+        case "footer":
+            props = {
+                footerHtml
+            }
+            break
+        default:
+            props = {
+                footerCss,
+                footerScript
+            }
+            break
+    }
+    return props
+}
+
 export const saveMarginal = async (
     site: string,
-    type: "footer" | "header" | "nav",
+    type: "footer" | "header" | "nav" | "common",
     language: string,
-    properties: marginalFooterType | marginalHeaderType | marginalNavType
+    properties:
+        | marginalFooterType
+        | marginalHeaderType
+        | marginalNavType
+        | marginalCommonType
 ) => {
     try {
         await connectMongoDB()
@@ -95,12 +176,13 @@ export const saveMarginal = async (
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
-        console.log(`[marginal] save`, properties)
+        console.log(`[marginal] save`, type, properties)
 
         const marginalProp = {
-            ...properties
+            ...getMarginalPropsByType(type, properties)
         }
 
+        console.log(`getMarginalPropsByType `, marginalProp)
         const marginal = await Marginal.findOneAndUpdate(
             { site, type, language },
             {
@@ -112,9 +194,10 @@ export const saveMarginal = async (
             { new: true, upsert: true }
         )
 
-        return { message: "Success", status: 200 }
+        if (marginal) return { message: "Success", status: 200 }
+        else throw new Error("Error occured when saving arginal")
     } catch (error) {
-        console.log("Error occured when creating Footer", error)
+        console.log("Error occured when saving Marginal", error)
         return { message: "Failed", status: 500 }
     }
 }

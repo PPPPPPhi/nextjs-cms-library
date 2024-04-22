@@ -11,11 +11,16 @@ interface AdminFooterEditorInterface {
     saveFooter: (p: footerPropertiesType) => void
 }
 
-export type footerPropertiesType = {
-    footerHtml: string | null
+export type commonPropertiesType = {
     footerCss: string | null
     footerScript: string | null
 }
+
+export type footerMarginalType = {
+    footerHtml: string | null
+}
+
+export type footerPropertiesType = commonPropertiesType & footerMarginalType
 
 export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
     properties,
