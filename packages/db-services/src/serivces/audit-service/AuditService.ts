@@ -96,7 +96,7 @@ export const getAuditList = async () => {
             ]
         )
 
-        console.log(`[getProjectedQuery] getAudits`, JSON.stringify(getAudits))
+        // console.log(`[getProjectedQuery] getAudits`, JSON.stringify(getAudits))
         return { message: "Success", status: 200, audits: getAudits ?? [] }
     } catch (error) {
         console.log("Error occured ", error)

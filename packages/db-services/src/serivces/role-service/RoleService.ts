@@ -205,10 +205,12 @@ export const updateAddRoleFunction = async (
             updatedAt: new Date()
         }
 
+        const updateRoleId = !roleId ? new Types.ObjectId() : roleId
+
         // @ts-ignore
         const updateRole: Promise<any> = Role.findOneAndUpdate(
             {
-                _id: roleId
+                _id: updateRoleId
             },
             newDocument,
             { new: true, upsert: true }

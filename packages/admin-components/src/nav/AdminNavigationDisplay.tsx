@@ -369,7 +369,7 @@ export const AdminNavigationDisplay: React.FC<
             })
 
         return navCard
-    }, [navJson])
+    }, [navJson, navigation])
 
     return (
         <div className="d-flex flex-column w-100">
