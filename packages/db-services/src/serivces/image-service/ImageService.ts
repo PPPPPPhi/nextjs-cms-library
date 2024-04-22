@@ -10,7 +10,7 @@ import {
 import { Types } from "mongoose"
 
 type imageType = {
-    siteSlug: string
+    site: string
     fileName: string
     fileSize: number
     width: number
@@ -18,7 +18,7 @@ type imageType = {
     fileExtension: string
 }
 
-export const getImagesBySite = async (siteSlug: string) => {
+export const getImagesBySite = async (site: string) => {
     try {
         await connectMongoDB()
         //@ts-ignore
@@ -26,11 +26,11 @@ export const getImagesBySite = async (siteSlug: string) => {
 
         const images = await getProjectedQuery(
             Image,
-            { siteSlug },
+            { site },
             [],
             [
                 "_id",
-                "siteSlug",
+                "site",
                 "relativePath",
                 "isArchived",
                 "name",
@@ -45,6 +45,8 @@ export const getImagesBySite = async (siteSlug: string) => {
             []
         )
 
+        console.log(`[image] images`, images)
+
         if (images) return images
         else return []
     } catch (e) {
@@ -54,7 +56,7 @@ export const getImagesBySite = async (siteSlug: string) => {
 }
 
 export const saveImageBySite = async (image: imageType) => {
-    const { siteSlug, fileName, fileSize, width, height, fileExtension } = image
+    const { site, fileName, fileSize, width, height, fileExtension } = image
 
     try {
         await connectMongoDB()
@@ -62,7 +64,7 @@ export const saveImageBySite = async (image: imageType) => {
         const { id: operatorId, name: operatorName } = operator
 
         const newDocument = {
-            siteSlug,
+            site,
             relativePath: `/${fileName}`,
             isArchived: false,
             name: fileName,
@@ -111,7 +113,7 @@ export const getImagesById = async (id: string) => {
             [],
             [
                 "_id",
-                "siteSlug",
+                "site",
                 "relativePath",
                 "isArchived",
                 "name",

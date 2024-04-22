@@ -3,7 +3,6 @@ export * from "./auth-service/authService"
 import * as FunctionService from "./function-service/FunctionService"
 import * as ImageService from "./image-service/ImageService"
 import * as MarginalService from "./marginal-service/MarginalService"
-import * as NavigationService from "./navigation-service/NavigationService"
 import * as PageService from "./page-service/PageService"
 import * as PublicationService from "./publication-service/PublicationService"
 import * as RoleService from "./role-service/RoleService"
@@ -32,7 +31,6 @@ export {
     FunctionService,
     ImageService,
     MarginalService,
-    NavigationService,
     SettingPublicationSerivce,
     RoleService,
     SiteSettingService,
