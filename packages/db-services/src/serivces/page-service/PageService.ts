@@ -234,9 +234,11 @@ export const getPageById = async (pageId: string, version?: string) => {
             //@ts-ignore
             const pageVersionResp = await page.getDiffs({ limit: 1 })
             console.log(`[page] getDiffs`, pageVersionResp, page)
+            // @ts-ignore
+            const { _doc } = page
             //@ts-ignore
             pageWithVersion = {
-                ...(page?._doc ?? {}),
+                ...(_doc ?? page),
                 pageVersion: pageVersionResp[0]?.version ?? "0.0.0"
             }
         }

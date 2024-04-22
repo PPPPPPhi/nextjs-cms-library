@@ -143,6 +143,7 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
             newPropertyList.splice(position, 0, { ...currentChildProps })
             setFocusEditId({ id: currentChild?.id })
         } else {
+            // @ts-ignore
             position =
                 idx === -1 ? dragDropEditRef.current?.length - 1 ?? 0 : idx
             position =
