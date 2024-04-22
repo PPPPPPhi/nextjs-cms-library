@@ -233,16 +233,22 @@ export const getPageById = async (pageId: string, version?: string) => {
         } else {
             //@ts-ignore
             const pageVersionResp = await page.getDiffs({ limit: 1 })
-            console.log(`[page] getDiffs`, pageVersionResp, page)
+            console.log(
+                `[page] getDiffs`,
+                pageVersionResp,
+                page,
+                pageVersionResp[0]?.version
+            )
+
             pageWithVersion = {
-                ...(page ?? {}),
+                ...(page?._doc ?? page),
                 pageVersion: pageVersionResp[0]?.version ?? "0.0.0"
             }
         }
 
         console.log(`page`, versionPage, pageWithVersion)
-        if (page) return versionPage ?? pageWithVersion
-        else throw new Error("Error in getting page")
+        if (version) return versionPage
+        else return pageWithVersion
     } catch (e) {
         console.log("Error in getting page", e)
         return null
