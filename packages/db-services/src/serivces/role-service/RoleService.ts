@@ -192,15 +192,13 @@ export const updateAddRoleFunction = async (
 
         console.log(`[updateAddRoleFunction] functionId`, functionId)
 
-        const getFunctions = await FunctionService.getFunctionsById(
-            JSON.parse(functionId)
-        )
+        const getFunctions = await FunctionService.getFunctionsById(functionId)
 
         console.log(`[updateAddRoleFunction] getFunctions`, getFunctions)
         const newDocument = {
             roleId,
             roleName,
-            sites: JSON.parse(sites),
+            sites: sites,
             functions_lookUp: getFunctions,
             description,
             updatedBy: operatorName,
@@ -213,7 +211,7 @@ export const updateAddRoleFunction = async (
                 _id: roleId
             },
             newDocument,
-            { new: true }
+            { new: true, upsert: true }
         )
         const updateRes = forkJoin([updateRole]).pipe(
             switchMap((res: any) => {
@@ -244,64 +242,6 @@ export const updateAddRoleFunction = async (
         return { message: "Failed", status: 500 }
     }
 }
-
-// update roles.userIds & user.roles
-// export const updateRemoveRoleFunction = async (
-//     roleFunction: RoleFunctionUpdateType
-// ) => {
-//     try {
-//         const operator = await getOperatorInfo()
-//         const { id: operatorId, name: operatorName } = operator
-//         const { roleId, functionId } = roleFunction
-
-//         const roleIds = roleId?.map((l: string) => new Types.ObjectId(l))
-
-//         // @ts-ignore
-//         const updateRole: Promise<any> = Role.findOneAndUpdate(
-//             {
-//                 _id: { $in: roleIds }
-//             },
-//             {
-//                 $pull: {
-//                     functions_lookUp: {
-//                         functionId: { $in: functionId }
-//                     }
-//                 }
-//             },
-//             { new: true }
-//         )
-
-//         const res = forkJoin([updateRole]).pipe(
-//             switchMap((res: any) => {
-//                 const [role = res[0], user = res[1]] = res
-
-//                 if (!role || !user?.acknowledged)
-//                     throw new Error("Error in updating role")
-
-//                 console.log(`[query] res`, role, user)
-
-//                 role.updatedAt = role?.updatedAt
-//                 role.updatedBy = operatorName
-//                 role.__history = {
-//                     event: "Update Role Function",
-//                     user: operatorId,
-//                     type: "major",
-//                     method: "updateRemoveRoleFunction"
-//                 }
-
-//                 return of(role.save())
-//             })
-//         )
-
-//         console.log(`[role-service] updateRemoveRoleFunction`, res)
-
-//         if (res) return { status: 200 }
-//         else throw new Error("Error in updating role")
-//     } catch (error) {
-//         console.log("Error occured ", error)
-//         return { message: "Failed", status: 500 }
-//     }
-// }
 
 // update roles.userIds & user.roles
 export const updateAddUserRole = async (userRole: UserRoleUpdateType) => {
@@ -355,25 +295,3 @@ export const updateAddUserRole = async (userRole: UserRoleUpdateType) => {
         return { message: "Failed", status: 500 }
     }
 }
-
-// // update roles.userIds & user.roles
-// export const updateRemoveUserRole = async (userRole: UserRoleUpdateType) => {
-//     try {
-//         const operator = await getOperatorInfo()
-//         const { id: operatorId, name } = operator
-
-//         const res = await getUpdateUserRoleWithHistory(
-//             QueryOperatior.PULL,
-//             { name, id: operatorId },
-//             userRole
-//         )
-
-//         console.log(`[role-service] updateRemoveUserRole`, res)
-
-//         if (res) return { status: 200 }
-//         else throw new Error("Error in updating role")
-//     } catch (error) {
-//         console.log("Error occured ", error)
-//         return { message: "Failed", status: 500 }
-//     }
-// }
