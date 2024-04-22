@@ -16,7 +16,7 @@ export const publishPage = async (pageId: string, version?: string) => {
         await connectMongoDB()
 
         const operator = await getOperatorInfo()
-        const { id: operatorId } = operator
+        const { id: operatorId, name: operatorName } = operator
 
         const parsedPageId = new Types.ObjectId(pageId)
 
@@ -59,8 +59,8 @@ export const publishPage = async (pageId: string, version?: string) => {
                     language,
                     pagePageJson: pageJson,
                     site,
-                    createdBy: operator,
-                    updatedBy: operator,
+                    createdBy: operatorName,
+                    updatedBy: operatorName,
                     pageId,
                     pageVersion,
                     status: 1,

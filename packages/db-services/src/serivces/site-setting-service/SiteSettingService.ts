@@ -32,8 +32,8 @@ export const initializeSiteSetting = async (site: string) => {
                     }
                 }
             },
-            createdBy: operator,
-            updatedBy: operator
+            createdBy: operatorName,
+            updatedBy: operatorName
         }
 
         const createRes = await getUpsertSingleDocumentQuery(

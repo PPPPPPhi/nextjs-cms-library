@@ -73,8 +73,8 @@ export const saveImageBySite = async (image: imageType) => {
             width,
             height,
             extension: fileExtension,
-            createdBy: operator,
-            updatedBy: operator
+            createdBy: operatorName,
+            updatedBy: operatorName
         }
 
         const createImage = await getUpsertSingleDocumentQuery(
@@ -129,8 +129,8 @@ export const getImagesById = async (id: string) => {
         )
 
         console.log(`[getImagesById] images`, images)
-        if (images?.[0]?._id) return images[0]
-        else return []
+        if (images?.length != 0) return images
+        else throw new Error("Error in getting image by id")
     } catch (e) {
         console.log("Error in Getting Image", e)
         return null

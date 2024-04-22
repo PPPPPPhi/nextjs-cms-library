@@ -112,12 +112,12 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
 
             const currentChildIndex = newDragDropList[
                 currentIdx
-            ].elements.findIndex((l) => l.id === itemId)
+            ].elements.findIndex((l: any) => l.id === itemId)
             const currentChild = newDragDropList[currentIdx].elements.find(
-                (l) => l.id === itemId
+                (l: any) => l.id === itemId
             )
             const currentChildProps = newPropertyList[currentIdx].children.find(
-                (l) => l.id === itemId
+                (l: any) => l.id === itemId
             )
 
             newDragDropList[currentIdx].elements[currentChildIndex] = {
@@ -143,6 +143,7 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
             newPropertyList.splice(position, 0, { ...currentChildProps })
             setFocusEditId({ id: currentChild?.id })
         } else {
+            // @ts-ignore
             position =
                 idx === -1 ? dragDropEditRef.current?.length - 1 ?? 0 : idx
             position =

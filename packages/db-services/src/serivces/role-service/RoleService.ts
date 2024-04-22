@@ -79,8 +79,8 @@ export const createRole = async (role: roleType) => {
             description,
             functions_lookUp: getSelectedFunctions,
             sites,
-            createdBy: operator,
-            updatedBy: operator
+            createdBy: name,
+            updatedBy: name
         }
 
         const upsertRole = await getUpsertSingleDocumentQuery(
@@ -151,7 +151,7 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
             sites,
             functions_lookUp: getSelectedFunctions,
             description,
-            updatedBy: operator,
+            updatedBy: name,
             updatedAt: new Date()
         }
 
