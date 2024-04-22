@@ -32,14 +32,7 @@ export const AdminProductListTable: React.FC<
             <>
                 <AdminTable
                     data={data ?? []}
-                    pinColumns={[
-                        "_id",
-                        "photo",
-                        "category",
-                        "product",
-                        "amount",
-                        "stock"
-                    ]}
+                    pinColumns={[]}
                     isCompatible={isCompatible}
                     isSubComponent
                     compareField="pageJson"
@@ -63,30 +56,30 @@ export const AdminProductListTable: React.FC<
                             accessorKey: "photo",
                             header: "photo",
                             cellType: "photo",
-                            enableResize: true
+                            size: 100
                         },
                         {
                             accessorKey: "category",
                             header: "category",
-                            cellType: "desc",
-                            size: 100
+                            cellType: "cell",
+                            size: 120
                         },
                         {
                             accessorKey: "product",
                             header: "product",
-                            cellType: "desc",
+                            cellType: "cell",
                             enableResize: true
                         },
                         {
                             accessorKey: "amount",
                             header: "amount",
-                            cellType: "desc",
+                            cellType: "cell",
                             enableResize: true
                         },
                         {
                             accessorKey: "stock",
                             header: "stock",
-                            cellType: "desc",
+                            cellType: "cell",
                             size: 220
                         }
                     ]}

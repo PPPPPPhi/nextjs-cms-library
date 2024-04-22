@@ -42,12 +42,12 @@ export const ProductDetails: React.FC<ProductDetailsInterface> = ({
             label: "Product Photo"
         },
         amount: {
-            type: "string",
+            type: "number",
             value: amount,
             label: "Amount"
         },
         stock: {
-            type: "string",
+            type: "number",
             value: stock,
             label: "Stock"
         },

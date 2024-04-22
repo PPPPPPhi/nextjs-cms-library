@@ -33,22 +33,22 @@ export const AdminFilterProductPanel: React.FC<FilterProductPanelInterface> = ({
             label: "Expiry Date Before"
         },
         amountMin: {
-            type: "string",
+            type: "number",
             value: "",
             label: "Minimum Amount"
         },
         amountMax: {
-            type: "string",
+            type: "number",
             value: "",
             label: "Maximun Amount"
         },
         stockMin: {
-            type: "string",
+            type: "number",
             value: "",
             label: "Minimum Stock"
         },
         stockMax: {
-            type: "string",
+            type: "number",
             value: "",
             label: "Maximun Stock"
         }
