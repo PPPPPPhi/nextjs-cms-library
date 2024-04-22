@@ -49,14 +49,12 @@ export const AdminProductPromotionTable: React.FC<
                             accessorKey: "_id",
                             header: "",
                             cellType: "action",
-                            headerIcon: <HiEye />,
+                            headerIcon: <HiPencil />,
                             size: 100,
                             action: (data) => {
                                 const { pageId, pageVersion } = data
                                 router.push(
-                                    `../../pages/${pageId}/${
-                                        pageVersion.split(".")[0]
-                                    }`
+                                    `/admin/${site}/product/promotion/${data?._id}`
                                 )
                             }
                         },

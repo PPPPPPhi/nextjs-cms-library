@@ -66,7 +66,7 @@ export const createPage = async (page: pageType) => {
             return {
                 message: "Success",
                 status: 200,
-                _id: createRes?.fullDocument?._id ?? ""
+                _id: createRes?._id
             }
         else throw new Error("Error in register new user")
     } catch (e) {
@@ -200,12 +200,6 @@ export const getPageList = async (site: string) => {
                 })
             }
         })
-
-        console.log(
-            `[getPageList] reformatted`,
-            JSON.stringify(operator),
-            JSON.stringify(reformatted)
-        )
 
         return {
             message: "Success",

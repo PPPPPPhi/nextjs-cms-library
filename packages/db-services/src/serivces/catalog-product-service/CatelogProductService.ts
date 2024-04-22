@@ -82,24 +82,13 @@ export const getFilterProducts = async (filter: FilterOrdersParam) => {
         await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
-        let orders
+        let products
         const query = getParsedQuery(filter)
-        const res = getPaginatedQuery(
-            Product,
-            {
-                pageSize: filter?.pageSize,
-                pageNum: filter?.pageNum
-            },
-            query,
-            null
-        )
 
-        console.log(`getFilterCatelogProducts query`, query)
         //@ts-ignore
-        // orders = Product.find(query)
-        orders = res
+        products = Product.find(query)
 
-        if (orders) return orders
+        if (products) return products
         else return []
     } catch (error) {
         console.log("Error occured ", error)
