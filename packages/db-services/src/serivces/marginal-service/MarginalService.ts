@@ -2,6 +2,8 @@ import { Navigation, NavigationService } from "../.."
 import connectMongoDB from "../../database/connectMongoDB"
 import Marginal from "../../database/models/marginal/Marginal"
 import { getOperatorInfo } from "../auth-service/authService"
+import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
+import { Types } from "mongoose"
 import {
     QueryOperatior,
     getProjectedQuery,
@@ -35,7 +37,7 @@ export const getMarginal = async (site: string, type: string, lang: string) => {
                 "_id",
                 "site",
                 "type",
-                "propertie",
+                "properties",
                 "language",
                 "createdBy",
                 "updatedBy"
@@ -44,7 +46,7 @@ export const getMarginal = async (site: string, type: string, lang: string) => {
         return {
             message: "Success",
             status: 200,
-            marginals
+            marginals: marginals?.[0]
         }
     } catch (error) {
         console.log("Error occured when getting nav list", error)
@@ -93,11 +95,11 @@ export const saveMarginal = async (
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
+        console.log(`[marginal] save`, properties)
+
         const marginalProp = {
             ...properties
         }
-
-        console.log(`[marginal] save`, marginalProp, properties)
 
         const marginal = await Marginal.findOneAndUpdate(
             { site, type, language },
@@ -110,21 +112,62 @@ export const saveMarginal = async (
             { new: true, upsert: true }
         )
 
-        console.log(`[marginal] save`, marginal, properties)
-
-        if (type == "nav") {
-            const { navJson } = properties as marginalNavType
-
-            await NavigationService.createNavtion({
-                site,
-                language,
-                navJson: JSON.stringify(navJson)
-            })
-        }
-
         return { message: "Success", status: 200 }
     } catch (error) {
         console.log("Error occured when creating Footer", error)
         return { message: "Failed", status: 500 }
+    }
+}
+
+type cloneMarginalType = {
+    site: string
+    type: string
+    srcLang: string
+    targetLang: string
+}
+
+export const cloneMarginal = async (nav: cloneMarginalType) => {
+    try {
+        const { site, type, srcLang, targetLang } = nav
+
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+
+        const currentMarginal = await getMarginal(site, type, srcLang)
+
+        if (!currentMarginal) throw new Error("Error in clone navigation")
+        const foundProperties = currentMarginal?.marginals?.properties
+
+        const newDocument = {
+            site,
+            type,
+            properties: foundProperties,
+            language: targetLang,
+            createdBy: operatorName,
+            updatedBy: operatorName
+        }
+
+        const res = await getUpsertSingleDocumentQuery(
+            QueryOperatior.SET,
+            {
+                name: operatorName ?? "SYSTEM",
+                id: operatorId,
+                historyData: {
+                    method: "cloneNavigation",
+                    event: `Clone Nav from ${srcLang} to ${targetLang}`
+                }
+            },
+            Marginal,
+            { site, type, language: targetLang },
+            newDocument
+        )
+
+        console.log(`[nav] clone`, res)
+
+        if (res) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
+    } catch (e) {
+        console.log("Error in clone navigation", e)
+        return { message: "Fail", status: 500 }
     }
 }
