@@ -34,4 +34,9 @@ async function connectMongoDB() {
     return cached.conn
 }
 
+process.on("SIGINT", async () => {
+    await mongoose.connection.close()
+    process.exit(0)
+})
+
 export default connectMongoDB
