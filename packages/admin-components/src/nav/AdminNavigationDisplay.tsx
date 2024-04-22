@@ -23,11 +23,12 @@ interface AdminNavigationDisplayInterface {
     navJson: naviagtionType[]
     saveNav: (n: naviagtionType[]) => void
     setModal: (details: any) => void
+    cloneNav: () => void
 }
 
 export const AdminNavigationDisplay: React.FC<
     AdminNavigationDisplayInterface
-> = ({ navJson, saveNav, setModal }) => {
+> = ({ navJson, saveNav, setModal, cloneNav }) => {
     const formRef = useRef<any>()
 
     const [navigation, setNavigation] = useState<naviagtionType[]>(navJson)
@@ -358,23 +359,15 @@ export const AdminNavigationDisplay: React.FC<
             }
         ]
 
-        if (!navJson?.length)
-            navCard.unshift({
-                actionLabel: "Clone",
-                desc: "Save existing navigation to your site",
-                action: () => {
-                    saveNav(navigation)
-                },
-                authCode: "EDIT_NAVIGATION"
-            })
+        if (navJson?.length) navCard.unshift()
 
         return navCard
-    }, [navJson])
+    }, [navJson, navigation])
 
     return (
         <div className="d-flex flex-column w-100">
             <div className="d-flex pb-3">
-                <AdminCard cardsRef={cardsRef ?? []} />
+                <AdminCard cardsRef={cardsRef} />
             </div>
             <AdminNavButton
                 icon={<HiFolderAdd />}

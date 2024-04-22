@@ -55,7 +55,8 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> = ({
                             } else {
                                 createNewPage(data)
                             }
-                        }
+                        },
+                        size: 180
                     },
                     {
                         accessorKey: "language",

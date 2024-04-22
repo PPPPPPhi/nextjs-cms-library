@@ -1,8 +1,10 @@
 import { AdminTable } from "@nextjs-cms-library/admin-components/index"
+import { useRef } from "react"
 import { useParams, useRouter } from "next/navigation"
 
 import { userType, roleType } from "@nextjs-cms-library/db-services/index"
 import { HiEye, HiPencil, HiUsers } from "react-icons/hi"
+import { useAdminAuthorizationContext } from "../../../role-management/src/contexts"
 
 interface AdminUserManagementTableInterface {
     data: userRowType[]
@@ -17,6 +19,10 @@ export const AdminUserManagementTable: React.FC<
     AdminUserManagementTableInterface
 > = ({ data, updateActivationStatus, editUser, assignRole }) => {
     const router = useRouter()
+    const { user } = useAdminAuthorizationContext()
+    console.log("user", user)
+
+    const userIdRef = useRef<string>(user?._id ?? "")
 
     return (
         <div className="d-flex w-100 overflow-auto">
@@ -35,7 +41,9 @@ export const AdminUserManagementTable: React.FC<
                         authCode: "VIEW_USER_DETAIL",
                         action: (data) => {
                             const { _id } = data
-                            router.push(`/admin/user-management/${_id}`)
+                            if (_id === userIdRef.current)
+                                router.push(`/admin/account`)
+                            else router.push(`/admin/user-management/${_id}`)
                         }
                     },
                     {

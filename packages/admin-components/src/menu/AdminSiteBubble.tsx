@@ -1,5 +1,5 @@
 import Dropdown from "react-dropdown"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import "./AdminSiteBubble.css"
 import {
     HiChevronDown,
@@ -25,6 +25,10 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
 
     const { site } = useParams()
     const router = useRouter()
+
+    const siteValue = useMemo(() => {
+        return sites.find((k) => k.slug === site) ? site : undefined
+    }, [site])
 
     useEffect(() => {
         if (sites?.length) {
@@ -60,7 +64,7 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
                         onChange={(v) => {
                             router.push(`/admin/${v.value}`)
                         }}
-                        value={(site as string) ?? null}
+                        value={(siteValue as string) ?? null}
                         placeholder="Please Select"
                         arrowClosed={
                             <HiChevronDown className="Dropdown-arrow" />

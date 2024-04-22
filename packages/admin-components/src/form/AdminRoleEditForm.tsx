@@ -5,8 +5,8 @@ import * as _ from "lodash"
 import { FUNCTION_CATEGORIES } from "../../../role-management/src/constants/Functions"
 
 interface AdminRoleEditFormInterface {
-    onFormValueChange: (v: roleType) => void
-    getFunctionOptions: () => [functionType[], siteType[]]
+    onFormValueChange: (v: roleType & { functionId: number[] }) => void
+    getFunctionOptions: () => Promise<[functionType[], siteType[]]>
     role: roleType
 }
 
@@ -14,7 +14,7 @@ type functionCheckList = {
     checked: boolean
 } & functionType
 type functionTypes = {
-    functionId: string
+    functionId: number
     name: string
     description: string
 }
@@ -24,7 +24,7 @@ type roleType = {
     roleName: string
     sites: string[]
     description: string
-    functions_lookUp: functionTypes[] | functionType[]
+    functions_lookUp: functionTypes[]
 }
 
 export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
@@ -37,9 +37,11 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
         [k: string]: functionType[]
     }>()
     const [sites, setSites] = useState<siteType[]>([])
-    const [roleEditList, setRoleEditList] = useState<functionCheckList[]>()
-
     const { roleName, description } = role
+
+    const [func, setFunc] = useState<number[]>(
+        role?.functions_lookUp.map((l) => l.functionId) ?? []
+    )
 
     const initializeFunctions = async () => {
         const [functionResp, siteResp] = await getFunctionOptions()
@@ -58,15 +60,12 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
         setInput((v) => ({ ...(v as roleType), [field]: value }))
     }
 
-    const handleFunctionChange = (id: string, v: boolean) => {
-        const editList = [...(roleEditList as functionCheckList[])]
-        const editItemIndex = editList.findIndex((l) => l._id === id)
-        editList[editItemIndex].checked = v
-        setRoleEditList(editList)
-        setInput((v) => ({
-            ...(v as roleType),
-            functions: editList.filter((i) => i.checked) ?? []
-        }))
+    const handleFunctionChange = (id: number) => {
+        const funcList = _.cloneDeep(func)
+        const funcItemIdx = funcList.findIndex((l) => l === id)
+        if (funcItemIdx > -1) funcList.splice(funcItemIdx, 1)
+        else funcList.push(id)
+        setFunc(funcList)
     }
 
     const handleSiteChange = (name: string) => {
@@ -85,22 +84,12 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
     }
 
     useEffect(() => {
-        if (functions) {
-            const selectedList = (role.functions || []).map((k) => k.functionId)
-            // const combinedList = functions.map((j) => {
-            //     const isSelected = selectedList.includes(j._id)
-            //     return {
-            //         ...j,
-            //         checked: isSelected
-            //     }
-            // }, [])
-            // setRoleEditList(combinedList)
-        }
-    }, [functions])
-
-    useEffect(() => {
-        if (inputs) onFormValueChange(inputs as roleType)
-    }, [inputs])
+        if (inputs)
+            onFormValueChange({
+                ...(inputs as roleType),
+                functionId: [...func]
+            })
+    }, [inputs, func])
 
     return (
         <div className="d-flex flex-column space-y-6 s-section-primary p-2">
@@ -140,7 +129,7 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
                     {(Object.keys(functions ?? {}) ?? []).map((l) => {
                         return (
                             <div className="d-flex flex-column col-12 col-md-6 col-lg-4">
-                                {functions[l].map((k, idx) => (
+                                {(functions?.[l] ?? []).map((k, idx) => (
                                     <div className="px-1">
                                         <AdminCheckboxInput
                                             key={`admin_check_box_input_${idx}`}
@@ -169,7 +158,9 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
                                             }
                                             onChange={(v) => {
                                                 console.log("kkkkk", k)
-                                                handleFunctionChange(k._id, v)
+                                                handleFunctionChange(
+                                                    k.functionId
+                                                )
                                             }}
                                         />
                                     </div>

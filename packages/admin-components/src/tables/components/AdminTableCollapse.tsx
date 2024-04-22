@@ -19,7 +19,7 @@ export const AdminTableCollapse: React.FC<RowCellInterface> = ({
             onClick={action}
             style={{
                 minHeight: 35,
-                width: customWidth ?? 180
+                width: customWidth ?? "auto"
             }}>
             {isExpanded ? (
                 <HiChevronUp className="s-text-color-alpha" />

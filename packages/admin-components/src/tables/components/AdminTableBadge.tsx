@@ -21,7 +21,7 @@ export const AdminTableBadge: React.FC<AdminTableBadgeInterface> = ({
     return (
         <div
             className="d-flex align-items-center justify-content-center "
-            style={{ width: customWidth ?? 180 }}>
+            style={{ width: customWidth ?? "auto" }}>
             <div
                 className="s-section-primary px-3 rounded-4 d-flex align-items-center"
                 style={{ ...customStyle }}>

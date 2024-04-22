@@ -195,7 +195,6 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                             <td
                                                 key={cell.id}
                                                 style={{
-                                                    width: 180,
                                                     ...getCommonPinningStyles(
                                                         column,
                                                         "td"
