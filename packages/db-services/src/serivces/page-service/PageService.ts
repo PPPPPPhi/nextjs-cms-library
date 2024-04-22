@@ -41,8 +41,8 @@ export const createPage = async (page: pageType) => {
             site: site,
             pageJson: "{}",
             status: 1,
-            updatedBy: operator,
-            createdBy: operator
+            updatedBy: operatorName,
+            createdBy: operatorName
         }
 
         const createRes = await getUpsertSingleDocumentQuery(
@@ -56,7 +56,7 @@ export const createPage = async (page: pageType) => {
                 }
             },
             Page,
-            { slug: slug },
+            { slug, language },
             newDocument
         )
 
