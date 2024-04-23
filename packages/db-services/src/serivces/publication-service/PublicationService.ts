@@ -38,17 +38,19 @@ export const publishPage = async (pageId: string, version?: string) => {
             }
         }
 
+        console.log(`[publish] before publish page`, page)
         if (page) {
-            const { _doc, pageVersion } = page
+            const {
+                name,
+                slug,
+                description,
+                language,
+                pageJson,
+                site,
+                pageVersion
+            } = page
 
-            const { name, slug, description, language, pageJson, site } = _doc
-
-            console.log(
-                `[publish] page`,
-                page,
-                publication,
-                JSON.stringify(operator)
-            )
+            console.log(`[publish] publication`, publication)
 
             if (!publication || publication?.status == 500) {
                 console.log(`[publish] create new publication`)

@@ -241,6 +241,7 @@ export const getPageById = async (pageId: string, version?: string) => {
             )
 
             pageWithVersion = {
+                // @ts-ignore
                 ...(page?._doc ?? page),
                 pageVersion: pageVersionResp[0]?.version ?? "0.0.0"
             }

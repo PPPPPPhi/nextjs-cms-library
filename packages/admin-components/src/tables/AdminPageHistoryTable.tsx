@@ -7,7 +7,7 @@ interface AdminPageHistoryTableInterface {
     data: pageRowType[]
     isCompatible: boolean
     // createNewPage: (d: pageRowType) => void
-    // publishPage: (d: pageRowType) => void
+    publishPage: (d: pageHistoryRowType) => void
 }
 
 export type pageHistoryRowType = pageRowType & {
@@ -19,9 +19,9 @@ export const AdminPageHistoryTable: React.FC<
     AdminPageHistoryTableInterface
 > = ({
     data,
-    isCompatible
+    isCompatible,
     // createNewPage,
-    // publishPage
+    publishPage
 }) => {
     const router = useRouter()
     const { site } = useParams()
@@ -104,6 +104,7 @@ export const AdminPageHistoryTable: React.FC<
                         size: 100,
                         action: (data) => {
                             console.log("publish", data)
+                            publishPage(data)
                         }
                     },
                     {
