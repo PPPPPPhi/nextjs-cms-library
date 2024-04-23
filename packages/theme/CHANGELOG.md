@@ -1,5 +1,11 @@
 # @nextjs-cms-library/theme
 
+## 3.1.4
+
+### Patch Changes
+
+- update server side admin
+
 ## 3.1.3
 
 ### Patch Changes

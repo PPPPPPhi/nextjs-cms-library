@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.2.4
+
+### Patch Changes
+
+- update server side admin
+
 ## 0.2.3
 
 ### Patch Changes
