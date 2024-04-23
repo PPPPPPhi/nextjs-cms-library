@@ -69,9 +69,10 @@ export const connectMongoDB = async () => {
         let options = {
             bufferCommands: false,
             autoIndex: true,
-            minPoolSize: 2,
-            socketTimeoutMS: 500000,
-            maxPoolSize: 20
+            minPoolSize: 20,
+            socketTimeoutMS: 30000,
+            serverSelectionTimeoutMS: 30000,
+            maxPoolSize: 50
         }
 
         console.log("not cached 3")

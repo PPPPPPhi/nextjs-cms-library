@@ -1,5 +1,35 @@
 # @nextjs-cms-library/db-services
 
+## 1.1.11
+
+### Patch Changes
+
+- update pool
+
+## 1.1.10
+
+### Patch Changes
+
+- update pool size
+
+## 1.1.9
+
+### Patch Changes
+
+- update
+
+## 1.1.8
+
+### Patch Changes
+
+- update
+
+## 1.1.7
+
+### Patch Changes
+
+- update
+
 ## 1.1.6
 
 ### Patch Changes

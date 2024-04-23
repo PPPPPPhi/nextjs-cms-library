@@ -265,11 +265,11 @@ const withSubColumn =
         const [{}, drag] = useDrag(
             () => ({
                 item: { childType, id, parentId },
-                type: element ?? "",
+                type: isPreview || readOnly ? "Not-draggable" : element ?? "",
                 collect: (monitor: any) => ({}),
                 end: (item: any, monitor: any) => {}
             }),
-            [element]
+            [element, isPreview, readOnly]
         )
 
         const [{ isDragging }, drop] = useDrop(
@@ -322,7 +322,7 @@ const withSubColumn =
                 <div
                     // ref={!readOnly ? subRef : null}
                     id={`${id}-${childType}`}
-                    className={`d-flex w-100 h-100 s-column-grid ${!readOnly ? "s-dragging" : ""} 
+                    className={`d-flex w-100 h-100 s-column-grid ${!readOnly && !isPreview ? "s-dragging" : ""} 
                 ${!isPreview ? "s-edit-area-border" : "border-none"}`}
                     style={{
                         flex: 1,

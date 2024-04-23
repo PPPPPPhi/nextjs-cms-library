@@ -5,7 +5,7 @@ type AuditModel = Model<IAudit, {}, {}>
 
 const auditSchema = new mongoose.Schema<IAudit, AuditModel, {}>(
     {
-        dataId: { type: String, unique: true },
+        dataId: { type: String },
         user: String,
         category: String,
         action: String,

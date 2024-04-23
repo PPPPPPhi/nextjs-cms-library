@@ -1,9 +1,13 @@
+import { useDisplayPanelContext } from ".."
+
 export const EmptyLayoutGrid: React.FC<any> = () => {
+    const { isPreview, readOnly } = useDisplayPanelContext()
+
     return (
         <div
             className="s-empty-drag-drop-box text-level-sub-body"
             style={{ color: "grey", flex: 1 }}>
-            Drag Some Elements
+            {!isPreview && !readOnly && <span>Drag Some Elements</span>}
         </div>
     )
 }

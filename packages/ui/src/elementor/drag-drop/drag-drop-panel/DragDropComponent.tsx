@@ -94,11 +94,14 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         return focusEditId?.id == id ? "flex" : "none"
     }, [focusEditId])
 
-    const [{}, drag] = useDrag(() => ({
-        item: { id },
-        type: id,
-        collect: (monitor: any) => ({})
-    }))
+    const [{}, drag] = useDrag(
+        () => ({
+            item: { id },
+            type: isPreview || readOnly ? "Not-draggable" : id,
+            collect: (monitor: any) => ({})
+        }),
+        [isPreview, readOnly]
+    )
 
     const selfData = useMemo(() => {
         const data = propertiesEditList.find(
@@ -108,7 +111,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
     }, [propertiesEditList])
 
     const updateFocusEditComponent = useCallback(() => {
-        if (readOnly) return
+        if (readOnly || isPreview) return
         if (focusEditId?.id == id) return
         if (focusEditId?.parentId) {
             setFocusEditId({ id })
@@ -172,7 +175,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                     id={`${id}-edit`}
                     ref={drag}
                     onClick={() => updateFocusEditComponent()}
-                    className={`s-drag-drop-card`}
+                    className={isPreview || readOnly ? "" : `s-drag-drop-card`}
                     style={{
                         padding: element === "banner" ? 0 : 20,
                         borderColor: focusElement
