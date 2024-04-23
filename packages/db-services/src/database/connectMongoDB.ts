@@ -20,12 +20,16 @@ async function connectMongoDB() {
     }
 
     if (!cached.promise) {
-        const opts = {
-            bufferCommands: false
+        let options = {
+            bufferCommands: false,
+            autoIndex: true,
+            minPoolSize: 2,
+            socketTimeoutMS: 500000,
+            maxPoolSize: 5
         }
 
         cached.promise = mongoose
-            .connect(DATABASE_URL, opts)
+            .connect(DATABASE_URL, options)
             .then((mongoose) => {
                 return mongoose
             })
@@ -33,5 +37,10 @@ async function connectMongoDB() {
     cached.conn = await cached.promise
     return cached.conn
 }
+
+process.on("SIGINT", async () => {
+    await mongoose.connection.close()
+    process.exit(0)
+})
 
 export default connectMongoDB
