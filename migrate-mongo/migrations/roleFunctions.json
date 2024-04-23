@@ -1,0 +1,370 @@
+[
+    {
+        "name": "VIEW_USERS",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10010001
+    },
+    {
+        "name": "VIEW_SELF_USER_PROFILE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10010002
+    },
+    {
+        "name": "VIEW_USER_DETAIL",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10010003
+    },
+    {
+        "name": "EDIT_SELF_PROFILE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10010004
+    },
+    {
+        "name": "VIEW_ROLE_MANAGEMENT",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10020001
+    },
+    {
+        "name": "CREATE_ROLE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10020002
+    },
+    {
+        "name": "EDIT_ROLE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10020003
+    },
+    {
+        "name": "EDIT_OTHER_USER",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10020004
+    },
+    {
+        "name": "ACTIVATE_USER_STATUS",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10020005
+    },
+    {
+        "name": "USER_VIEW_ROLE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 10020006
+    },
+    {
+        "name": "VIEW_SITE_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010001
+    },
+    {
+        "name": "VIEW_SITE_SETTING_VERSION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010002
+    },
+    {
+        "name": "VIEW_SITE_SETTING_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010003
+    },
+    {
+        "name": "VIEW_SITE_SETTING_PUBLICATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010004
+    },
+    {
+        "name": "EDIT_SITE_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010005
+    },
+    {
+        "name": "CREATE_SITE_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010006
+    },
+    {
+        "name": "COMPARE_SITE_SETTING_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010007
+    },
+    {
+        "name": "PUBLISH_SITE_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20010008
+    },
+    {
+        "name": "VIEW_SITE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20020001
+    },
+    {
+        "name": "CREATE_SITE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20020002
+    },
+    {
+        "name": "MULTI_SITE_CONTROL",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 20020003
+    },
+    {
+        "name": "VIEW_PAGES",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 30010001
+    },
+    {
+        "name": "VIEW_PAGE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 30010002
+    },
+    {
+        "name": "VIEW_PAGE_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 30010003
+    },
+    {
+        "name": "VIEW_PUBLICATIONS",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 30010004
+    },
+    {
+        "name": "VIEW_PUBLICATION_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 30010005
+    },
+    {
+        "name": "VIEW_IMAGE_GALLERY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 40010001
+    },
+    {
+        "name": "UPLOAD_IMAGE",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 40010002
+    },
+    {
+        "name": "VIEW_TRANSLATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 40010003
+    },
+    {
+        "name": "VIEW_HEADER_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50010001
+    },
+    {
+        "name": "VIEW_HEADER_SETTING_PUBLICATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50010002
+    },
+    {
+        "name": "EDIT_HEADER_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50010003
+    },
+    {
+        "name": "COMPARE_HEADER_SETTING_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50010004
+    },
+    {
+        "name": "VIEW_FOOTER_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50020001
+    },
+    {
+        "name": "EDIT_FOOTER_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50020002
+    },
+    {
+        "name": "VIEW_FOOTER_SETTING_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50020003
+    },
+    {
+        "name": "COMPARE_FOOTER_SETTING_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50020004
+    },
+    {
+        "name": "VIEW_FOOTER_SETTING_PUBLICATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50020005
+    },
+    {
+        "name": "VIEW_NAVIGATION_SETTING",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030001
+    },
+    {
+        "name": "EDIT_NAVIGATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030002
+    },
+    {
+        "name": "VIEW_NAVIGATION_PUBLICATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030003
+    },
+    {
+        "name": "CLONE_NAVIGATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030004
+    },
+    {
+        "name": "VIEW_NAVIGATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030005
+    },
+    {
+        "name": "VIEW_NAVIGATION_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030006
+    },
+    {
+        "name": "VIEW_NAVIGATION_PUBLICATION",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030007
+    },
+    {
+        "name": "COMPARE_NAVIGATION_HISTORY",
+        "description": "",
+        "__v": 0,
+        "createdAt": "2024-02-15T12:01:08.047Z",
+        "updatedAt": "2024-02-15T12:01:08.047Z",
+        "functionId": 50030008
+    }
+]
