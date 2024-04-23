@@ -82,8 +82,6 @@ const useHistoryHook = () => {
                 return
             }
 
-            console.log("asdasdd 2")
-
             setDragDropEditList(
                 _.cloneDeep(dragDropHistoryList?.[currentHistoryIndex - 1])
             )

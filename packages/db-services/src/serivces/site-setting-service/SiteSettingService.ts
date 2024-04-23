@@ -98,7 +98,7 @@ export const getSiteSetting = async (site: string, version?: string) => {
 export const getSiteSettingByKey = async (site: string, key: string) => {
     try {
         const mongoose = await connectMongoDB()
-        console.log("mmmmm", mongoose.models.SiteSetting)
+        console.log("mmmmm", key)
 
         const setting = await getProjectedQuery(
             mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>,

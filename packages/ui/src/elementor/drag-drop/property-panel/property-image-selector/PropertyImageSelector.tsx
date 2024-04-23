@@ -70,7 +70,6 @@ export const PropertyImageSelector: React.FC<
     const [enableModel, setEnableModal] = useState<boolean>(false)
 
     const updateImageValue = (id: any) => {
-        console.log("idddd", id)
         // @ts-ignore
         if (onChange) onChange(id)
         setEnableModal(false)
@@ -78,10 +77,12 @@ export const PropertyImageSelector: React.FC<
 
     return (
         <div>
-            <div className={`flex flex-col justify-center`}>
+            <div
+                className={`d-flex flex-column justify-content-center align-items-center`}>
                 <div
                     style={{
                         width: "80%",
+                        maxWidth: 300,
                         height: 30,
                         borderRadius: 25
                     }}
@@ -108,7 +109,9 @@ export const PropertyImageSelector: React.FC<
                             height={300}
                             site={site as string}
                             value={value as string}
-                            handler={() => {}}
+                            handler={() => {
+                                updateImageValue("")
+                            }}
                             isEdit={true}
                         />
                     )}

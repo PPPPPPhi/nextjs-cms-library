@@ -40,8 +40,8 @@ export const NextImageApdator: React.FC<
                 />
             </div>
             <div
-                className="flex-column w-100 h-100 align-items-center justify-content-center text-level-remark text-font-light"
-                style={{ display: isError ? "flex" : "none" }}>
+                className="flex-column w-100 h-100 align-items-center justify-content-center text-level-remark text-font-light position-absolute"
+                style={{ display: isError ? "flex" : "none", top: 0 }}>
                 <FaImage style={{ width: 20, height: 20 }} />
                 <span className="text-center">Image is not available now</span>
             </div>

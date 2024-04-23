@@ -1,5 +1,11 @@
 # @nextjs-cms-library/theme
 
+## 3.1.5
+
+### Patch Changes
+
+- 016a830: update minor bug
+
 ## 3.1.4
 
 ### Patch Changes

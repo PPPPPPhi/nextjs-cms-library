@@ -27,7 +27,7 @@ export const PropertiesPanelArea: React.FC<PropertiesPanelAreaProps> = (
                 top: 180,
                 height: "70%",
                 marginTop: 80,
-                zIndex: 1
+                zIndex: 30
             }}>
             <div className=" dark:text-white p-2 d-flex flex-column h-100">
                 <div className="h-100" style={{ flex: 1 }}>

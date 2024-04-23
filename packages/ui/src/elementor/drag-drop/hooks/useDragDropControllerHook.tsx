@@ -11,6 +11,7 @@ const useDragDropControllerHook = () => {
     )
 
     const isPreviousHistoryEnable = useMemo(() => {
+        console.log("currentHistoryIndex", currentHistoryIndex)
         if (currentHistoryIndex === 1) return
 
         const isWithinRange =

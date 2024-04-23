@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.2.5
+
+### Patch Changes
+
+- 016a830: update minor bug
+
 ## 0.2.4
 
 ### Patch Changes

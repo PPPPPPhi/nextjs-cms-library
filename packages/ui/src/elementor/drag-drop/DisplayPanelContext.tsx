@@ -244,13 +244,12 @@ export const DisplayPanelContextProvider: FC<
     const [dropComponentInLayout, setDropComponentInLayout] =
         useState<any>(null)
 
-    const [currentHistoryIndex, setCurrentHistoryIndex] = useState<number>(0)
+    const [currentHistoryIndex, setCurrentHistoryIndex] = useState<number>(-1)
     const [toggle, setToggle] = useState<boolean>(false)
     const [isExpandView, setExpandView] = useState<boolean>(readOnly)
     const [isMobileView, setMobileView] = useState<boolean>(false)
     const [isPreview, setPreview] = useState<boolean>(readOnly)
     const [isHardPreview, setIsHardPreview] = useState<boolean>(readOnly)
-
     const [dragDropEditAcceptType, setDragDropEditAcceptType] = useState<
         string[]
     >([])
