@@ -1,19 +1,15 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import User from "../../database/models/user/User"
 import {
     checkAccountAvailablility,
-    getOperator,
-    getOperatorId,
     getOperatorInfo
 } from "../auth-service/authService"
 import { ErrorCode } from "../../constants/"
-import { Types } from "mongoose"
+import { Types, Model } from "mongoose"
 import {
     QueryOperatior,
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
-import { AuditService } from ".."
+import { connectMongoDB } from "../.."
 
 export type userRegType = {
     userName: string
@@ -27,7 +23,7 @@ export const registerUserByForm = async (user: userRegType) => {
     const { userName, firstName, lastName, email, password } = user
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
 
@@ -61,7 +57,7 @@ export const registerUserByForm = async (user: userRegType) => {
                     event: "Register New User"
                 }
             },
-            User,
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>,
             { userName: userName },
             newDocument
         )
@@ -78,9 +74,12 @@ export const registerUserByForm = async (user: userRegType) => {
 
 export const getUserProfile = async (userName: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         //@ts-ignore
-        const user = await User.findOne({ userName: userName }, "-password")
+        const user = await mongoose.models.User.findOne(
+            { userName: userName },
+            "-password"
+        )
 
         if (user) return user
         else throw new Error(ErrorCode.USER_NOT_FOUND)
@@ -96,8 +95,10 @@ export const updateUserProfile = async (
     lastName: string
 ) => {
     try {
-        await connectMongoDB()
-        const user = await User.updateOne(
+        const mongoose = await connectMongoDB()
+        const user = await (
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>
+        ).updateOne(
             { userName },
             {
                 firstName,
@@ -114,10 +115,10 @@ export const updateUserProfile = async (
 
 export const getUserList = async () => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const users = await getProjectedQuery(
-            User,
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>,
             { _id: { $exists: true } },
             [
                 {
@@ -155,11 +156,13 @@ export const getUserList = async () => {
 
 export const activateUser = async (userName: string, status: number) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
 
-        const user = await User.updateOne(
+        const user = await (
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>
+        ).updateOne(
             { userName },
             {
                 status,
@@ -184,11 +187,13 @@ export const updateUser = async (
     }
 ) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
 
-        const userResp = await User.updateOne(
+        const userResp = await (
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>
+        ).updateOne(
             { userName },
             {
                 ...user,

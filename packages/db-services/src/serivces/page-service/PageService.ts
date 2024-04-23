@@ -1,5 +1,4 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Page from "../../database/models/page/Page"
+import { Model } from "mongoose"
 import {
     getOperator,
     getOperatorId,
@@ -13,6 +12,7 @@ import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
+import { connectMongoDB } from "../.."
 
 type pageType = {
     name: string
@@ -26,7 +26,7 @@ export const createPage = async (page: pageType) => {
     const { name, slug, language, site, description } = page ?? {}
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
@@ -55,7 +55,7 @@ export const createPage = async (page: pageType) => {
                     event: "Create Page"
                 }
             },
-            Page,
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>,
             { slug, language },
             newDocument
         )
@@ -80,13 +80,15 @@ export const updatePage = async (
     pageDetails: { name: string; description: string }
 ) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const { name, description } = pageDetails ?? {}
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
-        const result = await Page.findOneAndUpdate(
+        const result = await (
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>
+        ).findOneAndUpdate(
             { _id: pageId },
             {
                 name,
@@ -110,12 +112,14 @@ export const cloneLanguagePage = async (
     language: string
 ) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
-        const page = await Page.findOne({
+        const page = await (
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>
+        ).findOne({
             site,
             slug,
             language: refLanguage
@@ -123,7 +127,14 @@ export const cloneLanguagePage = async (
 
         const { description, name, pageJson } = (page as pType) ?? {}
 
-        const newPage = new Page({
+        const newPage = new (mongoose.models.Page as Model<
+            any,
+            {},
+            {},
+            {},
+            any,
+            any
+        >)({
             name,
             slug,
             description,
@@ -153,14 +164,14 @@ export const cloneLanguagePage = async (
 
 export const getPageList = async (site: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperator()
 
         const siteSettingResp = await getSiteSettingByKey(site, "cms_language")
 
         const pageList = await getProjectedQuery(
-            Page,
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>,
             { site },
             [
                 {
@@ -215,9 +226,11 @@ export const getPageList = async (site: string) => {
 
 export const getPageById = async (pageId: string, version?: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         //@ts-ignore
-        const page = await Page.findOne({ _id: pageId })
+        const page = await (
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>
+        ).findOne({ _id: pageId })
         let pageWithVersion
 
         let versionPage = null
@@ -241,6 +254,7 @@ export const getPageById = async (pageId: string, version?: string) => {
             )
 
             pageWithVersion = {
+                //@ts-ignore
                 ...(page?._doc ?? page),
                 pageVersion: pageVersionResp[0]?.version ?? "0.0.0"
             }
@@ -257,12 +271,14 @@ export const getPageById = async (pageId: string, version?: string) => {
 
 export const updatePageJson = async (pageId: string, pageJson: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
         //@ts-ignore
-        const page = await Page.findOne({ _id: pageId })
+        const page = await (
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>
+        ).findOne({ _id: pageId })
 
         //@ts-ignore
         const { createdAt } = page
@@ -294,9 +310,11 @@ export const updatePageJson = async (pageId: string, pageJson: string) => {
 
 export const getPageHistory = async (pageId: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         //@ts-ignore
-        const page = await Page.findOne({ _id: pageId })
+        const page = await (
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>
+        ).findOne({ _id: pageId })
 
         //@ts-ignore
         const histories = await page.getVersions()

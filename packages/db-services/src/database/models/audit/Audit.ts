@@ -16,6 +16,6 @@ const auditSchema = new mongoose.Schema<IAudit, AuditModel, {}>(
     }
 )
 
-const auditModel = mongoose.models.Audit || mongoose.model("Audit", auditSchema)
+// const auditModel = mongoose.models.Audit || mongoose.model("Audit", auditSchema)
 
-export default auditModel
+export default auditSchema

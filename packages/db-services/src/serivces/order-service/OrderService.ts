@@ -1,5 +1,4 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Order from "../../database/models/order/Order"
+// import Order from "../../database/models/order/Order"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import { getOperator, getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
@@ -10,7 +9,8 @@ import {
     getParsedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
-import { Types } from "mongoose"
+import { Model, Types } from "mongoose"
+import { connectMongoDB } from "../.."
 
 type createOrderType = {
     site: string
@@ -38,10 +38,9 @@ export const createOrder = async (f: createOrderType) => {
     } = f
 
     try {
-        await connectMongoDB()
-
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
+        const mongoose = await connectMongoDB()
 
         const newDocument = {
             description,
@@ -65,7 +64,7 @@ export const createOrder = async (f: createOrderType) => {
                     event: "Register New Order"
                 }
             },
-            Order,
+            mongoose.models.Order as Model<any, {}, {}, {}, any, any>,
             { _id: new Types.ObjectId() },
             newDocument
         )
@@ -80,7 +79,7 @@ export const createOrder = async (f: createOrderType) => {
 
 // export const getOrder = async (site: string, type: string, lang: string) => {
 //     try {
-//         await connectMongoDB()
+//         const mongoose = await connectMongoDB()
 //         const marginals = await Order.findOne({ site, type, language: lang })
 
 //         return {
@@ -96,15 +95,16 @@ export const createOrder = async (f: createOrderType) => {
 
 export const getFilterOrders = async (filter: FilterOrdersParam) => {
     try {
-        await connectMongoDB()
         console.log(`getFilterOrders filter`, filter)
+
+        const mongoose = await connectMongoDB()
 
         let orders
         const query = getParsedQuery(filter)
 
         console.log(`getFilterOrders query`, query)
         //@ts-ignore
-        orders = Order.find(query)
+        orders = mongoose.models.Order.find(query)
 
         if (orders) return orders
         else return []

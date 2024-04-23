@@ -1,6 +1,3 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Category from "../../database/models/category/Category"
-import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import { getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
 import {
@@ -9,7 +6,8 @@ import {
     getParsedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
-import { Types } from "mongoose"
+import { Types, Model } from "mongoose"
+import { connectMongoDB } from "../.."
 
 type createCategoryType = {
     category: string
@@ -21,7 +19,7 @@ export const createCatelogCategory = async (f: createCategoryType) => {
     const { category, subCategory, site } = f
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
 
@@ -41,7 +39,7 @@ export const createCatelogCategory = async (f: createCategoryType) => {
                     event: "Register New category"
                 }
             },
-            Category,
+            mongoose.models.Category as Model<any, {}, {}, {}, any, any>,
             { _id: new Types.ObjectId() },
             newDocument
         )
@@ -56,7 +54,7 @@ export const createCatelogCategory = async (f: createCategoryType) => {
 
 // export const getCatelogProduct = async (site: string, type: string, lang: string) => {
 //     try {
-//         await connectMongoDB()
+//         const mongoose = await connectMongoDB()
 //         const marginals = await CatelogProduct.findOne({ site, type, language: lang })
 
 //         return {
@@ -79,7 +77,7 @@ type FilterCatelogCategoryParam = {
 
 export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
         let category
@@ -87,7 +85,9 @@ export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
 
         console.log(`getFilterOrders query`, filter)
         //@ts-ignore
-        category = Category.find(query)
+        category = (
+            mongoose.models.Category as Model<any, {}, {}, {}, any, any>
+        ).find(query)
 
         if (category) return category
         else return []

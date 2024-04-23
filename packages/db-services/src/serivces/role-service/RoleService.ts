@@ -1,14 +1,6 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Role from "../../database/models/role/Role"
-import User from "../../database/models/user/User"
-import Function from "../../database/models/function/Function"
-import {
-    getOperator,
-    getOperatorId,
-    getOperatorInfo
-} from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
 import { initializeFunction } from "../function-service/FunctionService"
-import { Types } from "mongoose"
+import { Model, Types } from "mongoose"
 import {
     getProjectedQuery,
     getUpsertSingleDocumentQuery,
@@ -23,6 +15,7 @@ import {
 } from "./roleServiceUtils"
 import { AuditService, FunctionService } from ".."
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
+import { connectMongoDB } from "../.."
 
 type roleType = {
     roleName: string
@@ -66,7 +59,7 @@ export const createRole = async (role: roleType) => {
     const { roleName, description, functions, sites } = role
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
 
@@ -90,7 +83,7 @@ export const createRole = async (role: roleType) => {
                 id: operatorId,
                 historyData: { method: "createRole", event: "Create Role" }
             },
-            Role,
+            mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
             { roleName: roleName },
             newDocument
         )
@@ -110,10 +103,10 @@ export const createRole = async (role: roleType) => {
 
 export const getRoleList = async () => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const getRoles = await getProjectedQuery(
-            Role,
+            mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
             { _id: { $exists: true } },
             [],
             [
@@ -138,6 +131,8 @@ export const getRoleList = async () => {
 export const updateRoleById = async (roleId: string, role: roleType) => {
     try {
         const { roleName, sites, functions, description } = role
+
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
@@ -165,7 +160,7 @@ export const updateRoleById = async (roleId: string, role: roleType) => {
                     event: "Update Role By Id"
                 }
             },
-            Role,
+            mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
             { _id: roleId },
             newDocument
         )
@@ -185,6 +180,8 @@ export const updateAddRoleFunction = async (
     roleFunction: RoleFunctionUpdateType
 ) => {
     try {
+        const mongoose = await connectMongoDB()
+
         const { roleId, roleName, sites, description, functionId, isCreate } =
             roleFunction
 
@@ -207,7 +204,7 @@ export const updateAddRoleFunction = async (
         const foundRoleId = isCreate ? new Types.ObjectId() : roleId
 
         // @ts-ignore
-        const updateRole: Promise<any> = Role.findOneAndUpdate(
+        const updateRole: Promise<any> = mongoose.models.Role.findOneAndUpdate(
             {
                 _id: foundRoleId
             },
@@ -249,6 +246,8 @@ export const updateAddUserRole = async (
     userRole: UserRoleUpdateRequestType | UserRoleUpdateType
 ) => {
     try {
+        const mongoose = await connectMongoDB()
+
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
@@ -262,7 +261,7 @@ export const updateAddUserRole = async (
         console.log(`[update role] roleIds`, roleIds)
 
         // @ts-ignore
-        const updateRole: Promise<any> = User.findOneAndUpdate(
+        const updateRole: Promise<any> = mongoose.models.User.findOneAndUpdate(
             {
                 _id: userId
             },

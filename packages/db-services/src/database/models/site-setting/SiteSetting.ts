@@ -1,7 +1,5 @@
-import mongoose, { Model, Schema, SchemaTimestampsConfig } from "mongoose"
+import mongoose, { Model, Schema } from "mongoose"
 import { ISiteSetting } from "./interface"
-//@ts-ignore
-import MongooseHistoryPlugin from "mongoose-history-plugin"
 
 type SiteSettingModel = Model<ISiteSetting, {}, {}>
 
@@ -47,11 +45,13 @@ let options = {
     ignorePopulatedFields: false
 }
 
-const siteSettingModel =
-    (mongoose.models.SiteSetting as SiteSettingModel) ||
-    mongoose.model(
-        "SiteSetting",
-        siteSettingSchema.plugin(MongooseHistoryPlugin(options))
-    )
+// const siteSettingModel =
+//     (mongoose.models.SiteSetting as SiteSettingModel) ||
+//     mongoose.model(
+//         "SiteSetting",
+//         siteSettingSchema.plugin(MongooseHistoryPlugin(options))
+//     )
 
-export default siteSettingModel
+// export default siteSettingModel
+
+export default siteSettingSchema

@@ -1,16 +1,12 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Site from "../../database/models/site/Site"
-import {
-    getOperator,
-    getOperatorId,
-    getOperatorInfo
-} from "../auth-service/authService"
+import { Model } from "mongoose"
+import { getOperatorInfo } from "../auth-service/authService"
 import {
     ImageResourceAdaptor,
     ImageResourceOperator,
     imageResourceAdaptorType
 } from "@nextjs-cms-library/ui/index"
 import { QueryOperatior, getUpsertSingleDocumentQuery } from "../utils"
+import { connectMongoDB } from "../.."
 
 type createSiteType = {
     name: string
@@ -18,13 +14,12 @@ type createSiteType = {
     image: File
     description: string
 }
-
 export const getAllSite = async () => {
     try {
-        await connectMongoDB()
-
-        //@ts-ignore
-        const sites = await Site.find({})
+        const mongoose = await connectMongoDB()
+        const sites = await (
+            mongoose.models.Site as Model<any, {}, {}, {}, any, any>
+        ).find({})
         if (sites) return sites
         else return []
     } catch (e) {
@@ -37,7 +32,7 @@ export const createSite = async (siteReq: createSiteType) => {
     const { name, slug, image, description } = siteReq ?? {}
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const imageApdator = new ImageResourceAdaptor()
         const imageOperator = ImageResourceOperator.getInstance(
@@ -66,7 +61,7 @@ export const createSite = async (siteReq: createSiteType) => {
                     event: "Create New Site"
                 }
             },
-            Site,
+            mongoose.models.Site as Model<any, {}, {}, {}, any, any>,
             { slug: slug },
             newDocument
         )

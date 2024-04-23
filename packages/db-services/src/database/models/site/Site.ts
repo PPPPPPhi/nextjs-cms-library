@@ -18,6 +18,6 @@ const siteSchema = new mongoose.Schema<ISite, SiteModel, {}>(
     }
 )
 
-const siteModel = mongoose.models.Site || mongoose.model("Site", siteSchema)
+// const siteModel = mongoose.models.Site || mongoose.model("Site", siteSchema)
 
-export default siteModel
+export default siteSchema

@@ -17,7 +17,7 @@ const promotionSchema = new mongoose.Schema<IPromotion, PromotionModal, {}>(
     }
 )
 
-const promotionModal =
-    mongoose.models.Promotion || mongoose.model("Promotion", promotionSchema)
+// const promotionModal =
+//     mongoose.models.Promotion || mongoose.model("Promotion", promotionSchema)
 
-export default promotionModal
+export default promotionSchema

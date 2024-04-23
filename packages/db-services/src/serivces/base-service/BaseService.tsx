@@ -1,4 +1,3 @@
-import connectMongoDB from "../../database/connectMongoDB"
 import { Model } from "mongoose"
 import * as _ from "lodash"
 
@@ -7,8 +6,6 @@ export const getSchemaHistory = async (
     filter: any
 ) => {
     try {
-        await connectMongoDB()
-
         const scheme = await Model.findOne(filter)
 
         const histories = await scheme.getVersions()

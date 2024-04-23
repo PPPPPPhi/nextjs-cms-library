@@ -1,14 +1,12 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Marginal from "../../database/models/marginal/Marginal"
+import { Model, Types } from "mongoose"
 import { getOperatorInfo } from "../auth-service/authService"
-import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
-import { Types } from "mongoose"
 import {
     QueryOperatior,
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
 import _ from "lodash"
+import { connectMongoDB } from "../.."
 
 type marginalCommonType = {
     footerCss: string
@@ -34,7 +32,7 @@ export const getMarginal = async (
     language?: string
 ) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const filter = _.omitBy(
             {
@@ -46,7 +44,7 @@ export const getMarginal = async (
         )
 
         const marginals = await getProjectedQuery(
-            Marginal,
+            mongoose.models.Marginal as Model<any, {}, {}, {}, any, any>,
             filter,
             [],
             [
@@ -81,12 +79,19 @@ export const createMarginal = async (
         | marginalCommonType
 ) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
-        const marginal = new Marginal({
+        const marginal = new (mongoose.models.Marginal as Model<
+            any,
+            {},
+            {},
+            {},
+            any,
+            any
+        >)({
             site,
             type,
             properties: {
@@ -171,7 +176,7 @@ export const saveMarginal = async (
         | marginalCommonType
 ) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
@@ -183,7 +188,9 @@ export const saveMarginal = async (
         }
 
         console.log(`getMarginalPropsByType `, marginalProp)
-        const marginal = await Marginal.findOneAndUpdate(
+        const marginal = await (
+            mongoose.models.Marginal as Model<any, {}, {}, {}, any, any>
+        ).findOneAndUpdate(
             { site, type, language },
             {
                 $set: {
@@ -212,6 +219,7 @@ type cloneMarginalType = {
 export const cloneMarginal = async (nav: cloneMarginalType) => {
     try {
         const { site, type, srcLang, targetLang } = nav
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
@@ -240,7 +248,7 @@ export const cloneMarginal = async (nav: cloneMarginalType) => {
                     event: `Clone Nav from ${srcLang} to ${targetLang}`
                 }
             },
-            Marginal,
+            mongoose.models.Marginal as Model<any, {}, {}, {}, any, any>,
             { site, type, language: targetLang },
             newDocument
         )

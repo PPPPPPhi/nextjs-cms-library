@@ -14,7 +14,7 @@ const categorySchema = new mongoose.Schema<ICategory, CategoryModal, {}>(
     }
 )
 
-const CategoryModal =
-    mongoose.models.Category || mongoose.model("Category", categorySchema)
+// const CategoryModal =
+//     mongoose.models.Category || mongoose.model("Category", categorySchema)
 
-export default CategoryModal
+export default categorySchema

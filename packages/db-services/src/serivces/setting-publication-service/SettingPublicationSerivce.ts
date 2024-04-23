@@ -1,4 +1,4 @@
-import connectMongoDB from "../../database/connectMongoDB"
+import { Model } from "mongoose"
 import SettingPublication from "../../database/models/setting-publication/SettingPublication"
 import { getSiteSetting } from "../site-setting-service/SiteSettingService"
 import {
@@ -7,10 +7,11 @@ import {
     siteSettingType as sType
 } from "../../"
 import * as _ from "lodash"
+import { connectMongoDB } from "../../"
 
 export const publishSetting = async (site: string, version?: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const versionHistory = HistoryService.getFullVersion(version as string)
         const setting = (await getSiteSetting(
@@ -22,7 +23,14 @@ export const publishSetting = async (site: string, version?: string) => {
         const { properties, settingVersion } = setting
         const publishResp = await HistoryService.publicateSchema(
             { properties, settingVersion, site },
-            SettingPublication,
+            mongoose.models.SettingPublication as Model<
+                any,
+                {},
+                {},
+                {},
+                any,
+                any
+            >,
             "Publishing site setting",
             "publishSetting",
             publication
@@ -36,8 +44,17 @@ export const publishSetting = async (site: string, version?: string) => {
 
 export const getPublicationBySite = async (site: string) => {
     try {
-        await connectMongoDB()
-        const publicaiton = (await SettingPublication.findOne({
+        const mongoose = await connectMongoDB()
+        const publicaiton = (await (
+            mongoose.models.SettingPublication as Model<
+                any,
+                {},
+                {},
+                {},
+                any,
+                any
+            >
+        ).findOne({
             site
         })) as spType
 
@@ -51,8 +68,17 @@ export const getPublicationBySite = async (site: string) => {
 
 export const getSettingPublicationHistory = async (site: string) => {
     try {
+        const mongoose = await connectMongoDB()
+
         const historyResp = await HistoryService.getSchemaHistory(
-            SettingPublication,
+            mongoose.models.SettingPublication as Model<
+                any,
+                {},
+                {},
+                {},
+                any,
+                any
+            >,
             {
                 site
             }

@@ -1,25 +1,7 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Audit from "../../database/models/audit/Audit"
-import User from "../../database/models/user/User"
-import Role from "../../database/models/role/Role"
-import Function from "../../database/models/function/Function"
-import Site from "../../database/models/site/Site"
-import SiteSetting from "../../database/models/site-setting/SiteSetting"
-import Page from "../../database/models/page/Page"
-import Publication from "../../database/models/publication/Publication"
-import { Marginal } from "../.."
 import { getOperatorInfo } from "../auth-service/authService"
-import { initializeFunction } from "../function-service/FunctionService"
 import { Model, Types } from "mongoose"
 import { getProjectedQuery, userSessionType } from "../utils"
-import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
-
-type auditType = {
-    auditName: string
-    description: string
-    functions: string[]
-    sites: string[]
-}
+import { connectMongoDB } from "../.."
 
 type auditUserType = {
     operatorId: string
@@ -33,15 +15,19 @@ const insertAuditLog = (
 ) => {
     model
         .watch([], { fullDocument: "updateLookup" })
-        .on("change", (event: any) => {
+        .on("change", async (event: any) => {
             const { fullDocument, operationType, ns, _id } = event
             const { userName, id, operatorId } = userInfo
+
+            const mongoose = await connectMongoDB()
 
             const userId = userName ?? id ?? operatorId
 
             // console.log(`[audit] ${ns?.coll} ${operationType}`, event)
 
-            Audit.insertMany([
+            ;(
+                mongoose.models.Audit as Model<any, {}, {}, {}, any, any>
+            ).insertMany([
                 {
                     dataId: _id?._data,
                     // @ts-ignore
@@ -59,16 +45,42 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
         const operator = await getOperatorInfo()
         const { id: operatorId } = operator
 
+        const mongoose = await connectMongoDB()
+
         // console.log(`[audit] init watch `, JSON.stringify(operator), operatorId)
 
-        insertAuditLog(Role, { operatorId })
-        insertAuditLog(User, { operatorId })
-        insertAuditLog(Function, { operatorId })
-        insertAuditLog(Site, { operatorId })
-        insertAuditLog(SiteSetting, { operatorId })
-        insertAuditLog(Page, { operatorId })
-        insertAuditLog(Publication, { operatorId })
-        insertAuditLog(Marginal, { operatorId })
+        insertAuditLog(
+            mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
+        insertAuditLog(
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
+        insertAuditLog(
+            mongoose.models.Function as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
+        insertAuditLog(
+            mongoose.models.Site as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
+        insertAuditLog(
+            mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
+        insertAuditLog(
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
+        insertAuditLog(
+            mongoose.models.Publication as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
+        insertAuditLog(
+            mongoose.models.Marginal as Model<any, {}, {}, {}, any, any>,
+            { operatorId }
+        )
 
         return { status: 200 }
     } catch (err) {
@@ -79,10 +91,10 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
 
 export const getAuditList = async () => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const getAudits = await getProjectedQuery(
-            Audit,
+            mongoose.models.Audit as Model<any, {}, {}, {}, any, any>,
             { _id: { $exists: true } },
             [],
             [
@@ -105,12 +117,12 @@ export const getAuditList = async () => {
 
 export const getAuditRecordByUser = async (auditId: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const parsedId = new Types.ObjectId(auditId)
 
         const resp = await getProjectedQuery(
-            Audit,
+            mongoose.models.Audit as Model<any, {}, {}, {}, any, any>,
             { user: { $in: [auditId, parsedId] } },
             [],
             ["dataId", "user", "category", "action", "updatedAt"]

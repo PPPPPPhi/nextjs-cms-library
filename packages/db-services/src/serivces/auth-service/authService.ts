@@ -1,19 +1,11 @@
-import { Types, ObjectId } from "mongoose"
-import connectMongoDB from "../../database/connectMongoDB"
-import User from "../..//database/models/user/User"
-import Role from "../../database/models/role/Role"
-import Audit from "../../database/models/audit/Audit"
-import Function from "../../database/models/function/Function"
+import { Types, Model } from "mongoose"
 import { getServerAuthSession } from "./auth"
 import { ErrorCode } from "../../constants/"
 import _, { merge } from "lodash"
-import {
-    getMergedQueryRes,
-    getPaginatedQuery,
-    getProjectedQuery
-} from "../utils"
+import { getMergedQueryRes, getProjectedQuery } from "../utils"
 import { forkJoin, switchMap, firstValueFrom, of } from "rxjs"
 import { v4 as uuidv4 } from "uuid"
+import { connectMongoDB } from "../.."
 
 type userType = {
     userName: string
@@ -25,9 +17,9 @@ type userType = {
 
 export const authenticateUser = async (account: string, password: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         //@ts-ignore
-        const user = await User.findOne({ userName: account })
+        const user = await mongoose.models.User.findOne({ userName: account })
 
         if (user) {
             const isValid = await user.isValidPassword(password)
@@ -42,7 +34,9 @@ export const authenticateUser = async (account: string, password: string) => {
                     lastName,
                     email
                 }
-                await Audit.insertMany([
+                await (
+                    mongoose.models.Audit as Model<any, {}, {}, {}, any, any>
+                ).insertMany([
                     {
                         dataId: uuidv4(),
                         // @ts-ignore
@@ -64,14 +58,14 @@ export const authenticateUser = async (account: string, password: string) => {
 
 export const getUserAuthProfile = async (userId: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         console.log(`[getUserAuthProfile] input userId`, userId)
 
         const userObjId: Types.ObjectId = new Types.ObjectId(userId)
         console.log(`[getUserAuthProfile] input userObjId`, userObjId)
 
         const user = getProjectedQuery(
-            User,
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>,
             { _id: { $in: [userObjId] } },
             [],
             [
@@ -86,7 +80,7 @@ export const getUserAuthProfile = async (userId: string) => {
         )
 
         const roles = getProjectedQuery(
-            Role,
+            mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
             {
                 userIds: { $in: [userObjId] }
             },
@@ -129,9 +123,9 @@ export const checkAccountAvailablility = async (
     email: string
 ) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         //@ts-ignore
-        const sameUser = await User.findOne({
+        const sameUser = await mongoose.models.User.findOne({
             $or: [{ userName: userName }, { email: email }]
         })
         if (sameUser)
@@ -174,12 +168,16 @@ export const getOperatorInfo = async (): Promise<OperatorInfoType> => {
 
 export const updateUserLogout = async () => {
     try {
+        const mongoose = await connectMongoDB()
+
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
 
         console.log(`[user] logout`, operatorId)
 
-        await Audit.insertMany([
+        await (
+            mongoose.models.Audit as Model<any, {}, {}, {}, any, any>
+        ).insertMany([
             {
                 dataId: uuidv4(),
                 // @ts-ignore

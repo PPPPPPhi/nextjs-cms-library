@@ -1,13 +1,12 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Image from "../../database/models/image/Image"
-import { getOperator, getOperatorInfo } from "../auth-service/authService"
-import { ObjectId } from "mongoose"
+import { getOperatorInfo } from "../auth-service/authService"
+import { Model } from "mongoose"
 import {
     QueryOperatior,
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
 import { Types } from "mongoose"
+import { connectMongoDB } from "../.."
 
 type imageType = {
     site: string
@@ -20,12 +19,12 @@ type imageType = {
 
 export const getImagesBySite = async (site: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         //@ts-ignore
         // const images = await Image.find({ site })
 
         const images = await getProjectedQuery(
-            Image,
+            mongoose.models.Image as Model<any, {}, {}, {}, any, any>,
             { site },
             [],
             [
@@ -59,7 +58,7 @@ export const saveImageBySite = async (image: imageType) => {
     const { site, fileName, fileSize, width, height, fileExtension } = image
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
@@ -87,7 +86,7 @@ export const saveImageBySite = async (image: imageType) => {
                     event: "Register New User"
                 }
             },
-            Image,
+            mongoose.models.Image as Model<any, {}, {}, {}, any, any>,
             { _id: new Types.ObjectId() },
             newDocument
         )
@@ -102,13 +101,13 @@ export const saveImageBySite = async (image: imageType) => {
 
 export const getImagesById = async (id: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         console.log(`[getImagesById] images`, id)
         //@ts-ignore
         const parseId = new Types.ObjectId(id)
 
         const images = await getProjectedQuery(
-            Image,
+            mongoose.models.Image as Model<any, {}, {}, {}, any, any>,
             { _id: parseId },
             [],
             [

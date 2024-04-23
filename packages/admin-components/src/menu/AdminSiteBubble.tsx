@@ -27,7 +27,7 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
     const router = useRouter()
 
     const siteValue = useMemo(() => {
-        return sites.find((k) => k.slug === site) ? site : undefined
+        return sites?.find((k) => k.slug === site) ? site : undefined
     }, [site])
 
     useEffect(() => {

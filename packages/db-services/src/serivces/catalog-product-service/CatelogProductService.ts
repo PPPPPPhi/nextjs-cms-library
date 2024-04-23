@@ -1,6 +1,4 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Product from "../../database/models/product/Product"
-import { RoleFunction } from "@nextjs-cms-library/role-management/index"
+import { Types, Model } from "mongoose"
 import { getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
 import {
@@ -10,7 +8,7 @@ import {
     getParsedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
-import { Types } from "mongoose"
+import { connectMongoDB } from "../.."
 
 type createProductType = {
     site: string
@@ -25,7 +23,7 @@ export const createCatelogProduct = async (f: createProductType) => {
     const { category, product, amount, stock, photo, site } = f
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
 
@@ -48,7 +46,7 @@ export const createCatelogProduct = async (f: createProductType) => {
                     event: "Register New product"
                 }
             },
-            Product,
+            mongoose.models.Product as Model<any, {}, {}, {}, any, any>,
             { _id: new Types.ObjectId() },
             newDocument
         )
@@ -63,7 +61,7 @@ export const createCatelogProduct = async (f: createProductType) => {
 
 // export const getCatelogProduct = async (site: string, type: string, lang: string) => {
 //     try {
-//         await connectMongoDB()
+//         const mongoose = await connectMongoDB()
 //         const marginals = await CatelogProduct.findOne({ site, type, language: lang })
 
 //         return {
@@ -79,14 +77,16 @@ export const createCatelogProduct = async (f: createProductType) => {
 
 export const getFilterProducts = async (filter: FilterOrdersParam) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
         let products
         const query = getParsedQuery(filter)
 
         //@ts-ignore
-        products = Product.find(query)
+        products = (
+            mongoose.models.Product as Model<any, {}, {}, {}, any, any>
+        ).find(query)
 
         if (products) return products
         else return []

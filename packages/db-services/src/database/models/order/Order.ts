@@ -22,6 +22,8 @@ const orderSchema = new mongoose.Schema<IOrder, OrderModal, {}>(
     }
 )
 
-const orderModal = mongoose.models.Order || mongoose.model("Order", orderSchema)
+export default orderSchema
 
-export default orderModal
+// const orderModal = mongoose.models.Order || mongoose.model("Order", orderSchema)
+
+// export default orderModal

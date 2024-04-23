@@ -14,7 +14,7 @@ const functionSchema = new mongoose.Schema<IFunction, FunctionModal, {}>(
     }
 )
 
-const functionModal =
-    mongoose.models.Function || mongoose.model("Function", functionSchema)
+// const functionModal =
+//     mongoose.models.Function || mongoose.model("Function", functionSchema)
 
-export default functionModal
+export default functionSchema

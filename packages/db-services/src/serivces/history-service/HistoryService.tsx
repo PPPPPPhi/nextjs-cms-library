@@ -1,4 +1,3 @@
-import connectMongoDB from "../../database/connectMongoDB"
 import { getOperatorInfo } from "../auth-service/authService"
 
 import { Model } from "mongoose"
@@ -13,8 +12,6 @@ export const getSchemaHistory = async (
     filter: any
 ) => {
     try {
-        await connectMongoDB()
-
         const scheme = await Model.findOne(filter)
 
         const histories = await scheme.getVersions()

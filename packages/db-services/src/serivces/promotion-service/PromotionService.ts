@@ -1,15 +1,12 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Promotion from "../../database/models/promotion/Promotion"
-import { RoleFunction } from "@nextjs-cms-library/role-management/index"
+import { Model, Types } from "mongoose"
 import { getOperatorInfo } from "../auth-service/authService"
 import _ from "lodash"
 import {
-    FilterOrdersParam,
     QueryOperatior,
     getParsedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
-import { Types } from "mongoose"
+import { connectMongoDB } from "../.."
 
 type createPromotionType = {
     site: string
@@ -24,7 +21,7 @@ export const createPromotion = async (f: createPromotionType) => {
     const { promotion, startDate, endDate, items, promotionCode } = f
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name } = operator
@@ -47,7 +44,7 @@ export const createPromotion = async (f: createPromotionType) => {
                     event: "Register New Promotion"
                 }
             },
-            Promotion,
+            mongoose.models.Promotion as Model<any, {}, {}, {}, any, any>,
             { _id: new Types.ObjectId() },
             newDocument
         )
@@ -62,7 +59,7 @@ export const createPromotion = async (f: createPromotionType) => {
 
 // export const getPromotion = async (site: string, type: string, lang: string) => {
 //     try {
-//         await connectMongoDB()
+//         const mongoose = await connectMongoDB()
 //         const marginals = await Promotion.findOne({ site, type, language: lang })
 
 //         return {
@@ -91,7 +88,7 @@ type FilterPromotionParam = {
 
 export const getFilterPromotion = async (filter: FilterPromotionParam) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         console.log(`getFilterPromotions filter`, filter)
 
         let promotion
@@ -99,8 +96,9 @@ export const getFilterPromotion = async (filter: FilterPromotionParam) => {
         const query = getParsedQuery(filter)
 
         console.log(`getFilterPromotions query`, filter)
-        //@ts-ignore
-        promotion = Promotion.find(query)
+        promotion = (
+            mongoose.models.Promotion as Model<any, {}, {}, {}, any, any>
+        ).find(query)
 
         if (promotion) return promotion
         else return []

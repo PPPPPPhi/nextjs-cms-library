@@ -1,9 +1,8 @@
-import mongoose, { Model, Types } from "mongoose"
+import { Model, Types } from "mongoose"
 import _ from "lodash"
-import Role from "../../database/models/role/Role"
-import User from "../../database/models/user/User"
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 import { QueryOperatior, useQueryOperatorFilter } from "../utils"
+import { connectMongoDB } from "../.."
 
 export type UserRoleUpdateType = {
     userId: string[]
@@ -22,6 +21,8 @@ export const getUpdateUserRoleWithHistory = async (
 ) => {
     const { name, id, reason, historyData } = operator
     const { userId, roleId } = userRole
+
+    const mongoose = await connectMongoDB()
 
     const userIds = JSON.parse(userId)?.map(
         (l: string) => new Types.ObjectId(l)
@@ -46,7 +47,7 @@ export const getUpdateUserRoleWithHistory = async (
 
     console.log(`[update filter]`, updateRoleFilter, updateUserFilter)
     // @ts-ignore
-    const updateRole: Promise<any> = Role.findOneAndUpdate(
+    const updateRole: Promise<any> = mongoose.models.Role.findOneAndUpdate(
         {
             _id: { $in: roleIds }
         },
@@ -54,7 +55,9 @@ export const getUpdateUserRoleWithHistory = async (
         { new: true }
     )
 
-    const updateUser: Promise<any> = User.updateMany(
+    const updateUser: Promise<any> = (
+        mongoose.models.User as Model<any, {}, {}, {}, any, any>
+    ).updateMany(
         {
             _id: { $in: userIds }
         },

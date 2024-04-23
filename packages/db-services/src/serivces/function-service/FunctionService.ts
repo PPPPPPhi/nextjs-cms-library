@@ -1,18 +1,12 @@
-import { Types } from "mongoose"
-import connectMongoDB from "../../database/connectMongoDB"
-import Function from "../../database/models/function/Function"
-import functionModal from "../../database/models/function/Function"
+import { Model } from "mongoose"
 import { RoleFunction } from "@nextjs-cms-library/role-management/index"
 import {
     QueryOperatior,
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
-import {
-    getOperator,
-    getOperatorId,
-    getOperatorInfo
-} from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
+import { connectMongoDB } from "../.."
 
 type functionType = {
     name: string
@@ -22,11 +16,13 @@ type functionType = {
 
 export const initializeFunction = async () => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const defaultFunctions = RoleFunction.role
 
         //@ts-ignore
-        const functions = await Function.insertMany(defaultFunctions)
+        const functions = await (
+            mongoose.models.Function as Model<any, {}, {}, {}, any, any>
+        ).insertMany(defaultFunctions)
         return {
             message: "Success",
             status: 200,
@@ -42,7 +38,7 @@ export const createFunction = async (f: functionType) => {
     const { name, description, functionId } = f
 
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
@@ -63,7 +59,7 @@ export const createFunction = async (f: functionType) => {
                     event: "Create New Function"
                 }
             },
-            Function,
+            mongoose.models.Function as Model<any, {}, {}, {}, any, any>,
             { name: name },
             newDocument
         )
@@ -78,10 +74,12 @@ export const createFunction = async (f: functionType) => {
 
 export const getAllFunctions = async () => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         //@ts-ignore
-        const functions = Function.find({}, "-updatedAt -updatedAt")
+        const functions = (
+            mongoose.models.Function as Model<any, {}, {}, {}, any, any>
+        ).find({}, "-updatedAt -updatedAt")
         if (functions) return functions
         else return []
     } catch (error) {
@@ -92,10 +90,10 @@ export const getAllFunctions = async () => {
 
 export const getFunctionsById = async (functionIds: number[] | string[]) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const functions = await getProjectedQuery(
-            Function,
+            mongoose.models.Function as Model<any, {}, {}, {}, any, any>,
             { functionId: { $in: functionIds } },
             [],
             [

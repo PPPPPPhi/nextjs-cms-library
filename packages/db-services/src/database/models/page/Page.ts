@@ -48,8 +48,8 @@ let options = {
     ignorePopulatedFields: false
 }
 
-const pageModel =
-    (mongoose.models.Page as PageModel) ||
-    mongoose.model("Page", pageSchema.plugin(MongooseHistoryPlugin(options)))
+// const pageModel =
+//     (mongoose.models.Page as PageModel) ||
+//     mongoose.model("Page", pageSchema.plugin(MongooseHistoryPlugin(options)))
 
-export default pageModel
+export default pageSchema

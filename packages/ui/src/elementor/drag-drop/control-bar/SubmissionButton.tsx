@@ -10,10 +10,7 @@ export const SubmissionButton: React.FC<SubmissionButtonProps> = () => {
         useDisplayPanelContext()
 
     const handleSubmitPageData = async () => {
-        console.log("submitttfff", submit)
         if (!submit) return
-        console.log("submitttt")
-        console.log("ppppppllll", propertiesEditList)
 
         await submit(propertiesEditList)
     }

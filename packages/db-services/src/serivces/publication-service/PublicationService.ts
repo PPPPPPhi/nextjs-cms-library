@@ -1,19 +1,15 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import Publication from "../../database/models/publication/Publication"
-import {
-    getOperator,
-    getOperatorId,
-    getOperatorInfo
-} from "../auth-service/authService"
+import { Model } from "mongoose"
+import { getOperatorInfo } from "../auth-service/authService"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
 import { getPageById } from "../page-service/PageService"
 import * as _ from "lodash"
 import { HistoryService } from "../../"
 import { Types } from "mongoose"
+import { connectMongoDB } from "../../"
 
 export const publishPage = async (pageId: string, version?: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
@@ -52,7 +48,8 @@ export const publishPage = async (pageId: string, version?: string) => {
 
             if (!publication || publication?.status == 500) {
                 console.log(`[publish] create new publication`)
-                const newPublication = new Publication({
+                const newPublication = new (mongoose.models
+                    .Publication as Model<any, {}, {}, {}, any, any>)({
                     name,
                     slug,
                     description,
@@ -91,10 +88,12 @@ export const publishPage = async (pageId: string, version?: string) => {
 
 export const getPublicationByPageId = async (pageId: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const parsedPageId = new Types.ObjectId(pageId)
         //@ts-ignore
-        const publicaiton = await Publication.findOne({ pageId })
+        const publicaiton = await (
+            mongoose.models.Publication as Model<any, {}, {}, {}, any, any>
+        ).findOne({ pageId })
 
         console.log(`[publication] no publication`, pageId)
 
@@ -108,10 +107,12 @@ export const getPublicationByPageId = async (pageId: string) => {
 
 export const getPublicationList = async (site: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
         const siteSettingResp = getSiteSettingByKey(site, "cms_language")
-        const publicationResp = Publication.aggregate([
+        const publicationResp = (
+            mongoose.models.Publication as Model<any, {}, {}, {}, any, any>
+        ).aggregate([
             { $match: { site } },
             { $group: { _id: "$slug", details: { $push: "$$ROOT" } } }
         ])
@@ -169,8 +170,10 @@ export const updatePublicationStatus = async (
     status: boolean
 ) => {
     try {
-        await connectMongoDB()
-        const user = await Publication.updateOne(
+        const mongoose = await connectMongoDB()
+        const user = await (
+            mongoose.models.Publication as Model<any, {}, {}, {}, any, any>
+        ).updateOne(
             { _id: publicationId },
             {
                 status: status ? 1 : 0
@@ -186,9 +189,13 @@ export const updatePublicationStatus = async (
 
 export const getPublicationHistory = async (publicaitonId: string) => {
     try {
-        const historyResp = await HistoryService.getSchemaHistory(Publication, {
-            _id: publicaitonId
-        })
+        const mongoose = await connectMongoDB()
+        const historyResp = await HistoryService.getSchemaHistory(
+            mongoose.models.Publication as Model<any, {}, {}, {}, any, any>,
+            {
+                _id: publicaitonId
+            }
+        )
 
         if (historyResp.status === 200) return historyResp
         else throw new Error("Error in getting page publication history")

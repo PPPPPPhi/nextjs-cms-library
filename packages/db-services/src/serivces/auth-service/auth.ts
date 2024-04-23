@@ -1,6 +1,7 @@
 import { getServerSession, type NextAuthOptions } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { authenticateUser, getUserAuthProfile } from "./authService"
+// import connectMongoDB from "@/db-services/database/connectMongoDB"
 
 export const authOptions: NextAuthOptions = {
     session: {

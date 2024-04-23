@@ -1,20 +1,17 @@
-import connectMongoDB from "../../database/connectMongoDB"
-import SiteSetting from "../../database/models/site-setting/SiteSetting"
-import { getOperatorId, getOperatorInfo } from "../auth-service/authService"
-import { getOperator } from "../auth-service/authService"
-import * as _ from "lodash"
+import { Model } from "mongoose"
+import { getOperatorInfo } from "../auth-service/authService"
 import { siteSettingType as sType } from "../.."
 import { HistoryService } from "../index"
 import {
     QueryOperatior,
-    getProjectedVersionQuery,
     getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
+import { connectMongoDB } from "../.."
 
 export const initializeSiteSetting = async (site: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
@@ -46,7 +43,7 @@ export const initializeSiteSetting = async (site: string) => {
                     method: "initializeSiteSetting"
                 }
             },
-            SiteSetting,
+            mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>,
             { site: site },
             newDocument
         )
@@ -61,12 +58,11 @@ export const initializeSiteSetting = async (site: string) => {
 
 export const getSiteSetting = async (site: string, version?: string) => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
 
-        let setting = (await SiteSetting.findOne(
-            { site },
-            "-createdAt -createdBy"
-        )) as sType
+        let setting = (await (
+            mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>
+        ).findOne({ site }, "-createdAt -createdBy")) as sType
 
         console.log("version", version)
         console.log("setting sitesitesite", site)
@@ -101,12 +97,11 @@ export const getSiteSetting = async (site: string, version?: string) => {
 
 export const getSiteSettingByKey = async (site: string, key: string) => {
     try {
-        await connectMongoDB()
-
-        console.log(`[siteSetting] by key`, site, key)
+        const mongoose = await connectMongoDB()
+        console.log("mmmmm", mongoose.models.SiteSetting)
 
         const setting = await getProjectedQuery(
-            SiteSetting,
+            mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>,
             { site, [`properties.${key}`]: { $ne: null } },
             [],
             [`properties.${key}`]
@@ -127,11 +122,13 @@ export const updateSiteSetting = async (
     properties: { [s: string]: any }
 ): Promise<{ status: number; message: string }> => {
     try {
-        await connectMongoDB()
+        const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
-        const settings = (await SiteSetting.findOne({ site })) as sType
+        const settings = (await (
+            mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>
+        ).findOne({ site })) as sType
         const { createdAt } = settings
 
         settings.createdAt = createdAt
@@ -156,10 +153,14 @@ export const updateSiteSetting = async (
 
 export const getSiteSettingHistory = async (site: string) => {
     try {
+        const mongoose = await connectMongoDB()
         console.log(`[getSiteSettingHistory]`)
-        const historyResp = await HistoryService.getSchemaHistory(SiteSetting, {
-            site
-        })
+        const historyResp = await HistoryService.getSchemaHistory(
+            mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>,
+            {
+                site
+            }
+        )
         console.log(`[getSiteSettingHistory]`, historyResp)
         if (historyResp.status === 200) return historyResp
         else throw new Error("Error in getting site setting history")

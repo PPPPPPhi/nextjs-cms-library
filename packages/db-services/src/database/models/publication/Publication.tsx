@@ -54,11 +54,11 @@ let options = {
     ignorePopulatedFields: false
 }
 
-const publicationModel =
-    mongoose.models.Publication ||
-    mongoose.model(
-        "Publication",
-        publicationSchema.plugin(MongooseHistoryPlugin(options))
-    )
+// const publicationModel =
+//     mongoose.models.Publication ||
+//     mongoose.model(
+//         "Publication",
+//         publicationSchema.plugin(MongooseHistoryPlugin(options))
+//     )
 
-export default publicationModel
+export default publicationSchema

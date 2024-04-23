@@ -17,8 +17,8 @@ const marginalSchema = new mongoose.Schema<IMarginal, MarginalModel, {}>(
     }
 )
 
-const marginalModel =
-    (mongoose.models.Marginal as MarginalModel) ||
-    mongoose.model("Marginal", marginalSchema)
+// const marginalModel =
+//     (mongoose.models.Marginal as MarginalModel) ||
+//     mongoose.model("Marginal", marginalSchema)
 
-export default marginalModel
+export default marginalSchema
