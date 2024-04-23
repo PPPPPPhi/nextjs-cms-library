@@ -55,6 +55,8 @@ const useRoleHandlerHook = () => {
             const orderedList = _.sortBy(user, ["sites"], ["desc"])
             // @ts-ignore
             setUser(user?.[0])
+
+            console.log("orderedList", orderedList)
             // @ts-ignore
             setRoleList(orderedList as roleType[])
         }

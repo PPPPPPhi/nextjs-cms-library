@@ -1,5 +1,12 @@
 # @nextjs-cms-library/db-services
 
+## 1.1.12
+
+### Patch Changes
+
+- remove watch
+- update
+
 ## 1.1.11
 
 ### Patch Changes

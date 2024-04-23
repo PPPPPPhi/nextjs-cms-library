@@ -24,8 +24,8 @@ export const registerUserByForm = async (user: userRegType) => {
 
     try {
         const mongoose = await connectMongoDB()
-        const operator = await getOperatorInfo()
-        const { id: operatorId, name } = operator
+        // const operator = await getOperatorInfo()
+        // const { id: operatorId, name } = operator
 
         const checkAccountResp = await checkAccountAvailablility(
             userName,
@@ -50,8 +50,8 @@ export const registerUserByForm = async (user: userRegType) => {
         const createUser = await getUpsertSingleDocumentQuery(
             QueryOperatior.SET,
             {
-                name: name ?? "SYSTEM",
-                id: operatorId,
+                name: "SYSTEM",
+                id: "SYSTEM",
                 historyData: {
                     method: "registerUserByForm",
                     event: "Register New User"

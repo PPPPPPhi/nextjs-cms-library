@@ -68,7 +68,6 @@ export const connectMongoDB = async () => {
     if (!cached.promise) {
         let options = {
             bufferCommands: false,
-            autoIndex: true,
             minPoolSize: 20,
             socketTimeoutMS: 30000,
             serverSelectionTimeoutMS: 30000,

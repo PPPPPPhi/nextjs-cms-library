@@ -1,5 +1,12 @@
 # @nextjs-cms-library/theme
 
+## 3.1.9
+
+### Patch Changes
+
+- remove watch
+- update
+
 ## 3.1.8
 
 ### Patch Changes

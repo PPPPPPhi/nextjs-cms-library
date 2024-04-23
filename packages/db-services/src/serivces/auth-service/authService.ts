@@ -34,18 +34,18 @@ export const authenticateUser = async (account: string, password: string) => {
                     lastName,
                     email
                 }
-                await (
-                    mongoose.models.Audit as Model<any, {}, {}, {}, any, any>
-                ).insertMany([
-                    {
-                        dataId: uuidv4(),
-                        // @ts-ignore
-                        user: _id,
-                        category: "users",
-                        action: `users login`,
-                        details: userDoc
-                    }
-                ])
+                // await (
+                //     mongoose.models.Audit as Model<any, {}, {}, {}, any, any>
+                // ).insertMany([
+                //     {
+                //         dataId: uuidv4(),
+                //         // @ts-ignore
+                //         user: _id,
+                //         category: "users",
+                //         action: `users login`,
+                //         details: userDoc
+                //     }
+                // ])
 
                 return userDoc
             } else throw new Error(ErrorCode.PASSWORD_NOT_MATCH)
@@ -130,7 +130,7 @@ export const checkAccountAvailablility = async (
         })
         if (sameUser)
             return { message: "Account is already registered", status: 401 }
-        else return { message: "Account is ok", status: 401 }
+        else return { message: "Account is ok", status: 200 }
     } catch (e) {
         console.log("Error in checkAccountAvailablility", e)
         return { message: "Error in checkAccountAvailablility", status: 500 }

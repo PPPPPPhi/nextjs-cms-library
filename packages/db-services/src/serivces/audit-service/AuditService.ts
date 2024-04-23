@@ -49,38 +49,38 @@ export const initAuditWatchHistory = async (user: userSessionType) => {
 
         // console.log(`[audit] init watch `, JSON.stringify(operator), operatorId)
 
-        insertAuditLog(
-            mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
-        insertAuditLog(
-            mongoose.models.User as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
-        insertAuditLog(
-            mongoose.models.Function as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
-        insertAuditLog(
-            mongoose.models.Site as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
-        insertAuditLog(
-            mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
-        insertAuditLog(
-            mongoose.models.Page as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
-        insertAuditLog(
-            mongoose.models.Publication as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
-        insertAuditLog(
-            mongoose.models.Marginal as Model<any, {}, {}, {}, any, any>,
-            { operatorId }
-        )
+        // insertAuditLog(
+        //     mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
+        // insertAuditLog(
+        //     mongoose.models.User as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
+        // insertAuditLog(
+        //     mongoose.models.Function as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
+        // insertAuditLog(
+        //     mongoose.models.Site as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
+        // insertAuditLog(
+        //     mongoose.models.SiteSetting as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
+        // insertAuditLog(
+        //     mongoose.models.Page as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
+        // insertAuditLog(
+        //     mongoose.models.Publication as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
+        // insertAuditLog(
+        //     mongoose.models.Marginal as Model<any, {}, {}, {}, any, any>,
+        //     { operatorId }
+        // )
 
         return { status: 200 }
     } catch (err) {

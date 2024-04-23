@@ -1,5 +1,12 @@
 # @nextjs-cms-library/role-management
 
+## 1.1.9
+
+### Patch Changes
+
+- remove watch
+- update
+
 ## 1.1.8
 
 ### Patch Changes

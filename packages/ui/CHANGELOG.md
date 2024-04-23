@@ -1,5 +1,12 @@
 # @repo/ui
 
+## 0.2.9
+
+### Patch Changes
+
+- remove watch
+- update
+
 ## 0.2.8
 
 ### Patch Changes
