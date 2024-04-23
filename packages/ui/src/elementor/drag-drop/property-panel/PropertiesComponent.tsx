@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useRef } from "react"
+import React, { useMemo, useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import _ from "lodash"
 
@@ -17,13 +17,13 @@ type PropertiesChildEmptyProps = {}
 const PropertiesChildEmpty: React.FC<PropertiesChildEmptyProps> = ({}) => {
     return (
         <div className="flex flex-col justify-center text-center">
-            <span className="my-3  text-level-body text-font-bold">
+            <span className="my-3 text-level-body text-font-bold s-text-color-alpha">
                 Select an element to edit
             </span>
             <div className="my-3 flex flex-row justify-center">
                 <img className="w-24 h-24" src={DragDropIcon.src} />
             </div>
-            <span className="my-3 text-level-remark text-font-medium">
+            <span className="my-3 text-level-remark text-font-medium s-text-color-alpha">
                 None selected
             </span>
         </div>
@@ -43,7 +43,7 @@ export const PropertiesComponent: React.FC<
         setPropertiesEditList,
         setDragDropEditList
     } = useDisplayPanelContext()
-    const { control, getValues, setValue } = useForm({
+    const { control, getValues, setValue, reset } = useForm({
         defaultValues: data
     })
 
@@ -52,6 +52,8 @@ export const PropertiesComponent: React.FC<
         propertyId: "",
         propertyType: ""
     }
+
+    const [i, setI] = useState(false)
 
     const {
         propertiesList,
@@ -63,17 +65,18 @@ export const PropertiesComponent: React.FC<
         propertyType: string
     } = useMemo(() => {
         if (!focusEditId.id) return DEFAULT_PROPERTY
+        setI(false)
 
         const focusEditRef = focusEditId.id
         const eItem = propertiesEditList.find((k) => k.id === focusEditRef)
 
-        if (eItem?.properties && eItem?.properties.length)
+        if (eItem?.properties && eItem?.properties.length) {
             return {
                 propertiesList: eItem.properties,
                 propertyId: eItem.id,
                 propertyType: eItem.type
             }
-        else if (eItem?.children) {
+        } else if (eItem?.children) {
             const childEItem = eItem.children.find((k) => k.id === focusEditRef)
             // if (childEItem?.properties && childEItem?.properties.length)
             //     return {
@@ -106,6 +109,7 @@ export const PropertiesComponent: React.FC<
             })
             //@ts-ignore
             setValue(propertyId, defaultV)
+            setI(true)
         }
     }, [propertiesList, propertyId])
 
@@ -152,11 +156,10 @@ export const PropertiesComponent: React.FC<
 
             newPropertiesList[currentItemIdx] = updatedItem
 
-            console.log("puuuuu 6")
+            console.log("puuuuu 6", updatedItem)
 
             setPropertiesEditList(_.cloneDeep(newPropertiesList))
         } else {
-            console.log("inside parent")
             const currentItem = _.cloneDeep(
                 newPropertiesList.find((k) => k.id === focusEditId.parentId)
             )
@@ -171,22 +174,26 @@ export const PropertiesComponent: React.FC<
                 ...currentItem,
                 children: currentItem?.children.map(
                     (child: any, index: number) => {
-                        return {
-                            ...child,
-                            properties: child?.properties?.map((k) => {
-                                return {
-                                    ...k,
-                                    value: values[focusEditRef][k.element_id]
-                                }
-                            })
-                        }
+                        if (child.id !== focusEditRef) return { ...child }
+                        else
+                            return {
+                                ...child,
+                                properties: child?.properties?.map((k) => {
+                                    return {
+                                        ...k,
+                                        value: values[focusEditRef][
+                                            k.element_id
+                                        ]
+                                    }
+                                })
+                            }
                     }
                 )
             }
 
             newPropertiesList[currentItemIdx] = updatedItem
 
-            console.log("puuuuu 7")
+            console.log("puuuuu 7", updatedItem)
 
             setPropertiesEditList(_.cloneDeep(newPropertiesList))
             setDragDropEditList(_.cloneDeep(dragDropListRef.current))
@@ -206,24 +213,25 @@ export const PropertiesComponent: React.FC<
             <div
                 className="d-flex flex-column overflow-y-auto py-2"
                 style={{ flex: 1 }}>
-                {propertiesList?.length === 0 && <PropertiesChildEmpty />}
-                {propertiesList?.map((l) => {
-                    return (
-                        <div key={`${id}-properties-container`}>
-                            <PropertiesChildInput
-                                key={`${id}-properties`}
-                                {...props}
-                                {...l}
-                                // @ts-ignore
-                                control={control}
-                                id={propertyId}
-                                parentId={id}
-                                // updateProperties={updateProperties}
-                                // setValue={setValue}
-                            />
-                        </div>
-                    )
-                })}
+                {i && propertiesList?.length === 0 && <PropertiesChildEmpty />}
+                {i &&
+                    propertiesList?.map((l) => {
+                        return (
+                            <div key={`${id}-properties-container`}>
+                                <PropertiesChildInput
+                                    key={`${id}-properties`}
+                                    {...props}
+                                    {...l}
+                                    // @ts-ignore
+                                    control={control}
+                                    id={propertyId}
+                                    parentId={id}
+                                    // updateProperties={updateProperties}
+                                    // setValue={setValue}
+                                />
+                            </div>
+                        )
+                    })}
             </div>
             <div
                 className="d-flex justify-content-center"

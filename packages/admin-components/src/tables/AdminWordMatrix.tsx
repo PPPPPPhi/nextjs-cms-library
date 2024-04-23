@@ -40,14 +40,14 @@ const rawData: any = {
         price: "Price",
         footer: {
             privacyPolicy: "Privacy Policy",
-            termToUse :"Terms To Use",
-            sitemap :"Sitemap",
-            contactUs :"Contact Us",
-            licenseAndPermit :"License and Permit",
+            termToUse: "Terms To Use",
+            sitemap: "Sitemap",
+            contactUs: "Contact Us",
+            licenseAndPermit: "License and Permit",
             aboutUs: "About Us",
             allCake: "All Cake",
             storeAddress: "Store Address",
-            shoppingGuidelines:"Shopping Guidelines",
+            shoppingGuidelines: "Shopping Guidelines",
             cakeVouchers: "Cake Vouchers",
             breadPackaged: "Bread & Packaged",
             dessert: "Dessert"
@@ -59,14 +59,14 @@ const rawData: any = {
         price: "價格",
         footer: {
             privacyPolicy: "私隱政策",
-            termToUse :"使用條款",
-            sitemap :"網站地圖",
-            contactUs :"聯絡我們",
-            licenseAndPermit :"牌照及許可證",
+            termToUse: "使用條款",
+            sitemap: "網站地圖",
+            contactUs: "聯絡我們",
+            licenseAndPermit: "牌照及許可證",
             aboutUs: "關於我們",
             allCake: "所有蛋糕",
             storeAddress: "商店地址",
-            shoppingGuidelines:"購物指南",
+            shoppingGuidelines: "購物指南",
             cakeVouchers: "蛋糕券",
             breadPackaged: "麵包和包裝",
             dessert: "甜點"
@@ -78,14 +78,14 @@ const rawData: any = {
         price: "价格",
         footer: {
             privacyPolicy: "私隱政策",
-            termToUse :"使用条款",
-            sitemap :"网站地图",
-            contactUs :"联络我们",
-            licenseAndPermit :"牌照及许可证",
+            termToUse: "使用条款",
+            sitemap: "网站地图",
+            contactUs: "联络我们",
+            licenseAndPermit: "牌照及许可证",
             aboutUs: "关于我们",
             allCake: "所有蛋糕",
             storeAddress: "商店地址",
-            shoppingGuidelines:"购物指南",
+            shoppingGuidelines: "购物指南",
             cakeVouchers: "蛋糕券",
             breadPackaged: "面包和包装",
             dessert: "甜点"
@@ -198,12 +198,7 @@ const AdminWordMatrix: React.FC<AdminWordMatrixIterface> = forwardRef(
             //     return parts[parts.length - 1]
             // }
 
-            return (
-                <AdminTableHeaderCell
-                    customWidth={200}
-                    label={initialValue}
-                />
-            )
+            return <AdminTableHeaderCell label={initialValue} />
         }
 
         //This component is an editable component
@@ -224,7 +219,7 @@ const AdminWordMatrix: React.FC<AdminWordMatrixIterface> = forwardRef(
             return (
                 <input
                     className="w-100"
-                    style={{ border: "1px solid black", borderRadius: 5 }}
+                    style={{ border: "1px solid black", borderRadius: 0 }}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onBlur={onBlur}

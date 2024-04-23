@@ -1,5 +1,17 @@
 # @repo/ui
 
+## 0.2.1
+
+### Patch Changes
+
+- update bug fix
+
+## 0.2.0
+
+### Minor Changes
+
+- update restructured library
+
 ## 0.1.25
 
 ### Patch Changes

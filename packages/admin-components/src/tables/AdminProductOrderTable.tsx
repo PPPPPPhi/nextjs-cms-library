@@ -32,19 +32,7 @@ export const AdminProductOrderTable: React.FC<
             <>
                 <AdminTable
                     data={data ?? []}
-                    pinColumns={[
-                        "_id",
-                        "description",
-                        "createdAt",
-                        "updatedAt",
-                        "orderStatus",
-                        "paymentStatus",
-                        "customerId",
-                        "total",
-                        "remark",
-                        "pickUp",
-                        "orderAddress"
-                    ]}
+                    pinColumns={[]}
                     isCompatible={isCompatible}
                     isSubComponent
                     zebra={true}
@@ -53,60 +41,60 @@ export const AdminProductOrderTable: React.FC<
                         {
                             accessorKey: "description",
                             header: "Description",
-                            cellType: "desc",
-                            size: 100
+                            cellType: "cell",
+                            size: 200
                         },
                         {
                             accessorKey: "createdAt",
-                            header: "createdAt",
+                            header: "Created At",
                             cellType: "date",
-                            enableResize: true
+                            size: 150
                         },
                         {
                             accessorKey: "updatedAt",
-                            header: "updatedAt",
+                            header: "Updated At",
                             cellType: "date",
-                            enableResize: true
+                            size: 150
                         },
                         {
                             accessorKey: "orderStatus",
-                            header: "orderStatus",
+                            header: "Order Status",
                             cellType: "badge",
                             size: 220
                         },
                         {
                             accessorKey: "paymentStatus",
-                            header: "paymentStatus",
+                            header: "Payment Status",
                             cellType: "badge",
                             size: 180
                         },
                         {
                             accessorKey: "customerId",
-                            header: "customerId",
+                            header: "Customer Id",
                             cellType: "cell",
                             size: 180
                         },
                         {
                             accessorKey: "total",
-                            header: "total",
+                            header: "Total",
                             cellType: "cell",
                             size: 180
                         },
                         {
                             accessorKey: "remark",
-                            header: "remark",
+                            header: "Remark",
                             cellType: "cell",
                             size: 180
                         },
                         {
                             accessorKey: "pickUp",
-                            header: "pickUp",
+                            header: "Pick Up",
                             cellType: "cell",
                             size: 180
                         },
                         {
                             accessorKey: "orderAddress",
-                            header: "orderAddress",
+                            header: "Order Address",
                             cellType: "cell",
                             size: 180
                         }
