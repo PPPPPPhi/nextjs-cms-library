@@ -116,6 +116,8 @@ type MarginalPropsType = {
     navJson?: string
     headerLargeLogo?: string
     headerSmallLogo?: string
+    headerLargeRatio?: string
+    headerSmallRatio?: string
 }
 
 export const getMarginalPropsByType = (
@@ -130,7 +132,9 @@ export const getMarginalPropsByType = (
         footerScript,
         navJson,
         headerLargeLogo,
-        headerSmallLogo
+        headerSmallLogo,
+        headerLargeRatio,
+        headerSmallRatio
     } = properties
 
     switch (type) {
@@ -144,12 +148,15 @@ export const getMarginalPropsByType = (
             props = {
                 navJson
             }
+            break
         case "header":
             props = {
                 headerLargeLogo,
-                headerSmallLogo
+                headerSmallLogo,
+                headerLargeRatio,
+                headerSmallRatio
             }
-
+            break
         case "footer":
             props = {
                 footerHtml
