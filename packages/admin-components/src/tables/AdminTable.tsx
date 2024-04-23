@@ -182,7 +182,7 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                                                     true
                                                 )
                                             }}>
-                                            <div className="whitespace-nowrap">
+                                            <div className="whitespace-nowrap s-section-primary">
                                                 {header.isPlaceholder
                                                     ? null
                                                     : flexRender(
