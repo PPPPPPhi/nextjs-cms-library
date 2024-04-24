@@ -17,6 +17,7 @@ import imageSchema from "./models/image/Image"
 import functionSchema from "./models/function/Function"
 import categorySchema from "./models/category/Category"
 import auditSchema from "./models/audit/Audit"
+import marginalPublicationSchema from "./models/marginal-publication/MarginalPublication"
 
 declare global {
     var mongoose: any // This must be a `var` and not a `let / const`
@@ -125,7 +126,26 @@ export const connectMongoDB = async () => {
                     )
                 )
                 mongoose.model("Order", orderSchema)
-                mongoose.model("Marginal", marginalSchema)
+                mongoose.model(
+                    "Marginal",
+                    marginalSchema.plugin(
+                        MongooseHistoryPlugin({
+                            ...historyOptions,
+                            mongoose,
+                            modelName: "marginal_histories"
+                        })
+                    )
+                )
+                mongoose.model(
+                    "MarginalPublication",
+                    marginalPublicationSchema.plugin(
+                        MongooseHistoryPlugin({
+                            ...historyOptions,
+                            mongoose,
+                            modelName: "marginalPublication_histories"
+                        })
+                    )
+                )
                 mongoose.model("Image", imageSchema)
                 mongoose.model("Function", functionSchema)
                 mongoose.model("Category", categorySchema)

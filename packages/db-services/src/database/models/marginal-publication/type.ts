@@ -1,6 +1,6 @@
 import { Date } from "mongoose"
 
-export interface IMarginal {
+export type marginalPublicationType = {
     site: string
     type: string
     properties: {
@@ -14,6 +14,7 @@ export interface IMarginal {
         navJosn: string
     }
     language: string
+    marginalVersion: string
     createdBy: string
     updatedBy: string
     createdAt: Date
