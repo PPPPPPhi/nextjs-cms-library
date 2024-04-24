@@ -243,7 +243,14 @@ export const getMergedQueryRes = (data: { primary: any; secondary: any }) => {
 
     const primaryData = _.cloneDeep(primary[0])
 
-    secondary.map((data: FilterQueryParam) => {
+    if (!secondary || secondary?.length == 0)
+        return [
+            {
+                ...primaryData
+            }
+        ]
+
+    secondary?.map((data: FilterQueryParam) => {
         res.push({ ...primaryData, ...data })
     })
 

@@ -10,7 +10,6 @@ const roleSchema = new mongoose.Schema<IRole, RoleModel, {}>(
         description: String,
         functions_lookUp: Array<Schema.Types.Mixed>,
         sites: Array<String>,
-        userIds: Array<ObjectId>,
         createdBy: String,
         updatedBy: String
     },

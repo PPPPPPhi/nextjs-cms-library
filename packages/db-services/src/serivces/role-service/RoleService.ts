@@ -252,47 +252,27 @@ export const updateAddUserRole = async (
         const { id: operatorId, name: operatorName } = operator
 
         const { userId, roleId } = userRole
+        console.log(`userRole`, userId, roleId)
+
+        const parsedUserId = new Types.ObjectId(userId as string)
 
         //@ts-ignore
         const roleIds = JSON.parse(roleId)?.map(
             (l: string) => new Types.ObjectId(l)
         )
 
-        console.log(`[update role] roleIds`, roleIds)
+        console.log(`[update role] roleIds`, roleIds, parsedUserId)
 
-        // @ts-ignore
-        const updateRole: Promise<any> = mongoose.models.User.findOneAndUpdate(
+        const updateUser = await mongoose.models.User.findOneAndUpdate(
             {
-                _id: userId
+                _id: parsedUserId
             },
             { roles: roleIds },
             { new: true }
         )
-        const updateRes = forkJoin([updateRole]).pipe(
-            switchMap((res: any) => {
-                const user = res[0]
 
-                console.log(`[query] res`, user)
-
-                user.updatedAt = user?.updatedAt
-                user.updatedBy = operatorName
-                user.__history = {
-                    event: "Update User Role",
-                    user: operatorId,
-                    type: "major",
-                    method: "updateAddUserRole"
-                }
-
-                return of(user.save())
-            })
-        )
-
-        const res = await firstValueFrom(updateRes)
-
-        console.log(`[role-service] updateAddUserRole`, res)
-
-        if (res) return { status: 200 }
-        else throw new Error("Error in updating role")
+        if (updateUser) return { message: "Success", status: 200 }
+        else throw new Error("Error when update user role")
     } catch (error) {
         console.log("Error occured ", error)
         return { message: "Failed", status: 500 }
