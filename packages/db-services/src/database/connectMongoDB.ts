@@ -92,7 +92,7 @@ export const connectMongoDB = async () => {
                 )
                 mongoose.model("Site", siteSchema)
                 mongoose.model(
-                    "SettingPublicaiton",
+                    "SettingPublication",
                     settingPublicationSchema.plugin(
                         MongooseHistoryPlugin({
                             ...historyOptions,
