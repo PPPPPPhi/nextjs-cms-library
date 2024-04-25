@@ -1,15 +1,10 @@
 import { connectMongoDB } from "../../database/connectMongoDB"
-import Publication from "../../database/models/publication/Publication"
-import {
-    getOperator,
-    getOperatorId,
-    getOperatorInfo
-} from "../auth-service/authService"
+import { getOperatorInfo } from "../auth-service/authService"
 import { getSiteSettingByKey } from "../site-setting-service/SiteSettingService"
-import { getPageById } from "../page-service/PageService"
 import * as _ from "lodash"
 import { HistoryService, MarginalService } from "../../"
 import { Types, Model } from "mongoose"
+import { getProjectedQuery } from "../utils"
 
 type publishMarginalInputType = {
     site: string
@@ -42,24 +37,28 @@ export const publishMarginal = async ({
         )
 
         const { marginals } = getMarginal
-        const { publication } = await getMarginalPublicationByPageId(
+        const { publication } = await getMarginalPublicationByVersion(
             site,
             type,
-            lang
+            lang,
+            versionHistory
         )
 
         const marginalHistory = {
-            __history: {
-                event: "Publish marginal",
-                user: operatorId, // An object id of the user that generate the event
-                reason: undefined,
-                data: undefined, // Additional data to save with the event
-                type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
-                method: "publish marginal" // Optional and intended for method reference
-            }
+            event: "Publish marginal",
+            user: operatorId,
+            reason: undefined,
+            data: undefined,
+            type: "major",
+            method: "publish marginal"
         }
 
-        console.log(`[publish] before publish marginal`, marginals)
+        console.log(
+            `[publish] before publish marginal`,
+            marginals,
+            !publication
+        )
+
         if (!publication) {
             const newPublishMarginal = new (mongoose.models
                 .MarginalPublication as Model<any, {}, {}, {}, any, any>)({
@@ -74,16 +73,19 @@ export const publishMarginal = async ({
             await newPublishMarginal.save()
             return { message: "Success", status: 200 }
         } else {
-            const publishMarginal = new (mongoose.models
+            const publishSetting = new (mongoose.models
                 .MarginalPublication as Model<any, {}, {}, {}, any, any>)({
                 ...publication,
                 _id: new Types.ObjectId(),
-                marginalVersion: publication?.settingVersion ?? versionHistory,
+                settingVersion: publication?.settingVersion ?? versionHistory,
                 status: 1,
+                updatedAt: new Date(),
                 __history: marginalHistory
             })
 
-            await publishMarginal.save()
+            await publishSetting.save()
+
+            await publication.save()
             return { message: "Success", status: 200 }
         }
     } catch (e) {
@@ -92,14 +94,25 @@ export const publishMarginal = async ({
     }
 }
 
-export const getMarginalPublicationByPageId = async (
+export const getMarginalPublicationByVersion = async (
     site: string,
     type: string,
-    language: string
+    language: string,
+    version?: string
 ) => {
     try {
         const mongoose = await connectMongoDB()
-        console.log(`models??`, mongoose.models)
+        console.log(`models??`, site, type, language, version, type == "common")
+
+        const filter = _.omitBy(
+            {
+                site,
+                type,
+                language: type == "common" ? "" : language,
+                marginalVersion: version
+            },
+            _.isEmpty
+        )
 
         const publication = await (
             mongoose.models.MarginalPublication as Model<
@@ -110,19 +123,21 @@ export const getMarginalPublicationByPageId = async (
                 any,
                 any
             >
-        ).findOne({ site, type, language })
+        ).findOne(filter)
 
-        console.log(`[publication] publication`, publication)
-
-        if (publication?._id) return publication
-        else return { message: "Fail", status: 500 }
+        if (publication?._id)
+            return { message: "Success", status: 200, publication }
+        else return { message: "Fail", status: 500, publication: null }
     } catch (e) {
         console.log("Error in getting publicaiton", e)
-        return null
+        return { message: "Fail", status: 500, publication: null }
     }
 }
 
-export const getMarginalPublicationList = async (site: string) => {
+export const getMarginalPublicationList = async (
+    site: string,
+    type: string
+) => {
     try {
         const mongoose = await connectMongoDB()
 
@@ -137,7 +152,7 @@ export const getMarginalPublicationList = async (site: string) => {
                 any
             >
         ).aggregate([
-            { $match: { site } },
+            { $match: { site, type } },
             { $group: { _id: "$slug", details: { $push: "$$ROOT" } } }
         ])
 
@@ -218,9 +233,14 @@ export const updateMarginalPublicationStatus = async (
     }
 }
 
-export const getMarginalPublicationHistory = async (publicaitonId: string) => {
+export const getMarginalPublicationHistory = async (
+    site: string,
+    type: string
+) => {
     try {
-        const historyResp = await HistoryService.getSchemaHistory(
+        const mongoose = await connectMongoDB()
+
+        const getHistory = await getProjectedQuery(
             mongoose.models.MarginalPublication as Model<
                 any,
                 {},
@@ -229,13 +249,50 @@ export const getMarginalPublicationHistory = async (publicaitonId: string) => {
                 any,
                 any
             >,
-            {
-                _id: publicaitonId
-            }
+            { site, type },
+            [
+                { $match: { site: "demo" } },
+                { $sort: { updatedAt: -1 } },
+                {
+                    $group: {
+                        _id: "$marginalVersion",
+                        id: { $first: "$_id" },
+                        site: { $first: "$site" },
+                        marginalVersion: {
+                            $first: "$marginalVersion"
+                        },
+                        createdBy: { $first: "$createdBy" },
+                        updatedBy: { $first: "$updatedBy" },
+                        properties: { $first: "$properties" },
+                        createdAt: { $first: "$createdAt" },
+                        updatedAt: { $first: "$updatedAt" },
+                        __v: { $first: "$v" }
+                    }
+                },
+                { $set: { _id: "$id" } },
+                { $unset: "id" }
+            ],
+            [
+                "site",
+                "type",
+                "properties",
+                "language",
+                "marginalVersion",
+                "updatedBy",
+                "_id",
+                "createdAt",
+                "updatedAt",
+                "version"
+            ]
         )
 
-        if (historyResp.status === 200) return historyResp
-        else throw new Error("Error in getting page publication history")
+        console.log(`[marginalpub]`, getHistory, site, type)
+
+        return {
+            message: "Success",
+            status: 200,
+            histories: getHistory
+        }
     } catch (e) {
         console.log("Error in getting publication history", e)
         return { status: 500, message: "Failed" }

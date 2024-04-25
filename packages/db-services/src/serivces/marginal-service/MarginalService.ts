@@ -39,7 +39,7 @@ export const getMarginal = async (
             {
                 site,
                 type,
-                language
+                language: type == "common" ? "" : language
             },
             _.isEmpty
         )
@@ -288,7 +288,7 @@ export const getMarginalHistory = async (site: string, type: string) => {
             return {
                 message: "Success",
                 status: 200,
-                marginals: historyResp
+                marginals: historyResp?.histories
             }
         else throw new Error("Error in getting site setting history")
     } catch (e) {

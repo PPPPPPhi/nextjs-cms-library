@@ -82,11 +82,12 @@ export const getPublicationBySite = async (site: string) => {
         ).findOne({
             site
         })
-        if (publication?._id) return publication
-        else return { message: "Fail", status: 500 }
+        if (publication?._id)
+            return { message: "Success", status: 200, publication }
+        else return { message: "Fail", status: 500, publication: null }
     } catch (e) {
         console.log("Error in getting publicaiton", e)
-        return null
+        return { message: "Fail", status: 500, publication: null }
     }
 }
 

@@ -7,20 +7,24 @@ import {
     marginalType
 } from "@nextjs-cms-library/db-services/index"
 
-interface AdminNavigationHistoryTableInterface {
-    data: marginalType[]
-    isCompatible: boolean
-    // createNewPage: (d: pageRowType) => void
-    // publishPage: (d: pageRowType) => void
+type marginalHistoryRowType = marginalType & {
+    version: number
 }
 
-export const AdminNaviationHistoryTable: React.FC<
-    AdminNavigationHistoryTableInterface
+interface AdminMarginalHistoryTableInterface {
+    data: marginalHistoryRowType[]
+    isCompatible: boolean
+    // createNewPage: (d: pageRowType) => void
+    publishMarginal: (d: marginalHistoryRowType) => void
+}
+
+export const AdminMarginalHistoryTable: React.FC<
+    AdminMarginalHistoryTableInterface
 > = ({
     data,
-    isCompatible
+    isCompatible,
     // createNewPage,
-    // publishPage
+    publishMarginal
 }) => {
     const router = useRouter()
     const { site } = useParams()
@@ -32,7 +36,7 @@ export const AdminNaviationHistoryTable: React.FC<
                 pinColumns={["_id", "slug", "language", "version"]}
                 isCompatible={isCompatible}
                 isSubComponent
-                compareField="pageJson"
+                compareField="properties"
                 columnDefs={[
                     {
                         accessorKey: "_id",
@@ -52,14 +56,9 @@ export const AdminNaviationHistoryTable: React.FC<
                         accessorKey: "version",
                         header: "Version",
                         cellType: "cell",
-                        size: 80
+                        size: 80,
+                        isExpandable: true
                     },
-                    // {
-                    //     accessorKey: "properties",
-                    //     header: "Properties",
-                    //     cellType: "desc",
-                    //     size: 220
-                    // },
                     {
                         accessorKey: "updatedBy",
                         header: "Updated By",
@@ -80,6 +79,7 @@ export const AdminNaviationHistoryTable: React.FC<
                         size: 100,
                         action: (data) => {
                             console.log("publish", data)
+                            publishMarginal(data)
                         }
                     },
                     {

@@ -1,5 +1,6 @@
 import MarginalPublication from "./MarginalPublication"
 export * from "./interface"
-export * from "./type"
+import { marginalPublicationType } from "./type"
 
 export { MarginalPublication }
+export type { marginalPublicationType }
