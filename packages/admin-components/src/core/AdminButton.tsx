@@ -30,6 +30,7 @@ export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
                 inverseStyle ? styles.adminButtonInverse : styles.adminButton
             } d-flex align-items-center justify-content-center shadow`}
             style={{
+                width: "max-content",
                 ...style,
                 cursor: isDisabled ? "default" : "pointer",
                 background: isDisabled
@@ -40,7 +41,9 @@ export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
                 if (isDisabled) return
                 onClick()
             }}>
-            {Icon && <Icon className="text-level-button s-text-color-nu" />}
+            {Icon && (
+                <Icon className="text-level-button s-text-color-nu mx-2" />
+            )}
             <span className="text-level-remark s-text-color-nu">{label}</span>
         </div>
     )

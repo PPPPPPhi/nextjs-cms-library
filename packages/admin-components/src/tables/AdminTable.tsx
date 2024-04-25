@@ -11,10 +11,11 @@ import {
     Row
 } from "@tanstack/react-table"
 import { getColumnDefinition, getCommonPinningStyles } from "./utils"
+import { HiOutlineArrowPath } from "react-icons/hi2"
 import { columnDefsType } from "../types/type"
 import { AdminDiffViewer } from "./AdminDiffViewer"
 import { AdminTablePagination } from "./components/AdminTablePagination"
-
+import { AdminButton } from "../core"
 import { getCsvBlob } from "tanstack-table-export-to-csv"
 import FileSaver from "file-saver"
 import { AdminCard } from "../core/AdminCard"
@@ -32,6 +33,10 @@ interface AdminTableInterface {
     isSubComponent?: boolean
     zebra?: boolean
     exportAuthCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
+    tableMinHeight?: number
+    excludeExport?: boolean
+    isRefresh?: boolean
+    getData?: () => void
 }
 
 export const AdminTable: React.FC<AdminTableInterface> = ({
@@ -42,7 +47,11 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
     isCompatible,
     isSubComponent,
     zebra = false,
-    exportAuthCode
+    exportAuthCode,
+    tableMinHeight = 400,
+    excludeExport,
+    isRefresh,
+    getData
 }) => {
     const [expanded, setExpanded] = useState<ExpandedState>({})
     const [compareSource, setCompareSource] = useState<number>(-1)
@@ -153,11 +162,11 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
         }
     }, [tableGenRow, tableFlatRow])
 
-    console.log("ttttttable", table.getExpandedRowModel())
-
     return (
         <div className="d-flex flex-column w-100 h-100">
-            <div className="overflow-auto mb-3" style={{ minHeight: 400 }}>
+            <div
+                className="overflow-auto mb-3"
+                style={{ minHeight: tableMinHeight }}>
                 <table className="shadow w-100 overflow-auto">
                     <thead
                         className="s-section-primary"
@@ -249,17 +258,31 @@ export const AdminTable: React.FC<AdminTableInterface> = ({
                     targetJson={data[compareTarget]?.[compareField as string]}
                 />
             )}
-
-            <AdminCard
-                cardsRef={[
-                    {
-                        actionLabel: "Export Excel",
-                        desc: "Export CSV file to view in Excel.",
-                        action: handleExportToCsv,
-                        authCode: exportAuthCode ?? "AVAILABLE_CODE"
-                    }
-                ]}
-            />
+            {isRefresh && (
+                <div className="d-flex justify-content-end">
+                    <div style={{ width: 80 }}>
+                        <AdminButton
+                            Icon={HiOutlineArrowPath}
+                            label=""
+                            onClick={() => {
+                                getData && getData()
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
+            {!excludeExport && (
+                <AdminCard
+                    cardsRef={[
+                        {
+                            actionLabel: "Export Excel",
+                            desc: "Export CSV file to view in Excel.",
+                            action: handleExportToCsv,
+                            authCode: exportAuthCode ?? "AVAILABLE_CODE"
+                        }
+                    ]}
+                />
+            )}
         </div>
     )
 }

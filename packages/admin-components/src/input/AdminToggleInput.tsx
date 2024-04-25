@@ -16,28 +16,26 @@ export const AdminToggleInput: React.FC<AdminToggleInputInterface> = ({
     const [value, setValue] = useState<boolean>(defaultValue || false)
 
     return (
-        <div className="w-100">
-            <div className="d-flex">
-                <input
-                    id="username"
-                    name={label}
-                    type="checkbox"
-                    autoComplete="off"
-                    required
-                    disabled={disabled}
-                    checked={value}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        setValue(event.target.checked)
-                        onChange(event.target.checked)
-                    }}
-                    className=""
-                />
-                {label && (
-                    <label className="s-text-color-alpha text-font-medium ml-3">
-                        {label}
-                    </label>
-                )}
-            </div>
+        <div className="d-flex al align-items-center" style={{ minHeight: 38 }}>
+            <input
+                id="username"
+                className="cursor-pointer"
+                name={label}
+                type="checkbox"
+                autoComplete="off"
+                required
+                disabled={disabled}
+                checked={value}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    setValue(event.target.checked)
+                    onChange(event.target.checked)
+                }}
+            />
+            {label && (
+                <label className="s-text-color-alpha text-font-medium ml-3">
+                    {label}
+                </label>
+            )}
         </div>
     )
 }

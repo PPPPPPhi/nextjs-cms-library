@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import Select from "react-select"
 
 interface AdminSelectInterface {
@@ -6,13 +6,17 @@ interface AdminSelectInterface {
     onSelect: (value: any) => void
     defaultValue?: any
     label?: string
+    placeHolder?: string
+    remark?: string
 }
 
 export const AdminSelect: React.FC<AdminSelectInterface> = ({
     options,
     onSelect,
     defaultValue,
-    label
+    label,
+    placeHolder,
+    remark
 }) => {
     const defaultOption = options?.find((k) => k.value === defaultValue)
 
@@ -21,6 +25,11 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     useEffect(() => {
         onSelect(selectedOption?.value)
     }, [selectedOption])
+
+    const placeH = useMemo(
+        () => placeHolder ?? "Please Select your option",
+        [placeHolder]
+    )
 
     return (
         <div className="w-100">
@@ -33,13 +42,20 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
                 defaultValue={selectedOption}
                 onChange={setSelectedOption}
                 options={options}
-                placeholder="Please Select your option(s)"
+                placeholder={placeH}
                 menuPortalTarget={document.body}
                 menuPosition={"fixed"}
                 styles={{
                     menuPortal: (base: any) => ({ ...base, zIndex: 999 })
                 }}
             />
+            {remark && (
+                <span
+                    className="text-level-remark text-font-normal"
+                    style={{ fontStyle: "italic" }}>
+                    {remark}
+                </span>
+            )}
         </div>
     )
 }

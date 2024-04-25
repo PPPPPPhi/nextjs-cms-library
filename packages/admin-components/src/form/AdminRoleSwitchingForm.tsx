@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
-import { AdminTextInput, AdminSelect } from "../input"
 import { useAdminAuthorizationContext } from "../../../role-management/src/contexts"
-import { set } from "lodash"
+import { useCollapse } from "react-collapsed"
 
 interface AdminRoleSwitchingFormInterface {
     onFormValueChange: (v: string) => void
@@ -16,6 +15,7 @@ export const AdminRoleSwitchingForm: React.FC<
     AdminRoleSwitchingFormInterface
 > = ({ onFormValueChange }) => {
     const [r, setR] = useState<string>("")
+    const [isExpanded, setExpanded] = useState(false)
 
     const { roleList, role } = useAdminAuthorizationContext()
 
@@ -32,10 +32,13 @@ export const AdminRoleSwitchingForm: React.FC<
         if (role && !r) setR(role)
     }, [role])
 
+    const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
+
     return (
         <div className="d-flex flex-column space-y-6 p-2">
             {roleList.map((l) => (
                 <div
+                    {...getCollapseProps()}
                     className="d-flex flex-column"
                     onClick={() => setR(l.roleName)}>
                     <div
