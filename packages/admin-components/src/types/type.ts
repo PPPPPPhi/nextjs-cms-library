@@ -9,10 +9,12 @@ export type cellComponentType =
     | "date"
     | "action"
     | "edit"
+    | "editRaw"
     | "desc"
     | "view"
     | "badgeList"
     | "photo"
+    | "boolean"
 
 export type columnDefsType = {
     accessorKey: string
