@@ -1,20 +1,22 @@
 import { AdminTable } from "@nextjs-cms-library/admin-components/index"
 import { useParams, useRouter } from "next/navigation"
-import {
-    marginalType,
-    marginalPublicationType
-} from "@nextjs-cms-library/db-services/index"
+import { marginalType } from "@nextjs-cms-library/db-services/index"
 import { HiEye } from "react-icons/hi"
 
+type marginalPublicationRowType = marginalType & {
+    version?: number
+    marginalVersion?: string
+}
+
 interface AdminMarginalPublicationHistoryTableInterface {
-    data: marginalType[]
+    data: marginalPublicationRowType[]
     isCompatible: boolean
     publishMarginal: (
-        data: marginalPublicationType & { version: string }
+        data: marginalPublicationRowType & { version: string }
     ) => void
 }
 
-export type marginalPublicationHistoryRowType = marginalPublicationType & {
+export type marginalPublicationHistoryRowType = marginalPublicationRowType & {
     event: string
     version: number
 }
