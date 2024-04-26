@@ -31,6 +31,7 @@ export type customerRewardPointsType = {
 
 export type CustomerType = {
     _id: string
+    site: string
     email: string
     password: string
     firstName: string
@@ -50,7 +51,8 @@ export type CustomerType = {
     lastActivity: string
     orderIds: string[]
     address: customerAddressType[]
-    puductWishIds: string[]
+    productShoppingCartIds: string[]
+    productWishIds: string[]
     activityLog: customerActivityLogType[]
     backInStock: customerStoreType[]
     rewardPoints: customerRewardPointsType[]

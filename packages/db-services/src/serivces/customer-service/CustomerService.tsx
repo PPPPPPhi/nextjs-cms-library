@@ -60,33 +60,17 @@ export const createCatelogProduct = async (f: createProductType) => {
     }
 }
 
-// export const getCatelogProduct = async (site: string, type: string, lang: string) => {
-//     try {
-//         const mongoose = await connectMongoDB()
-//         const marginals = await CatelogProduct.findOne({ site, type, language: lang })
-
-//         return {
-//             message: "Success",
-//             status: 200,
-//             marginals
-//         }
-//     } catch (error) {
-//         console.log("Error occured when getting nav list", error)
-//         return { message: "Failed", status: 500 }
-//     }
-// }
-
-export const getFilterProducts = async (filter: FilterOrdersParam) => {
+export const getFilterCustomer = async (filter: FilterOrdersParam) => {
     try {
         const mongoose = await connectMongoDB()
-        console.log(`getFilterCatelogProducts filter`, filter)
+        console.log(`getFilterCustomer filter`, filter)
 
         let products
         const query = getParsedQuery(filter)
 
         //@ts-ignore
         products = (
-            mongoose.models.Product as Model<any, {}, {}, {}, any, any>
+            mongoose.models.Customer as Model<any, {}, {}, {}, any, any>
         ).find(query)
 
         if (products) return products
@@ -97,67 +81,49 @@ export const getFilterProducts = async (filter: FilterOrdersParam) => {
     }
 }
 
-export const getProductById = async (site: string, id: string) => {
+export const getCustomerById = async (site: string, id: string) => {
     try {
         const mongoose = await connectMongoDB()
         console.log(`getFilterCustomer filter`)
 
         const parsedId = new Types.ObjectId(id)
 
-        const productInfo = await getProjectedQuery(
-            mongoose.models.Product as Model<any, {}, {}, {}, any, any>,
+        const customerInfo = await getProjectedQuery(
+            mongoose.models.User as Model<any, {}, {}, {}, any, any>,
             { _id: parsedId, site },
             [],
             [
                 "_id",
                 "site",
-                "productName",
-                "shortDescription",
-                "fullDescription",
-                "sku",
-                "categories",
-                "manufacturers",
-                "published",
-                "productTags",
-                "GTIN",
-                "manufacturerPartNumber",
-                "showOnHomePage",
-                "displayOrde",
-                "productType",
-                "productTemplate",
-                "visibleIndividually",
+                "email",
+                "password",
+                "firstName",
+                "lastName",
+                "fullName",
+                "gender",
+                "dateOfBirth",
+                "companyName",
+                "isTaxEmempt",
+                "newsletter",
                 "customerRoles",
-                "limitedToStores",
-                "vendor",
-                "requireOtherProducts",
-                "requiredProductIDs",
-                "automaticallyAddTheseProductsToTheCart",
-                "allowCustomerReviews",
-                "availableStartDate",
-                "availableEndDate",
-                "markAsNew",
-                "markAsNewStartDate",
-                "markAsNewEndDate",
+                "vendorManager",
+                "isActive",
                 "adminComment",
-                "prices",
-                "shipping",
-                "inventory",
-                "multimedia",
-                "productAttributes",
-                "specificationAttributes",
-                "giftCard",
-                "downloadableProduct",
-                "rental",
-                "recurringProduct",
-                "SEO",
-                "relatedProducts",
-                "crossSells",
-                "purchasedWithOrders",
-                "stockQuantityHistory"
+                "registeredInStore",
+                "ipAddress",
+                "lastActivity",
+                "orderIds",
+                "address",
+                "productShoppingCartIds",
+                "productWishIds",
+                "activityLog",
+                "backInStock",
+                "rewardPoints",
+                "createdAt"
             ]
         )
 
-        if (productInfo?.[0]) return productInfo?.[0]
+        if (customerInfo?.[0]) return customerInfo?.[0]
         else return []
     } catch (err) {}
 }

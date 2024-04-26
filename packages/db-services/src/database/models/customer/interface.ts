@@ -7,6 +7,7 @@ import {
 } from "./type"
 
 export interface ICustomer {
+    site: string
     email: string
     password: string
     firstName: string
@@ -26,7 +27,8 @@ export interface ICustomer {
     lastActivity: string
     orderIds: string[]
     address: customerAddressType[]
-    puductWishIds: string[]
+    productShoppingCartIds: string[]
+    productWishIds: string[]
     activityLog: customerActivityLogType[]
     backInStock: customerStoreType[]
     rewardPoints: customerRewardPointsType[]

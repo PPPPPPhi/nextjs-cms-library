@@ -5,17 +5,55 @@ type OrderModal = Model<IOrder, {}, {}>
 
 const orderSchema = new mongoose.Schema<IOrder, OrderModal, {}>(
     {
-        description: String,
-        createdAt: Date,
-        updatedAt: Date,
-        orderStatus: String,
-        paymentStatus: Boolean,
-        customerId: String,
-        total: Number,
-        remark: String,
-        pickUp: Boolean,
         site: String,
-        orderAddress: Schema.Types.Mixed
+        order: String,
+        createdAt: Date,
+        customer: String,
+        orderStatus: String,
+        orderSubtotal: Number,
+        orderShipping: Number,
+        orderTax: Number,
+        orderTotal: Number,
+        profit: Number,
+        paymentMethod: String,
+        paymentStatus: String,
+        store: String,
+        orderGUID: String,
+        customerIpAddress: String,
+        billingAndShipping: {
+            billingAddress: {
+                fullName: String,
+                email: String,
+                phone: Number,
+                fax: String,
+                company: String,
+                address1: String,
+                address2: String,
+                city: String,
+                countyRegion: String,
+                stateProvince: String,
+                zipPostalCode: String,
+                country: String
+            },
+            shippingAddress: {
+                fullName: String,
+                email: String,
+                phone: Number,
+                fax: String,
+                company: String,
+                address1: String,
+                address2: String,
+                city: String,
+                countyRegion: String,
+                stateProvince: String,
+                zipPostalCode: String,
+                country: String
+            },
+            shippingMethod: String,
+            shippingStatus: String
+        },
+        products: Schema.Types.Mixed,
+        orderNotes: Schema.Types.Mixed
     },
     {
         timestamps: true

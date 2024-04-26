@@ -5,6 +5,7 @@ type CustomerModel = Model<ICustomer, {}, {}>
 
 const customerSchema = new mongoose.Schema<ICustomer, CustomerModel, {}>(
     {
+        site: String,
         email: String,
         password: String,
         firstName: String,
@@ -31,7 +32,8 @@ const customerSchema = new mongoose.Schema<ICustomer, CustomerModel, {}>(
             faxNumber: String
             address: String
         }>,
-        puductWishIds: Array<String>,
+        productShoppingCartIds: Array<String>,
+        productWishIds: Array<String>,
         activityLog: Array<{
             activityLogType: String
             ipAddress: String

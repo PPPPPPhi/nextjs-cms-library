@@ -7,6 +7,7 @@ import {
     FilterOrdersParam,
     QueryOperatior,
     getParsedQuery,
+    getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
 import { Model, Types } from "mongoose"
@@ -112,4 +113,42 @@ export const getFilterOrders = async (filter: FilterOrdersParam) => {
         console.log("Error occured ", error)
         return error
     }
+}
+
+export const getOrderById = async (site: string, id: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+        console.log(`getFilterCustomer filter`)
+
+        const parsedId = new Types.ObjectId(id)
+
+        const orderInfo = await getProjectedQuery(
+            mongoose.models.Order as Model<any, {}, {}, {}, any, any>,
+            { _id: parsedId, site },
+            [],
+            [
+                "_id",
+                "order",
+                "createdAt",
+                "customer",
+                "orderStatus",
+                "orderSubtotal",
+                "orderShipping",
+                "orderTax",
+                "orderTotal",
+                "profit",
+                "paymentMethod",
+                "paymentStatus",
+                "store",
+                "orderGUID",
+                "customerIpAddress",
+                "billingAndShipping",
+                "products",
+                "orderNotes"
+            ]
+        )
+
+        if (orderInfo?.[0]) return orderInfo?.[0]
+        else return []
+    } catch (err) {}
 }
