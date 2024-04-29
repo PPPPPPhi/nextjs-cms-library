@@ -14,6 +14,9 @@ interface AdminTextInputInterface {
         label: string
         onAction: () => void
     }
+    dialog?: string
+    isRequired?: boolean
+    unit?: string
 }
 
 export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
@@ -25,7 +28,10 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
     readOnly,
     type,
     style,
-    action
+    action,
+    dialog,
+    isRequired,
+    unit
 }) => {
     const [value, setValue] = useState<string>(defaultValue || "")
     return (
@@ -35,13 +41,13 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
                     {label}
                 </label>
             )}
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center" style={{ flex: 1 }}>
                 <input
                     id="username"
                     name="username"
                     type={type ?? "text"}
                     autoComplete="off"
-                    required
+                    required={isRequired}
                     readOnly={readOnly}
                     disabled={disabled}
                     placeholder={placeHolder}
@@ -59,6 +65,19 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
                             label={action?.label}
                             onClick={action?.onAction}
                         />
+                    </div>
+                )}
+                {unit && <span className="px-2 text-level-remark">{unit}</span>}
+                {isRequired && (
+                    <span className="px-2" style={{ color: "red" }}>
+                        *
+                    </span>
+                )}
+                {dialog && (
+                    <div
+                        className="p-2 shadow-sm s-section-primary rouded-2"
+                        style={{ flex: 1 }}>
+                        <span>{dialog}</span>
                     </div>
                 )}
             </div>

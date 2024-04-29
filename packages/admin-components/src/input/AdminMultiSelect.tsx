@@ -6,6 +6,7 @@ interface AdminMultiSelectInterface {
     value: string[]
     style?: React.CSSProperties
     placeHolder?: string
+    dialog?: string
 }
 
 export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
@@ -13,7 +14,8 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
     options,
     value,
     style,
-    placeHolder
+    placeHolder,
+    dialog
 }) => {
     const customValueRenderer = (
         selected: { label: string; value: any }[],
@@ -21,7 +23,7 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
     ) => {
         return (
             <div
-                className="d-flex flex-wrap space-x-1 overflow-auto"
+                className="d-flex flex-wrap space-x-1 overflow-auto align-items-center"
                 style={{ height: 38 }}>
                 {selected.length
                     ? selected.map(({ label }) => (
@@ -31,26 +33,37 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
                               </span>
                           </div>
                       ))
-                    : placeHolder ?? "Please Select your option(s)"}
+                    : placeHolder ?? <span>Please Select your option(s)</span>}
             </div>
         )
     }
 
     return (
-        <div className="w-100" style={{ ...style }}>
-            <MultiSelect
-                className={`s-filter-dropdown`}
-                options={options}
-                labelledBy={"Select"}
-                isCreatable={true}
-                valueRenderer={customValueRenderer}
-                onChange={(evt: any) => {
-                    onChange(evt)
-                    return
-                }}
-                // @ts-ignore
-                value={(value as string[]) ?? []}
-            />
+        <div className="w-100 d-flex align-items-center">
+            <div style={{ flex: 1, height: 40, ...style }}>
+                <MultiSelect
+                    className={`s-filter-dropdown`}
+                    options={options}
+                    labelledBy={"Select"}
+                    isCreatable={true}
+                    valueRenderer={customValueRenderer}
+                    onChange={(evt: any) => {
+                        onChange(evt)
+                        return
+                    }}
+                    // @ts-ignore
+                    value={(value as string[]) ?? []}
+                />
+            </div>
+            {dialog && (
+                <div className="p-2" style={{ flex: 1 }}>
+                    <div
+                        className="p-2 shadow s-section-primary rouded-2"
+                        style={{ borderLeft: "2px solid #CFCFCF" }}>
+                        <span>{dialog}</span>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
