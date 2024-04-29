@@ -25,7 +25,7 @@ export type IProductPrices = {
     unitOfProduct: number
     referenceAmount: number
     referenceUnit: string
-    discounts: string
+    discounts: Array<string>
     taxExempt: boolean
     taxCategory: string
     telecommunicationsBroadcastingAndElectronicServices: boolean
@@ -193,8 +193,8 @@ export type IProduct = {
     productType: string
     productTemplate: string
     visibleIndividually: boolean
-    customerRoles: string
-    limitedToStores: string
+    customerRoles: Array<string>
+    limitedToStores: Array<string>
     vendor: string
     requireOtherProducts: boolean
     requiredProductIDs: Array<string>
@@ -220,5 +220,5 @@ export type IProduct = {
     relatedProducts: Array<string>
     crossSells: Array<string>
     purchasedWithOrders: Array<string>
-    stockQuantityHistory: IProductStockQuantityHistory
+    stockQuantityHistory: IProductStockQuantityHistory[]
 }

@@ -5,6 +5,7 @@ import {
     customerStoreType,
     customerRewardPointsType
 } from "./type"
+import { orderType } from "../order"
 
 export interface ICustomer {
     site: string
@@ -25,7 +26,7 @@ export interface ICustomer {
     registeredInStore: string
     ipAddress: string
     lastActivity: string
-    orderIds: string[]
+    orders: orderType[]
     address: customerAddressType[]
     productShoppingCartIds: string[]
     productWishIds: string[]

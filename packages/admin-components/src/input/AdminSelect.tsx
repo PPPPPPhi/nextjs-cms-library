@@ -18,13 +18,14 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     placeHolder,
     remark
 }) => {
-    const defaultOption = options?.find((k) => k.value === defaultValue)
-
-    const [selectedOption, setSelectedOption] = useState(defaultOption ?? null)
+    const [selectedOption, setSelectedOption] = useState<any>(null)
 
     useEffect(() => {
+        const defaultOption = options?.find((k) => k.value === defaultValue)
+        setSelectedOption(defaultOption ?? null)
+
         onSelect(selectedOption?.value)
-    }, [selectedOption])
+    }, [defaultValue])
 
     const placeH = useMemo(
         () => placeHolder ?? "Please Select your option",

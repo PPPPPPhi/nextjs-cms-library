@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, CSSProperties } from "react"
+import { ChangeEvent, useState, CSSProperties, useEffect } from "react"
 
 interface AdminTextInputInterface {
     label?: string
@@ -19,7 +19,13 @@ export const AdminTextArea: React.FC<AdminTextInputInterface> = ({
     readOnly,
     style
 }) => {
-    const [value, setValue] = useState<string>(defaultValue || "")
+    const [value, setValue] = useState<string | undefined>(defaultValue)
+
+    useEffect(() => {
+        if (!defaultValue) return
+
+        setValue(defaultValue)
+    }, [defaultValue])
     return (
         <div className="w-100">
             {label && (

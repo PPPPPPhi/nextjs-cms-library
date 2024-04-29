@@ -1,3 +1,5 @@
+import { orderType } from "../order/type"
+
 export type customerAddressType = {
     firstName: string
     lastName: string
@@ -49,7 +51,7 @@ export type CustomerType = {
     registeredInStore: string
     ipAddress: string
     lastActivity: string
-    orderIds: string[]
+    orders: orderType[]
     address: customerAddressType[]
     productShoppingCartIds: string[]
     productWishIds: string[]

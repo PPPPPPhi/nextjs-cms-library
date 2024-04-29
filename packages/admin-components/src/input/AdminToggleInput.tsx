@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useState, useEffect } from "react"
 
 interface AdminToggleInputInterface {
     label?: string
@@ -13,7 +13,11 @@ export const AdminToggleInput: React.FC<AdminToggleInputInterface> = ({
     onChange,
     disabled
 }) => {
-    const [value, setValue] = useState<boolean>(defaultValue || false)
+    const [value, setValue] = useState<boolean | undefined>(false)
+
+    useEffect(() => {
+        setValue(defaultValue)
+    }, [defaultValue])
 
     return (
         <div className="d-flex al align-items-center" style={{ minHeight: 38 }}>

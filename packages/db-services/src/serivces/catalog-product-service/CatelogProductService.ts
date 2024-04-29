@@ -122,7 +122,7 @@ export const getProductById = async (site: string, id: string) => {
                 "GTIN",
                 "manufacturerPartNumber",
                 "showOnHomePage",
-                "displayOrde",
+                "displayOrder",
                 "productType",
                 "productTemplate",
                 "visibleIndividually",
@@ -156,6 +156,8 @@ export const getProductById = async (site: string, id: string) => {
                 "stockQuantityHistory"
             ]
         )
+
+        console.log(`product found`, productInfo?.[0])
 
         if (productInfo?.[0]) return productInfo?.[0]
         else return []

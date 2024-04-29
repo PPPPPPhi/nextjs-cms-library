@@ -87,9 +87,10 @@ export const getCustomerById = async (site: string, id: string) => {
         console.log(`getFilterCustomer filter`)
 
         const parsedId = new Types.ObjectId(id)
+        console.log(`getFilterCustomer filter`, parsedId)
 
         const customerInfo = await getProjectedQuery(
-            mongoose.models.User as Model<any, {}, {}, {}, any, any>,
+            mongoose.models.Customer as Model<any, {}, {}, {}, any, any>,
             { _id: parsedId, site },
             [],
             [
@@ -112,7 +113,7 @@ export const getCustomerById = async (site: string, id: string) => {
                 "registeredInStore",
                 "ipAddress",
                 "lastActivity",
-                "orderIds",
+                "orders",
                 "address",
                 "productShoppingCartIds",
                 "productWishIds",
@@ -122,6 +123,8 @@ export const getCustomerById = async (site: string, id: string) => {
                 "createdAt"
             ]
         )
+
+        console.log(`[customer] info`, customerInfo)
 
         if (customerInfo?.[0]) return customerInfo?.[0]
         else return []
