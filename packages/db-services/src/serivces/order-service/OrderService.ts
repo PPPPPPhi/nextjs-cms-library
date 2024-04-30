@@ -100,12 +100,24 @@ export const getFilterOrders = async (filter: FilterOrdersParam) => {
 
         const mongoose = await connectMongoDB()
 
-        let orders
         const query = getParsedQuery(filter)
 
-        console.log(`getFilterOrders query`, query)
-        //@ts-ignore
-        orders = mongoose.models.Order.find(query)
+        const orders = await getProjectedQuery(
+            mongoose.models.Order as Model<any, {}, {}, {}, any, any>,
+            query,
+            [],
+            [
+                "_id",
+                "order",
+                "orderStatus",
+                "paymentStatus",
+                "orderShipping",
+                "customer",
+                "store",
+                "createdAt",
+                "orderTotal"
+            ]
+        )
 
         if (orders) return orders
         else return []

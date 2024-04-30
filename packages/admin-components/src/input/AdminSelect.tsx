@@ -18,14 +18,20 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     placeHolder,
     remark
 }) => {
-    const [selectedOption, setSelectedOption] = useState<any>(null)
+    const [selectedOption, setSelectedOption] = useState<any>(placeHolder)
 
     useEffect(() => {
+        // console.log(`trigger default`, defaultValue)
         const defaultOption = options?.find((k) => k.value === defaultValue)
-        setSelectedOption(defaultOption ?? null)
-
-        onSelect(selectedOption?.value)
+        console.log(`trigger default`, defaultValue, defaultOption)
+        setSelectedOption(defaultOption)
     }, [defaultValue])
+
+    useEffect(() => {
+        // console.log(`trigger onChange`, selectedOption)
+        onSelect(selectedOption?.value)
+        console.log(`trigger changed!!`, selectedOption)
+    }, [selectedOption])
 
     const placeH = useMemo(
         () => placeHolder ?? "Please Select your option",

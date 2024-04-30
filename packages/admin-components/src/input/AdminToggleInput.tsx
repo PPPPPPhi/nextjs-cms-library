@@ -13,10 +13,11 @@ export const AdminToggleInput: React.FC<AdminToggleInputInterface> = ({
     onChange,
     disabled
 }) => {
-    const [value, setValue] = useState<boolean | undefined>(false)
+    const [value, setValue] = useState<boolean>(defaultValue || false)
 
     useEffect(() => {
-        setValue(defaultValue)
+        console.log(`toggle trigger`)
+        setValue(defaultValue || false)
     }, [defaultValue])
 
     return (

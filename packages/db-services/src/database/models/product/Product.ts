@@ -1,4 +1,4 @@
-import mongoose, { Model, Date, Schema } from "mongoose"
+import mongoose, { Model, Schema } from "mongoose"
 import { IProduct } from "./interface"
 
 type ProductModal = Model<IProduct, {}, {}>
@@ -45,10 +45,10 @@ const productSchema = new mongoose.Schema<IProduct, ProductModal, {}>(
         rental: Schema.Types.Mixed,
         recurringProduct: Schema.Types.Mixed,
         SEO: Schema.Types.Mixed,
-        relatedProducts: Array<String>,
-        crossSells: Array<String>,
-        purchasedWithOrders: Array<String>,
-        stockQuantityHistory: Schema.Types.Mixed
+        relatedProducts: Array<Schema.Types.Mixed>,
+        crossSells: Array<Schema.Types.Mixed>,
+        purchasedWithOrders: Array<Schema.Types.Mixed>,
+        stockQuantityHistory: Array<Schema.Types.Mixed>
     },
     {
         timestamps: true

@@ -6,9 +6,10 @@ import {
     publishDetailType
 } from "@nextjs-cms-library/admin-components/index"
 import { HiEye, HiPencil } from "react-icons/hi"
+import { productType } from "@nextjs-cms-library/db-services/index"
 
 interface AdminProductListTableInterface {
-    data: publicationRowType[]
+    data: any[]
     isCompatible: boolean
 }
 
@@ -48,7 +49,7 @@ export const AdminProductListTable: React.FC<
                                 const { pageId, pageVersion } = data
                                 console.log(`pencil click`, data?._id)
                                 router.push(
-                                    `/admin/${site}/product/products/${data?._id}`
+                                    `/admin/${site}/products/${data?._id}`
                                 )
                             }
                         },
@@ -59,25 +60,31 @@ export const AdminProductListTable: React.FC<
                             size: 100
                         },
                         {
-                            accessorKey: "category",
-                            header: "Category",
-                            cellType: "cell",
-                            size: 120
+                            accessorKey: "categories",
+                            header: "Categories",
+                            cellType: "badge",
+                            size: 300
                         },
                         {
-                            accessorKey: "product",
+                            accessorKey: "productName",
                             header: "Product",
                             cellType: "cell",
                             enableResize: true
                         },
                         {
-                            accessorKey: "amount",
-                            header: "Amount",
+                            accessorKey: "sku",
+                            header: "SKU",
                             cellType: "cell",
                             enableResize: true
                         },
                         {
-                            accessorKey: "stock",
+                            accessorKey: "price",
+                            header: "Price",
+                            cellType: "cell",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "stockQuantity",
                             header: "Stock",
                             cellType: "cell",
                             size: 220

@@ -81,14 +81,38 @@ export const getFilterProducts = async (filter: FilterOrdersParam) => {
         const mongoose = await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
-        let products
+        // let products
         const query = getParsedQuery(filter)
 
         //@ts-ignore
-        products = (
-            mongoose.models.Product as Model<any, {}, {}, {}, any, any>
-        ).find(query)
+        // products = (
+        //     (await mongoose.models.Product) as Model<any, {}, {}, {}, any, any>
+        // ).find(query)
 
+        const products = await getProjectedQuery(
+            mongoose.models.Product as Model<any, {}, {}, {}, any, any>,
+            query,
+            [
+                { $set: { media: { $first: "$multimedia.pictures" } } },
+                { $set: { stock: { $first: "$stockQuantityHistory" } } },
+                { $set: { price: "$prices.price" } },
+                { $set: { photo: "$media.photo" } },
+                { $set: { stockQuantity: "$stock.stockQuantity" } }
+            ],
+            [
+                "_id",
+                "photo",
+                "productName",
+                "sku",
+                "categories",
+                "price",
+                "stockQuantity",
+                "updatedBy",
+                "updatedAt"
+            ]
+        )
+
+        console.log(`get All products`, products)
         if (products) return products
         else return []
     } catch (error) {

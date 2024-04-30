@@ -175,6 +175,24 @@ export type productStockQuantityHistoryType = {
     createdAt: Date
 }
 
+export type productRelatedProductsType = {
+    product: string
+    displayOrder: number
+}
+
+export type productCrossSellType = {
+    product: string
+}
+
+export type productPurchasedWithOrdersType = {
+    order: string
+    createdAt: Date
+    customer: string
+    orderStatus: string
+    paymentStatus: string
+    orderShipping: number
+}
+
 export type productType = {
     site: string
     productName: string
@@ -193,7 +211,7 @@ export type productType = {
     productTemplate: string
     visibleIndividually: boolean
     customerRoles: Array<string>
-    limitedToStores: Array<string>
+    // limitedToStores: Array<string>
     vendor: string
     requireOtherProducts: boolean
     requiredProductIDs: Array<string>
@@ -216,8 +234,8 @@ export type productType = {
     rental: productRentalType
     recurringProduct: productRecurringProductType
     SEO: productSEOType
-    relatedProducts: Array<string>
-    crossSells: Array<string>
-    purchasedWithOrders: Array<string>
+    relatedProducts: productRelatedProductsType[]
+    crossSells: productCrossSellType[]
+    purchasedWithOrders: productPurchasedWithOrdersType[]
     stockQuantityHistory: productStockQuantityHistoryType[]
 }

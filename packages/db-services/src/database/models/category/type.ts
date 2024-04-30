@@ -15,8 +15,8 @@ export type categoryDisplayType = {
 
 export type categoryMappingsType = {
     discounts: string
-    limitedToCustomerRoles: string
-    limitedToStores: string
+    limitedToCustomerRoles: string[]
+    limitedToStores: string[]
 }
 
 export type categorySEOType = {

@@ -33,10 +33,12 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
     isRequired,
     unit
 }) => {
-    const [value, setValue] = useState<string | undefined>(defaultValue)
+    const [value, setValue] = useState<string | number | undefined>(
+        defaultValue
+    )
 
     useEffect(() => {
-        if (!defaultValue) return
+        if (!defaultValue || value == defaultValue) return
 
         setValue(defaultValue)
     }, [defaultValue])
@@ -58,7 +60,7 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
                     readOnly={readOnly}
                     disabled={disabled}
                     placeholder={placeHolder}
-                    value={value}
+                    value={type == "number" && !value ? 0 : value}
                     style={{ ...style }}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         setValue(event.target.value)

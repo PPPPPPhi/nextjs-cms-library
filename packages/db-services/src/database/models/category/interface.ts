@@ -15,8 +15,8 @@ export type ICategoryDisplay = {
 
 export type ICategoryMappings = {
     discounts: string
-    limitedToCustomerRoles: string
-    limitedToStores: string
+    limitedToCustomerRoles: string[]
+    limitedToStores: string[]
 }
 
 export type ICategorySEO = {

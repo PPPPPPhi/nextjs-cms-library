@@ -92,16 +92,25 @@ export const getFilterDiscount = async (filter: FilterDiscountParam) => {
         const mongoose = await connectMongoDB()
         console.log(`getFilterDiscounts filter`, filter)
 
-        let promotion
-
         const query = getParsedQuery(filter)
 
-        console.log(`getFilterDiscounts query`, filter)
-        promotion = (
-            mongoose.models.Discount as Model<any, {}, {}, {}, any, any>
-        ).find(query)
+        const discount = await getProjectedQuery(
+            mongoose.models.Discount as Model<any, {}, {}, {}, any, any>,
+            query,
+            [{ $set: { nUsed: { $count: "$usageHistory" } } }],
+            [
+                "_id",
+                "name",
+                "discountType",
+                "discountPercentage",
+                "startDate",
+                "endDate",
+                "nUsed",
+                "isActive"
+            ]
+        )
 
-        if (promotion) return promotion
+        if (discount) return discount
         else return []
     } catch (error) {
         console.log("Error occured ", error)

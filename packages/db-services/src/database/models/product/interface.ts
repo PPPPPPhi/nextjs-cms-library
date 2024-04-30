@@ -176,6 +176,24 @@ export type IProductStockQuantityHistory = {
     createdAt: Date
 }
 
+export type IProductRelatedProductsType = {
+    product: string
+    displayOrder: number
+}
+
+export type IProductCrossSellType = {
+    product: string
+}
+
+export type IProductPurchasedWithOrdersType = {
+    order: string
+    createdAt: Date
+    customer: string
+    orderStatus: string
+    paymentStatus: string
+    orderShipping: number
+}
+
 export type IProduct = {
     site: string
     productName: string
@@ -217,8 +235,8 @@ export type IProduct = {
     rental: IProductRental
     recurringProduct: IProductRecurringProduct
     SEO: IProductSEO
-    relatedProducts: Array<string>
-    crossSells: Array<string>
-    purchasedWithOrders: Array<string>
+    relatedProducts: IProductRelatedProductsType[]
+    crossSells: IProductCrossSellType[]
+    purchasedWithOrders: IProductPurchasedWithOrdersType[]
     stockQuantityHistory: IProductStockQuantityHistory[]
 }

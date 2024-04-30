@@ -4,7 +4,7 @@ import { ItemDetails } from "."
 import _ from "lodash"
 
 interface ProductDetailsInterface {
-    value: productType | undefined
+    value: any
     readOnly?: boolean
     disabled?: boolean
     customWidth?: number

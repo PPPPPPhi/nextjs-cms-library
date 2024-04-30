@@ -47,38 +47,50 @@ export const AdminProductPromotionTable: React.FC<
                             action: (data) => {
                                 const { pageId, pageVersion } = data
                                 router.push(
-                                    `/admin/${site}/product/promotion/${data?._id}`
+                                    `/admin/${site}/discounts/${data?._id}`
                                 )
                             }
                         },
                         {
-                            accessorKey: "promotion",
-                            header: "Promotion",
+                            accessorKey: "name",
+                            header: "Discount Name",
                             cellType: "cell",
                             size: 200
                         },
                         {
-                            accessorKey: "createdAt",
+                            accessorKey: "discountType",
+                            header: "Discount Type",
+                            cellType: "cell",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "discountPercentage",
+                            header: "Discount Percentage",
+                            cellType: "cell",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "startDate",
                             header: "Start Date",
                             cellType: "date",
-                            enableResize: true
+                            size: 220
                         },
                         {
-                            accessorKey: "updatedAt",
+                            accessorKey: "endDate",
                             header: "End Date",
                             cellType: "date",
-                            enableResize: true
+                            size: 220
                         },
                         {
-                            accessorKey: "items",
-                            header: "Items",
+                            accessorKey: "nUsed",
+                            header: "Times Used",
                             cellType: "cell",
                             size: 220
                         },
                         {
-                            accessorKey: "promotionCode",
-                            header: "Promotion Code",
-                            cellType: "cell",
+                            accessorKey: "isActive",
+                            header: "Is Active",
+                            cellType: "boolean",
                             size: 220
                         }
                     ]}

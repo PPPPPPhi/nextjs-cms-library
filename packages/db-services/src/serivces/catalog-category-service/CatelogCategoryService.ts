@@ -81,14 +81,26 @@ export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
         const mongoose = await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
-        let category
         const query = getParsedQuery(filter)
 
-        console.log(`getFilterOrders query`, filter)
-        //@ts-ignore
-        category = (
-            mongoose.models.Category as Model<any, {}, {}, {}, any, any>
-        ).find(query)
+        const category = await getProjectedQuery(
+            mongoose.models.Category as Model<any, {}, {}, {}, any, any>,
+            query,
+            [
+                { $set: { display: "$display.displayOrder" } },
+                { $set: { published: "$display.published" } }
+            ],
+            [
+                "_id",
+                "name",
+                "description",
+                "parentCategory",
+                "display",
+                "published",
+                "updatedBy",
+                "updatedAt"
+            ]
+        )
 
         if (category) return category
         else return []
@@ -111,7 +123,6 @@ export const getCategoryById = async (site: string, id: string) => {
             [],
             [
                 "_id",
-                "site",
                 "name",
                 "description",
                 "parentCategory",
@@ -122,6 +133,8 @@ export const getCategoryById = async (site: string, id: string) => {
                 "products"
             ]
         )
+
+        console.log(`categoryInfo found`, categoryInfo?.[0])
 
         if (categoryInfo?.[0]) return categoryInfo?.[0]
         else return []

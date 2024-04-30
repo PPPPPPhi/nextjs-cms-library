@@ -48,20 +48,32 @@ export const AdminProductCategoryTable: React.FC<
                                 const { pageId, pageVersion } = data
                                 console.log(`pencil click`, data?._id)
                                 router.push(
-                                    `/admin/${site}/product/category/${data?._id}`
+                                    `/admin/${site}/categories/${data?._id}`
                                 )
                             }
                         },
                         {
-                            accessorKey: "category",
+                            accessorKey: "name",
                             header: "Category",
                             cellType: "cell",
                             size: 100
                         },
                         {
-                            accessorKey: "subCategory",
-                            header: "Sub Category",
+                            accessorKey: "parentCategory",
+                            header: "Parent Category",
                             cellType: "cell",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "display",
+                            header: "Display",
+                            cellType: "boolean",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "published",
+                            header: "Published",
+                            cellType: "boolean",
                             enableResize: true
                         },
                         {

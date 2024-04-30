@@ -4,7 +4,7 @@ import _ from "lodash"
 import { categoryType } from "@nextjs-cms-library/db-services/index"
 
 interface CategoryDetailsInterface {
-    value: categoryType | undefined
+    value: any
     readOnly?: boolean
     disabled?: boolean
     customWidth?: number
