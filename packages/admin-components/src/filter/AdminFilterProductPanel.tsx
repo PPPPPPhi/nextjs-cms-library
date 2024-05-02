@@ -13,7 +13,7 @@ export const AdminFilterProductPanel: React.FC<FilterProductPanelInterface> = ({
 }) => {
     const keyTypes = {
         category: {
-            type: "string",
+            type: "dropdown",
             value: "",
             label: "category"
         },
