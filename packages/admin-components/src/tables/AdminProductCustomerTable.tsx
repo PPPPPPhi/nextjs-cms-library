@@ -7,7 +7,7 @@ import {
 } from "@nextjs-cms-library/admin-components/index"
 import { HiEye, HiPencil } from "react-icons/hi"
 
-interface AdminProductCategoryTableInterface {
+interface AdminProductCustomerTableInterface {
     data: publicationRowType[]
     isCompatible: boolean
 }
@@ -17,8 +17,8 @@ interface AdminProductCategoryTableInterface {
 //     version: number
 // }
 
-export const AdminProductCategoryTable: React.FC<
-    AdminProductCategoryTableInterface
+export const AdminProductCustomerTable: React.FC<
+    AdminProductCustomerTableInterface
 > = ({ data, isCompatible }) => {
     const router = useRouter()
     const { site } = useParams()
@@ -48,45 +48,39 @@ export const AdminProductCategoryTable: React.FC<
                                 const { pageId, pageVersion } = data
                                 console.log(`pencil click`, data?._id)
                                 router.push(
-                                    `/admin/${site}/categories/${data?._id}`
+                                    `/admin/${site}/customers/${data?._id}`
                                 )
                             }
                         },
                         {
-                            accessorKey: "name",
-                            header: "Category",
+                            accessorKey: "email",
+                            header: "Email",
                             cellType: "cell",
-                            size: 100
+                            size: 300
                         },
                         {
-                            accessorKey: "parentCategory",
-                            header: "Parent Category",
+                            accessorKey: "fullName",
+                            header: "Name",
                             cellType: "cell",
                             enableResize: true
                         },
                         {
-                            accessorKey: "display",
-                            header: "Display",
+                            accessorKey: "customerRoles",
+                            header: "Customer Roles",
+                            cellType: "badge",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "companyName",
+                            header: "Company Name",
+                            cellType: "cell",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "isActive",
+                            header: "Is Active",
                             cellType: "boolean",
                             enableResize: true
-                        },
-                        {
-                            accessorKey: "published",
-                            header: "Published",
-                            cellType: "boolean",
-                            enableResize: true
-                        },
-                        {
-                            accessorKey: "createdAt",
-                            header: "Created At",
-                            cellType: "cell",
-                            enableResize: true
-                        },
-                        {
-                            accessorKey: "updatedAt",
-                            header: "Updated At",
-                            cellType: "cell",
-                            size: 220
                         }
                     ]}
                 />

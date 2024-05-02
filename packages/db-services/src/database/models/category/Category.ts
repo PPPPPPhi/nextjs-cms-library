@@ -1,20 +1,23 @@
-import mongoose, { Model } from "mongoose"
+import mongoose, { Model, Schema } from "mongoose"
 import { ICategory } from "./interface"
 
 type CategoryModal = Model<ICategory, {}, {}>
 
 const categorySchema = new mongoose.Schema<ICategory, CategoryModal, {}>(
     {
-        category: String,
-        subCategory: String,
-        site: String
+        site: String,
+        name: String,
+        description: String,
+        parentCategory: String,
+        picture: String,
+        display: Schema.Types.Mixed,
+        mappings: Schema.Types.Mixed,
+        SEO: Schema.Types.Mixed,
+        products: Schema.Types.Mixed
     },
     {
         timestamps: true
     }
 )
-
-// const CategoryModal =
-//     mongoose.models.Category || mongoose.model("Category", categorySchema)
 
 export default categorySchema

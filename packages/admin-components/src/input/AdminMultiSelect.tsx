@@ -1,4 +1,5 @@
 import { MultiSelect } from "react-multi-select-component"
+import { useState, useEffect } from "react"
 
 interface AdminMultiSelectInterface {
     onChange: (r: string[]) => void
@@ -9,6 +10,11 @@ interface AdminMultiSelectInterface {
     dialog?: string
 }
 
+type MultiSelectType = {
+    label: string
+    value: string
+}
+
 export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
     onChange,
     options,
@@ -17,16 +23,32 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
     placeHolder,
     dialog
 }) => {
-    const customValueRenderer = (
-        selected: { label: string; value: any }[],
-        _options: any
-    ) => {
+    const [selectedList, setSelectedList] = useState<MultiSelectType[]>([])
+
+    useEffect(() => {
+        const list: MultiSelectType[] = []
+
+        console.log(`value`, value, options)
+        value?.map((value: string) => {
+            const found: MultiSelectType | undefined = options?.find(
+                (option) => option.value == value
+            )
+
+            console.log(`value`, value, found)
+            if (found) list.push(found)
+            return
+        })
+        console.log(`multiselect list`, list)
+        setSelectedList(list)
+    }, [value])
+
+    const customValueRenderer = (selected: any, _options: any) => {
         return (
             <div
                 className="d-flex flex-wrap space-x-1 overflow-auto align-items-center"
                 style={{ height: 38 }}>
                 {selected.length
-                    ? selected.map(({ label }) => (
+                    ? selected.map(({ label, value }: any) => (
                           <div className="my-1 s-section-secondary px-3 rounded-4 d-flex align-items-center py-1">
                               <span className="text-level-caption text-font-medium s-text-color-nu">
                                   {label}
@@ -52,7 +74,7 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
                         return
                     }}
                     // @ts-ignore
-                    value={(value as string[]) ?? []}
+                    value={selectedList ?? []}
                 />
             </div>
             {dialog && (

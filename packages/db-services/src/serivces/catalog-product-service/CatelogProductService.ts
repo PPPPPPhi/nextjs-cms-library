@@ -6,6 +6,7 @@ import {
     QueryOperatior,
     getPaginatedQuery,
     getParsedQuery,
+    getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
 import { connectMongoDB } from "../.."
@@ -80,18 +81,109 @@ export const getFilterProducts = async (filter: FilterOrdersParam) => {
         const mongoose = await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
-        let products
+        // let products
         const query = getParsedQuery(filter)
 
         //@ts-ignore
-        products = (
-            mongoose.models.Product as Model<any, {}, {}, {}, any, any>
-        ).find(query)
+        // products = (
+        //     (await mongoose.models.Product) as Model<any, {}, {}, {}, any, any>
+        // ).find(query)
 
+        const products = await getProjectedQuery(
+            mongoose.models.Product as Model<any, {}, {}, {}, any, any>,
+            query,
+            [
+                { $set: { media: { $first: "$multimedia.pictures" } } },
+                { $set: { stock: { $first: "$stockQuantityHistory" } } },
+                { $set: { price: "$prices.price" } },
+                { $set: { photo: "$media.photo" } },
+                { $set: { stockQuantity: "$stock.stockQuantity" } }
+            ],
+            [
+                "_id",
+                "photo",
+                "productName",
+                "sku",
+                "categories",
+                "price",
+                "stockQuantity",
+                "updatedBy",
+                "updatedAt"
+            ]
+        )
+
+        console.log(`get All products`, products)
         if (products) return products
         else return []
     } catch (error) {
         console.log("Error occured ", error)
         return error
     }
+}
+
+export const getProductById = async (site: string, id: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+        console.log(`getFilterCustomer filter`)
+
+        const parsedId = new Types.ObjectId(id)
+
+        const productInfo = await getProjectedQuery(
+            mongoose.models.Product as Model<any, {}, {}, {}, any, any>,
+            { _id: parsedId, site },
+            [],
+            [
+                "_id",
+                "site",
+                "productName",
+                "shortDescription",
+                "fullDescription",
+                "sku",
+                "categories",
+                "manufacturers",
+                "published",
+                "productTags",
+                "GTIN",
+                "manufacturerPartNumber",
+                "showOnHomePage",
+                "displayOrder",
+                "productType",
+                "productTemplate",
+                "visibleIndividually",
+                "customerRoles",
+                "limitedToStores",
+                "vendor",
+                "requireOtherProducts",
+                "requiredProductIDs",
+                "automaticallyAddTheseProductsToTheCart",
+                "allowCustomerReviews",
+                "availableStartDate",
+                "availableEndDate",
+                "markAsNew",
+                "markAsNewStartDate",
+                "markAsNewEndDate",
+                "adminComment",
+                "prices",
+                "shipping",
+                "inventory",
+                "multimedia",
+                "productAttributes",
+                "specificationAttributes",
+                "giftCard",
+                "downloadableProduct",
+                "rental",
+                "recurringProduct",
+                "SEO",
+                "relatedProducts",
+                "crossSells",
+                "purchasedWithOrders",
+                "stockQuantityHistory"
+            ]
+        )
+
+        console.log(`product found`, productInfo?.[0])
+
+        if (productInfo?.[0]) return productInfo?.[0]
+        else return []
+    } catch (err) {}
 }

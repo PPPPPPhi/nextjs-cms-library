@@ -6,11 +6,23 @@ import dynamic from "next/dynamic"
 //@ts-ignore
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false })
 
-interface AdminRichTextInterface {}
+interface AdminRichTextInterface {
+    onChange: (v: string) => void
+    defaultValue: string
+}
 
-export const AdminRichText = ({}) => {
+export const AdminRichText = ({
+    onChange,
+    defaultValue
+}: AdminRichTextInterface) => {
     const editor = useRef(null)
     const [content, setContent] = useState("")
+
+    useEffect(() => {
+        if (!defaultValue) return
+
+        setContent(defaultValue)
+    }, [defaultValue])
 
     return (
         //@ts-ignore
@@ -26,10 +38,10 @@ export const AdminRichText = ({}) => {
                 // onChange(newContent)
             }}
             // preferred to use only this option to update the content for performance reasons
-            // onChange={(newContent) => {
-            //     onChange(newContent)
-            //     console.log("new content", newContent)
-            // }}
+            onChange={(newContent: any) => {
+                onChange(newContent)
+                console.log("new content", newContent)
+            }}
         />
     )
 }

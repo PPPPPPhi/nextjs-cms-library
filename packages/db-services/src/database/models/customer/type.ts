@@ -1,3 +1,5 @@
+import { orderType } from "../order/type"
+
 export type customerAddressType = {
     firstName: string
     lastName: string
@@ -31,6 +33,7 @@ export type customerRewardPointsType = {
 
 export type CustomerType = {
     _id: string
+    site: string
     email: string
     password: string
     firstName: string
@@ -48,9 +51,10 @@ export type CustomerType = {
     registeredInStore: string
     ipAddress: string
     lastActivity: string
-    orderIds: string[]
+    orders: orderType[]
     address: customerAddressType[]
-    puductWishIds: string[]
+    productShoppingCartIds: string[]
+    productWishIds: string[]
     activityLog: customerActivityLogType[]
     backInStock: customerStoreType[]
     rewardPoints: customerRewardPointsType[]

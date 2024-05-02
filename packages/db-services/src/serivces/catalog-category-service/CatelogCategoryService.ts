@@ -4,6 +4,7 @@ import {
     FilterOrdersParam,
     QueryOperatior,
     getParsedQuery,
+    getProjectedQuery,
     getUpsertSingleDocumentQuery
 } from "../utils"
 import { Types, Model } from "mongoose"
@@ -80,14 +81,26 @@ export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
         const mongoose = await connectMongoDB()
         console.log(`getFilterCatelogProducts filter`, filter)
 
-        let category
         const query = getParsedQuery(filter)
 
-        console.log(`getFilterOrders query`, filter)
-        //@ts-ignore
-        category = (
-            mongoose.models.Category as Model<any, {}, {}, {}, any, any>
-        ).find(query)
+        const category = await getProjectedQuery(
+            mongoose.models.Category as Model<any, {}, {}, {}, any, any>,
+            query,
+            [
+                { $set: { display: "$display.displayOrder" } },
+                { $set: { published: "$display.published" } }
+            ],
+            [
+                "_id",
+                "name",
+                "description",
+                "parentCategory",
+                "display",
+                "published",
+                "updatedBy",
+                "updatedAt"
+            ]
+        )
 
         if (category) return category
         else return []
@@ -95,4 +108,35 @@ export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
         console.log("Error occured ", error)
         return error
     }
+}
+
+export const getCategoryById = async (site: string, id: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+        console.log(`getFilterCustomer filter`)
+
+        const parsedId = new Types.ObjectId(id)
+
+        const categoryInfo = await getProjectedQuery(
+            mongoose.models.Category as Model<any, {}, {}, {}, any, any>,
+            { _id: parsedId, site },
+            [],
+            [
+                "_id",
+                "name",
+                "description",
+                "parentCategory",
+                "picture",
+                "display",
+                "mappings",
+                "SEO",
+                "products"
+            ]
+        )
+
+        console.log(`categoryInfo found`, categoryInfo?.[0])
+
+        if (categoryInfo?.[0]) return categoryInfo?.[0]
+        else return []
+    } catch (err) {}
 }

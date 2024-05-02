@@ -39,62 +39,63 @@ export const AdminProductOrderTable: React.FC<
                     compareField="pageJson"
                     columnDefs={[
                         {
-                            accessorKey: "description",
-                            header: "Description",
+                            accessorKey: "_id",
+                            header: "",
+                            cellType: "action",
+                            headerIcon: <HiPencil />,
+                            size: 100,
+                            action: (data) => {
+                                const { pageId, pageVersion } = data
+                                router.push(
+                                    `/admin/${site}/orders/${data?._id}`
+                                )
+                            }
+                        },
+                        {
+                            accessorKey: "_id",
+                            header: "Order",
                             cellType: "cell",
                             size: 200
-                        },
-                        {
-                            accessorKey: "createdAt",
-                            header: "Created At",
-                            cellType: "date",
-                            size: 150
-                        },
-                        {
-                            accessorKey: "updatedAt",
-                            header: "Updated At",
-                            cellType: "date",
-                            size: 150
                         },
                         {
                             accessorKey: "orderStatus",
                             header: "Order Status",
                             cellType: "badge",
-                            size: 220
+                            size: 150
                         },
                         {
                             accessorKey: "paymentStatus",
                             header: "Payment Status",
+                            cellType: "cell",
+                            size: 150
+                        },
+                        {
+                            accessorKey: "orderShipping",
+                            header: "Order Shipping",
                             cellType: "badge",
-                            size: 180
+                            size: 220
                         },
                         {
-                            accessorKey: "customerId",
-                            header: "Customer Id",
+                            accessorKey: "customer",
+                            header: "Customer",
                             cellType: "cell",
                             size: 180
                         },
                         {
-                            accessorKey: "total",
-                            header: "Total",
+                            accessorKey: "store",
+                            header: "Store",
                             cellType: "cell",
                             size: 180
                         },
                         {
-                            accessorKey: "remark",
-                            header: "Remark",
+                            accessorKey: "createdAt",
+                            header: "Created On",
                             cellType: "cell",
                             size: 180
                         },
                         {
-                            accessorKey: "pickUp",
-                            header: "Pick Up",
-                            cellType: "cell",
-                            size: 180
-                        },
-                        {
-                            accessorKey: "orderAddress",
-                            header: "Order Address",
+                            accessorKey: "orderTotal",
+                            header: "Order Total",
                             cellType: "cell",
                             size: 180
                         }

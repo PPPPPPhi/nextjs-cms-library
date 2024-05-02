@@ -18,6 +18,8 @@ import functionSchema from "./models/function/Function"
 import categorySchema from "./models/category/Category"
 import auditSchema from "./models/audit/Audit"
 import marginalPublicationSchema from "./models/marginal-publication/MarginalPublication"
+import discountSchema from "./models/discount/Discount"
+import customerSchema from "./models/customer/Customer"
 
 declare global {
     var mongoose: any // This must be a `var` and not a `let / const`
@@ -114,7 +116,9 @@ export const connectMongoDB = async () => {
                     )
                 )
                 mongoose.model("Promotion", promotionSchema)
+                mongoose.model("Discount", discountSchema)
                 mongoose.model("Product", productSchema)
+                mongoose.model("Customer", customerSchema)
                 mongoose.model(
                     "Page",
                     pageSchema.plugin(
