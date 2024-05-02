@@ -3,6 +3,7 @@ import React, { useMemo } from "react"
 
 import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn, ElementorSubColumn } from "../common/index"
+import * as _ from "lodash"
 
 type FiveColumnProps = WidgetProps &
     LayoutProps & {

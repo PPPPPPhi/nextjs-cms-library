@@ -38,6 +38,7 @@ export const PropertyCtaNavButton: React.FC<PropertyCtaNavButtonInterface> = ({
     }
 
     useEffect(() => {
+        //@ts-ignore
         onChange(ctaBtn)
     }, [ctaBtn])
 

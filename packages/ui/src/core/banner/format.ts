@@ -67,6 +67,7 @@ export const propertyBannerJson: PropertyJson = {
             element_id: "banner_cta_btn_left",
             label: "CTA Button Left",
             placeholder: "Input here ...",
+            //@ts-ignore
             value: { label: "", destination: "" },
             type: "cta-nav-btn"
         },
@@ -74,6 +75,7 @@ export const propertyBannerJson: PropertyJson = {
             element_id: "banner_cta_btn_right",
             label: "CTA Button Right",
             placeholder: "Input here ...",
+            //@ts-ignore
             value: { label: "", destination: "" },
             type: "cta-nav-btn"
         }

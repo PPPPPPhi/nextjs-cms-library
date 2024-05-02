@@ -18,7 +18,7 @@ export const Sponsor: React.FC<SponsorProps> = ({ properties }) => {
                 {sponsor_title}
             </div>
             <div className="d-flex flex-wrap">
-                {(sponsor_image_list ?? [])?.map((l) => (
+                {(sponsor_image_list ?? [])?.map((l: string) => (
                     <div className="col-2 p-2">
                         <PreviewSelectImage
                             site={site as string}

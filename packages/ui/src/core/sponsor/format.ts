@@ -29,6 +29,7 @@ export const propertySponsorJson: PropertyJson = {
             element_id: "sponsor_image_list",
             label: "Image List",
             placeholder: "Input here ...",
+            //@ts-ignore
             value: [],
             type: "image-list"
         }

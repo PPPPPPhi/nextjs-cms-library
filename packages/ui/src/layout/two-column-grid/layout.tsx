@@ -12,7 +12,7 @@ type TwoColumnProps = WidgetProps &
         isPreview?: boolean
         isMobileView?: boolean
         isElementor?: boolean
-        selfData?: { children: any[] }
+        selfData?: { children: any[]; properties: {} }
     }
 
 export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {

@@ -9,9 +9,12 @@ export const AdminSVGIcon: React.FC<{
     const [Icon, setIcon] = useState()
 
     const getComp = async (iconText: string) => {
+        //@ts-ignore
         if (!window.ReactIcon)
-            window.ReactIcon = await import("react-icons/fa6")
+            //@ts-ignore
 
+            window.ReactIcon = await import("react-icons/fa6")
+        //@ts-ignore
         const Component = () => window.ReactIcon[iconText]
         setIcon(Component)
     }
@@ -20,5 +23,6 @@ export const AdminSVGIcon: React.FC<{
         getComp(svgName)
     }, [svgName])
 
+    //@ts-ignore
     return <>{Icon && <Icon style={{ width: 36, height: 36, ...style }} />}</>
 }

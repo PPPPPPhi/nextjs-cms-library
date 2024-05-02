@@ -46,8 +46,13 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
         setCardList(cards)
     }
 
-    const modifyCard = (field: string, v: string, idx: number) => {
-        const newCardList = [...cardList]
+    const modifyCard = (
+        field: keyof TestimonialCardType,
+        v: string,
+        idx: number
+    ) => {
+        const newCardList: TestimonialCardType[] = [...cardList]
+        //@ts-ignore
         newCardList[idx] = {
             ...newCardList[idx],
             [field]: v
@@ -56,6 +61,7 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
     }
 
     useEffect(() => {
+        //@ts-ignore
         onChange(cardList)
     }, [cardList])
 

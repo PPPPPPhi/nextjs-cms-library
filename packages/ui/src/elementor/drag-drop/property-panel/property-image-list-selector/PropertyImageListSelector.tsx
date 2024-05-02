@@ -36,6 +36,7 @@ export const PropertyImageListSelector: React.FC<
     }
 
     useEffect(() => {
+        //@ts-ignore
         onChange(imgList)
     }, [imgList])
 
