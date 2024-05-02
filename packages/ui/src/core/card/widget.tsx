@@ -20,15 +20,15 @@ export const Card: React.FC<CardProps> = ({ properties }) => {
     } = values
 
     return (
-        <div className="p-3 w-100">
+        <div className="w-100 h-100">
             <div
-                className="w-100 d-flex flex-column shadow rounded-2 p-2"
+                className="w-100 h-100 d-flex flex-column shadow rounded-2 p-2"
                 style={{
                     overflowWrap: "break-word",
                     color: card_text_color ?? "#FFFFFF",
                     background: card_background_color ?? "white"
                 }}>
-                <div className="w-100" style={{ flex: 1 }}>
+                <div className="w-100">
                     {card_image_src && (
                         <PreviewSelectImage
                             height={300}
@@ -38,12 +38,14 @@ export const Card: React.FC<CardProps> = ({ properties }) => {
                         />
                     )}
                 </div>
-                <div className={`text-level-headline text-font-bold py-2`}>
-                    {card_label}
-                </div>
-                <div className={`text-level-body`}>{card_subtitle}</div>
-                <div className={`text-level-remark text-font-light`}>
-                    {card_description}
+                <div className="p-3" style={{ flex: 1 }}>
+                    <div className={`text-level-headline text-font-bold py-2`}>
+                        {card_label}
+                    </div>
+                    <div className={`text-level-body`}>{card_subtitle}</div>
+                    <div className={`text-level-remark text-font-light`}>
+                        {card_description}
+                    </div>
                 </div>
             </div>
         </div>

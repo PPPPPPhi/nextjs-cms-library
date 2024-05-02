@@ -64,6 +64,9 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
         if (!dragDropList || !propertiesList) return
         const elementId = uuid_v4()
 
+        console.log("itemTypeitemType", itemType)
+        console.log("itemTypeitemType dragDropList", dragDropList)
+
         const newEditComponent: DragDropEditType = {
             ...((dragDropList?.get(itemType) as DragDropJson) ??
                 (layoutDragDropList?.get(itemType) as DragDropJson)),

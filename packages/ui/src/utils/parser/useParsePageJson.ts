@@ -28,6 +28,8 @@ export const useParsePageJson = (pageJson: string) => {
     const { elementdragDropList, layoutDragDropList, setPageElementList } =
         useParsePageContext()
 
+    console.log("pageJson default", pageJson)
+
     useEffect(() => {
         const viewList: ViewPageElementType[] = []
 
@@ -40,11 +42,11 @@ export const useParsePageJson = (pageJson: string) => {
 
             if (element?.children) {
                 element?.children?.map((child: RawElementChildrenType) => {
-                    const childComponent: React.FC<any> = {
+                    const childComponent: React.FC<any> = _.cloneDeep({
                         ...(elementdragDropList?.get(
                             child?.element
                         ) as DragDropJson)
-                    }?.component
+                    })?.component
 
                     childDataList.push({
                         ...child,
@@ -70,6 +72,7 @@ export const useParsePageJson = (pageJson: string) => {
         })
 
         console.log(`viewList: `, viewList)
+        console.log("pppv 2.05")
         setPageElementList(viewList)
     }, [pageJson])
 

@@ -2,9 +2,7 @@
 
 import React from "react"
 import _ from "lodash"
-import {
-    useParsePageContext
-} from "./ParsePageContext"
+import { useParsePageContext } from "./ParsePageContext"
 import { useParsePageJson } from "./useParsePageJson"
 import { ViewPageElement } from "./ViewPageElement"
 
@@ -17,6 +15,7 @@ export const ViewPageArea: React.FC<ViewPageAreaProps> = ({ pageJson }) => {
 
     useParsePageJson(pageJson)
 
+    console.log("pppv 0", pageElementList)
     return (
         <div
             id="display-panel-drag-drop-area"
@@ -34,9 +33,14 @@ export const ViewPageArea: React.FC<ViewPageAreaProps> = ({ pageJson }) => {
                         elements,
                         properties
                     } = props
+                    console.log("pppv 1.5", props)
+
+                    const isCointainer = element !== "banner"
 
                     return (
-                        <div key={id}>
+                        <div
+                            key={id}
+                            className={`${isCointainer && "componentContainer"}`}>
                             <ViewPageElement
                                 element={element}
                                 type={type}

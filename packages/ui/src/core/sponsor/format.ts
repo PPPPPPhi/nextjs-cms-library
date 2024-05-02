@@ -16,10 +16,23 @@ export const dragDropSponsorJson: DragDropJson = {
 
 export const propertySponsorJson: PropertyJson = {
     element: "sponsor",
-    label: "Sponsor Label",
-    placeholder: "Input here ...",
-    value: "Morning World",
-    type: "sponsor"
+    type: "sponsor",
+    properties: [
+        {
+            element_id: "sponsor_title",
+            label: "Title",
+            placeholder: "Input here ...",
+            value: "Sponsor Title",
+            type: "text"
+        },
+        {
+            element_id: "sponsor_image_list",
+            label: "Image List",
+            placeholder: "Input here ...",
+            value: [],
+            type: "image-list"
+        }
+    ]
 }
 
 export const validSchema = z.object({

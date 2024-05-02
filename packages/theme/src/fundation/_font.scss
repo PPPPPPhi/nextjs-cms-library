@@ -14,6 +14,10 @@ $static-font-weight: (
 );
 
 // Font Level
+$super-title: (
+    null: 48px,
+    $breakpoint-lg: 72px
+);
 $title: (
     null: 22px,
     $breakpoint-lg: 36px
@@ -60,6 +64,7 @@ $button: (
 );
 
 $static-font-level: (
+    "super-title": $super-title,
     "title": $title,
     "subtitle": $subtitle,
     "sub-headline": $sub-headline,

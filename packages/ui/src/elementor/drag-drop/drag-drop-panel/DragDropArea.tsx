@@ -19,7 +19,7 @@ export const DragDropArea: React.FC<DragDropAreaInterface> = ({ pageJson }) => {
 
     const scrollRef = useRef<any>()
 
-    const margin = useMemo(() => (isPreview ? 200 : 350), [isPreview])
+    const padding = useMemo(() => (isPreview ? 200 : 350), [isPreview])
 
     useHistoryHook()
     useDefaultPageHook(pageJson)
@@ -30,8 +30,8 @@ export const DragDropArea: React.FC<DragDropAreaInterface> = ({ pageJson }) => {
             ref={scrollRef}
             className="d-flex w-100 h-100 justify-content-center"
             style={{
-                marginLeft: margin,
-                marginRight: margin
+                paddingLeft: padding,
+                paddingRight: padding
             }}>
             <DragDropDeviceContainer>
                 <DragDropAreaContent />

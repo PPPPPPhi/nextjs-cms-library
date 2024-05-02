@@ -39,6 +39,15 @@ export const propertyJson: PropertyJson = {
     placeholder: "Input here ...",
     value: "Morning World two-column",
     type: "two-column",
+    properties: [
+        {
+            element_id: "two_column_bg_color",
+            label: "Background Color",
+            placeholder: "",
+            value: "",
+            type: "color-picker"
+        }
+    ],
     children: [
         {
             element: "",

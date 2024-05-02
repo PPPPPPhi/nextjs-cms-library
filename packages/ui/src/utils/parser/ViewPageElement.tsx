@@ -33,6 +33,17 @@ export const ViewPageElement: React.FC<ViewPageElementWrapperType> = ({
     elements,
     properties
 }) => {
+    if (element === "two-column")
+        console.log("pppv 2.1: ", {
+            element,
+            type,
+            id,
+            index,
+            Component,
+            elements,
+            properties
+        })
+
     return (
         <div>
             {Component && (

@@ -5,7 +5,9 @@ import { useParams, useRouter } from "next/navigation"
 import { PropertyJson } from "../../../../core/utils/type/index"
 import {
     ElementNameMap,
-    PropertiesComponentProps
+    PropertiesComponentProps,
+    ImageResourceAdaptor,
+    ImageResourceOperator
 } from "../../../../utils/index"
 import { useDisplayPanelContext } from "../.."
 import { Control, Controller, UseFormSetValue } from "react-hook-form"
@@ -69,9 +71,13 @@ export const PropertyImageSelector: React.FC<
     // const slug = `demo2`
     const [enableModel, setEnableModal] = useState<boolean>(false)
 
-    const updateImageValue = (id: any) => {
+    const imageApdator = new ImageResourceAdaptor()
+    // @ts-ignore
+    const imageOperator = ImageResourceOperator.getInstance(imageApdator)
+
+    const updateImageValue = (relativePath: any) => {
         // @ts-ignore
-        if (onChange) onChange(id)
+        if (onChange) onChange(relativePath)
         setEnableModal(false)
     }
 
@@ -97,6 +103,7 @@ export const PropertyImageSelector: React.FC<
                     <div>
                         <AdminImageGalleryModal
                             onImageSelected={updateImageValue}
+                            passByRelative
                             setModal={setModal}
                             setLoading={setLoading}
                         />

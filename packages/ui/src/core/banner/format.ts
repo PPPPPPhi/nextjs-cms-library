@@ -21,14 +21,21 @@ export const propertyBannerJson: PropertyJson = {
             element_id: "banner_title",
             label: "Title",
             placeholder: "Input here ...",
-            value: "Card Title",
+            value: "Banner Title",
             type: "text"
         },
         {
             element_id: "banner_subtitle",
             label: "SubTitle",
             placeholder: "Input here ...",
-            value: "Card SubTitle",
+            value: "Banner SubTitle",
+            type: "text"
+        },
+        {
+            element_id: "banner_description",
+            label: "Description",
+            placeholder: "Input here ...",
+            value: "Banner Description",
             type: "text"
         },
         {
@@ -55,6 +62,20 @@ export const propertyBannerJson: PropertyJson = {
             placeholder: "Input here ...",
             value: "",
             type: "image"
+        },
+        {
+            element_id: "banner_cta_btn_left",
+            label: "CTA Button Left",
+            placeholder: "Input here ...",
+            value: { label: "", destination: "" },
+            type: "cta-nav-btn"
+        },
+        {
+            element_id: "banner_cta_btn_right",
+            label: "CTA Button Right",
+            placeholder: "Input here ...",
+            value: { label: "", destination: "" },
+            type: "cta-nav-btn"
         }
     ]
 }

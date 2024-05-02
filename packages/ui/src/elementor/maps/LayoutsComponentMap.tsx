@@ -4,7 +4,8 @@ import {
     ThreeColumn,
     LeftGridsRightColumn,
     BentoGrid,
-    RightGridsLeftColumn
+    RightGridsLeftColumn,
+    FiveColumn
 } from "../../layout"
 
 export const layoutsComponentMap: Map<string, FC<any>> = new Map([
@@ -12,7 +13,8 @@ export const layoutsComponentMap: Map<string, FC<any>> = new Map([
     ["three-column", ThreeColumn],
     ["left-grids-right-column", LeftGridsRightColumn],
     ["right-grids-left-column", RightGridsLeftColumn],
-    ["bento-grid", BentoGrid]
+    ["bento-grid", BentoGrid],
+    ["five-column", FiveColumn]
 ])
 
 export const getLayoutsComponent = (type: string) =>

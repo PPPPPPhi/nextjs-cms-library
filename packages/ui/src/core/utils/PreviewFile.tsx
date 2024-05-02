@@ -1,7 +1,8 @@
 "use client"
 
 // import { imageType } from "@nextjs-cms-library/db-services/index"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
+import { useParams } from "next/navigation"
 import {
     DragDropButton,
     ImageResourceAdaptor,
@@ -12,12 +13,13 @@ import { DragDropComponentButtons } from "../../elementor/drag-drop/drag-drop-pa
 
 type PreviewSelectImageProps = {
     value: string
-    site: string
+    site?: string
     handler: () => void
     isEdit?: boolean
     alignment?: "left" | "center" | "right"
     position?: "cover" | "contain" | "fill"
     height?: number
+    style?: React.CSSProperties
 }
 
 export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
@@ -27,31 +29,10 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
     isEdit = false,
     alignment = "center",
     position = "contain",
-    height
+    height,
+    style
 }) => {
-    const imageApdator = new ImageResourceAdaptor()
-    // @ts-ignore
-    const imageOperator = ImageResourceOperator.getInstance(imageApdator)
-
-    const [srcPath, setSrcPath] = useState<string>("")
-
-    const getImageById = async () => {
-        if (!value) return
-
-        const imageRes = await imageOperator
-            .getImageById(site, value)
-            .then((res: any) => {
-                console.log("imaggggg", res)
-
-                const image = res?.data?.images[0]
-                setSrcPath(image?.relativePath)
-            })
-    }
-
-    useEffect(() => {
-        getImageById()
-    }, [value])
-
+    console.log("value", value)
     return (
         <div
             className={`w-100 h-100`}
@@ -65,23 +46,22 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
                 </div>
             )}
 
-            {srcPath && (
-                <div className="col-12 col-md-4 position-relative w-100 h-100">
-                    <NextImageApdator
-                        src={`${process.env.NEXT_IMAGE_UPLOAD_PATH}/${site}${srcPath}`}
-                        alt="profile"
-                        isStatic
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        style={{
-                            width: "100%",
-                            height: height ?? "100%",
-                            objectFit: position,
-                            objectPosition: alignment
-                        }}
-                    />
-                </div>
+            {value && (
+                <NextImageApdator
+                    src={`${process.env.NEXT_IMAGE_UPLOAD_PATH}${value}`}
+                    alt="profile"
+                    isStatic
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    style={{
+                        width: "100%",
+                        height: height ?? "100%",
+                        objectFit: position,
+                        objectPosition: alignment,
+                        ...style
+                    }}
+                />
             )}
         </div>
     )

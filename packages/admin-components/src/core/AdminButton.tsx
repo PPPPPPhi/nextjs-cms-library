@@ -44,7 +44,7 @@ export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
             {Icon && (
                 <Icon className="text-level-button s-text-color-nu mx-2" />
             )}
-            <span className="text-level-remark s-text-color-nu">{label}</span>
+            <span className="s-text-color-nu">{label}</span>
         </div>
     )
 }

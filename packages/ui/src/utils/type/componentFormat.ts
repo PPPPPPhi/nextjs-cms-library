@@ -75,7 +75,8 @@ export const DragDropElementInputList: string[] = [
     ElementNameMap.PhotoGallery,
     ElementNameMap.SocialMedia,
     ElementNameMap.Sponsor,
-    ElementNameMap.Webinar
+    ElementNameMap.Webinar,
+    ElementNameMap.SVGNavCard
 ]
 
 export const DragDropElementSelectFileList: string[] = [ElementNameMap.Image]
@@ -97,7 +98,10 @@ export const DragDropAccecptElementType: string[] = [
     ElementNameMap.PhotoGallery,
     ElementNameMap.SocialMedia,
     ElementNameMap.Sponsor,
-    ElementNameMap.Webinar
+    ElementNameMap.Webinar,
+    ElementNameMap.SVGNavCard,
+    ElementNameMap.Slogan,
+    ElementNameMap.Testimonial
 ]
 
 export const DragDropAccecptType: string[] = [
@@ -116,11 +120,15 @@ export const DragDropAccecptType: string[] = [
     ElementNameMap.SocialMedia,
     ElementNameMap.Sponsor,
     ElementNameMap.Webinar,
+    ElementNameMap.SVGNavCard,
+    ElementNameMap.Slogan,
+    ElementNameMap.Testimonial,
     LayoutNameMap.ThreeColumn,
     LayoutNameMap.TwoColumn,
     LayoutNameMap.LeftGridsRightColumn,
     LayoutNameMap.RightGridsLeftColumn,
-    LayoutNameMap.BentoGrid
+    LayoutNameMap.BentoGrid,
+    LayoutNameMap.FiveColumn
 ]
 
 export type LayoutDragDropType = {

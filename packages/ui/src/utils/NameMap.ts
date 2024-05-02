@@ -14,13 +14,17 @@ export enum ElementNameMap {
     PhotoGallery = "photo-gallery",
     SocialMedia = "social-media",
     Sponsor = "sponsor",
-    Webinar = "webinar"
+    Webinar = "webinar",
+    SVGNavCard = "svg-nav-card",
+    Slogan = "slogan",
+    Testimonial = "testimonial-slider"
 }
 
 export enum LayoutNameMap {
     ThreeColumn = "three-column",
     TwoColumn = "two-column",
     LeftGridsRightColumn = "left-grids-right-column",
-    RightGridsLeftColumn= "right-grids-left-column",
-    BentoGrid="bento-grid"
+    RightGridsLeftColumn = "right-grids-left-column",
+    BentoGrid = "bento-grid",
+    FiveColumn = "five-column"
 }

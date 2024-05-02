@@ -22,6 +22,9 @@ import { PhotoGalleryJson } from "../core/photo-gallery"
 import { SocialMediaJson } from "../core/social-media"
 import { SponsorJson } from "../core/sponsor"
 import { WebinarJson } from "../core/webinar"
+import { SVGNavCardJSON } from "../core/svg-nav-card"
+import { SloganJson } from "../core/slogan"
+import { TestimonialJSON } from "../core/testimonial-slider"
 
 export const selectionListMap: Map<string, SelectionJson> = new Map([
     [ElementNameMap.Text, TextJson.selectionTextJson],
@@ -37,9 +40,12 @@ export const selectionListMap: Map<string, SelectionJson> = new Map([
     // [ElementNameMap.HTML, HTMLJson.selectionHTMLJson],
     // [ElementNameMap.InfoGraphic, InfoGraphicJson.selectionInfoGraphicJson],
     // [ElementNameMap.PhotoGallery, PhotoGalleryJson.selectionPhotoGalleryJson],
-    [ElementNameMap.SocialMedia, SocialMediaJson.selectionSocialMediaJson]
-    // [ElementNameMap.Sponsor, SponsorJson.selectionSponsorJson],
+    [ElementNameMap.SocialMedia, SocialMediaJson.selectionSocialMediaJson],
+    [ElementNameMap.Sponsor, SponsorJson.selectionSponsorJson],
     // [ElementNameMap.Webinar, WebinarJson.selectionWebinarJson]
+    [ElementNameMap.SVGNavCard, SVGNavCardJSON.selectionSVGNavCardJson],
+    [ElementNameMap.Slogan, SloganJson.selectionSloganJson],
+    [ElementNameMap.Testimonial, TestimonialJSON.selectionTestimonialJson]
 ])
 
 export const dragDropListMap: Map<string, DragDropJson> = new Map([
@@ -58,7 +64,10 @@ export const dragDropListMap: Map<string, DragDropJson> = new Map([
     [ElementNameMap.PhotoGallery, PhotoGalleryJson.dragDropPhotoGalleryJson],
     [ElementNameMap.SocialMedia, SocialMediaJson.dragDropSocialMediaJson],
     [ElementNameMap.Sponsor, SponsorJson.dragDropSponsorJson],
-    [ElementNameMap.Webinar, WebinarJson.dragDropWebinarJson]
+    [ElementNameMap.Webinar, WebinarJson.dragDropWebinarJson],
+    [ElementNameMap.SVGNavCard, SVGNavCardJSON.dragDropSVGNavCardJson],
+    [ElementNameMap.Slogan, SloganJson.dragDropSloganJson],
+    [ElementNameMap.Testimonial, TestimonialJSON.dragDropTestimonialJson]
 ])
 
 export const propertiesListMap: Map<string, PropertyJson> = new Map([
@@ -77,5 +86,8 @@ export const propertiesListMap: Map<string, PropertyJson> = new Map([
     [ElementNameMap.PhotoGallery, PhotoGalleryJson.propertyPhotoGalleryJson],
     [ElementNameMap.SocialMedia, SocialMediaJson.propertySocialMediaJson],
     [ElementNameMap.Sponsor, SponsorJson.propertySponsorJson],
-    [ElementNameMap.Webinar, WebinarJson.propertyWebinarJson]
+    [ElementNameMap.Webinar, WebinarJson.propertyWebinarJson],
+    [ElementNameMap.SVGNavCard, SVGNavCardJSON.propertSVGNavCardJson],
+    [ElementNameMap.Slogan, SloganJson.propertSloganJson],
+    [ElementNameMap.Testimonial, TestimonialJSON.propertTestimonialJson]
 ])

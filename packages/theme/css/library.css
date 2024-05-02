@@ -268,6 +268,15 @@
   fill: var(--static-color-text-nu);
 }
 
+.text-level-super-title {
+  font-size: 48px;
+}
+@media (min-width: 992px) {
+  .text-level-super-title {
+    font-size: 72px;
+  }
+}
+
 .text-level-title {
   font-size: 22px;
 }
