@@ -37,7 +37,7 @@ export type orderNotesType = {
     displayToCustomer: boolean
 }
 
-export type orderType = {
+export type OrderType = {
     order: string
     createdAt: Date
     customer: string

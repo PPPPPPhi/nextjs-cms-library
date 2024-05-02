@@ -62,7 +62,7 @@ export const AdminProductListTable: React.FC<
                         {
                             accessorKey: "categories",
                             header: "Categories",
-                            cellType: "badge",
+                            cellType: "badgeList",
                             size: 300
                         },
                         {

@@ -97,7 +97,7 @@ export const getFilterDiscount = async (filter: FilterDiscountParam) => {
         const discount = await getProjectedQuery(
             mongoose.models.Discount as Model<any, {}, {}, {}, any, any>,
             query,
-            [{ $set: { nUsed: { $count: "$usageHistory" } } }],
+            [{ $set: { nUsed: { $size: "$usageHistory" } } }],
             [
                 "_id",
                 "name",
@@ -109,6 +109,8 @@ export const getFilterDiscount = async (filter: FilterDiscountParam) => {
                 "isActive"
             ]
         )
+
+        console.log(`getFilterDiscount`, discount)
 
         if (discount) return discount
         else return []

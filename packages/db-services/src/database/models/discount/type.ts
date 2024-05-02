@@ -18,7 +18,7 @@ export type discountUsageHistoryType = {
     orderTotal: number
 }
 
-export type discountType = {
+export type DiscountType = {
     isActive: boolean
     name: string
     discountType: string

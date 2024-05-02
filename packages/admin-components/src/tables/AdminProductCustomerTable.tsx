@@ -7,7 +7,7 @@ import {
 } from "@nextjs-cms-library/admin-components/index"
 import { HiEye, HiPencil } from "react-icons/hi"
 
-interface AdminProductOrderTableInterface {
+interface AdminProductCustomerTableInterface {
     data: publicationRowType[]
     isCompatible: boolean
 }
@@ -17,8 +17,8 @@ interface AdminProductOrderTableInterface {
 //     version: number
 // }
 
-export const AdminProductOrderTable: React.FC<
-    AdminProductOrderTableInterface
+export const AdminProductCustomerTable: React.FC<
+    AdminProductCustomerTableInterface
 > = ({ data, isCompatible }) => {
     const router = useRouter()
     const { site } = useParams()
@@ -35,69 +35,52 @@ export const AdminProductOrderTable: React.FC<
                     pinColumns={[]}
                     isCompatible={isCompatible}
                     isSubComponent
-                    zebra={true}
                     compareField="pageJson"
+                    zebra={true}
                     columnDefs={[
                         {
                             accessorKey: "_id",
-                            header: "",
+                            header: "Edit",
                             cellType: "action",
                             headerIcon: <HiPencil />,
                             size: 100,
                             action: (data) => {
                                 const { pageId, pageVersion } = data
+                                console.log(`pencil click`, data?._id)
                                 router.push(
-                                    `/admin/${site}/orders/${data?._id}`
+                                    `/admin/${site}/customers/${data?._id}`
                                 )
                             }
                         },
                         {
-                            accessorKey: "_id",
-                            header: "Order",
+                            accessorKey: "email",
+                            header: "Email",
                             cellType: "cell",
-                            size: 200
+                            size: 300
                         },
                         {
-                            accessorKey: "orderStatus",
-                            header: "Order Status",
+                            accessorKey: "fullName",
+                            header: "Name",
+                            cellType: "cell",
+                            enableResize: true
+                        },
+                        {
+                            accessorKey: "customerRoles",
+                            header: "Customer Roles",
                             cellType: "badge",
-                            size: 150
+                            enableResize: true
                         },
                         {
-                            accessorKey: "paymentStatus",
-                            header: "Payment Status",
+                            accessorKey: "companyName",
+                            header: "Company Name",
                             cellType: "cell",
-                            size: 150
+                            enableResize: true
                         },
                         {
-                            accessorKey: "orderShipping",
-                            header: "Order Shipping",
-                            cellType: "badge",
-                            size: 220
-                        },
-                        {
-                            accessorKey: "customer",
-                            header: "Customer",
-                            cellType: "cell",
-                            size: 180
-                        },
-                        {
-                            accessorKey: "store",
-                            header: "Store",
-                            cellType: "cell",
-                            size: 180
-                        },
-                        {
-                            accessorKey: "createdAt",
-                            header: "Created On",
-                            cellType: "cell",
-                            size: 180
-                        },
-                        {
-                            accessorKey: "orderTotal",
-                            header: "Order Total",
-                            cellType: "cell",
-                            size: 180
+                            accessorKey: "isActive",
+                            header: "Is Active",
+                            cellType: "boolean",
+                            enableResize: true
                         }
                     ]}
                 />
