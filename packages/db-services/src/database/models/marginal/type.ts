@@ -4,6 +4,8 @@ export type marginalType = {
     site: string
     type: string
     properties: {
+        headerLargeRatio: string
+        headerSmallRatio: string
         headerLargeLogo: string
         headerSmallLogo: string
         footerHtml: string

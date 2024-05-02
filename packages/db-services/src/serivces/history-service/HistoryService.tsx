@@ -29,7 +29,12 @@ export const getSchemaHistory = async (
                 status: 200,
                 histories: _.orderBy(reformatted ?? [], ["version"], ["desc"])
             }
-        else throw new Error("Error in getting schema history")
+        else
+            return {
+                message: "Success",
+                status: 200,
+                histories: []
+            }
     } catch (e) {
         console.log("Error in getting schema history", e)
         return { status: 500, message: "Failed" }

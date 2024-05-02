@@ -13,7 +13,6 @@ export interface IRole {
     description: string
     functions_lookUp: Array<IRoleFunctionType | string>
     sites: string[]
-    userIds: string[]
     createdBy: string
     updatedBy: string
     updatedAt: Date

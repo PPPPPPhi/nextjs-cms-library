@@ -1,27 +1,29 @@
 import { AdminTable } from "@nextjs-cms-library/admin-components/index"
 import { useParams, useRouter } from "next/navigation"
-import { pageRowType } from "@nextjs-cms-library/admin-components/index"
+import { marginalType } from "@nextjs-cms-library/db-services/index"
 import { HiEye } from "react-icons/hi"
-import {
-    historySchemaType,
-    marginalType
-} from "@nextjs-cms-library/db-services/index"
 
-interface AdminNavigationHistoryTableInterface {
-    data: marginalType[]
-    isCompatible: boolean
-    // createNewPage: (d: pageRowType) => void
-    // publishPage: (d: pageRowType) => void
+type marginalPublicationRowType = marginalType & {
+    version?: number
+    marginalVersion?: string
 }
 
-export const AdminNaviationHistoryTable: React.FC<
-    AdminNavigationHistoryTableInterface
-> = ({
-    data,
-    isCompatible
-    // createNewPage,
-    // publishPage
-}) => {
+interface AdminMarginalPublicationHistoryTableInterface {
+    data: marginalPublicationRowType[]
+    isCompatible: boolean
+    publishMarginal: (
+        data: marginalPublicationRowType & { version: string }
+    ) => void
+}
+
+export type marginalPublicationHistoryRowType = marginalPublicationRowType & {
+    event: string
+    version: number
+}
+
+export const AdminMarginalPublicationHistoryTable: React.FC<
+    AdminMarginalPublicationHistoryTableInterface
+> = ({ data, isCompatible, publishMarginal }) => {
     const router = useRouter()
     const { site } = useParams()
 
@@ -32,34 +34,32 @@ export const AdminNaviationHistoryTable: React.FC<
                 pinColumns={["_id", "slug", "language", "version"]}
                 isCompatible={isCompatible}
                 isSubComponent
-                compareField="pageJson"
+                compareField="properties"
                 columnDefs={[
                     {
                         accessorKey: "_id",
                         header: "",
                         cellType: "action",
                         headerIcon: <HiEye />,
-                        size: 100,
-                        action: (data) => {}
+                        size: 120,
+                        action: (data) => {
+                            const { settingVersion } = data
+                            router.push(`${settingVersion?.split(".")[0]}`)
+                        }
                     },
                     {
-                        accessorKey: "language",
-                        header: "Language",
-                        cellType: "badge",
-                        size: 100
-                    },
-                    {
-                        accessorKey: "version",
-                        header: "Version",
+                        accessorKey: "site",
+                        header: "Site",
                         cellType: "cell",
-                        size: 80
+                        size: 180,
+                        isExpandable: true
                     },
-                    // {
-                    //     accessorKey: "properties",
-                    //     header: "Properties",
-                    //     cellType: "desc",
-                    //     size: 220
-                    // },
+                    {
+                        accessorKey: "marginalVersion",
+                        header: "Marginal Version",
+                        cellType: "cell",
+                        size: 150
+                    },
                     {
                         accessorKey: "updatedBy",
                         header: "Updated By",
@@ -77,9 +77,9 @@ export const AdminNaviationHistoryTable: React.FC<
                         header: "",
                         cellType: "action",
                         actionTitle: "Publish",
-                        size: 100,
+                        size: 180,
                         action: (data) => {
-                            console.log("publish", data)
+                            publishMarginal(data)
                         }
                     },
                     {

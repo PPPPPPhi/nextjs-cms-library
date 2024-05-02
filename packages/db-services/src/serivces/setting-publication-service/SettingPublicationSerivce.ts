@@ -1,7 +1,8 @@
-import { Model } from "mongoose"
+import { Model, Types } from "mongoose"
 import SettingPublication from "../../database/models/setting-publication/SettingPublication"
 import { getSiteSetting } from "../site-setting-service/SiteSettingService"
 import {
+    getOperatorInfo,
     HistoryService,
     settingPublicationType as spType,
     siteSettingType as sType
@@ -12,30 +13,53 @@ import { connectMongoDB } from "../../"
 export const publishSetting = async (site: string, version?: string) => {
     try {
         const mongoose = await connectMongoDB()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
 
         const versionHistory = HistoryService.getFullVersion(version as string)
         const setting = (await getSiteSetting(
             site,
             version && versionHistory
         )) as sType & { settingVersion: string }
-        const publication = (await getPublicationBySite(site)) as spType
+        const { publication } = await getPublicationBySite(site)
 
         const { properties, settingVersion } = setting
-        const publishResp = await HistoryService.publicateSchema(
-            { properties, settingVersion, site },
-            mongoose.models.SettingPublication as Model<
-                any,
-                {},
-                {},
-                {},
-                any,
-                any
-            >,
-            "Publishing site setting",
-            "publishSetting",
-            publication
-        )
-        return publishResp
+
+        const settingHistory = {
+            event: "publishSetting",
+            user: operatorId, // An object id of the user that generate the event
+            reason: undefined,
+            data: undefined, // Additional data to save with the event
+            type: "major", // One of 'patch', 'minor', 'major'. If undefined defaults to 'major'
+            method: "Publishing site setting"
+        }
+
+        if (!publication) {
+            const newPublishSetting = new (mongoose.models
+                .SettingPublication as Model<any, {}, {}, {}, any, any>)({
+                ...setting,
+                _id: new Types.ObjectId(),
+                settingVersion:
+                    versionHistory ?? HistoryService.getFullVersion("0"),
+                status: 1,
+                __history: settingHistory
+            })
+
+            await newPublishSetting.save()
+            return { message: "Success", status: 200 }
+        } else {
+            const publishSetting = new (mongoose.models
+                .SettingPublication as Model<any, {}, {}, {}, any, any>)({
+                ...publication,
+                _id: new Types.ObjectId(),
+                settingVersion: publication?.settingVersion ?? versionHistory,
+                status: 1,
+                __history: settingHistory
+            })
+
+            await publishSetting.save()
+            return { message: "Success", status: 200 }
+        }
     } catch (e) {
         console.log("Error in Getting Image", e)
         return { message: "Fail", status: 500 }
@@ -45,7 +69,8 @@ export const publishSetting = async (site: string, version?: string) => {
 export const getPublicationBySite = async (site: string) => {
     try {
         const mongoose = await connectMongoDB()
-        const publicaiton = (await (
+
+        const publication = await (
             mongoose.models.SettingPublication as Model<
                 any,
                 {},
@@ -56,13 +81,13 @@ export const getPublicationBySite = async (site: string) => {
             >
         ).findOne({
             site
-        })) as spType
-
-        if (publicaiton._id) return publicaiton
-        else throw new Error("No publicaiton yet")
+        })
+        if (publication?._id)
+            return { message: "Success", status: 200, publication }
+        else return { message: "Fail", status: 500, publication: null }
     } catch (e) {
         console.log("Error in getting publicaiton", e)
-        return null
+        return { message: "Fail", status: 500, publication: null }
     }
 }
 

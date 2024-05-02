@@ -56,6 +56,17 @@ export const authenticateUser = async (account: string, password: string) => {
     }
 }
 
+type getUserDocumentType = {
+    userName: string
+    firstName: string
+    lastName: string
+    email: string
+    _id: string
+    roles: Types.ObjectId[]
+    status: number
+    createdAt: Date
+}
+
 export const getUserAuthProfile = async (userId: string) => {
     try {
         const mongoose = await connectMongoDB()
@@ -64,7 +75,7 @@ export const getUserAuthProfile = async (userId: string) => {
         const userObjId: Types.ObjectId = new Types.ObjectId(userId)
         console.log(`[getUserAuthProfile] input userObjId`, userObjId)
 
-        const user = getProjectedQuery(
+        const getUser = await getProjectedQuery(
             mongoose.models.User as Model<any, {}, {}, {}, any, any>,
             { _id: { $in: [userObjId] } },
             [],
@@ -74,15 +85,18 @@ export const getUserAuthProfile = async (userId: string) => {
                 "lastName",
                 "email",
                 "_id",
+                "roles",
                 "status",
                 "createdAt"
             ]
         )
 
-        const roles = getProjectedQuery(
+        const { roles } = getUser?.[0] as getUserDocumentType
+
+        const getRoles = await getProjectedQuery(
             mongoose.models.Role as Model<any, {}, {}, {}, any, any>,
             {
-                userIds: { $in: [userObjId] }
+                _id: { $in: roles }
             },
             [],
             [
@@ -93,17 +107,13 @@ export const getUserAuthProfile = async (userId: string) => {
                 "functions_lookUp.description"
             ]
         )
+        console.log(`userrole`, getUser, getRoles)
 
-        const query = forkJoin([user, roles]).pipe(
-            switchMap((res: any) => {
-                const [user = res[0], roles = res[1]] = res
-                console.log(`[getUserAuthProfile]`, user, roles)
-                return of({ primary: user, secondary: roles })
-            })
-        )
-        const res = await firstValueFrom(query)
-
-        const mergedRes = getMergedQueryRes(res)
+        // @ts-ignore
+        const mergedRes = getMergedQueryRes({
+            primary: getUser,
+            secondary: getRoles
+        })
 
         console.log(
             `[getUserAuthProfile] user`,
@@ -111,7 +121,6 @@ export const getUserAuthProfile = async (userId: string) => {
             JSON.stringify(mergedRes)
         )
         if (mergedRes) return mergedRes
-        else throw new Error(ErrorCode.USER_NOT_FOUND)
     } catch (e) {
         console.log("Error in Authenication", e)
         return {}
@@ -161,7 +170,12 @@ export const getOperatorInfo = async (): Promise<OperatorInfoType> => {
     // @ts-ignore
     const userInfo = authSession?.token?.user
 
-    const { userName, email, image, _id } = userInfo[0]
+    const { userName, email, image, _id } = userInfo[0] ?? {
+        userName: "SYSTEM",
+        email: "",
+        image: "",
+        _id: "SYSTEM"
+    }
     // @ts-ignore
     return { name: userName, email, image, id: _id }
 }

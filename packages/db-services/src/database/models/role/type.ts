@@ -13,7 +13,6 @@ export type roleType = {
     description: string
     functions_lookUp: Array<roleFunctionType | string>
     sites: string[]
-    userIds: string[]
     createdBy: string
     updatedBy: string
     updatedAt: Date

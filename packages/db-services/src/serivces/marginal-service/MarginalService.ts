@@ -6,7 +6,7 @@ import {
     getUpsertSingleDocumentQuery
 } from "../utils"
 import _ from "lodash"
-import { connectMongoDB } from "../.."
+import { HistoryService, connectMongoDB } from "../.."
 
 type marginalCommonType = {
     footerCss: string
@@ -29,7 +29,8 @@ type marginalNavType = {
 export const getMarginal = async (
     site: string,
     type: string,
-    language?: string
+    language?: string,
+    version?: string
 ) => {
     try {
         const mongoose = await connectMongoDB()
@@ -38,7 +39,7 @@ export const getMarginal = async (
             {
                 site,
                 type,
-                language
+                language: type == "common" ? "" : language
             },
             _.isEmpty
         )
@@ -208,6 +209,8 @@ export const saveMarginal = async (
             { new: true, upsert: true }
         )
 
+        await marginal.save()
+
         if (marginal) return { message: "Success", status: 200 }
         else throw new Error("Error occured when saving arginal")
     } catch (error) {
@@ -267,5 +270,29 @@ export const cloneMarginal = async (nav: cloneMarginalType) => {
     } catch (e) {
         console.log("Error in clone navigation", e)
         return { message: "Fail", status: 500 }
+    }
+}
+
+export const getMarginalHistory = async (site: string, type: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+        const historyResp = await HistoryService.getSchemaHistory(
+            mongoose.models.Marginal as Model<any, {}, {}, {}, any, any>,
+            {
+                site,
+                type
+            }
+        )
+        console.log(`[getMarginalHistory]`, historyResp)
+        if (historyResp.status === 200)
+            return {
+                message: "Success",
+                status: 200,
+                marginals: historyResp?.histories
+            }
+        else throw new Error("Error in getting site setting history")
+    } catch (e) {
+        console.log("Error in getting site setting history", e)
+        return { status: 500, message: "Failed" }
     }
 }
