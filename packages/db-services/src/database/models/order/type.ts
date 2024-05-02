@@ -13,11 +13,21 @@ export type orderAddressType = {
     country: string
 }
 
+export type OrderShipmentsType = {
+    shipment: string
+    order: string
+    trackingNumber: string
+    totalWeight: string
+    dateShipped: Date
+    dateDelivered: Date
+}
+
 export type orderBillingAndShippingType = {
     billingAddress: orderAddressType
     shippingAddress: orderAddressType
     shippingMethod: string
     shippingStatus: string
+    shipments: OrderShipmentsType[]
 }
 
 export type orderProductsType = {
