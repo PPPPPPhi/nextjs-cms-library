@@ -14,15 +14,35 @@ export type selectDropDownType = {
 
 export const orderStatusDropDown = [
     // { label: "All Status", value: "" },
-    { label: "confirming", value: "confirming" },
-    { label: "delivering", value: "delivering" },
-    { label: "done", value: "done" }
+    { label: "Pending", value: "Pending" },
+    { label: "Completed", value: "Completed" },
+    { label: "Cancelled", value: "Cancelled" }
 ]
 
 export const paymentStatusDropDown = [
     // { label: "All Status", value: "" },
-    { label: "Await Payment", value: "false" },
-    { label: "Paid", value: "true" }
+    { label: "Refunded", value: "Refunded" },
+    { label: "Pending", value: "Pending" },
+    { label: "Paid", value: "Paid" }
+]
+
+export const categoryDropDown = [
+    { label: "Apparel", value: "Apparel" },
+    { label: "Digital downloads", value: "Digital downloads" },
+    { label: "Books", value: "Books" },
+    { label: "Jewelry", value: "Jewelry" },
+    { label: "Gift Cards", value: "Gift Cards" },
+    { label: "Fashion", value: "Fashion" },
+    { label: "Home Decor", value: "Home Decor" },
+    { label: "Clothing", value: "Clothing" },
+    { label: "Toys", value: "Toys" },
+    { label: "Beauty", value: "Beauty" },
+    { label: "Garden", value: "Garden" },
+    { label: "Health & Wellness", value: "Health & Wellness" },
+    { label: "Pets", value: "Pets" },
+    { label: "Sports", value: "Sports" },
+    { label: "Kitchenware", value: "Kitchenware" },
+    { label: "Furniture", value: "Furniture" }
 ]
 
 export const booleanDropDown = [
@@ -61,6 +81,9 @@ export const getDropDownOptions = (search: string) => {
             break
         case "paymentStatus":
             options = paymentStatusDropDown
+            break
+        case "category":
+            options = categoryDropDown
             break
         default:
             options = booleanDropDown
