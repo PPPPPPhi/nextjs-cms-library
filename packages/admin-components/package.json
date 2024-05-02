@@ -1,6 +1,6 @@
 {
     "name": "@nextjs-cms-library/admin-components",
-    "version": "1.1.9",
+    "version": "1.1.10",
     "description": "",
     "main": "index.js",
     "exports": {
@@ -15,7 +15,7 @@
         "link:clean": "yarn unlink react && yarn unlink react-dom && yarn unlink react-i18next && yarn unlink i18next && yarn unlink next"
     },
     "devDependencies": {
-        "@nextjs-cms-library/db-services": "^1.1.12",
+        "@nextjs-cms-library/db-services": "^1.1.13",
         "sass-loader": "^14.1.1",
         "esbuild-sass-plugin": "^3.1.0"
     },
