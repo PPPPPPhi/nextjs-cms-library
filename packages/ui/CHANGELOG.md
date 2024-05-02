@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.2.11
+
+### Patch Changes
+
+- update demo features
+
 ## 0.2.10
 
 ### Patch Changes
