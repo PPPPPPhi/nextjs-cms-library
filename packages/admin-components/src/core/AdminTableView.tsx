@@ -4,6 +4,7 @@ import styles from "../AdminControl.module.scss"
 interface AdminTableViewInterface {
     data: any
     labels: { [s: string]: string }
+    keys: { [s: string]: string }
     headers: string[]
     addition?: React.ReactNode
 }
@@ -11,6 +12,7 @@ interface AdminTableViewInterface {
 export const AdminTableView: React.FC<AdminTableViewInterface> = ({
     data,
     labels,
+    keys,
     headers,
     addition
 }) => {
@@ -29,7 +31,8 @@ export const AdminTableView: React.FC<AdminTableViewInterface> = ({
                 {(Object.keys(labels) ?? []).map((l) => (
                     <tr>
                         <td>{labels[l]}</td>
-                        <td>{data?.[l] ?? ""}</td>
+                        {/* @ts-ignore */}
+                        <td>{data?.[keys[l]] ?? ""}</td>
                     </tr>
                 ))}
                 {addition && (
