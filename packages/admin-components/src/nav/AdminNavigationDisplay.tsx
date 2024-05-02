@@ -52,6 +52,9 @@ export const AdminNavigationDisplay: React.FC<
         navJson,
         navigation
     )
+    console.log("containerY", containerY)
+    console.log("containerY offsetRefList", offsetRefList)
+
     const navigationRef = useRef<any>()
 
     useEffect(() => {
@@ -179,6 +182,7 @@ export const AdminNavigationDisplay: React.FC<
             accept: "collapsible_menu",
             hover: (item: any, monitor: any) => {
                 const { y: clientOffset } = monitor.getClientOffset()
+                console.log("containerY clientOffset", clientOffset)
                 const offsetIdx = offsetRefList.findIndex(
                     (l) => l > clientOffset + containerY
                 )
@@ -202,7 +206,7 @@ export const AdminNavigationDisplay: React.FC<
                 isDragging: monitor.isOver()
             })
         }),
-        [offsetRefList, osIdRefList]
+        [offsetRefList, osIdRefList, containerY]
     )
 
     const createNewNavItem = (refIdx: number[]) => {

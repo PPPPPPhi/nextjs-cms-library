@@ -100,7 +100,9 @@ const contextDefaultValues: DisplayPanelContextProviderType = {
     isOnHoverLayout: false,
     setIsOnHoverLayout: () => null,
     isHardPreview: false,
-    setIsHardPreview: () => null
+    setIsHardPreview: () => null,
+    isLayoutReady: false,
+    setIsLayoutReady: () => false
 }
 
 export type DisplayPanelContextProviderType = {
@@ -177,6 +179,8 @@ export type DisplayPanelContextProviderType = {
     submit?: DisplayPanelPageCallback
     isOnHoverLayout: boolean
     setIsOnHoverLayout: Dispatch<SetStateAction<boolean>>
+    isLayoutReady: boolean
+    setIsLayoutReady: Dispatch<SetStateAction<boolean>>
 }
 
 export const DisplayPanelContext =
@@ -256,6 +260,7 @@ export const DisplayPanelContextProvider: FC<
     const [dragDropEditAcceptElementType, setDragDropEditAcceptElementType] =
         useState<string[]>([])
 
+    const [isLayoutReady, setIsLayoutReady] = useState(false)
     const [isOnHoverLayout, setIsOnHoverLayout] = useState(false)
 
     const elementsList = elementInstance.getSelectionList()
@@ -332,7 +337,9 @@ export const DisplayPanelContextProvider: FC<
                 isOnHoverLayout,
                 setIsOnHoverLayout,
                 isHardPreview,
-                setIsHardPreview
+                setIsHardPreview,
+                isLayoutReady,
+                setIsLayoutReady
             }}>
             {children}
         </DisplayPanelContext.Provider>

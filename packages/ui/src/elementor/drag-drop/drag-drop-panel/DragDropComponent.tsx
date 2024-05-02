@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useMemo, useState } from "react"
+import React, { useCallback, useRef, useMemo, useState, useEffect } from "react"
 const { useDrag } = require("react-dnd")
 
 import _ from "lodash"
@@ -61,29 +61,28 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         component,
         hoverIndex,
         offsetIdx,
-        elementIdx
+        elementIdx,
+        isLastElement
     } = props
 
     const ref = useRef<any>()
     const {
-        dragDropList,
-        setIsDragging,
         setFocusEditId,
         propertiesEditList,
         setDeleteElementId,
         setDuplicateElementId,
         focusEditId,
-        setDropComponentInLayout,
-        setSwapLayoutChild,
-        toggle,
         dragDropEditList,
-        currentHistoryIndex,
-        setIsReOrder,
-        setIsInsertNested,
         isPreview,
         readOnly,
-        isOnHoverLayout
+        isOnHoverLayout,
+        isLayoutReady,
+        setIsLayoutReady
     } = useDisplayPanelContext()
+
+    useEffect(() => {
+        if (!isLayoutReady && isLastElement) setIsLayoutReady(true)
+    }, [])
 
     const isLayout = useMemo(() => {
         // @ts-ignore

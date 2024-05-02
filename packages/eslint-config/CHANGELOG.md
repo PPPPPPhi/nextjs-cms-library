@@ -1,5 +1,11 @@
 # eslint-config
 
+## 0.0.3
+
+### Patch Changes
+
+- update features
+
 ## 0.0.2
 
 ### Patch Changes

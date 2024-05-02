@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 
 const useDragDropOffsetHook = () => {
-    const { dragDropEditList } = useDisplayPanelContext()
+    const { dragDropEditList, isLayoutReady } = useDisplayPanelContext()
 
     const [offsetRefList, setOffsetRefList] = useState<number[]>([])
     const [containerY, setContainerY] = useState(0)
@@ -29,6 +29,9 @@ const useDragDropOffsetHook = () => {
             "display-panel-drag-drop-area"
         )
 
+        console.log("excellent", dragDropEditList)
+        console.log("excellent container", DragDropContainer.children.length)
+
         let offsetArray: number[] = []
         if (DragDropContainer && DragDropContainer.children) {
             Array.apply(null, Array(DragDropContainer.children.length)).forEach(
@@ -45,8 +48,10 @@ const useDragDropOffsetHook = () => {
         }
 
         offsetArray.splice(offsetArray.length - 1, 1)
+        console.log("excellent offsetArray", offsetArray)
+
         setOffsetRefList(offsetArray)
-    }, [dragDropEditList])
+    }, [dragDropEditList, isLayoutReady])
 
     return {
         containerY,

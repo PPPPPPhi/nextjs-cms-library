@@ -10,11 +10,12 @@ const useNavigationOffsetHook = (navJson: any, navigation: any) => {
 
     useEffect(() => {
         const DragDropContainer = document.getElementById(
-            "display-panel-drag-drop-area-container"
+            "navigation-drag-drop-container"
         )
 
         const recordScrollY = (event: any) => {
-            if (DragDropContainer) setContainerY(DragDropContainer.scrollTop)
+            if (DragDropContainer)
+                setContainerY(DragDropContainer.scrollTop - 320)
         }
 
         DragDropContainer?.addEventListener("scroll", recordScrollY)

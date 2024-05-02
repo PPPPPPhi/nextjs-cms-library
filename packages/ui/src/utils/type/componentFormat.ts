@@ -154,6 +154,7 @@ export type DragDropComponentProps = DragDropEditType & {
     hoverIndex: number
     offsetIdx: number
     elementIdx: number
+    isLastElement: boolean
 }
 
 export type PropertyEditType = PropertyJson &

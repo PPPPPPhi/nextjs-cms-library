@@ -205,7 +205,6 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
     return (
         <div
             id="display-panel-drag-drop-area"
-            className="h-100"
             ref={drop}
             style={{ background: isDragging ? "#F6F6F6" : "white" }}>
             {dragDropEditRef?.current &&
@@ -223,6 +222,10 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
                                     elementIdx={index}
                                     offsetIdx={offsetPosition}
                                     hoverIndex={component?.hoverIndex ?? index}
+                                    isLastElement={
+                                        dragDropEditRef?.current?.length - 1 ===
+                                        index
+                                    }
                                 />
                             </div>
                         )
