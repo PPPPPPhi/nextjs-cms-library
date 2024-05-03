@@ -36,6 +36,7 @@
         "@syncfusion/ej2-react-richtexteditor": "^24.2.9",
         "@tanstack/react-table": "^8.13.2",
         "@types/react-datepicker": "^6.2.0",
+        "@types/zipcelx": "^1.5.2",
         "axios": "^1.6.7",
         "bcryptjs": "^2.4.3",
         "changeset": "^0.2.6",
@@ -75,6 +76,7 @@
         "sass-loader": "^14.1.1",
         "tanstack-table-export-to-csv": "^1.0.3",
         "uuid": "^9.0.1",
+        "zipcelx": "^1.6.2",
         "zod": "^3.22.4"
     }
 }
