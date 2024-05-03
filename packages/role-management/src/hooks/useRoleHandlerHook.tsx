@@ -44,7 +44,9 @@ const useRoleHandlerHook = () => {
             confirmHandler: () => {
                 setRole(roleRef.current)
             },
-            isNoCloseBtn: true
+            isNoCloseBtn: true,
+            pannelWidth: 75,
+            pannelHeight: 75
         })
     }
 

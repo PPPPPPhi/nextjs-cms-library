@@ -70,31 +70,55 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
     const router = useRouter()
 
     return (
-        <div className="d-flex flex-column w-100 h-100">
-            <AdminCard
-                cardsRef={[
-                    {
-                        actionLabel: "View History",
-                        desc: "View history of footer",
-                        action: () => {
-                            router.push("./footer/history")
+        <div
+            className="d-flex flex-column w-100 s-section-primary rounded-2 shadow p-4"
+            style={{ flex: 1 }}>
+            <div className="d-flex w-100">
+                <div
+                    className="d-flex w-100 py-2 flex-column align-content-between justify-content-between"
+                    style={{ flex: 1 }}>
+                    <AdminTabMenu
+                        tabList={["html", "css", "script"]}
+                        callback={(tab) => {
+                            console.log(
+                                "FOOTER_TAB_MENU[tab]",
+                                FOOTER_TAB_MENU[tab]
+                            )
+                            setMode(FOOTER_TAB_MENU[tab] as string)
+                        }}
+                    />
+                    <AdminTabMenu
+                        tabList={EDITOR_WIDTH_PERCENTAGE}
+                        callback={(tab) => {
+                            setEditorWidth(
+                                EDITOR_WIDTH_PERCENTAGE[tab] as string
+                            )
+                        }}
+                        defaultTab={1}
+                    />
+                </div>
+                <AdminCard
+                    cardsRef={[
+                        {
+                            actionLabel: "View History",
+                            desc: "View history of footer",
+                            action: () => {
+                                router.push("./footer/history")
+                            },
+                            authCode: "VIEW_FOOTER_SETTING_HISTORY"
                         },
-                        authCode: "VIEW_FOOTER_SETTING_HISTORY"
-                    }
-                ]}
-            />
-            <div className="d-flex w-100 py-2">
-                <AdminTabMenu
-                    tabList={["html", "css", "script"]}
-                    callback={(tab) => {
-                        console.log(
-                            "FOOTER_TAB_MENU[tab]",
-                            FOOTER_TAB_MENU[tab]
-                        )
-                        setMode(FOOTER_TAB_MENU[tab] as string)
-                    }}
+                        {
+                            actionLabel: "Save",
+                            desc: "Save footer",
+                            action: () => {
+                                saveFooter(value as footerPropertiesType)
+                            },
+                            authCode: "EDIT_FOOTER_SETTING"
+                        }
+                    ]}
                 />
             </div>
+
             <div
                 className="d-flex w-100 p-2 s-section-secondary rounded-3 space-x-2"
                 style={{ flex: 1 }}>
@@ -142,24 +166,7 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
             </div>
             <div className="d-flex w-100 s-section-primary align-item-center">
                 <div className="d-flex p-2 space-x-3 w-100">
-                    <AdminTabMenu
-                        tabList={EDITOR_WIDTH_PERCENTAGE}
-                        callback={(tab) => {
-                            setEditorWidth(
-                                EDITOR_WIDTH_PERCENTAGE[tab] as string
-                            )
-                        }}
-                        defaultTab={1}
-                    />
                     <div style={{ flex: 1 }} />
-                    <AdminButton
-                        label="Save"
-                        style={{ width: 300 }}
-                        onClick={() => {
-                            saveFooter(value as footerPropertiesType)
-                        }}
-                        authCode="EDIT_FOOTER_SETTING"
-                    />
                 </div>
             </div>
         </div>

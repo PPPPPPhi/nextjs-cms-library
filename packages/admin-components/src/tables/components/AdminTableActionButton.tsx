@@ -49,7 +49,8 @@ export const AdminTableActionButton: React.FC<RowCellInterface> = ({
                             ...(!isAuthorized && {
                                 background: "#CCC",
                                 cursor: "default"
-                            })
+                            }),
+                            padding: "2px 0 2px 0"
                         }}
                         onClick={isAuthorized ? action : () => {}}>
                         <Icon />

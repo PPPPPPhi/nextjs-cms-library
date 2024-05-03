@@ -19,6 +19,7 @@ export * from "./AdminNaviationHistoryTable"
 export * from "./AdminMarginalHistoryTable"
 export * from "./AdminMarginalPublicationHistoryTable"
 export * from "./AdminProductCustomerTable"
+export * from "./AdminImageListTable"
 
 import AdminWordMatrix from "./AdminWordMatrix"
 export { AdminWordMatrix }

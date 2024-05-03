@@ -1,4 +1,11 @@
-import { useMemo, useState, Fragment, useEffect } from "react"
+import {
+    useMemo,
+    useState,
+    Fragment,
+    useEffect,
+    forwardRef,
+    useImperativeHandle
+} from "react"
 import {
     ExpandedState,
     useReactTable,
@@ -28,6 +35,7 @@ interface AdminTableInterface {
     data: any[]
     pinColumns: string[]
     columnDefs: columnDefsType[]
+    ref?: any
     compareField?: string
     isCompatible?: boolean
     isSubComponent?: boolean
@@ -39,250 +47,273 @@ interface AdminTableInterface {
     getData?: () => void
 }
 
-export const AdminTable: React.FC<AdminTableInterface> = ({
-    data,
-    pinColumns,
-    columnDefs,
-    compareField,
-    isCompatible,
-    isSubComponent,
-    zebra = false,
-    exportAuthCode,
-    tableMinHeight = 400,
-    excludeExport,
-    isRefresh,
-    getData
-}) => {
-    const [expanded, setExpanded] = useState<ExpandedState>({})
-    const [compareSource, setCompareSource] = useState<number>(-1)
-    const [compareTarget, setCompareTarget] = useState<number>(-1)
-
-    const [cloneSlug, setCloneSlug] = useState<string>("")
-    const [cloneSource, setCloneSource] = useState<number>(-1)
-    const [cloneTarget, setCloneTarget] = useState<number>(-1)
-
-    const colDefs = useMemo(
-        () =>
-            getColumnDefinition(
-                columnDefs ?? [],
-                isCompatible,
-                {
-                    compareSource,
-                    setCompareSource,
-                    setCompareTarget
-                },
-                {
-                    cloneSource,
-                    setCloneSource,
-                    setCloneTarget,
-                    cloneSlug,
-                    setCloneSlug
-                }
-            ),
-        [compareSource, isCompatible, cloneSource]
-    )
-
-    const columns = useMemo<ColumnDef<any>[]>(() => [...colDefs], [colDefs])
-
-    const [pagination, setPagination] = useState({
-        pageIndex: 0, //initial page index
-        pageSize: 10 //default page size
-    })
-
-    const table = useReactTable({
-        data,
-        columns,
-        state: {
-            expanded,
-            pagination
+export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
+    (
+        {
+            data,
+            pinColumns,
+            columnDefs,
+            compareField,
+            isCompatible,
+            isSubComponent,
+            zebra = false,
+            exportAuthCode,
+            tableMinHeight = 400,
+            excludeExport,
+            isRefresh,
+            getData
         },
-        initialState: {
-            columnPinning: {
-                left: pinColumns,
-                right: []
-            }
-        },
-        onExpandedChange: setExpanded,
-        getSubRows: (row) => row.details,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        getExpandedRowModel: getExpandedRowModel(),
-        onPaginationChange: setPagination,
-        debugTable: true,
-        ...(isSubComponent && { getRowCanExpand: () => true })
-    })
+        ref
+    ) => {
+        const [expanded, setExpanded] = useState<ExpandedState>({})
+        const [compareSource, setCompareSource] = useState<number>(-1)
+        const [compareTarget, setCompareTarget] = useState<number>(-1)
 
-    const renderSubComponent = ({ row }: { row: Row<any> }) => {
-        return (
-            <pre style={{ fontSize: "10px", whiteSpace: "normal" }}>
-                <code>
-                    {JSON.stringify(
-                        {
-                            [compareField as string]:
-                                row.original?.[compareField as string]
-                        },
-                        null,
-                        2
-                    )}
-                </code>
-            </pre>
+        const [cloneSlug, setCloneSlug] = useState<string>("")
+        const [cloneSource, setCloneSource] = useState<number>(-1)
+        const [cloneTarget, setCloneTarget] = useState<number>(-1)
+
+        const colDefs = useMemo(
+            () =>
+                getColumnDefinition(
+                    columnDefs ?? [],
+                    isCompatible,
+                    {
+                        compareSource,
+                        setCompareSource,
+                        setCompareTarget
+                    },
+                    {
+                        cloneSource,
+                        setCloneSource,
+                        setCloneTarget,
+                        cloneSlug,
+                        setCloneSlug
+                    }
+                ),
+            [compareSource, isCompatible, cloneSource]
         )
-    }
 
-    const handleExportToCsv = (): void => {
-        const headers = table
-            .getHeaderGroups()
-            .map((x) => x.headers)
-            .flat()
+        const columns = useMemo<ColumnDef<any>[]>(() => [...colDefs], [colDefs])
 
-        const rows = table.getRowModel().rows
+        const [pagination, setPagination] = useState({
+            pageIndex: 0, //initial page index
+            pageSize: 10 //default page size
+        })
 
-        const csvBlob = getCsvBlob(headers, rows)
+        const table = useReactTable({
+            data,
+            columns,
+            state: {
+                expanded,
+                pagination
+            },
+            initialState: {
+                columnPinning: {
+                    left: pinColumns,
+                    right: []
+                }
+            },
+            onExpandedChange: setExpanded,
+            getSubRows: (row) => row.details,
+            getCoreRowModel: getCoreRowModel(),
+            getPaginationRowModel: getPaginationRowModel(),
+            getFilteredRowModel: getFilteredRowModel(),
+            getExpandedRowModel: getExpandedRowModel(),
+            onPaginationChange: setPagination,
+            debugTable: true,
+            ...(isSubComponent && { getRowCanExpand: () => true })
+        })
 
-        console.log(`export csv`, headers, rows, csvBlob)
-
-        // exportToCsv("export_data", headers, rows)
-        FileSaver.saveAs(csvBlob, "data.csv")
-    }
-
-    const { tableFlatRow, tableGenRow } = useMemo(() => {
-        return {
-            tableFlatRow: table.getExpandedRowModel()?.flatRows?.length ?? 0,
-            tableGenRow: table.getExpandedRowModel()?.rows?.length ?? 0
+        const renderSubComponent = ({ row }: { row: Row<any> }) => {
+            return (
+                <pre style={{ fontSize: "10px", whiteSpace: "normal" }}>
+                    <code>
+                        {JSON.stringify(
+                            {
+                                [compareField as string]:
+                                    row.original?.[compareField as string]
+                            },
+                            null,
+                            2
+                        )}
+                    </code>
+                </pre>
+            )
         }
-    }, [table.getExpandedRowModel()?.flatRows?.length ?? 0])
 
-    useEffect(() => {
-        if (tableGenRow !== tableFlatRow && tableGenRow !== 0) {
-            setPagination({
-                pageIndex: pagination.pageIndex,
-                pageSize: tableFlatRow
-            })
+        useImperativeHandle(ref, () => ({
+            handleExportToCsv() {
+                handleExportToCsv()
+            }
+        }))
+
+        const handleExportToCsv = (): void => {
+            const headers = table
+                .getHeaderGroups()
+                .map((x) => x.headers)
+                .flat()
+
+            const rows = table.getRowModel().rows
+
+            const csvBlob = getCsvBlob(headers, rows)
+
+            console.log(`export csv`, headers, rows, csvBlob)
+
+            // exportToCsv("export_data", headers, rows)
+            FileSaver.saveAs(csvBlob, "data.csv")
         }
-    }, [tableGenRow, tableFlatRow])
 
-    return (
-        <div className="d-flex flex-column w-100 h-100">
-            <div
-                className="overflow-auto mb-3"
-                style={{ minHeight: tableMinHeight }}>
-                <table className="shadow w-100 overflow-auto">
-                    <thead
-                        className="s-section-primary"
-                        style={{
-                            position: "sticky",
-                            top: 0,
-                            zIndex: 20
-                        }}>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id} style={{ height: 35 }}>
-                                {headerGroup.headers.map((header) => {
-                                    const { column } = header
-                                    return (
-                                        <th
-                                            key={header.id}
-                                            colSpan={header.colSpan}
-                                            //IMPORTANT: This is where the magic happens!
-                                            style={{
-                                                ...getCommonPinningStyles(
-                                                    column,
-                                                    "th",
-                                                    true
-                                                )
-                                            }}>
-                                            <div className="whitespace-nowrap s-section-primary">
-                                                {header.isPlaceholder
-                                                    ? null
-                                                    : flexRender(
-                                                          header.column
-                                                              .columnDef.header,
-                                                          header.getContext()
-                                                      )}
-                                            </div>
-                                        </th>
-                                    )
-                                })}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody>
-                        {table.getRowModel().rows.map((row, index) => (
-                            <Fragment key={row.id}>
-                                <tr
-                                    key={row.id}
-                                    style={{
-                                        borderBottom: "1px solid black",
-                                        height: 35
-                                    }}
-                                    className={`whitespace-nowrap ${zebra ? "s-zebra-hover" : ""}`}>
-                                    {row.getVisibleCells().map((cell) => {
-                                        const { column } = cell
+        const { tableFlatRow, tableGenRow } = useMemo(() => {
+            return {
+                tableFlatRow:
+                    table.getExpandedRowModel()?.flatRows?.length ?? 0,
+                tableGenRow: table.getExpandedRowModel()?.rows?.length ?? 0
+            }
+        }, [table.getExpandedRowModel()?.flatRows?.length ?? 0])
+
+        useEffect(() => {
+            if (tableGenRow !== tableFlatRow && tableGenRow !== 0) {
+                setPagination({
+                    pageIndex: pagination.pageIndex,
+                    pageSize: tableFlatRow
+                })
+            }
+        }, [tableGenRow, tableFlatRow])
+
+        console.log("data bbb", data)
+
+        return (
+            <div className="d-flex flex-column w-100 h-100">
+                <div
+                    className="overflow-auto mb-3"
+                    style={{ minHeight: tableMinHeight }}>
+                    <table className="shadow w-100 overflow-auto">
+                        <thead
+                            className="s-section-primary"
+                            style={{
+                                position: "sticky",
+                                top: 0,
+                                zIndex: 20
+                            }}>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <tr key={headerGroup.id} style={{ height: 35 }}>
+                                    {headerGroup.headers.map((header) => {
+                                        const { column } = header
                                         return (
-                                            <td
-                                                key={cell.id}
+                                            <th
+                                                key={header.id}
+                                                colSpan={header.colSpan}
+                                                //IMPORTANT: This is where the magic happens!
                                                 style={{
                                                     ...getCommonPinningStyles(
                                                         column,
-                                                        "td"
-                                                    ),
-                                                    backgroundColor:
-                                                        zebra && index % 2 == 0
-                                                            ? "#f2f2f2"
-                                                            : "white"
+                                                        "th",
+                                                        true
+                                                    )
                                                 }}>
-                                                {flexRender(
-                                                    cell.column.columnDef.cell,
-                                                    cell.getContext()
-                                                )}
-                                            </td>
+                                                <div className="whitespace-nowrap s-section-primary">
+                                                    {header.isPlaceholder
+                                                        ? null
+                                                        : flexRender(
+                                                              header.column
+                                                                  .columnDef
+                                                                  .header,
+                                                              header.getContext()
+                                                          )}
+                                                </div>
+                                            </th>
                                         )
                                     })}
                                 </tr>
-                                {row.getIsExpanded() && isSubComponent && (
-                                    <tr>
-                                        <td colSpan={3}>
-                                            {renderSubComponent({ row })}
-                                        </td>
+                            ))}
+                        </thead>
+                        <tbody>
+                            {table.getRowModel().rows.map((row, index) => (
+                                <Fragment key={row.id}>
+                                    <tr
+                                        key={row.id}
+                                        style={{
+                                            borderBottom: "1px solid black",
+                                            height: 35
+                                        }}
+                                        className={`whitespace-nowrap ${zebra ? "s-zebra-hover" : ""}`}>
+                                        {row.getVisibleCells().map((cell) => {
+                                            const { column } = cell
+                                            return (
+                                                <td
+                                                    key={cell.id}
+                                                    style={{
+                                                        ...getCommonPinningStyles(
+                                                            column,
+                                                            "td"
+                                                        ),
+                                                        backgroundColor:
+                                                            zebra &&
+                                                            index % 2 == 0
+                                                                ? "#f2f2f2"
+                                                                : "white"
+                                                    }}>
+                                                    {flexRender(
+                                                        cell.column.columnDef
+                                                            .cell,
+                                                        cell.getContext()
+                                                    )}
+                                                </td>
+                                            )
+                                        })}
                                     </tr>
-                                )}
-                            </Fragment>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            {(data ?? []).length > 10 && <AdminTablePagination table={table} />}
-            {isCompatible && (
-                <AdminDiffViewer
-                    sourceJson={data[compareSource]?.[compareField as string]}
-                    targetJson={data[compareTarget]?.[compareField as string]}
-                />
-            )}
-            {isRefresh && (
-                <div className="d-flex justify-content-end">
-                    <div style={{ width: 80 }}>
-                        <AdminButton
-                            Icon={HiOutlineArrowPath}
-                            label=""
-                            onClick={() => {
-                                getData && getData()
-                            }}
-                        />
-                    </div>
+                                    {row.getIsExpanded() && isSubComponent && (
+                                        <tr>
+                                            <td colSpan={3}>
+                                                {renderSubComponent({ row })}
+                                            </td>
+                                        </tr>
+                                    )}
+                                </Fragment>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            )}
-            {!excludeExport && (
-                <AdminCard
-                    cardsRef={[
-                        {
-                            actionLabel: "Export Excel",
-                            desc: "Export CSV file to view in Excel.",
-                            action: handleExportToCsv,
-                            authCode: exportAuthCode ?? "AVAILABLE_CODE"
+                {(data ?? []).length > 10 && (
+                    <AdminTablePagination table={table} />
+                )}
+                {isCompatible && (
+                    <AdminDiffViewer
+                        sourceJson={
+                            data[compareSource]?.[compareField as string]
                         }
-                    ]}
-                />
-            )}
-        </div>
-    )
-}
+                        targetJson={
+                            data[compareTarget]?.[compareField as string]
+                        }
+                    />
+                )}
+                {isRefresh && (
+                    <div className="d-flex justify-content-end">
+                        <div style={{ width: 80 }}>
+                            <AdminButton
+                                Icon={HiOutlineArrowPath}
+                                label=""
+                                onClick={() => {
+                                    getData && getData()
+                                }}
+                            />
+                        </div>
+                    </div>
+                )}
+                {/* {!excludeExport && (
+                    <AdminCard
+                        cardsRef={[
+                            {
+                                actionLabel: "Export Excel",
+                                desc: "Export CSV file to view in Excel.",
+                                action: handleExportToCsv,
+                                authCode: exportAuthCode ?? "AVAILABLE_CODE"
+                            }
+                        ]}
+                    />
+                )} */}
+            </div>
+        )
+    }
+)

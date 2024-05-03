@@ -3,11 +3,12 @@ import { AdminNavButton } from "./AdminNavButton"
 import { HiFolderAdd } from "react-icons/hi"
 import { AdminCreateNavItemForm, AdminLanguageSelectForm } from "../form"
 import * as _ from "lodash"
-import { AdminCard } from "../core"
+import { AdminCard, AdminCardType } from "../core"
 import { AdminNavigationItem } from "./AdminNavigationItem"
 import useNavigationOffsetHook from "./hooks/useNavigationOffsetHook"
 import { useAdminNavigationContext } from "./context/AdminNavigationContext"
 import { useRouter } from "next/navigation"
+
 const { useDrop } = require("react-dnd")
 
 export type naviagtionType = {
@@ -379,17 +380,31 @@ export const AdminNavigationDisplay: React.FC<
                             actionLabel: "Move Position",
                             desc: "Move Position",
                             action: () => {
-                                setIsCollapsing(!isDraggable ? true : false)
-                                setIsDraggable(!isDraggable)
+                                setIsCollapsing(true)
+                                setIsDraggable(true)
                             },
-                            authCode: "EDIT_NAVIGATION"
+                            authCode: "EDIT_NAVIGATION",
+                            invActionLabel: "Back",
+                            invDesc: "Stop moving action",
+                            invAction: () => {
+                                setIsCollapsing(false)
+                                setIsDraggable(false)
+                            },
+                            dependency: isDraggable
                         },
                         {
-                            actionLabel: "Show / Hide Setting",
-                            desc: "Show/Hide setting for editing/viewing the navigation menu",
+                            actionLabel: "Show Setting",
+                            desc: "Show setting for editing/viewing the navigation menu",
                             action: () => {
-                                setIsShowSetting(!isShowSetting)
-                            }
+                                setIsShowSetting(true)
+                            },
+                            invActionLabel: "Hide Setting",
+                            invDesc:
+                                "Hide setting for editing/viewing the navigation menu",
+                            invAction: () => {
+                                setIsShowSetting(false)
+                            },
+                            dependency: isShowSetting
                         },
                         {
                             actionLabel: "Save",

@@ -33,16 +33,14 @@ export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
                 width: "max-content",
                 ...style,
                 cursor: isDisabled ? "default" : "pointer",
-                background: isDisabled
-                    ? "#CCCCCC"
-                    : "var(--static-color-primary)"
+                ...(isDisabled && { background: "#CCCCCC" })
             }}
             onClick={() => {
                 if (isDisabled) return
                 onClick()
             }}>
             {Icon && (
-                <Icon className="text-level-button s-text-color-nu mx-2" />
+                <Icon className="text-level-button mx-2 s-text-color-nu" />
             )}
             <span className="s-text-color-nu">{label}</span>
         </div>

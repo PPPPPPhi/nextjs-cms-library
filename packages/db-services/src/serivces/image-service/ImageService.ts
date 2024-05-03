@@ -39,7 +39,8 @@ export const getImagesBySite = async (site: string) => {
                 "description",
                 "extension",
                 "createdBy",
-                "updatedBy"
+                "updatedBy",
+                "updatedAt"
             ],
             []
         )

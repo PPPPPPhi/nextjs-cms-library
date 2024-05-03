@@ -194,11 +194,18 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                             authCode: "VIEW_FOOTER_SETTING_HISTORY"
                         },
                         {
-                            actionLabel: darkMode ? "Light Mode" : "Dark Mode",
+                            actionLabel: "Dark Mode",
                             desc: "Turn on light/dark mode to view different color of logo",
                             action: () => {
-                                setDarkMode(!darkMode)
-                            }
+                                setDarkMode(true)
+                            },
+                            invActionLabel: "Light Mode",
+                            invDesc:
+                                "Turn on light moed to view different color of logo",
+                            invAction: () => {
+                                setDarkMode(false)
+                            },
+                            dependency: darkMode
                         },
                         {
                             actionLabel: "Save",

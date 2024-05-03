@@ -12,10 +12,21 @@ const useNavigationOffsetHook = (navJson: any, navigation: any) => {
         const DragDropContainer = document.getElementById(
             "navigation-drag-drop-container"
         )
+        const adminControlsContainer = document.getElementById(
+            "admin_card_container"
+        )
+        const langControlContainer = document.getElementById(
+            "lang_selector_container"
+        )
 
         const recordScrollY = (event: any) => {
             if (DragDropContainer)
-                setContainerY(DragDropContainer.scrollTop - 320)
+                setContainerY(
+                    DragDropContainer.scrollTop -
+                        adminControlsContainer!.clientHeight ??
+                        0 - langControlContainer!.clientHeight ??
+                        0
+                )
         }
 
         DragDropContainer?.addEventListener("scroll", recordScrollY)

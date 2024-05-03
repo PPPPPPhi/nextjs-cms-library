@@ -20,7 +20,7 @@ export const NextImageApdator: React.FC<
     const [imageSrc, setImageSrc] = useState<string>()
 
     const imageLoader = ({ src }: loaderType) => {
-        if (!isStatic) return `${process.env.IMAGE_RESOURCES}/${src}`
+        if (!isStatic) return `${process.env.NEXT_IMAGE_UPLOAD_PATH}${src}`
         else return src
     }
 
@@ -52,7 +52,11 @@ export const NextImageApdator: React.FC<
                 className="flex-column w-100 h-100 align-items-center justify-content-center text-level-remark text-font-light position-absolute"
                 style={{ display: isError ? "flex" : "none", top: 0 }}>
                 <FaImage style={{ width: 20, height: 20 }} />
-                <span className="text-center">Image is not available now</span>
+                <span
+                    className="text-center"
+                    style={{ whiteSpace: "pre-wrap" }}>
+                    Image is not available now
+                </span>
             </div>
         </div>
     )

@@ -46,17 +46,17 @@ export const AdminTabMenu: React.FC<AdminTabMenuInterface> = ({
     const [selectedTab, setSelectedTab] = useState<number | undefined>(0)
     const [tabs, setTabs] = useState<string[]>(tabList)
 
-    useEffect(()=>{
-        if (defaultTab){
+    useEffect(() => {
+        if (defaultTab) {
             setSelectedTab(defaultTab)
-        }   
+        }
     }, [])
     useEffect(() => {
         if (tabList.length) setTabs(tabList)
     }, [tabList])
 
     return (
-        <div className="d-flex w-100 space-x-3">
+        <div className="d-flex w-100 space-x-3" id="lang_selector_container">
             {tabs?.map((l, idx) => (
                 <SectionHeader
                     key={`admin_tab_menu_${idx}`}

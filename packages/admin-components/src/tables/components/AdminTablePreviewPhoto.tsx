@@ -15,7 +15,7 @@ export const AdminTablePreviewPhoto: React.FC<
             className="d-flex align-items-center justify-content-center"
             style={{ width: customWidth ?? "auto" }}>
             <div
-                className=" px-3 rounded-4 d-flex align-items-center position-relative"
+                className="d-flex align-items-center position-relative"
                 style={{
                     width: 100,
                     objectFit: "contain",
@@ -26,7 +26,7 @@ export const AdminTablePreviewPhoto: React.FC<
                     src={value}
                     alt="product photo"
                     fill
-                    isStatic
+                    isStatic={!/^\//.test(value)}
                     style={{ objectFit: "contain", objectPosition: "center" }}
                 />
             </div>
