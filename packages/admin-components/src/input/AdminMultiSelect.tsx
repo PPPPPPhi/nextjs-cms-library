@@ -28,17 +28,13 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
     useEffect(() => {
         const list: MultiSelectType[] = []
 
-        console.log(`value`, value, options)
         value?.map((value: string) => {
             const found: MultiSelectType | undefined = options?.find(
                 (option) => option.value == value
             )
-
-            console.log(`value`, value, found)
             if (found) list.push(found)
             return
         })
-        console.log(`multiselect list`, list)
         setSelectedList(list)
     }, [value])
 
