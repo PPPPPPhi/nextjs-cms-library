@@ -1,5 +1,11 @@
 # @nextjs-cms-library/db-services
 
+## 1.1.17
+
+### Patch Changes
+
+- update
+
 ## 1.1.16
 
 ### Patch Changes

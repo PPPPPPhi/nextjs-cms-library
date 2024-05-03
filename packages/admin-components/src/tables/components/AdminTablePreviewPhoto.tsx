@@ -1,4 +1,5 @@
 import { CSSProperties, useMemo } from "react"
+//@ts-ignore
 import { NextImageApdator } from "@nextjs-cms-library/ui/index"
 
 interface AdminTablePreviewPhotoInterface {
