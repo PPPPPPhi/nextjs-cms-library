@@ -83,6 +83,7 @@ export const getFilterProducts = async (filter: FilterOrdersParam) => {
 
         // let products
         const query = getParsedQuery(filter)
+        console.log(`filter query products`, query)
 
         //@ts-ignore
         // products = (
@@ -97,7 +98,8 @@ export const getFilterProducts = async (filter: FilterOrdersParam) => {
                 { $set: { stock: { $first: "$stockQuantityHistory" } } },
                 { $set: { price: "$prices.price" } },
                 { $set: { photo: "$media.photo" } },
-                { $set: { stockQuantity: "$stock.stockQuantity" } }
+                { $set: { stockQuantity: "$stock.stockQuantity" } },
+                { $set: { updatedAt: "$stock.createdAt" } }
             ],
             [
                 "_id",
@@ -107,6 +109,7 @@ export const getFilterProducts = async (filter: FilterOrdersParam) => {
                 "categories",
                 "price",
                 "stockQuantity",
+                "vendor",
                 "updatedBy",
                 "updatedAt"
             ]

@@ -44,6 +44,7 @@ export type IOrder = {
     customer: string
     orderStatus: string
     orderSubtotal: number
+    shippingStatus: string
     orderShipping: number
     orderTax: number
     orderTotal: number

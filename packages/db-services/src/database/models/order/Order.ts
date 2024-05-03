@@ -11,6 +11,7 @@ const orderSchema = new mongoose.Schema<IOrder, OrderModal, {}>(
         customer: String,
         orderStatus: String,
         orderSubtotal: Number,
+        shippingStatus: String,
         orderShipping: Number,
         orderTax: Number,
         orderTotal: Number,

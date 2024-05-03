@@ -56,18 +56,18 @@ export const AdminProductCategoryTable: React.FC<
                             accessorKey: "name",
                             header: "Category",
                             cellType: "cell",
-                            size: 100
+                            size: 300
                         },
                         {
                             accessorKey: "parentCategory",
                             header: "Parent Category",
                             cellType: "cell",
-                            enableResize: true
+                            size: 300
                         },
                         {
-                            accessorKey: "display",
-                            header: "Display",
-                            cellType: "boolean",
+                            accessorKey: "displayOrder",
+                            header: "Display Order",
+                            cellType: "cell",
                             enableResize: true
                         },
                         {
@@ -75,18 +75,6 @@ export const AdminProductCategoryTable: React.FC<
                             header: "Published",
                             cellType: "boolean",
                             enableResize: true
-                        },
-                        {
-                            accessorKey: "createdAt",
-                            header: "Created At",
-                            cellType: "cell",
-                            enableResize: true
-                        },
-                        {
-                            accessorKey: "updatedAt",
-                            header: "Updated At",
-                            cellType: "cell",
-                            size: 220
                         }
                     ]}
                 />

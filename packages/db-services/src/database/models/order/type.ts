@@ -54,6 +54,7 @@ export type OrderType = {
     orderStatus: string
     orderSubtotal: number
     orderShipping: number
+    shippingStatus: string
     orderTax: number
     orderTotal: number
     profit: number

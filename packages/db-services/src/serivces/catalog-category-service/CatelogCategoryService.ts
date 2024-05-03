@@ -87,7 +87,7 @@ export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
             mongoose.models.Category as Model<any, {}, {}, {}, any, any>,
             query,
             [
-                { $set: { display: "$display.displayOrder" } },
+                { $set: { displayOrder: "$display.displayOrder" } },
                 { $set: { published: "$display.published" } }
             ],
             [
@@ -95,7 +95,7 @@ export const getFilterCategory = async (filter: FilterCatelogCategoryParam) => {
                 "name",
                 "description",
                 "parentCategory",
-                "display",
+                "displayOrder",
                 "published",
                 "updatedBy",
                 "updatedAt"

@@ -132,6 +132,8 @@ export const getParsedQuery = (query: FilterOrdersParam) => {
     _.unset(parsedQuery, `pageNum`)
     _.unset(parsedQuery, `pageSize`)
 
+    console.log(`parsed filter`, query, parsedQuery)
+
     return parsedQuery
 }
 
@@ -226,10 +228,10 @@ export const getProjectedQuery = async (
             )
         }
 
-        // console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
+        console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
         res = await model.aggregate(pipeline)
 
-        // console.log(`[getProjectedQuery] res`, JSON.stringify(res))
+        console.log(`[getProjectedQuery] res`, JSON.stringify(res))
 
         return res
     } catch (error) {

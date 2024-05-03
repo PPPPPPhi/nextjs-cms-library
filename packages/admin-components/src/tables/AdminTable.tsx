@@ -30,6 +30,7 @@ import {
     ACTION_TYPE,
     VIEW_TYPE
 } from "@nextjs-cms-library/role-management/index"
+import generateExcel from "zipcelx"
 
 interface AdminTableInterface {
     data: any[]
@@ -149,19 +150,47 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
         }))
 
         const handleExportToCsv = (): void => {
+            const config = {
+                filename: "exportTable",
+                sheet: {
+                    data: []
+                }
+            }
+            const csvRow = config.sheet.data
             const headers = table
                 .getHeaderGroups()
                 .map((x) => x.headers)
                 .flat()
-
-            const rows = table.getRowModel().rows
-
-            const csvBlob = getCsvBlob(headers, rows)
-
-            console.log(`export csv`, headers, rows, csvBlob)
-
-            // exportToCsv("export_data", headers, rows)
-            FileSaver.saveAs(csvBlob, "data.csv")
+    
+            const headerRow: [] = []
+            headers.map((col) => {
+                // @ts-ignore
+                return headerRow.push({ value: col.id, type: "string" })
+            })
+    
+            // @ts-ignore
+            csvRow.push(headerRow)
+    
+            const rows = table.getCoreRowModel().rows
+    
+            rows.map((row: any) => {
+                const dataRow: [] = []
+    
+                headerRow.map((header: { value: string; type: string }) => {
+                    // @ts-ignore
+                    return dataRow.push({
+                        value: row.getValue(header?.value),
+                        type: "string"
+                    })
+                })
+    
+                // @ts-ignore
+                csvRow.push(dataRow)
+            })
+    
+            console.log(`csvRow`, csvRow)
+    
+            generateExcel(config)
         }
 
         const { tableFlatRow, tableGenRow } = useMemo(() => {

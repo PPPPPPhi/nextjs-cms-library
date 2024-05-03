@@ -111,7 +111,7 @@ export const getFilterOrders = async (filter: FilterOrdersParam) => {
                 "order",
                 "orderStatus",
                 "paymentStatus",
-                "orderShipping",
+                "shippingStatus",
                 "customer",
                 "store",
                 "createdAt",
