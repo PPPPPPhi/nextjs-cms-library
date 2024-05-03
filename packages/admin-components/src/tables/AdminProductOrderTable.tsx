@@ -70,9 +70,9 @@ export const AdminProductOrderTable: React.FC<
                             size: 150
                         },
                         {
-                            accessorKey: "orderShipping",
-                            header: "Order Shipping",
-                            cellType: "badge",
+                            accessorKey: "shippingStatus",
+                            header: "Shipping Status",
+                            cellType: "cell",
                             size: 220
                         },
                         {
