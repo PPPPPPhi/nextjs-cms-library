@@ -1,4 +1,3 @@
-import { NextImageApdator } from "@nextjs-cms-library/ui/index"
 import { AdminButton } from "./AdminButton"
 import { useMemo } from "react"
 import {
@@ -16,7 +15,7 @@ const ASSISTANCE = {
     3: "/static_human4.webp"
 }
 
-type AdminCardType = {
+export type AdminCardType = {
     action: () => void
     actionLabel: string
     desc: string
@@ -119,8 +118,6 @@ export const AdminCard: React.FC<AdminCardInterface> = ({ cardsRef }) => {
                     invDesc
                 } = k
 
-                console.log("dependency", dependency)
-
                 const isToggled = useMemo(() => dependency, [dependency])
                 const label = useMemo(() => {
                     return isToggled ? invActionLabel : actionLabel
@@ -130,9 +127,7 @@ export const AdminCard: React.FC<AdminCardInterface> = ({ cardsRef }) => {
                 }, [isToggled])
                 const btnAction = useMemo(() => {
                     return isToggled ? invAction : action
-                }, [isToggled])
-
-                console.log("dependency btnAction", btnAction)
+                }, [isToggled, cardsRef])
 
                 return (
                     <Card

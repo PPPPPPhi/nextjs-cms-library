@@ -32,7 +32,6 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
     height,
     style
 }) => {
-    console.log("value", value)
     return (
         <div
             className={`w-100 h-100`}

@@ -163,6 +163,7 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                 className="d-flex w-100 s-section-primary p-2 align-items-center flex-wrap shadow rounded-2"
                 style={{ cursor: !isMaxLevel ? "pointer" : "default" }}>
                 <div
+                    //@ts-ignore
                     ddKey={ddKey}
                     className="d-flex w-100 align-items-center AdminNavItem"
                     {...getToggleProps({

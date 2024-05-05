@@ -206,3 +206,25 @@ export const getPublicationHistory = async (publicaitonId: string) => {
         return { status: 500, message: "Failed" }
     }
 }
+
+export const getPublicationPage = async (
+    site: string,
+    slug: string,
+    lang: string
+) => {
+    try {
+        const mongoose = await connectMongoDB()
+        //@ts-ignore
+        const publicaiton = await (
+            mongoose.models.Publication as Model<any, {}, {}, {}, any, any>
+        ).findOne({ site, slug, language: lang })
+
+        console.log(`[publication] get SPA publication`, { site, slug, lang })
+
+        if (publicaiton?._id) return { status: 200, publicaiton }
+        else return { message: "Fail", status: 500 }
+    } catch (e) {
+        console.log("Error in getting publicaiton", e)
+        return null
+    }
+}

@@ -54,8 +54,8 @@ export const SelectionPanel: React.FC<SelectionPanelInterface> = ({}) => {
                 width: 300,
                 left: 20,
                 display: !isExpandView ? "block" : "none",
-                top: 100,
-                height: "80%",
+                top: 250,
+                height: "70%",
                 zIndex: 1
             }}>
             <div className="h-100 d-flex flex-column">

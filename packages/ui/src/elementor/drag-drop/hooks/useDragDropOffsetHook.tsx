@@ -29,9 +29,6 @@ const useDragDropOffsetHook = () => {
             "display-panel-drag-drop-area"
         )
 
-        console.log("excellent", dragDropEditList)
-        console.log("excellent container", DragDropContainer.children.length)
-
         let offsetArray: number[] = []
         if (DragDropContainer && DragDropContainer.children) {
             Array.apply(null, Array(DragDropContainer.children.length)).forEach(

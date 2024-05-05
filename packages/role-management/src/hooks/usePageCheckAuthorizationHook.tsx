@@ -10,12 +10,9 @@ const usePageCheckAuthorizationHook = () => {
 
     useEffect(() => {
         if (isAuthorized && !isAuthorizing) {
-            console.log("vvvvvvvvvvvv router set ready")
-
             setIsAuthorizedPage(true)
         }
 
-        console.log("vvvvvvvvvvvv router set ready")
         setIsAuthorizing(false)
     }, [isAuthorized])
 

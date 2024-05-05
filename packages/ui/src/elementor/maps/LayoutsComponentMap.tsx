@@ -8,6 +8,7 @@ import {
     FiveColumn
 } from "../../layout"
 
+//@ts-ignore
 export const layoutsComponentMap: Map<string, FC<any>> = new Map([
     ["two-column", TwoColumn],
     ["three-column", ThreeColumn],

@@ -283,7 +283,11 @@ export const getColumnDefinition = (
                             (!k.shouldShow || k.shouldShow(original)) && (
                                 <Component
                                     icon={k.headerIcon}
-                                    label={getTDTitle(k, original, mode)}
+                                    label={getTDTitle(
+                                        k,
+                                        original,
+                                        mode as string
+                                    )}
                                     value={
                                         k.cellRef
                                             ? original[k.cellRef]

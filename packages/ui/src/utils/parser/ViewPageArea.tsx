@@ -46,6 +46,7 @@ export const ViewPageArea: React.FC<ViewPageAreaProps> = ({ pageJson }) => {
                                 type={type}
                                 id={id}
                                 index={index}
+                                //@ts-ignore
                                 Component={component}
                                 elements={elements}
                                 properties={properties}

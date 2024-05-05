@@ -42,6 +42,7 @@ export const useParsePageJson = (pageJson: string) => {
 
             if (element?.children) {
                 element?.children?.map((child: RawElementChildrenType) => {
+                    //@ts-ignore
                     const childComponent: React.FC<any> = _.cloneDeep({
                         ...(elementdragDropList?.get(
                             child?.element
@@ -55,6 +56,7 @@ export const useParsePageJson = (pageJson: string) => {
                 })
             }
 
+            //@ts-ignore
             const elemComponent: React.FC<any> = {
                 ...((elementdragDropList?.get(
                     element?.element

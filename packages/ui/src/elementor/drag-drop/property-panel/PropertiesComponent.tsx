@@ -10,6 +10,7 @@ import {
 } from "../../../utils/index"
 import { AdminButton } from "@nextjs-cms-library/admin-components/index"
 import { PropertiesChildInput } from "./PropertiesChildInput"
+//@ts-ignore
 import DragDropIcon from "./dragdrop.png"
 
 type PropertiesChildEmptyProps = {}
@@ -55,6 +56,7 @@ export const PropertiesComponent: React.FC<
 
     const [i, setI] = useState(false)
 
+    //@ts-ignore
     const {
         propertiesList,
         propertyId,
@@ -137,16 +139,16 @@ export const PropertiesComponent: React.FC<
 
         if (!focusEditRefParent) {
             const currentItem = _.cloneDeep(
-                newPropertiesList.find((k) => k.id === focusEditRef)
+                newPropertiesList.find((k: any) => k.id === focusEditRef)
             )
 
             const currentItemIdx = newPropertiesList.findIndex(
-                (l) => l.id === focusEditRef
+                (l: any) => l.id === focusEditRef
             )
 
             const updatedItem = {
                 ...currentItem,
-                properties: currentItem?.properties.map((l) => {
+                properties: currentItem?.properties.map((l: any) => {
                     return {
                         ...l,
                         value: updateValue[l.element_id]
@@ -161,10 +163,12 @@ export const PropertiesComponent: React.FC<
             setPropertiesEditList(_.cloneDeep(newPropertiesList))
         } else {
             const currentItem = _.cloneDeep(
-                newPropertiesList.find((k) => k.id === focusEditId.parentId)
+                newPropertiesList.find(
+                    (k: any) => k.id === focusEditId.parentId
+                )
             )
             const currentItemIdx = newPropertiesList.findIndex(
-                (l) => l.id === focusEditId.parentId
+                (l: any) => l.id === focusEditId.parentId
             )
 
             console.log("inside parent currentItem", currentItem)
@@ -178,9 +182,10 @@ export const PropertiesComponent: React.FC<
                         else
                             return {
                                 ...child,
-                                properties: child?.properties?.map((k) => {
+                                properties: child?.properties?.map((k: any) => {
                                     return {
                                         ...k,
+                                        //@ts-ignore
                                         value: values[focusEditRef][
                                             k.element_id
                                         ]

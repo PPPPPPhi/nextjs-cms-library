@@ -17,6 +17,7 @@ import { PropertiesPanelArea } from "./property-panel/PropertiesPanelArea"
 import { PropertiesComponentProps } from "../../utils/index"
 import { DisplayController } from "./control-bar/DisplayControlBar"
 import { SubmissionButton } from "./control-bar/SubmissionButton"
+import { PreviewButton } from "./control-bar/PreviewButton"
 import { useParams } from "next/navigation"
 
 type DisplayContainerProps = {
@@ -30,6 +31,8 @@ type DisplayContainerProps = {
 export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
     const { readOnly } = props ?? {}
 
+    console.log("props", props)
+
     return (
         <div className="d-flex h-100 w-100">
             <DisplayPanelContextProvider {...props}>
@@ -40,6 +43,7 @@ export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
                         style={{
                             background: "#FFF"
                         }}>
+                        <PreviewButton />
                         {!readOnly && <SelectionPanel />}
                         {props.pageJson && (
                             <DragDropArea pageJson={props.pageJson ?? {}} />

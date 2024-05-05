@@ -21,6 +21,7 @@ export const propertTestimonialJson: PropertyJson = {
             element_id: "testimonial_slider_title",
             label: "Testimonial Card",
             placeholder: "Input here ...",
+            //@ts-ignore
             value: [],
             type: "testimonial-slidar"
         }

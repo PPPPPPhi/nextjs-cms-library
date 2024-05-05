@@ -58,7 +58,6 @@ const useRoleHandlerHook = () => {
             // @ts-ignore
             setUser(user?.[0])
 
-            console.log("orderedList", orderedList)
             // @ts-ignore
             setRoleList(orderedList as roleType[])
         }

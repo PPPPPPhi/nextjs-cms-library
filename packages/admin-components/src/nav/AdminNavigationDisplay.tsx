@@ -53,19 +53,15 @@ export const AdminNavigationDisplay: React.FC<
         navJson,
         navigation
     )
-    console.log("containerY", containerY)
-    console.log("containerY offsetRefList", offsetRefList)
 
     const navigationRef = useRef<any>()
 
     useEffect(() => {
-        console.log("navJsonnavJsonnavJson", navJson)
         setNavigation(navJson)
     }, [navJson])
 
     useEffect(() => {
         navigationRef.current = navigation
-        console.log("navJsonnavJsonnavJson 222", navigation)
     }, [navigation])
 
     const updateNavLevel = (itemId: string, position: number) => {
@@ -183,7 +179,6 @@ export const AdminNavigationDisplay: React.FC<
             accept: "collapsible_menu",
             hover: (item: any, monitor: any) => {
                 const { y: clientOffset } = monitor.getClientOffset()
-                console.log("containerY clientOffset", clientOffset)
                 const offsetIdx = offsetRefList.findIndex(
                     (l) => l > clientOffset + containerY
                 )
@@ -358,6 +353,67 @@ export const AdminNavigationDisplay: React.FC<
         setNavigation(navList)
     }
 
+    const navCardRef = useMemo(
+        () => [
+            {
+                actionLabel: "Clone",
+                desc: "Clone navigation of current language to target language",
+                action: () => {
+                    setCloneTargetLanguage()
+                },
+                authCode: "CLONE_NAVIGATION"
+            },
+            {
+                actionLabel: "Move Position",
+                desc: "Move Position",
+                action: () => {
+                    setIsCollapsing(true)
+                    setIsDraggable(true)
+                },
+                authCode: "EDIT_NAVIGATION",
+                invActionLabel: "Back",
+                invDesc: "Stop moving action",
+                invAction: () => {
+                    setIsCollapsing(false)
+                    setIsDraggable(false)
+                },
+                dependency: isDraggable
+            },
+            {
+                actionLabel: "Show Setting",
+                desc: "Show setting for editing/viewing the navigation menu",
+                action: () => {
+                    setIsShowSetting(true)
+                },
+                invActionLabel: "Hide Setting",
+                invDesc: "Hide setting for editing/viewing the navigation menu",
+                invAction: () => {
+                    setIsShowSetting(false)
+                },
+                dependency: isShowSetting
+            },
+            {
+                actionLabel: "Save",
+                desc: "Save existing navigation to your site",
+                action: () => {
+                    saveNav(navigationRef.current)
+                },
+                authCode: "EDIT_NAVIGATION"
+            },
+            {
+                actionLabel: "View History",
+                desc: "View history of navigation",
+                action: () => {
+                    router.push("./navigations/history")
+                },
+                authCode: "VIEW_FOOTER_SETTING_HISTORY"
+            }
+        ],
+        [navigation, isShowSetting, isDraggable]
+    )
+
+    console.log("navJson2", navigation)
+
     const isOuterMost = useMemo(() => {
         if (osIdRefList.length - 1 === osPosition) return true
         else return false
@@ -366,64 +422,7 @@ export const AdminNavigationDisplay: React.FC<
     return (
         <div className="d-flex flex-column w-100">
             <div className="d-flex pb-3">
-                <AdminCard
-                    cardsRef={[
-                        {
-                            actionLabel: "Clone",
-                            desc: "Clone navigation of current language to target language",
-                            action: () => {
-                                setCloneTargetLanguage()
-                            },
-                            authCode: "CLONE_NAVIGATION"
-                        },
-                        {
-                            actionLabel: "Move Position",
-                            desc: "Move Position",
-                            action: () => {
-                                setIsCollapsing(true)
-                                setIsDraggable(true)
-                            },
-                            authCode: "EDIT_NAVIGATION",
-                            invActionLabel: "Back",
-                            invDesc: "Stop moving action",
-                            invAction: () => {
-                                setIsCollapsing(false)
-                                setIsDraggable(false)
-                            },
-                            dependency: isDraggable
-                        },
-                        {
-                            actionLabel: "Show Setting",
-                            desc: "Show setting for editing/viewing the navigation menu",
-                            action: () => {
-                                setIsShowSetting(true)
-                            },
-                            invActionLabel: "Hide Setting",
-                            invDesc:
-                                "Hide setting for editing/viewing the navigation menu",
-                            invAction: () => {
-                                setIsShowSetting(false)
-                            },
-                            dependency: isShowSetting
-                        },
-                        {
-                            actionLabel: "Save",
-                            desc: "Save existing navigation to your site",
-                            action: () => {
-                                saveNav(navigation)
-                            },
-                            authCode: "EDIT_NAVIGATION"
-                        },
-                        {
-                            actionLabel: "View History",
-                            desc: "View history of navigation",
-                            action: () => {
-                                router.push("./navigations/history")
-                            },
-                            authCode: "VIEW_FOOTER_SETTING_HISTORY"
-                        }
-                    ]}
-                />
+                <AdminCard cardsRef={navCardRef as AdminCardType[]} />
             </div>
             <AdminNavButton
                 icon={<HiFolderAdd />}
