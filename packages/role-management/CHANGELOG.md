@@ -1,5 +1,11 @@
 # @nextjs-cms-library/role-management
 
+## 1.2.0
+
+### Minor Changes
+
+- update tracy version
+
 ## 1.1.14
 
 ### Patch Changes

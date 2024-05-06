@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.3.0
+
+### Minor Changes
+
+- update tracy version
+
 ## 0.2.14
 
 ### Patch Changes

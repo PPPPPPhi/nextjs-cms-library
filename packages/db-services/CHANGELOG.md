@@ -1,5 +1,11 @@
 # @nextjs-cms-library/db-services
 
+## 1.2.0
+
+### Minor Changes
+
+- update tracy version
+
 ## 1.1.17
 
 ### Patch Changes

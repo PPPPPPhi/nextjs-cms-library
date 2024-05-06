@@ -1,5 +1,11 @@
 # eslint-config
 
+## 0.1.0
+
+### Minor Changes
+
+- update tracy version
+
 ## 0.0.5
 
 ### Patch Changes

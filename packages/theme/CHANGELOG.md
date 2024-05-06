@@ -1,5 +1,11 @@
 # @nextjs-cms-library/theme
 
+## 3.2.0
+
+### Minor Changes
+
+- update tracy version
+
 ## 3.1.14
 
 ### Patch Changes
