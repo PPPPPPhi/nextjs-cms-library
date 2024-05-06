@@ -34,7 +34,8 @@ export const multiSelectFilterField = [
     "manufacturers",
     "productType",
     "warehouse",
-    "paymentMethod"
+    "paymentMethod",
+    "discountType"
 ]
 
 export type FilterOrdersParam = {
@@ -118,6 +119,8 @@ export type PaginatedParam = {
     pageNum?: string | undefined
 }
 
+export const configParseBooleanField = ["isActive"]
+
 export const configParseIntField = ["billingAndShipping.billingAddress.phone"]
 
 export const configRenameField = [
@@ -132,7 +135,8 @@ export const configRenameField = [
     },
     { from: "billingCountry", to: "billingAndShipping.billingAddress.country" },
     { from: "orderNotes", to: "orderNotes.note" },
-    { from: "warehouse", to: "stockQuantityHistory.warehouse" }
+    { from: "warehouse", to: "stockQuantityHistory.warehouse" },
+    { from: "promotion", to: "name" }
 ]
 
 export const configRegexSearchField = [
@@ -142,7 +146,9 @@ export const configRegexSearchField = [
     "billingAndShipping.billingAddress.email",
     "billingAndShipping.billingAddress.fullName",
     "billingAndShipping.billingAddress.country",
-    "orderNotes.note"
+    "orderNotes.note",
+    "name",
+    "couponCode"
 ]
 
 export const getParsedQuery = (query: any) => {
@@ -174,6 +180,13 @@ export const getParsedQuery = (query: any) => {
     })
 
     console.log(`parsed filter before parseInt`, query)
+
+    configParseBooleanField.map((key: string) => {
+        console.log(`boolean`, query?.[key])
+        if (query?.[key] == undefined) return
+        const value = query?.[key] == "true" ? true : false
+        query[key] = value
+    })
 
     configParseIntField.map((key: string) => {
         if (!query?.[key]) return

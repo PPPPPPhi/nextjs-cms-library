@@ -93,10 +93,15 @@ export const paymentMethodDropDown = [
     { label: "Cash", value: "Cash" }
 ]
 
+export const discountTypeDropDown = [
+    { label: "Applied To Categories", value: "Applied To Categories" },
+    { label: "Applied To Products", value: "Applied To Products" }
+]
+
 export const booleanDropDown = [
     // { label: "All Status", value: "" },
-    { label: "Yes", value: "true" },
-    { label: "No", value: "false" }
+    { label: "Yes", value: true },
+    { label: "No", value: false }
 ]
 
 export const MagnifyingGlassSvg: React.FC<SvgProps> = ({
@@ -126,7 +131,9 @@ export const multiSelectFilterField = [
     "manufacturers",
     "productType",
     "warehouse",
-    "paymentMethod"
+    "paymentMethod",
+    "discountType",
+    "isActive"
 ]
 
 export const getDropDownOptions = (search: string) => {
@@ -155,6 +162,9 @@ export const getDropDownOptions = (search: string) => {
             break
         case "paymentMethod":
             options = paymentMethodDropDown
+            break
+        case "discountType":
+            options = discountTypeDropDown
             break
         default:
             options = booleanDropDown

@@ -161,21 +161,21 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                 .getHeaderGroups()
                 .map((x) => x.headers)
                 .flat()
-    
+
             const headerRow: [] = []
             headers.map((col) => {
                 // @ts-ignore
                 return headerRow.push({ value: col.id, type: "string" })
             })
-    
+
             // @ts-ignore
             csvRow.push(headerRow)
-    
+
             const rows = table.getCoreRowModel().rows
-    
+
             rows.map((row: any) => {
                 const dataRow: [] = []
-    
+
                 headerRow.map((header: { value: string; type: string }) => {
                     // @ts-ignore
                     return dataRow.push({
@@ -183,13 +183,13 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                         type: "string"
                     })
                 })
-    
+
                 // @ts-ignore
                 csvRow.push(dataRow)
             })
-    
+
             console.log(`csvRow`, csvRow)
-    
+
             generateExcel(config)
         }
 
@@ -223,7 +223,7 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                             style={{
                                 position: "sticky",
                                 top: 0,
-                                zIndex: 20
+                                zIndex: 0
                             }}>
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <tr key={headerGroup.id} style={{ height: 35 }}>
