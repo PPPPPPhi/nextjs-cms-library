@@ -43,7 +43,7 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
             label: "Payment Method"
         },
         store: {
-            type: "dropdown",
+            type: "string",
             value: "",
             label: "Store"
         },
@@ -73,7 +73,7 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
             label: "Billing Country"
         },
         orderID: {
-            type: "number",
+            type: "string",
             value: "",
             label: "Order #"
         },

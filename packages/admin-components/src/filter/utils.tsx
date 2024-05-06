@@ -77,6 +77,22 @@ export const warehouseDropDown = [
     { label: "Warehouse C", value: "Warehouse C" }
 ]
 
+export const shippingStatusDropDown = [
+    { label: "Delivered", value: "Delivered" },
+    { label: "Cancelled", value: "Cancelled" },
+    { label: "Not Shipped", value: "Not Shipped" },
+    { label: "In Transit", value: "In Transit" },
+    { label: "Shipped", value: "Shipped" },
+    { label: "Out for Delivery", value: "Out for Delivery" }
+]
+
+export const paymentMethodDropDown = [
+    { label: "Credit Card", value: "Credit Card" },
+    { label: "PayPal", value: "PayPal" },
+    { label: "Bank Transfer", value: "Bank Transfer" },
+    { label: "Cash", value: "Cash" }
+]
+
 export const booleanDropDown = [
     // { label: "All Status", value: "" },
     { label: "Yes", value: "true" },
@@ -109,7 +125,8 @@ export const multiSelectFilterField = [
     "categories",
     "manufacturers",
     "productType",
-    "warehouse"
+    "warehouse",
+    "paymentMethod"
 ]
 
 export const getDropDownOptions = (search: string) => {
@@ -132,6 +149,12 @@ export const getDropDownOptions = (search: string) => {
             break
         case "warehouse":
             options = warehouseDropDown
+            break
+        case "shippingStatus":
+            options = shippingStatusDropDown
+            break
+        case "paymentMethod":
+            options = paymentMethodDropDown
             break
         default:
             options = booleanDropDown

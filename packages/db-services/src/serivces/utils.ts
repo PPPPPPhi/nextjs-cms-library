@@ -33,7 +33,8 @@ export const multiSelectFilterField = [
     "categories",
     "manufacturers",
     "productType",
-    "warehouse"
+    "warehouse",
+    "paymentMethod"
 ]
 
 export type FilterOrdersParam = {
@@ -117,65 +118,76 @@ export type PaginatedParam = {
     pageNum?: string | undefined
 }
 
-export const getParsedQuery = (query: FilterOrdersParam) => {
+export const configParseIntField = ["billingAndShipping.billingAddress.phone"]
+
+export const configRenameField = [
+    {
+        from: "billingPhoneNumber",
+        to: "billingAndShipping.billingAddress.phone"
+    },
+    { from: "billingEmail", to: "billingAndShipping.billingAddress.email" },
+    {
+        from: "billingLastName",
+        to: "billingAndShipping.billingAddress.fullName"
+    },
+    { from: "billingCountry", to: "billingAndShipping.billingAddress.country" },
+    { from: "orderNotes", to: "orderNotes.note" },
+    { from: "warehouse", to: "stockQuantityHistory.warehouse" }
+]
+
+export const configRegexSearchField = [
+    "productName",
+    "vendor",
+    "store",
+    "billingAndShipping.billingAddress.email",
+    "billingAndShipping.billingAddress.fullName",
+    "billingAndShipping.billingAddress.country",
+    "orderNotes.note"
+]
+
+export const getParsedQuery = (query: any) => {
     console.log(`parsed filter before`, query)
 
-    multiSelectFilterField.forEach((key: string) => {
-        // @ts-ignore
-        const value = query?.[key as string]
+    if (query?._id) {
+        const parseId = new Types.ObjectId(query?._id)
+        _.set(query, "_id", parseId)
+    }
 
+    multiSelectFilterField.forEach((key: string) => {
+        const value = query?.[key as string]
         if (!value) return
 
         _.set(query, key, {
-            // @ts-ignore
             $in: query?.[key]?.split(",")
         })
 
         return
     })
 
-    const handleFieldQueryFilter = (
-        query: any,
-        filterBy: string,
-        queryBy: string,
-        type = "string"
-    ) => {
-        if (!query?.[filterBy]) return
+    console.log(`parsed filter before rename`, query)
 
-        if (filterBy.includes("ID")) {
-            console.log(`parsed id`)
-            _.set(query, "_id", new Types.ObjectId(query?.filterBy))
-            _.unset(query, filterBy)
-            return
-        }
+    configRenameField.map(({ from, to }) => {
+        if (!query?.[from]) return
+        console.log(`simple rename`, query, from, to)
+        query[to] = query?.[from]
+        _.unset(query, from)
+    })
 
-        if (type == "regexOnly") {
-            const value = { $regex: `${query?.[filterBy]}.*`, $options: "si" }
-            query[queryBy] = value
-            return
-        }
+    console.log(`parsed filter before parseInt`, query)
 
-        if (type == "number") {
-            const value = parseInt(query?.[filterBy])
-            console.log(`handleFieldQueryFilter`, filterBy, type, typeof value)
-            query[queryBy] = value
-            _.unset(query, filterBy)
-            return
-        }
+    configParseIntField.map((key: string) => {
+        if (!query?.[key]) return
+        const value = parseInt(query?.[key])
+        query[key] = value
+    })
 
-        if (type == "rename") {
-            console.log(`simple rename`, query)
-            query[queryBy] = query?.[filterBy]
-            _.unset(query, filterBy)
-            return
-        }
+    console.log(`parsed filter before regex`, query)
 
-        console.log(`parsed regex`)
-        const value = { $regex: `${query?.[filterBy]}.*`, $options: "si" }
-        query[queryBy] = value
-        _.unset(query, filterBy)
-        return
-    }
+    configRegexSearchField.map((key: string) => {
+        if (!query?.[key]) return
+        const value = { $regex: `${query?.[key]}.*`, $options: "si" }
+        query[key] = value
+    })
 
     if (query?.startDate && query?.endDate) {
         _.set(query, `createdAt`, {
@@ -186,43 +198,10 @@ export const getParsedQuery = (query: FilterOrdersParam) => {
         _.unset(query, `startDate`)
         _.unset(query, `endDate`)
     }
-
-    handleFieldQueryFilter(
-        query,
-        `billingPhoneNumber`,
-        `billingAndShipping.billingAddress.phone`,
-        "number"
-    )
-    handleFieldQueryFilter(
-        query,
-        `billingEmail`,
-        `billingAndShipping.billingAddress.email`
-    )
-    handleFieldQueryFilter(
-        query,
-        `billingLastName`,
-        `billingAndShipping.billingAddress.fullName`
-    )
-    handleFieldQueryFilter(
-        query,
-        `billingCountry`,
-        `billingAndShipping.billingAddress.country`
-    )
-    handleFieldQueryFilter(query, `orderID`, `_id`)
-    handleFieldQueryFilter(query, `orderNotes`, `orderNotes.note`)
-    handleFieldQueryFilter(query, `product`, `productName`)
-    handleFieldQueryFilter(
-        query,
-        `warehouse`,
-        `stockQuantityHistory.warehouse`,
-        "rename"
-    )
-    handleFieldQueryFilter(query, `vendor`, `vendor`, `regexOnly`)
-
     _.unset(query, `pageNum`)
     _.unset(query, `pageSize`)
 
-    console.log(`parsed filter`, query)
+    console.log(`parsed filter final`, query)
 
     return query
 }
