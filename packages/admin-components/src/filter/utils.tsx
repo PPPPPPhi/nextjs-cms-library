@@ -30,11 +30,13 @@ export const categoryDropDown = [
     { label: "Apparel", value: "Apparel" },
     { label: "Digital downloads", value: "Digital downloads" },
     { label: "Books", value: "Books" },
+    { label: "Computers", value: "Computers" },
     { label: "Jewelry", value: "Jewelry" },
     { label: "Gift Cards", value: "Gift Cards" },
+    { label: "Electronics", value: "Electronics" },
     { label: "Fashion", value: "Fashion" },
     { label: "Home Decor", value: "Home Decor" },
-    { label: "Clothing", value: "Clothing" },
+    { label: "Home Appliances", value: "Home Appliances" },
     { label: "Toys", value: "Toys" },
     { label: "Beauty", value: "Beauty" },
     { label: "Garden", value: "Garden" },
@@ -43,6 +45,36 @@ export const categoryDropDown = [
     { label: "Sports", value: "Sports" },
     { label: "Kitchenware", value: "Kitchenware" },
     { label: "Furniture", value: "Furniture" }
+]
+
+export const manufacturersDropDown = [
+    { label: "Apple", value: "Apple" },
+    { label: "HP", value: "HP" },
+    { label: "Nike", value: "Nike" },
+    { label: "ABC Clothing", value: "ABC Clothing" },
+    { label: "XYZ Athletics", value: "XYZ Athletics" },
+    { label: "Tech Solutions", value: "Tech Solutions" },
+    { label: "Tech Innovators", value: "Tech Innovators" },
+    { label: "Fitness Gear", value: "Fitness Gear" },
+    { label: "SoundTech", value: "SoundTech" },
+    { label: "CapturePro", value: "CapturePro" },
+    { label: "Adventure Gear", value: "Adventure Gear" },
+    { label: "AudioTech", value: "AudioTech" },
+    { label: "FitTech", value: "FitTech" },
+    { label: "KitchenPro", value: "KitchenPro" },
+    { label: "TechVision", value: "TechVision" },
+    { label: "PowerTech", value: "PowerTech" }
+]
+
+export const productTypeDropDown = [
+    { label: "Simple", value: "Simple" },
+    { label: "Grouped", value: "Grouped" }
+]
+
+export const warehouseDropDown = [
+    { label: "Warehouse A", value: "Warehouse A" },
+    { label: "Warehouse B", value: "Warehouse B" },
+    { label: "Warehouse C", value: "Warehouse C" }
 ]
 
 export const booleanDropDown = [
@@ -71,7 +103,14 @@ export const MagnifyingGlassSvg: React.FC<SvgProps> = ({
     )
 }
 
-export const multiSelectFilterField = ["orderStatus", "paymentStatus", "pickUp"]
+export const multiSelectFilterField = [
+    "orderStatus",
+    "paymentStatus",
+    "categories",
+    "manufacturers",
+    "productType",
+    "warehouse"
+]
 
 export const getDropDownOptions = (search: string) => {
     let options
@@ -82,8 +121,17 @@ export const getDropDownOptions = (search: string) => {
         case "paymentStatus":
             options = paymentStatusDropDown
             break
-        case "category":
+        case "categories":
             options = categoryDropDown
+            break
+        case "manufacturers":
+            options = manufacturersDropDown
+            break
+        case "productType":
+            options = productTypeDropDown
+            break
+        case "warehouse":
+            options = warehouseDropDown
             break
         default:
             options = booleanDropDown

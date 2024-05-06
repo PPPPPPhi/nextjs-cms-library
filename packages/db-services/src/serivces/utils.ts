@@ -1,5 +1,5 @@
-import mongoose, { Model } from "mongoose"
-import _ from "lodash"
+import mongoose, { Model, Types } from "mongoose"
+import _, { filter } from "lodash"
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 import { historySchemaType } from "../types"
 
@@ -27,26 +27,41 @@ export type RoleFunctionUpdateType = {
     isCreate?: boolean
 }
 
-export const multiSelectFilterField = ["orderStatus", "paymentStatus"]
+export const multiSelectFilterField = [
+    "orderStatus",
+    "paymentStatus",
+    "categories",
+    "manufacturers",
+    "productType",
+    "warehouse"
+]
 
 export type FilterOrdersParam = {
     id?: string | undefined
     pageNum?: string | undefined
     pageSize?: string | undefined
-    category?: string | undefined
-    product?: string | undefined
+    categories?: string | undefined
+    productName?: string | undefined
+    productType?: string | undefined
     amount?: string | undefined
     stock?: string | undefined
-    description?: string | undefined
     startDate?: string | undefined
     endDate?: string | undefined
     orderStatus?: string | undefined
     paymentStatus?: string | undefined
-    customerId?: string | undefined
-    total?: string | undefined
-    remark?: string | undefined
-    pickUp?: string | undefined
-    orderAddress?: string | undefined
+    shippingStatus?: string | undefined
+    paymentMethod?: string | undefined
+    store?: string | undefined
+    products?: string | undefined
+    billingPhoneNumber?: number | undefined
+    billingEmail?: string | undefined
+    billingLastName?: string | undefined
+    billingCountry?: string | undefined
+    orderID?: string | undefined
+    orderNotes?: string | undefined
+    manufacturers?: string | undefined
+    vendor?: string | undefined
+    sku?: string | undefined
 }
 
 const PROJECT_ALL_KEY = "document"
@@ -103,7 +118,7 @@ export type PaginatedParam = {
 }
 
 export const getParsedQuery = (query: FilterOrdersParam) => {
-    const parsedQuery = _.cloneDeep(query)
+    console.log(`parsed filter before`, query)
 
     multiSelectFilterField.forEach((key: string) => {
         // @ts-ignore
@@ -111,7 +126,7 @@ export const getParsedQuery = (query: FilterOrdersParam) => {
 
         if (!value) return
 
-        _.set(parsedQuery, key, {
+        _.set(query, key, {
             // @ts-ignore
             $in: query?.[key]?.split(",")
         })
@@ -119,22 +134,97 @@ export const getParsedQuery = (query: FilterOrdersParam) => {
         return
     })
 
+    const handleFieldQueryFilter = (
+        query: any,
+        filterBy: string,
+        queryBy: string,
+        type = "string"
+    ) => {
+        if (!query?.[filterBy]) return
+
+        if (filterBy.includes("ID")) {
+            console.log(`parsed id`)
+            _.set(query, "_id", new Types.ObjectId(query?.filterBy))
+            _.unset(query, filterBy)
+            return
+        }
+
+        if (type == "regexOnly") {
+            const value = { $regex: `${query?.[filterBy]}.*`, $options: "si" }
+            query[queryBy] = value
+            return
+        }
+
+        if (type == "number") {
+            const value = parseInt(query?.[filterBy])
+            console.log(`handleFieldQueryFilter`, filterBy, type, typeof value)
+            query[queryBy] = value
+            _.unset(query, filterBy)
+            return
+        }
+
+        if (type == "rename") {
+            console.log(`simple rename`, query)
+            query[queryBy] = query?.[filterBy]
+            _.unset(query, filterBy)
+            return
+        }
+
+        console.log(`parsed regex`)
+        const value = { $regex: `${query?.[filterBy]}.*`, $options: "si" }
+        query[queryBy] = value
+        _.unset(query, filterBy)
+        return
+    }
+
     if (query?.startDate && query?.endDate) {
         _.set(query, `createdAt`, {
             $gte: new Date(query?.startDate),
             $lte: new Date(query?.endDate)
         })
 
-        _.unset(parsedQuery, `startDate`)
-        _.unset(parsedQuery, `endDate`)
+        _.unset(query, `startDate`)
+        _.unset(query, `endDate`)
     }
 
-    _.unset(parsedQuery, `pageNum`)
-    _.unset(parsedQuery, `pageSize`)
+    handleFieldQueryFilter(
+        query,
+        `billingPhoneNumber`,
+        `billingAndShipping.billingAddress.phone`,
+        "number"
+    )
+    handleFieldQueryFilter(
+        query,
+        `billingEmail`,
+        `billingAndShipping.billingAddress.email`
+    )
+    handleFieldQueryFilter(
+        query,
+        `billingLastName`,
+        `billingAndShipping.billingAddress.fullName`
+    )
+    handleFieldQueryFilter(
+        query,
+        `billingCountry`,
+        `billingAndShipping.billingAddress.country`
+    )
+    handleFieldQueryFilter(query, `orderID`, `_id`)
+    handleFieldQueryFilter(query, `orderNotes`, `orderNotes.note`)
+    handleFieldQueryFilter(query, `product`, `productName`)
+    handleFieldQueryFilter(
+        query,
+        `warehouse`,
+        `stockQuantityHistory.warehouse`,
+        "rename"
+    )
+    handleFieldQueryFilter(query, `vendor`, `vendor`, `regexOnly`)
 
-    console.log(`parsed filter`, query, parsedQuery)
+    _.unset(query, `pageNum`)
+    _.unset(query, `pageSize`)
 
-    return parsedQuery
+    console.log(`parsed filter`, query)
+
+    return query
 }
 
 export const getPaginatedQuery = (
@@ -231,7 +321,7 @@ export const getProjectedQuery = async (
         console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
         res = await model.aggregate(pipeline)
 
-        console.log(`[getProjectedQuery] res`, JSON.stringify(res))
+        // console.log(`[getProjectedQuery] res`, JSON.stringify(res))
 
         return res
     } catch (error) {

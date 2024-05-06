@@ -12,11 +12,6 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
     updateFilter
 }) => {
     const keyTypes = {
-        description: {
-            type: "string",
-            value: "",
-            label: "Description"
-        },
         startDate: {
             type: "date",
             value: "",
@@ -37,30 +32,55 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
             value: "",
             label: "Payment Status"
         },
-        pickUp: {
+        shippingStatus: {
             type: "dropdown",
             value: "",
-            label: "Pick Up Option"
+            label: "Shipping Status"
         },
-        customerId: {
+        paymentMethod: {
+            type: "dropdown",
+            value: "",
+            label: "Payment Method"
+        },
+        store: {
+            type: "dropdown",
+            value: "",
+            label: "Store"
+        },
+        products: {
             type: "string",
             value: "",
-            label: "Customer ID"
+            label: "Products"
         },
-        total: {
+        billingPhoneNumber: {
+            type: "string",
+            value: "",
+            label: "Billing Phone Number"
+        },
+        billingEmail: {
+            type: "string",
+            value: "",
+            label: "Billing Email Address"
+        },
+        billingLastName: {
+            type: "string",
+            value: "",
+            label: "Billing Last Name"
+        },
+        billingCountry: {
+            type: "string",
+            value: "",
+            label: "Billing Country"
+        },
+        orderID: {
             type: "number",
             value: "",
-            label: "Order Total ($)"
+            label: "Order #"
         },
-        remark: {
+        orderNotes: {
             type: "string",
             value: "",
-            label: "Order Remark"
-        },
-        orderAddress: {
-            type: "string",
-            value: "",
-            label: "Order Address"
+            label: "Order Notes"
         }
     }
 
