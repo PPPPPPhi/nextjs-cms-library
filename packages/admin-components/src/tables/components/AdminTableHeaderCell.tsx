@@ -9,7 +9,7 @@ export const AdminTableHeaderCell: React.FC<HeaderCellInterface> = ({
 }) => {
     return (
         <div
-            className="d-flex s-section-primary align-items-center text-font-bold px-2"
+            className="d-flex s-section-primary align-items-center text-font-bold"
             style={{
                 minHeight: 35,
                 minWidth: customWidth ?? 0,

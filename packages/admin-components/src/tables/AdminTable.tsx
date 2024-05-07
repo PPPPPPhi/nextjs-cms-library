@@ -15,8 +15,12 @@ import {
     getExpandedRowModel,
     ColumnDef,
     flexRender,
-    Row
+    Row,
+    ColumnSort,
+    SortingState,
+    getSortedRowModel
 } from "@tanstack/react-table"
+import _ from "lodash"
 import { getColumnDefinition, getCommonPinningStyles } from "./utils"
 import { HiOutlineArrowPath } from "react-icons/hi2"
 import { columnDefsType } from "../types/type"
@@ -31,6 +35,10 @@ import {
     VIEW_TYPE
 } from "@nextjs-cms-library/role-management/index"
 import generateExcel from "zipcelx"
+import {
+    HiOutlineArrowCircleDown,
+    HiOutlineArrowCircleUp
+} from "react-icons/hi"
 
 interface AdminTableInterface {
     data: any[]
@@ -102,12 +110,15 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
             pageSize: 10 //default page size
         })
 
+        const [sorting, setSorting] = useState<SortingState>([])
+
         const table = useReactTable({
             data,
             columns,
             state: {
                 expanded,
-                pagination
+                pagination,
+                sorting
             },
             initialState: {
                 columnPinning: {
@@ -121,7 +132,9 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
             getPaginationRowModel: getPaginationRowModel(),
             getFilteredRowModel: getFilteredRowModel(),
             getExpandedRowModel: getExpandedRowModel(),
+            getSortedRowModel: getSortedRowModel(),
             onPaginationChange: setPagination,
+            onSortingChange: setSorting,
             debugTable: true,
             ...(isSubComponent && { getRowCanExpand: () => true })
         })
@@ -241,7 +254,28 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                                         true
                                                     )
                                                 }}>
-                                                <div className="whitespace-nowrap s-section-primary">
+                                                <div
+                                                    className="d-flex whitespace-nowrap s-section-primary px-2"
+                                                    onClick={() => {
+                                                        const currentSort =
+                                                            sorting.find(
+                                                                (
+                                                                    s: ColumnSort
+                                                                ) =>
+                                                                    s?.id ==
+                                                                    header.id
+                                                            )?.desc
+
+                                                        if (
+                                                            header.id == "_id"
+                                                        ) {
+                                                            setSorting([])
+                                                        } else {
+                                                            header.column.toggleSorting(
+                                                                !currentSort
+                                                            )
+                                                        }
+                                                    }}>
                                                     {header.isPlaceholder
                                                         ? null
                                                         : flexRender(
@@ -249,7 +283,31 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                                                   .columnDef
                                                                   .header,
                                                               header.getContext()
-                                                          )}
+                                                          )}{" "}
+                                                    <div className="d-flex flex-col justify-center">
+                                                        {{
+                                                            asc: (
+                                                                <HiOutlineArrowCircleUp
+                                                                    style={{
+                                                                        width: 24,
+                                                                        height: 24,
+                                                                        color: "var(--static-color-primary)"
+                                                                    }}
+                                                                />
+                                                            ),
+                                                            desc: (
+                                                                <HiOutlineArrowCircleDown
+                                                                    style={{
+                                                                        width: 24,
+                                                                        height: 24,
+                                                                        color: "var(--static-color-primary)"
+                                                                    }}
+                                                                />
+                                                            )
+                                                        }[
+                                                            header.column.getIsSorted() as string
+                                                        ] ?? null}
+                                                    </div>
                                                 </div>
                                             </th>
                                         )
