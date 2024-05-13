@@ -73,3 +73,39 @@ export const createSite = async (siteReq: createSiteType) => {
         return { message: "Fail", status: 500 }
     }
 }
+
+export const updateSite = async (site: string, name: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+
+        console.log(`updateSite`, site, name)
+
+        const findOne = await (
+            mongoose.models.Site as Model<any, {}, {}, {}, any, any>
+        ).findOne({
+            slug: site
+        })
+
+        console.log(`updateSite findOne`, findOne)
+
+        const res = await (
+            mongoose.models.Site as Model<any, {}, {}, {}, any, any>
+        ).findOneAndUpdate(
+            { slug: site },
+            { name },
+            {
+                new: true
+            }
+        )
+
+        console.log(`updateSite res`, res)
+
+        if (res) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
+    } catch (e) {
+        console.log("Error in updating site", e)
+        return { message: "Fail", status: 500 }
+    }
+}
