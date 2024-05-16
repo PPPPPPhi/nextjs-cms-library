@@ -22,13 +22,15 @@ export const AdminTableBadge: React.FC<AdminTableBadgeInterface> = ({
         <div
             className="d-flex align-items-center justify-content-center "
             style={{ width: customWidth ?? "auto" }}>
-            <div
-                className="s-section-primary px-3 rounded-4 d-flex align-items-center"
-                style={{ ...customStyle }}>
-                <span className="text-level-caption text-font-medium">
-                    {badgeValue}
-                </span>
-            </div>
+            {badgeValue && (
+                <div
+                    className="s-section-secondary px-3 rounded-4 d-flex align-items-center"
+                    style={{ minHeight: 27, ...customStyle }}>
+                    <span className="text-level-content text-font-medium s-text-color-nu">
+                        {badgeValue}
+                    </span>
+                </div>
+            )}
         </div>
     )
 }

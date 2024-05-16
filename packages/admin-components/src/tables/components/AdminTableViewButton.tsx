@@ -16,15 +16,16 @@ export const AdminTableViewButton: React.FC<RowCellInterface> = ({
 }) => {
     return (
         <div
-            className="d-flex align-items-center"
+            className="d-flex align-items-center px-3"
             style={{
                 minHeight: 35,
                 width: customWidth ?? "auto"
             }}>
             {!disabled && (
                 <AdminTableActionButton
-                    customWidth={50}
-                    icon={<HiEye className="s-text-color-nu" />}
+                    customWidth={80}
+                    label="View"
+                    // icon={<HiEye className="s-text-color-nu" />}
                     action={action}
                 />
             )}

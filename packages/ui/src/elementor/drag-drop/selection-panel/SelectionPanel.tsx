@@ -48,15 +48,11 @@ export const SelectionPanel: React.FC<SelectionPanelInterface> = ({}) => {
     return (
         <div
             id="page-selection-area"
-            className="shadow fixed z-40 w-64 s-section-primary p-3 rounded-3"
+            className="p-3 rounded-3"
             aria-label="Sidebar"
             style={{
                 width: 300,
-                left: 20,
-                display: !isExpandView ? "block" : "none",
-                top: 250,
-                height: "70%",
-                zIndex: 1
+                display: !isExpandView ? "block" : "none"
             }}>
             <div className="h-100 d-flex flex-column">
                 <div className="d-flex align-items-centrer px-2 w-100 py-3">

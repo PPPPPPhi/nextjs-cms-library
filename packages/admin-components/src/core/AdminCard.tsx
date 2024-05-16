@@ -1,4 +1,4 @@
-import { AdminButton } from "./AdminButton"
+import { AdminActionButton } from "./AdminActionButton"
 import { useMemo } from "react"
 import {
     ACTION_TYPE,
@@ -35,75 +35,44 @@ const Card: React.FC<AdminCardType> = ({
     authCode,
     dependency
 }) => {
-    const assistanceIdx = useMemo(
-        () => Math.floor(Math.random() * 4),
-        []
-    ) as keyof typeof ASSISTANCE
-
     return (
-        <div
-            className={`${isFull ? "w-100" : "col-12 col-md-4 col-lg-2 col-xl-2 p-2"}`}>
-            {/* <div
-                className="d-flex shadow rounded-2 h-100"
-                style={{ background: "white", minHeight: 100, flex: 1 }}>
-                <div
-                    style={{ width: 100, height: 100 }}
-                    className="d-flex position-relative align-self-end">
-                    <NextImageApdator
-                        src={`${process.env.NEXT_ASSEST_PATH}${ASSISTANCE[assistanceIdx]}`}
-                        isStatic
-                        alt="teacher"
-                        fill
-                        style={{ objectFit: "contain" }}
-                    />
-                </div>
-                <div
-                    style={{ flex: 1 }}
-                    className="d-flex flex-column p-3 align-items-end justify-content-between">
-                    <AdminButton
-                        label={actionLabel}
-                        // style={{ width: 120 }}
-                        onClick={() => {
-                            action()
-                        }}
-                        authCode={authCode}
-                    />
-                    <div>
-                        <span className="s-text-color-alpha text-level-remark text-right">
-                            {desc}
-                        </span>
-                    </div>
-                </div>
-            </div> */}
-            <div
-                className="d-flex flex-column w-100 shadow rounded-2 h-100 p-3 space-y-2"
-                style={{ background: "white" }}>
-                <div style={{ flex: 1 }}>
-                    <span className="s-text-color-alpha text-level-remark text-right">
-                        {desc}
-                    </span>
-                </div>
-                <AdminButton
-                    label={actionLabel}
-                    style={{ width: "100%" }}
-                    onClick={() => {
-                        console.log("dependency press")
-                        action()
-                    }}
-                    inverseStyle={
-                        dependency !== undefined && dependency === true
-                    }
-                    authCode={authCode}
-                />
-            </div>
-        </div>
+        // <div className="d-flex flex-wrap space-x-2 p-2">
+        //     <div
+        //         className="d-flex flex-column w-100 shadow rounded-2 h-100 p-3 space-y-2"
+        //         style={{ background: "white" }}>
+        //         <div style={{ flex: 1 }}>
+        //             <span className="s-text-color-alpha text-level-remark text-right">
+        //                 {desc}
+        //             </span>
+        //         </div>
+        //         <AdminActionButton
+        //             label={actionLabel}
+        //             onClick={() => {
+        //                 console.log("dependency press")
+        //                 action()
+        //             }}
+        //             inverseStyle={
+        //                 dependency !== undefined && dependency === true
+        //             }
+        //             authCode={authCode}
+        //         />
+        //     </div>
+        // </div>
+        <AdminActionButton
+            label={actionLabel}
+            onClick={() => {
+                action()
+            }}
+            inverseStyle={dependency !== undefined && dependency === true}
+            authCode={authCode}
+        />
     )
 }
 
 export const AdminCard: React.FC<AdminCardInterface> = ({ cardsRef }) => {
     return (
         <div
-            className="d-flex flex-wrap w-100 justify-content-end"
+            className="d-flex flex-wrap w-100 py-2 space-x-2"
             id="admin_card_container">
             {cardsRef.map((k) => {
                 const {

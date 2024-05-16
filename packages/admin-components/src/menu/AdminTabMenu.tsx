@@ -21,19 +21,29 @@ const SectionHeader: React.FC<SectionHeaderInterface> = ({
     setSelectedTab,
     selectedTab
 }) => {
+    const isSelected = selectedTab === tabIndex
+
     return (
         <div
-            className={`d-flex flex-column shadow justify-content-center align-items-center px-2 cursor-pointer ${styles.adminButton}`}
+            className={`d-flex flex-column justify-content-center align-items-center px-2 cursor-pointer 
+            ${isSelected ? "s-section-secondary" : "s-section-quaternary"}`}
             onClick={() => {
                 setSelectedTab()
+            }}
+            style={{
+                height: 27,
+                minWidth: 50,
+                borderRadius: 15,
+                color: isSelected
+                    ? "var(--static-bg-quaternary)"
+                    : "var(--static-bg-secondary)",
+                border: isSelected
+                    ? "none"
+                    : "1px solid var(--static-bg-secondary)"
             }}>
-            {selectedTab === tabIndex && (
-                <div
-                    className="w-100"
-                    style={{ background: "white", height: 2 }}
-                />
-            )}
-            <span className="text-level-remark s-text-color-nu">{label}</span>
+            <span className="text-level-content text-font-medium px-2">
+                {label}
+            </span>
         </div>
     )
 }

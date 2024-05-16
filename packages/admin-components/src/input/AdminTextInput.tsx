@@ -1,5 +1,6 @@
 import { ChangeEvent, useState, CSSProperties, useEffect } from "react"
-import { AdminButton } from "../core"
+import { AdminActionButton, AdminButton } from "../core"
+import TextField from "@mui/material/TextField"
 
 interface AdminTextInputInterface {
     label?: string
@@ -17,6 +18,10 @@ interface AdminTextInputInterface {
     dialog?: string
     isRequired?: boolean
     unit?: string
+    endAdorment?: {
+        label: string
+        onClick: () => void
+    }
 }
 
 export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
@@ -31,11 +36,14 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
     action,
     dialog,
     isRequired,
-    unit
+    unit,
+    endAdorment = {}
 }) => {
     const [value, setValue] = useState<string | number | undefined>(
         defaultValue
     )
+
+    const { label: endLabel, onClick: endAction } = endAdorment
 
     useEffect(() => {
         if (!defaultValue || value == defaultValue) return
@@ -45,31 +53,41 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
 
     return (
         <div className="w-100">
-            {label && (
-                <label className="s-text-color-alpha text-font-medium mb-2">
-                    {label}
-                </label>
-            )}
-            <div className="d-flex align-items-center" style={{ flex: 1 }}>
-                <input
-                    id="username"
-                    name="username"
+            <div
+                className="d-flex align-items-center w-100"
+                style={{
+                    flex: 1,
+                    height: 70,
+                    borderRadius: 12,
+                    background: "white",
+                    ...style
+                }}>
+                <TextField
+                    defaultValue={defaultValue}
                     type={type ?? "text"}
-                    autoComplete="off"
-                    required={isRequired}
-                    readOnly={readOnly}
-                    disabled={disabled}
+                    id={`type_${type}_text_view`}
+                    label={label}
                     placeholder={placeHolder}
+                    disabled={readOnly || disabled}
                     value={type == "number" && !value ? 0 : value}
-                    style={{ ...style }}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         setValue(event.target.value)
                         onChange(event.target.value)
                     }}
-                    className="block w-full rounded-md px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    InputProps={{
+                        endAdornment: endAdorment && (
+                            <AdminActionButton
+                                inverseStyle
+                                label={endLabel as string}
+                                onClick={() => {
+                                    endAction && endAction()
+                                }}
+                            />
+                        )
+                    }}
                 />
                 {action && (
-                    <div className="h-100 px-2">
+                    <div className="px-2">
                         <AdminButton
                             label={action?.label}
                             onClick={action?.onAction}

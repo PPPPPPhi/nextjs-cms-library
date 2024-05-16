@@ -34,7 +34,7 @@ export const AdminEditUserForm: React.FC<AdminEditUserFormInterface> = ({
     }, [inputs])
 
     return (
-        <div className="d-flex flex-column space-y-6 s-section-primary p-2 py-4 rounded-2">
+        <div className="d-flex flex-column space-y-6  p-2 py-4 rounded-2">
             <AdminTextInput
                 label="First Name"
                 defaultValue={defaultValue?.firstName ?? ""}

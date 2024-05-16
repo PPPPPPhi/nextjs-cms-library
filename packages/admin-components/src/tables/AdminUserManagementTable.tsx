@@ -35,8 +35,7 @@ export const AdminUserManagementTable: React.FC<
                         accessorKey: "_id",
                         header: "",
                         cellType: "action",
-                        actionTitle: "",
-                        headerIcon: <HiEye />,
+                        actionTitle: "View",
                         size: 100,
                         authCode: "VIEW_USER_DETAIL",
                         action: (data) => {
@@ -50,8 +49,7 @@ export const AdminUserManagementTable: React.FC<
                         accessorKey: "_idx",
                         header: "",
                         cellType: "action",
-                        actionTitle: "",
-                        headerIcon: <HiPencil />,
+                        actionTitle: "Edit",
                         size: 100,
                         authCode: "EDIT_OTHER_USER",
                         action: (data) => {
@@ -62,9 +60,8 @@ export const AdminUserManagementTable: React.FC<
                         accessorKey: "_idxx",
                         header: "",
                         cellType: "action",
-                        actionTitle: "",
-                        headerIcon: <HiUsers />,
-                        size: 100,
+                        actionTitle: "Update Profile",
+                        size: 150,
                         authCode: "EDIT_OTHER_USER",
                         action: (data) => {
                             assignRole(data)

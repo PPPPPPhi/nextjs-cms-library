@@ -70,7 +70,7 @@ export const AdminSiteSettingContainer: React.FC<AdminSiteSettingContainerInterf
 
             const newLanguage = langFormRef.current
             if (newLanguage) {
-                ;(langSetting?.value as string[]).push(newLanguage as string);
+                ;(langSetting?.value as string[]).push(newLanguage as string)
 
                 Object.keys(newSettings).forEach((k, idx) => {
                     if (idx === 0 || typeof newSettings[k]?.value === "string")
@@ -166,10 +166,12 @@ export const AdminSiteSettingContainer: React.FC<AdminSiteSettingContainerInterf
         }
 
         return (
-            <div className="d-flex flex-column p-3 rounded-2 shadow overflow-y-auto">
+            <div
+                className="d-flex flex-column p-3 shadow-md overflow-y-auto"
+                style={{ borderRadius: 12, border: "1px solid #F1F1F1" }}>
                 <div
                     className="d-flex w-100 p-2"
-                    style={{ borderBottom: "1px solid black" }}>
+                    style={{ borderBottom: "1px solid #F1F1F1", height: 50 }}>
                     <div className="col-12 col-md-4 px-2 text-font-bold">
                         Name
                     </div>

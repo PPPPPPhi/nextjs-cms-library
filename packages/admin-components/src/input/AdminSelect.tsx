@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react"
-import Select from "react-select"
+
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import FormControl from "@mui/material/FormControl"
+import Select, { SelectChangeEvent } from "@mui/material/Select"
 
 interface AdminSelectInterface {
     options: { label: string; value: any }[]
@@ -21,12 +25,11 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     const [selectedOption, setSelectedOption] = useState<any>(placeHolder)
 
     useEffect(() => {
-        const defaultOption = options?.find((k) => k.value === defaultValue)
-        setSelectedOption(defaultOption)
+        if (defaultValue) setSelectedOption(defaultValue)
     }, [defaultValue])
 
     useEffect(() => {
-        onSelect(selectedOption?.value)
+        onSelect(selectedOption)
     }, [selectedOption])
 
     const placeH = useMemo(
@@ -36,22 +39,25 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
 
     return (
         <div className="w-100">
-            {label && (
-                <label className="s-text-color-alpha text-font-medium mb-2">
+            <FormControl sx={{ m: 1, minWidth: 80, background: "white" }}>
+                <InputLabel id="demo-simple-select-autowidth-label">
                     {label}
-                </label>
-            )}
-            <Select
-                value={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-                placeholder={placeH}
-                menuPortalTarget={document.body}
-                menuPosition={"fixed"}
-                styles={{
-                    menuPortal: (base: any) => ({ ...base, zIndex: 999 })
-                }}
-            />
+                </InputLabel>
+                <Select
+                    labelId="demo-simple-select-autowidth-label"
+                    id="demo-simple-select-autowidth"
+                    value={selectedOption}
+                    placeholder={placeH}
+                    onChange={(evt) => setSelectedOption(evt.target.value)}
+                    autoWidth
+                    label="Age">
+                    {options.map((l) => (
+                        <MenuItem value={l.value}>
+                            <em>{l.label}</em>
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
             {remark && (
                 <span
                     className="text-level-remark text-font-normal"

@@ -4,6 +4,7 @@ import {
     VIEW_TYPE,
     useActionAuthorizationHook
 } from "@nextjs-cms-library/role-management/index"
+import styles from "../AdminControl.module.scss"
 
 interface AdminIconButtonInterface {
     icon: React.ReactNode
@@ -25,7 +26,7 @@ export const AdminIconButton: React.FC<AdminIconButtonInterface> = ({
 
     return (
         <div
-            className="cursor-pointer text-level-subtitle s-text-color-alpha"
+            className={`cursor-pointer ${styles.adminIconButton} d-flex align-items-center justify-content-center`}
             onClick={(e) => {
                 if (!isAuthorized) return
                 e.preventDefault()
@@ -34,7 +35,8 @@ export const AdminIconButton: React.FC<AdminIconButtonInterface> = ({
             style={{
                 ...(!isAuthorized && { color: "#CCC", cursor: "default" })
             }}>
-            <Icon />
+            {/*@ts-ignore*/}
+            <Icon style={{ width: 20, height: 20 }} />
         </div>
     )
 }

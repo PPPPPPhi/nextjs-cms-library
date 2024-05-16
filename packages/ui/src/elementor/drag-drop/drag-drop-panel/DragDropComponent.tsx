@@ -15,6 +15,10 @@ import {
 } from "../../../utils/index"
 import { DuplicateSvg, DeleteSvg } from "./index"
 import { DragDropLayoutContainer } from "./DragDropLayoutContainer"
+import {
+    AdminActionButton,
+    AdminTableActionWarnButton
+} from "@nextjs-cms-library/admin-components/index"
 
 type DragDropComponentButtonsProps = {
     handleEvent: () => void
@@ -25,16 +29,22 @@ export const DragDropComponentButtons: React.FC<
     DragDropComponentButtonsProps
 > = ({ buttonType, handleEvent }) => {
     return (
-        <div
-            onClick={handleEvent}
-            style={{ height: 30, width: 30, borderRadius: 25, zIndex: 25 }}
-            className={`flex flex-row justify-center cursor-pointer text-white shadow 
-                font-medium rounded-full text-sm p-2.5 text-center inline-flex 
-                items-center me-2 s-adminGradientBg`}>
-            {buttonType == DragDropButton.duplicate && <DuplicateSvg />}
-            {buttonType == DragDropButton.delete && <DeleteSvg />}
+        <>
+            {buttonType == DragDropButton.delete && (
+                <AdminTableActionWarnButton
+                    label="Delete"
+                    action={handleEvent}
+                />
+            )}
+            {buttonType == DragDropButton.duplicate && (
+                <AdminActionButton
+                    label="Clone"
+                    onClick={handleEvent}
+                    style={{ minWidth: 75 }}
+                />
+            )}
             {buttonType == DragDropButton.add && <span>Move To Here</span>}
-        </div>
+        </>
     )
 }
 
@@ -158,7 +168,8 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                         flexDirection: "row",
                         justifyContent: "flex-end",
                         position: "relative",
-                        top: "15px"
+                        top: "15px",
+                        right: 15
                     }}>
                     <DragDropComponentButtons
                         buttonType={DragDropButton.duplicate}

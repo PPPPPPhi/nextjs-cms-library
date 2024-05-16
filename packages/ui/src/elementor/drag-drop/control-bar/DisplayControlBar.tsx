@@ -1,5 +1,16 @@
-import React, { useState, useMemo } from "react"
+import React, { useState, useMemo, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
+import {
+    FaWrench,
+    FaArrowRotateRight,
+    FaArrowRotateLeft,
+    FaMobileScreen,
+    FaEyeSlash,
+    FaArrowsLeftRightToLine,
+    FaComputer,
+    FaArrowsToCircle,
+    FaPen
+} from "react-icons/fa6"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 import {
@@ -16,6 +27,7 @@ import {
 } from "./DisplayControlButtons"
 
 import useDragDropControllerHook from "../hooks/useDragDropControllerHook"
+import { AdminActionButton } from "@nextjs-cms-library/admin-components/index"
 type DisplayControllerButtonsProps = {
     svg: any
     handler: () => void
@@ -110,20 +122,21 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
         )
     }, [isExpandView])
 
-    const isMobileButton = useMemo(() => {
-        const Component = !isMobileView ? MobileSvg : WebSvg
-        return <Component width={22} height={22} />
+    const mobileButton = useMemo(() => {
+        const Component = !isMobileView ? FaMobileScreen : FaComputer
+        return Component
     }, [isMobileView])
 
-    const isPreviewButton = useMemo(() => {
-        const Component = !isPreview || isHardPreview ? PreviewSvg : PenSvg
-        return (
-            <Component
-                width={22}
-                height={22}
-                color={getButtonColor(!isHardPreview)}
-            />
-        )
+    const expandButton = useMemo(() => {
+        const Component = !isExpandView
+            ? FaArrowsLeftRightToLine
+            : FaArrowsToCircle
+        return Component
+    }, [isExpandView])
+
+    const previewButton = useMemo(() => {
+        const Component = !isPreview || isHardPreview ? FaEyeSlash : FaPen
+        return Component
     }, [isPreview, isHardPreview])
 
     return (
@@ -134,18 +147,13 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                 bottom: 20,
                 display: "flex"
             }}>
-            <div className={`space-y-4`}>
+            <div className="d-flex flex-column space-y-2">
                 <div
-                    className={`s-display-control-group flex flex-col space-y-4`}
+                    className="flex-column space-y-2"
                     style={{
                         display: isDisplayControl ? "flex" : "none"
                     }}>
-                    <DisplayControllerButtons
-                        svg={<HomeSvg width={22} height={22} />}
-                        handler={() => returnHomePage()}
-                    />
-
-                    <DisplayControllerButtons
+                    {/* <DisplayControllerButtons
                         svg={
                             <UndoSvg
                                 width={22}
@@ -162,7 +170,6 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                         }}
                         handler={() => navigatePreviousEdit()}
                     />
-
                     <DisplayControllerButtons
                         svg={
                             <RedoSvg
@@ -179,34 +186,51 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                             )
                         }}
                         handler={() => navigateNextEdit()}
+                    /> */}
+                    <AdminActionButton
+                        inverseStyle
+                        disabled={!isPreviousHistoryEnable}
+                        label="Undo"
+                        onClick={() => navigateNextEdit()}
+                        Icon={FaArrowRotateLeft}
+                        style={{ minHeight: 44 }}
                     />
-
-                    <DisplayControllerButtons
-                        svg={isExpandButton}
-                        handler={() => toggleExpandView()}
-                        style={{
-                            cursor: getButtonCursor(!isHardPreview as boolean)
-                        }}
+                    <AdminActionButton
+                        inverseStyle
+                        disabled={!isNextHistoryEnable}
+                        label="Redo"
+                        onClick={() => navigateNextEdit()}
+                        Icon={FaArrowRotateRight}
+                        style={{ minHeight: 44 }}
                     />
-
-                    <DisplayControllerButtons
-                        svg={isMobileButton}
-                        handler={() => toggleMobileView()}
+                    <AdminActionButton
+                        inverseStyle
+                        label="Expand View"
+                        onClick={() => toggleExpandView()}
+                        Icon={expandButton}
+                        style={{ minHeight: 44 }}
                     />
-
-                    <DisplayControllerButtons
-                        svg={isPreviewButton}
-                        handler={() => togglePreview()}
-                        style={{
-                            cursor: getButtonCursor(!isHardPreview as boolean)
-                        }}
+                    <AdminActionButton
+                        inverseStyle
+                        label="Mobile View"
+                        onClick={() => toggleMobileView()}
+                        Icon={mobileButton}
+                        style={{ minHeight: 44 }}
+                    />
+                    <AdminActionButton
+                        inverseStyle
+                        label="Hide Panel"
+                        onClick={() => togglePreview()}
+                        Icon={previewButton}
+                        style={{ minHeight: 44 }}
                     />
                 </div>
 
-                <DisplayControllerButtons
-                    svg={<ToolsSvg width={22} height={22} />}
-                    className={"space-y-4"}
-                    handler={() => setIsDisplayControl(!isDisplayControl)}
+                <AdminActionButton
+                    label="Tools"
+                    onClick={() => setIsDisplayControl(!isDisplayControl)}
+                    Icon={FaWrench}
+                    style={{ minHeight: 44 }}
                 />
             </div>
         </div>

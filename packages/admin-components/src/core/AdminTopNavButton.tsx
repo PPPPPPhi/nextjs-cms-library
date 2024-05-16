@@ -5,7 +5,7 @@ import {
 } from "@nextjs-cms-library/role-management/index"
 import styles from "../AdminControl.module.scss"
 import { CSSProperties } from "react"
-interface AdminButtonInterface {
+interface AdminTopNavButtonInterface {
     label: string
     Icon?: any
     onClick: () => void
@@ -15,21 +15,24 @@ interface AdminButtonInterface {
     authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
-export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
+export const AdminTopNavButton: React.FC<AdminTopNavButtonInterface> = (
+    buttonProps
+) => {
     const { label, onClick, Icon, disabled, style, inverseStyle, authCode } =
         buttonProps
 
     const { isAuthorized } = useActionAuthorizationHook(
         authCode ?? "AVAILABLE_CODE"
     )
-
     const isDisabled = disabled || !isAuthorized
 
     return (
         <div
             className={`${
-                inverseStyle ? styles.adminButtonInverse : styles.adminButton
-            } d-flex align-items-center ${Icon ? "justify-content-between" : "justify-content-center"} text-level-content`}
+                inverseStyle
+                    ? styles.adminButtonInverse
+                    : styles.adminTopNavButton
+            } d-flex align-items-center justify-content-center`}
             style={{
                 width: "max-content",
                 ...style,
@@ -40,13 +43,13 @@ export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
                 if (isDisabled) return
                 onClick()
             }}>
-            <span className="">{label}</span>
             {Icon && (
                 <Icon
-                    className="text-level-button"
-                    style={{ width: 20, height: 20 }}
+                    className="text-level-caption  s-text-color-nu"
+                    style={{ marginRight: 5 }}
                 />
             )}
+            <span className="text-level-caption s-text-color-nu">{label}</span>
         </div>
     )
 }

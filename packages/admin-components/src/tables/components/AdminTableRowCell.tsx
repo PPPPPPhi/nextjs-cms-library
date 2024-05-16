@@ -9,13 +9,13 @@ export const AdminTableRowCell: React.FC<RowCellInterface> = ({
 }) => {
     return (
         <div
-            className="d-flex align-items-center text-font-bold px-2"
+            className="d-flex align-items-center px-2"
             style={{
                 minHeight: 35,
                 width: customWidth ?? "auto"
             }}>
             <span
-                className="text-font-normal text-level-caption w-100 text-center"
+                className="text-font-normal text-level-caption w-100 text-center s-text-color-beta"
                 style={{
                     overflow: "hidden",
                     whiteSpace: "nowrap",

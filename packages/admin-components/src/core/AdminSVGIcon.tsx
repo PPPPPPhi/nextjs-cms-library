@@ -10,12 +10,14 @@ export const AdminSVGIcon: React.FC<{
 
     const getComp = async (iconText: string) => {
         //@ts-ignore
-        if (!window.ReactIcon)
+
+        if (!window.ReactIconFa6)
             //@ts-ignore
 
-            window.ReactIcon = await import("react-icons/fa6")
+            window.ReactIconFa6 = await import("react-icons/fa6")
+
         //@ts-ignore
-        const Component = () => window.ReactIcon[iconText]
+        const Component = () => window?.ReactIconFa6?.[iconText]
         setIcon(Component)
     }
 

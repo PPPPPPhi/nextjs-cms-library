@@ -8,6 +8,7 @@ export type cellComponentType =
     | "cell"
     | "date"
     | "action"
+    | "warnAction"
     | "edit"
     | "editRaw"
     | "desc"

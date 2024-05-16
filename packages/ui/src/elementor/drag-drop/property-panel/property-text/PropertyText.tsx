@@ -1,12 +1,14 @@
 "use client"
 import { useState, useEffect } from "react"
-
+import { AdminTextInput } from "@nextjs-cms-library/admin-components/index"
 interface PropertyTextInterface {
+    label: string
     defaultValue: string
     onChange: (v: string) => void
 }
 
 export const PropertyText: React.FC<PropertyTextInterface> = ({
+    label,
     defaultValue,
     onChange
 }) => {
@@ -22,18 +24,15 @@ export const PropertyText: React.FC<PropertyTextInterface> = ({
 
     return (
         <div className="d-flex p-2 align-items-center justify-content-center">
-            <textarea
-                id="message"
-                style={{ padding: 10 }}
-                rows={3}
-                className="s-text-color-alpha w-100"
-                placeholder="Write your thoughts here..."
-                onChange={(evt) => {
-                    setValue(evt.target.value)
-                    onChange(evt.target.value)
+            <AdminTextInput
+                label={label}
+                onChange={(v) => {
+                    setValue(v)
+                    onChange(v)
                 }}
-                // @ts-ignore
-                value={value}></textarea>
+                placeHolder="Write your thoughts here..."
+                defaultValue={value}
+            />
         </div>
     )
 }

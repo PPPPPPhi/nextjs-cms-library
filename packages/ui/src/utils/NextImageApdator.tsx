@@ -28,6 +28,7 @@ export const NextImageApdator: React.FC<
 
     useEffect(() => {
         if (props?.src) setImageSrc(props?.src as string)
+        setIsError(false)
     }, [props?.src])
 
     //@ts-ignore

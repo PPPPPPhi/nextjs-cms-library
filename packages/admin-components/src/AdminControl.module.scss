@@ -1,9 +1,32 @@
 .adminButton {
-    padding: 6px 12px;
-    min-width: 80px;
-    min-height: 24px;
-    border-radius: 5px;
+    padding: 7px 15px;
+    min-width: 180px;
+    min-height: 46px;
+    border-radius: 12px;
     font-weight: 500;
+    background: var(--static-bg-quaternary);
+    color: var(--static-color-primary);
+    cursor: pointer;
+    border: 1px solid var(--static-color-primary);
+    &:hover,
+    &:active {
+        background: var(--static-bg-primary);
+        border: 1px solid var(--static-bg-primary);
+        color: var(--static-color-text-nu);
+    }
+    &:disabled {
+        opacity: 0.3;
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminTopNavButton {
+    padding: 3px 20px;
+    min-width: 100px;
+    min-height: 36px;
+    border-radius: 18px;
+    font-weight: 400;
     border: none;
     background: var(--static-color-primary);
     color: var(--static-text-color);
@@ -24,28 +47,98 @@
     }
 }
 
-.adminButtonInverse {
-    padding: 6px 12px;
-    min-width: 80px;
-    min-height: 24px;
-    border-radius: 5px;
+.adminActionButton {
+    padding: 5px;
+    min-width: 120px;
+    min-height: 30px;
+    border-radius: 9px;
     font-weight: 500;
     border: none;
     background: var(--static-color-secondary);
-    color: var(--static-text-color);
-    text-transform: capitalize;
+    color: var(--static-color-text-nu);
     text-align: center;
     cursor: pointer;
     &:hover,
     &:active {
         border: none;
-        background: var(--static-color-quaternary);
+        background: var(--static-color-secondary);
+        color: var(--static-color-text);
+    }
+    &:disabled {
+        border: none;
+        opacity: 0.3;
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminActionButtonInverse {
+    padding: 5px;
+    min-width: 120px;
+    min-height: 30px;
+    border-radius: 9px;
+    font-weight: 500;
+    border: 1px solid var(--static-color-secondary);
+    background: var(--static-color-text-nu);
+    color: var(--static-color-secondary);
+    text-align: center;
+    cursor: pointer;
+    &:hover,
+    &:active {
+        border: 1px solid var(--static-color-secondary);
+        background: var(--static-color-secondary);
         color: var(--static-color-text-nu);
     }
     &:disabled {
         border: none;
         opacity: 0.3;
-        background: var(--static-color-quaternary);
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminButtonInverse {
+    padding: 7px 15px;
+    min-width: 180px;
+    min-height: 46px;
+    border-radius: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--static-color-primary);
+    background: var(--static-color-primary);
+    color: var(--static-bg-quaternary);
+    &:hover,
+    &:active {
+        border: 1px solid var(--static-color-primary);
+        background: var(--static-bg-quaternary);
+        color: var(--static-color-primary);
+    }
+    &:disabled {
+        opacity: 0.3;
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminIconButton {
+    padding: 2px 5px;
+    min-width: 53px;
+    min-height: 46px;
+    border-radius: 12px;
+    font-weight: 500;
+    background: var(--static-bg-quaternary);
+    color: var(--static-color-primary);
+    cursor: pointer;
+    border: 1px solid var(--static-color-primary);
+    &:hover,
+    &:active {
+        background: var(--static-bg-primary);
+        border: 1px solid var(--static-bg-primary);
+        color: var(--static-color-text-nu);
+    }
+    &:disabled {
+        opacity: 0.3;
+        background: var(--static-color-secondary);
         color: var(--static-text-color);
     }
 }
@@ -88,7 +181,29 @@
 }
 
 .adminTableButton {
-    background: var(--static-color-primary);
+    background: var(--static-color-secondary);
+    color: var(--static-color-text-nu);
+    border-radius: 9px;
+    min-height: 30px;
+    &:hover,
+    &:active {
+        border: none;
+        background: var(--static-color-tertiary);
+        color: var(--static-color-text-nu);
+    }
+    &:disabled {
+        border: none;
+        opacity: 0.3;
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminTableButtonInverse {
+    background: var(--static-color-tertiary);
+    color: var(--static-color-text-nu);
+    border-radius: 9px;
+    min-height: 30px;
     &:hover,
     &:active {
         border: none;
@@ -103,18 +218,44 @@
     }
 }
 
-.adminTableButtonInverse {
-    background: var(--static-color-secondary);
+.adminTableWarnButton {
+    background: #fff;
+    color: #ad0f0f;
+    border-radius: 9px;
+    min-height: 30px;
+    border: 1px solid #ad0f0f;
     &:hover,
     &:active {
         border: none;
-        background: var(--static-color-quaternary);
-        color: var(--static-color-text-nu);
+        background: #ad0f0f;
+        color: #fff;
+        border-color: #fff;
     }
     &:disabled {
         border: none;
         opacity: 0.3;
-        background: var(--static-color-quaternary);
+        background: var(--static-color-secondary);
+        color: var(--static-text-color);
+    }
+}
+
+.adminTableWarnButtonInverse {
+    background: #ad0f0f;
+    color: #fff;
+    border-radius: 9px;
+    min-height: 30px;
+    border: 1px solid #fff;
+    &:hover,
+    &:active {
+        border: none;
+        background: #fff;
+        color: #ad0f0f;
+        border-color: #ad0f0f;
+    }
+    &:disabled {
+        border: none;
+        opacity: 0.3;
+        background: var(--static-color-secondary);
         color: var(--static-text-color);
     }
 }
@@ -210,5 +351,19 @@
     }
     100% {
         transform: rotate(360deg);
+    }
+}
+
+.adminSiteCard {
+    height: 194px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #f1f1f1;
+
+    .adminSiteCardIcon {
+        height: 148px;
+        width: 148px;
+        border-radius: 12px;
+        border: 1px solid #f1f1f1;
     }
 }

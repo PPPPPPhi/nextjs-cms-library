@@ -1,4 +1,5 @@
 import { ChangeEvent, ReactNode, useState } from "react"
+import { AdminToggleInput } from "./AdminToggleInput"
 
 interface AdminCheckboxInputInterface {
     label?: string | ReactNode
@@ -25,26 +26,14 @@ export const AdminCheckboxInput: React.FC<AdminCheckboxInputInterface> = ({
                 </label>
             )}
             <div className="d-flex">
-                <input
-                    id="checkbox"
-                    name={typeof label === "string" ? label : "checkbox"}
-                    type="checkbox"
-                    autoComplete="off"
-                    required
-                    disabled={disabled}
-                    checked={value}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                        setValue(event.target.checked)
-                        onChange(event.target.checked)
+                <AdminToggleInput
+                    label={label as string}
+                    defaultValue={value}
+                    onChange={(v) => {
+                        setValue(v)
+                        onChange(v)
                     }}
-                    style={{ minWidth: 25, minHeight: 25 }}
-                    className="cursor-pointer"
                 />
-                {label && (
-                    <label className="s-text-color-alpha text-font-medium ml-3">
-                        {label}
-                    </label>
-                )}
             </div>
         </div>
     )

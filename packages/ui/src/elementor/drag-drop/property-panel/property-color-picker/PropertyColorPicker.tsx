@@ -25,6 +25,8 @@ export const PropertyColorPicker: React.FC<PropertyColorPickerInterface> = ({
     return (
         <div className="d-flex p-2 align-items-center justify-content-center">
             <HexColorPicker
+                className="w-100"
+                style={{ width: "100%" }}
                 color={color}
                 onChange={(v) => {
                     setColor(v)

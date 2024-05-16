@@ -44,15 +44,19 @@ export const PropertyCtaNavButton: React.FC<PropertyCtaNavButtonInterface> = ({
 
     return (
         <div>
-            <span>CTA Button Name</span>
+            <span className="text-level-caption text-font-normal">
+                CTA Button Name
+            </span>
             <PropertyText
+                label="CTA Button Name"
                 defaultValue={ctaBtn?.label ?? ""}
                 onChange={(v) => {
                     updateCTASetting("label", v)
                 }}
             />
-            <span>CTA Button Destination</span>
+            <span className="s-text-caption">CTA Button Destination</span>
             <PropertyText
+                label="CTA Button Destination"
                 defaultValue={ctaBtn?.destination ?? ""}
                 onChange={(v) => {
                     updateCTASetting("destination", v)

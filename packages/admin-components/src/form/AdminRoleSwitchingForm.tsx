@@ -6,11 +6,6 @@ interface AdminRoleSwitchingFormInterface {
     onFormValueChange: (v: string) => void
 }
 
-export type roleType = {
-    sites: string[]
-    roleName: string
-}
-
 interface AdminRoleCardInterface {
     sites: string[]
     roleName: string
@@ -35,17 +30,19 @@ const AdminRoleCard: React.FC<AdminRoleCardInterface> = ({
 
     return (
         <div
-            className="d-flex flex-column"
+            className="d-flex flex-column justify-content-center"
             {...getToggleProps({
                 onClick: () => setExpanded((prevExpanded) => !prevExpanded)
             })}>
             <div
-                className="d-flex flex-column s-section-quaternary p-2"
+                className="d-flex flex-column s-section-quaternary p-2 justify-content-center"
                 style={{
+                    height: 110,
+                    borderRadius: 12,
                     border:
                         role === roleName
-                            ? "3px solid var(--static-color-primary"
-                            : ""
+                            ? "3px solid var(--static-color-primary)"
+                            : "3px solid var(--static-color-text-gamma)"
                 }}>
                 <div className="d-flex">
                     <input
@@ -59,15 +56,17 @@ const AdminRoleCard: React.FC<AdminRoleCardInterface> = ({
                             setCurrentRole(roleName)
                         }}
                     />
-                    <span className="text-font-bold text-level-body px-2">
+                    <span
+                        className={`text-font-bold text-level-headline px-2 ${role === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}>
                         {roleName} -
                     </span>
-                    <span className="text-font-light text-level-body">
+                    <span
+                        className={`text-font-medium text-level-headline ${role === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}>
                         {sites.join(",")}
                     </span>
                 </div>
                 <span
-                    className="text-font-light text-level-remark mx-2"
+                    className={`text-font-normal text-level-body mx-2 ${role === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}
                     style={{ paddingLeft: 30 }}>
                     {description}
                 </span>

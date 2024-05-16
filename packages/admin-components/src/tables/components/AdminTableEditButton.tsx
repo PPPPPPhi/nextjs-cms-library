@@ -16,7 +16,7 @@ export const AdminTableEditButton: React.FC<RowCellInterface> = ({
 }) => {
     return (
         <div
-            className="d-flex align-items-center"
+            className="d-flex align-items-center px-3"
             style={{
                 minHeight: 35,
                 width: customWidth ?? "auto"
@@ -24,13 +24,13 @@ export const AdminTableEditButton: React.FC<RowCellInterface> = ({
             {!disabled && (
                 <AdminTableActionButton
                     customWidth={50}
-                    icon={<HiPencil className="s-text-color-nu" />}
+                    label="Edit"
                     action={action}
                 />
             )}
             <span
-                className="text-font-bold text-level-caption pl-2"
-                style={{ flex: 1 }}>
+                className="text-font-bold text-level-caption"
+                style={{ flex: 1, paddingLeft: 15 }}>
                 {value}
             </span>
         </div>

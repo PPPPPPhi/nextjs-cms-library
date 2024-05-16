@@ -54,10 +54,12 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
     }, [sites, roleFairList])
 
     return (
-        <div className="d-flex w-100 p-3" style={{ height: 90 }}>
+        <div
+            className="d-flex w-100 px-3 align-items-center justify-content-center"
+            style={{ height: 60 }}>
             <div
-                className={`d-flex w-100 s-section-secondary rounded-5 align-items-center justify-content-center ${isCollapsed ? "" : "py-2 px-4"}`}>
-                <HiGlobeAsiaAustralia className="s-text-color-nu" />
+                className={`d-flex w-100 s-section-secondary align-items-center justify-content-center`}
+                style={{ height: 46, borderRadius: 12, padding: "7px 15px" }}>
                 {options && !isCollapsed && (
                     <Dropdown
                         options={options}

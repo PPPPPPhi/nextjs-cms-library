@@ -66,10 +66,9 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
                 columnDefs={[
                     {
                         accessorKey: "_edit",
-                        header: "Edit",
+                        header: "View",
                         cellType: "action",
-                        headerIcon: <HiEye />,
-                        actionTitle: "",
+                        actionTitle: "View",
                         size: 100,
                         action: (data) => {
                             const { relativePath } = data
@@ -80,8 +79,7 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
                         accessorKey: "_edit",
                         header: "Edit",
                         cellType: "action",
-                        headerIcon: <HiPencil />,
-                        actionTitle: "",
+                        actionTitle: "Edit",
                         size: 100,
                         action: (data) => {
                             const { relativePath } = data
@@ -91,9 +89,8 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
                     {
                         accessorKey: "_delete",
                         header: "Delete",
-                        cellType: "action",
-                        headerIcon: <FaTrash />,
-                        actionTitle: "",
+                        cellType: "warnAction",
+                        actionTitle: "Delete",
                         size: 100,
                         action: (data) => {
                             const { _id } = data
@@ -101,13 +98,13 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
                     },
                     {
                         accessorKey: "name",
-                        header: "Name",
+                        header: "Image File Name",
                         cellType: "cell",
                         enableResize: true
                     },
                     {
                         accessorKey: "relativePath",
-                        header: "Image",
+                        header: "Thumbnail",
                         cellType: "photo",
                         size: 120
                     },

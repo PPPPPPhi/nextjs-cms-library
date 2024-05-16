@@ -12,7 +12,10 @@ import {
 import { useDisplayPanelContext } from "../.."
 import { Control, Controller, UseFormSetValue } from "react-hook-form"
 import { PreviewSelectImage } from "../../../../core/utils/PreviewFile"
-import { AdminImageGalleryModal } from "@nextjs-cms-library/admin-components/index"
+import {
+    AdminActionButton,
+    AdminImageGalleryModal
+} from "@nextjs-cms-library/admin-components/index"
 
 type ImageSelectorProps = {}
 
@@ -84,21 +87,13 @@ export const PropertyImageSelector: React.FC<
     return (
         <div>
             <div
-                className={`d-flex flex-column justify-content-center align-items-center`}>
-                <div
-                    style={{
-                        width: "80%",
-                        maxWidth: 300,
-                        height: 30,
-                        borderRadius: 25
-                    }}
+                className={`d-flex flex-column justify-content-center space-y-2`}>
+                <AdminActionButton
                     onClick={() => {
                         setEnableModal(true)
                     }}
-                    className={`flex justify-center cursor-pointer s-adminGradientBg shadow mb-1 s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
-                    <span>Select File</span>
-                </div>
-
+                    label="Select File"
+                />
                 {enableModel && (
                     <div>
                         <AdminImageGalleryModal
@@ -113,7 +108,7 @@ export const PropertyImageSelector: React.FC<
                 <p className="mb-1 text-gray-500 dark:text-gray-400">
                     {value && (
                         <PreviewSelectImage
-                            height={300}
+                            height={200}
                             site={site as string}
                             value={value as string}
                             handler={() => {

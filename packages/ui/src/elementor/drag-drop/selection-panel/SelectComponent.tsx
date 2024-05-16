@@ -19,18 +19,23 @@ export const SelectComponent: React.FC<SelectComponentProps> = ({
     return (
         <div
             ref={drag}
-            className={`s-select-card-outer shadow-sm s-dragging`}
-            style={{ paddingTop: 5, paddingBottom: 5, background: "white" }}>
+            className={`s-select-card-outer s-dragging s-section-quaternary`}
+            style={{ padding: 5, border: "1px solid #F1F1F1" }}>
             <div className={`s-select-card-inner`}>
                 <div
                     style={{
                         display: "flex",
                         flexDirection: "row",
-                        justifyContent: "center"
+                        justifyContent: "center",
+                        padding: 5
                     }}>
-                    {icon({ width: 32, height: 32 })}
+                    {icon({ width: 30, height: 30 })}
                 </div>
-                <div className="text-level-caption text-center">{title}</div>
+                <span
+                    className="text-level-caption text-center"
+                    style={{ lineHeight: "14px" }}>
+                    {title}
+                </span>
             </div>
         </div>
     )

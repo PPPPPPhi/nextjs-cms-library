@@ -18,8 +18,8 @@ type PropertiesChildSubInputProps = {
 
 const PropertyTitle: React.FC<{ title: string }> = ({ title }) => {
     return (
-        <p className="s-text-color-alpha mb-1 text-gray-500 dark:text-gray-400">
-            {`${title}:`}
+        <p className="s-text-color-beta text-level-caption mb-1 text-gray-500 dark:text-gray-400">
+            {title}
         </p>
     )
 }
@@ -40,6 +40,7 @@ export const PropertiesChildSubInput: React.FC<
                     return (
                         //@ts-ignore
                         <Component
+                            label={label}
                             defaultValue={value}
                             onChange={(v: any) => {
                                 onChange(v)

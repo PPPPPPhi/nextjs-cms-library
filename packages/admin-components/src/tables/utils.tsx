@@ -13,7 +13,8 @@ import {
     AdminTableBadgeList,
     AdminTablePreviewPhoto,
     AdminTableBooleanButton,
-    AdminTableRawEditButton
+    AdminTableRawEditButton,
+    AdminTableActionWarnButton
 } from "./components"
 import { CellContext } from "@tanstack/react-table"
 import { columnDefsType, cellComponentType } from "../types/type"
@@ -56,6 +57,9 @@ export const getCellComponents: any = (cellType: cellComponentType) => {
             break
         case "action":
             Component = AdminTableActionButton
+            break
+        case "warnAction":
+            Component = AdminTableActionWarnButton
             break
         case "edit":
             Component = AdminTableEditButton

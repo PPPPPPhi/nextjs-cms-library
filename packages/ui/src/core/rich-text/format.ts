@@ -1,4 +1,3 @@
-import RichTextEditor from "react-rte"
 import { SelectionJson, DragDropJson, PropertyJson } from "../utils/type/index"
 import { RichTextSvg } from "./svg"
 import { RichText } from "./widget"

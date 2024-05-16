@@ -433,7 +433,13 @@ export const AdminNavigationDisplay: React.FC<
                 authCode="EDIT_NAVIGATION"
                 disabled={!isShowSetting}
             />
-            <div className="d-flex flex-column w-100" ref={drop}>
+            <div
+                className="d-flex flex-column w-100 shadow-sm s-section-quaternary p-3 mt-3"
+                style={{
+                    borderRadius: 12,
+                    border: "1px solid var(--static-bg-boundary)"
+                }}
+                ref={drop}>
                 {(navigation ?? []).map((k, idx) => (
                     <AdminNavigationItem
                         key={`collapsed_${idx}`}

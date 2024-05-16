@@ -1,11 +1,13 @@
-import { AdminButton } from "../core"
+import { AdminActionButton, AdminButton } from "../core"
 import { AdminTextInput } from "../input"
 import { NextImageApdator } from "@nextjs-cms-library/ui/index"
 import { AdminImageGalleryModal } from "../image"
 import { useState, useEffect } from "react"
 import { AdminCard } from "../core"
 import { useRouter } from "next/navigation"
+import { AdminTabMenu } from "../menu"
 
+const HEADER_RESOURCE_LIST = ["Web Resource", "Choose From Image Gallery"]
 interface AdminHeaderInterface {
     header: {
         headerLargeLogo: string
@@ -95,7 +97,7 @@ const LogoPreviewer: React.FC<LogoPreviewerInterface> = ({
 
 interface HeaderImageSectionInterface {
     iconLabel: string
-    setMode: (m: string) => void
+    setMode: () => void
     setImagePath: (p: string) => void
     imagePath?: string
 }
@@ -105,42 +107,65 @@ const HeaderImageSection: React.FC<HeaderImageSectionInterface> = ({
     imagePath,
     setImagePath
 }) => {
-    const [path, setPath] = useState<string>()
+    const [path, setPath] = useState<string>("")
+    const [tab, setTab] = useState<string>("Web Resource")
+
+    const isAbsolutePath = /https:\/\/|http:\/\//.test(imagePath || path)
+
+    console.log(
+        "aaaa",
+        isAbsolutePath
+            ? imagePath
+            : imagePath
+              ? `${process.env.NEXT_IMAGE_UPLOAD_PATH}${imagePath}`
+              : "aaa"
+    )
 
     return (
-        <div className="d-flex">
-            <div className="col-12 col-md-8 d-flex flex-column space-y-4 px-3">
-                <span className="text-level-body text-font-bold">
+        <div className="d-flex p-3">
+            <div
+                className="col-12 col-md-8 d-flex flex-column space-y-3 px-3"
+                style={{ minHeight: 145 }}>
+                <span className="text-level-content text-font-bold">
                     {iconLabel}
                 </span>
-                <div className="d-flex align-items-center space-x-3">
-                    <AdminTextInput
-                        label="Web Resource"
-                        onChange={(v) => {
-                            setPath(v)
-                        }}
-                    />
-                    <AdminButton
-                        label="Apply"
-                        onClick={() => {
-                            setImagePath(path as string)
-                        }}
-                        style={{ height: 30 }}
-                        authCode="EDIT_HEADER_SETTING"
-                    />
-                </div>
-                <AdminButton
-                    label="Choose from Image Gallery"
-                    onClick={() => setMode("comp")}
-                    authCode="EDIT_HEADER_SETTING"
+                <AdminTabMenu
+                    tabList={HEADER_RESOURCE_LIST}
+                    callback={(tab) => {
+                        setTab(HEADER_RESOURCE_LIST[tab] as string)
+                    }}
                 />
+                <div className="d-flex align-items-center space-x-3">
+                    {tab === "Web Resource" && (
+                        <AdminTextInput
+                            label="Web Resource"
+                            onChange={(v) => {
+                                setPath(v)
+                            }}
+                            endAdorment={{
+                                label: "Apply",
+                                onClick: () => {
+                                    setImagePath(path as string)
+                                }
+                            }}
+                        />
+                    )}
+                    {tab === "Choose From Image Gallery" && (
+                        <AdminActionButton
+                            label="Choose From Image Gallery"
+                            onClick={() => setMode()}
+                        />
+                    )}
+                </div>
             </div>
             <div className="col-12 col-md-4 position-relative">
                 <NextImageApdator
                     src={
-                        imagePath
-                            ? `${process.env.NEXT_IMAGE_UPLOAD_PATH}${imagePath}`
-                            : DEFAULT_IMAGE_PLACEHOLDER
+                        isAbsolutePath
+                            ? (imagePath as string)
+                            : (imagePath as string)
+                              ? `${process.env.NEXT_IMAGE_UPLOAD_PATH}${imagePath}`
+                              : DEFAULT_IMAGE_PLACEHOLDER
                     }
                     alt="profile"
                     isStatic
@@ -223,14 +248,21 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                     ]}
                 />
             </div>
-            <div className="d-flex flex-column shadow p-3 rounded-2 s-section-primary">
-                <HeaderImageSection
-                    iconLabel="Desktop and Tablet Version"
-                    setImagePath={(p) => setCompLogo(p)}
-                    imagePath={compLogo as string}
-                    setMode={() => setMode("comp")}
-                />
+            <div
+                className="s-section-quaternary shadow-sm"
+                style={{ borderRadius: 12, border: "1px solid #F1F1F1" }}>
                 <div
+                    className="d-flex flex-column p-3"
+                    style={{
+                        borderBottom: "1px solid var(--static-bg-boundary)"
+                    }}>
+                    <HeaderImageSection
+                        iconLabel="Desktop and Tablet Version"
+                        setImagePath={(p) => setCompLogo(p)}
+                        imagePath={compLogo as string}
+                        setMode={() => setMode("comp")}
+                    />
+                    {/* <div
                     className="d-flex space-x-2 px-3 col-8 mt-3 rounded-3"
                     style={{
                         background: darkMode ? "rgba(0,0,0,0.8)" : "white"
@@ -271,16 +303,16 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         darkMode={darkMode}
                         imagePath={compLogo}
                     />
+                </div> */}
                 </div>
-            </div>
-            <div className="d-flex flex-column shadow p-3 rounded-2 s-section-primary">
-                <HeaderImageSection
-                    iconLabel="Mobile Version"
-                    setImagePath={(p) => setMobileLogo(p)}
-                    imagePath={mobileLogo as string}
-                    setMode={() => setMode("mobile")}
-                />
-                <div
+                <div className="d-flex flex-column p-3">
+                    <HeaderImageSection
+                        iconLabel="Mobile Version"
+                        setImagePath={(p) => setMobileLogo(p)}
+                        imagePath={mobileLogo as string}
+                        setMode={() => setMode("mobile")}
+                    />
+                    {/* <div
                     className="d-flex space-x-2 px-3 col-8 mt-3 rounded-3"
                     style={{
                         background: darkMode ? "rgba(0,0,0,0.8)" : "white"
@@ -321,6 +353,7 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                         darkMode={darkMode}
                         imagePath={mobileLogo}
                     />
+                </div> */}
                 </div>
             </div>
 

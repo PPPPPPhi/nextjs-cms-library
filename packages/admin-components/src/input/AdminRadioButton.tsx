@@ -1,4 +1,9 @@
 import { useState } from "react"
+import Radio from "@mui/material/Radio"
+import RadioGroup from "@mui/material/RadioGroup"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormControl from "@mui/material/FormControl"
+import FormLabel from "@mui/material/FormLabel"
 
 interface AdminRadioButtonInterface {
     groupId: string
@@ -17,25 +22,24 @@ export const AdminRadioButton: React.FC<AdminRadioButtonInterface> = ({
 
     return (
         <div>
-            {options.map((l, idx) => (
-                <div
-                    className="d-flex align-items-center"
-                    style={{ minHeight: 30 }}>
-                    <input
-                        className="mx-2"
-                        type="radio"
-                        id={`${groupId}_${idx}`}
-                        checked={l === r}
-                        name={groupId}
-                        value={l}
-                        onChange={(evt) => {
-                            setR(evt.target.value)
-                            onChange(evt.target.value)
-                        }}
-                    />
-                    <span>{l}</span>
-                </div>
-            ))}
+            <FormControl className="Mui-RadioForm">
+                {/* <FormLabel id="demo-radio-buttons-group-label">
+                    Gender
+                </FormLabel> */}
+                <RadioGroup
+                    aria-labelledby="demo-radio-buttons-group-label"
+                    defaultValue="female"
+                    name="radio-buttons-group">
+                    {options.map((l, idx) => (
+                        <FormControlLabel
+                            className="s-text-color-beta"
+                            value={l}
+                            control={<Radio />}
+                            label={l}
+                        />
+                    ))}
+                </RadioGroup>
+            </FormControl>
         </div>
     )
 }

@@ -8,7 +8,10 @@ import {
     DefaultPropertiesDataType,
     PropertiesComponentProps
 } from "../../../utils/index"
-import { AdminButton } from "@nextjs-cms-library/admin-components/index"
+import {
+    AdminActionButton,
+    AdminButton
+} from "@nextjs-cms-library/admin-components/index"
 import { PropertiesChildInput } from "./PropertiesChildInput"
 //@ts-ignore
 import DragDropIcon from "./dragdrop.png"
@@ -209,14 +212,14 @@ export const PropertiesComponent: React.FC<
         <div className="h-100 w-100 d-flex flex-column">
             {/* <span className="s-text-color-alpha text-level-body text-font-light">{`Widget Type: ${element}`}</span> */}
             <span
-                className="s-text-color-alpha text-level-body text-font-bold"
+                className="s-text-color-beta text-level-content text-font-medium"
                 style={{
                     textTransform: "capitalize"
                 }}>
                 {propertyType}
             </span>
             <div
-                className="d-flex flex-column overflow-y-auto py-2"
+                className="d-flex flex-column overflow-y-auto my-2"
                 style={{ flex: 1 }}>
                 {i && propertiesList?.length === 0 && <PropertiesChildEmpty />}
                 {i &&
@@ -241,11 +244,10 @@ export const PropertiesComponent: React.FC<
             <div
                 className="d-flex justify-content-center"
                 style={{
-                    padding: 50
+                    padding: 35
                 }}>
-                <AdminButton
+                <AdminActionButton
                     label="Update"
-                    style={{ width: "100%" }}
                     onClick={() => updateProperties()}
                 />
             </div>

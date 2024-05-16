@@ -5,7 +5,8 @@ import {
 } from "@nextjs-cms-library/role-management/index"
 import styles from "../AdminControl.module.scss"
 import { CSSProperties } from "react"
-interface AdminButtonInterface {
+
+interface AdminActionButtonInterface {
     label: string
     Icon?: any
     onClick: () => void
@@ -15,38 +16,45 @@ interface AdminButtonInterface {
     authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
-export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
+export const AdminActionButton: React.FC<AdminActionButtonInterface> = (
+    buttonProps
+) => {
     const { label, onClick, Icon, disabled, style, inverseStyle, authCode } =
         buttonProps
 
     const { isAuthorized } = useActionAuthorizationHook(
         authCode ?? "AVAILABLE_CODE"
     )
-
     const isDisabled = disabled || !isAuthorized
 
     return (
         <div
             className={`${
-                inverseStyle ? styles.adminButtonInverse : styles.adminButton
-            } d-flex align-items-center ${Icon ? "justify-content-between" : "justify-content-center"} text-level-content`}
+                inverseStyle
+                    ? styles.adminActionButtonInverse
+                    : styles.adminActionButton
+            } d-flex align-items-center justify-content-center px-2`}
             style={{
                 width: "max-content",
                 ...style,
                 cursor: isDisabled ? "default" : "pointer",
-                ...(isDisabled && { background: "#CCCCCC" })
+                ...(isDisabled && {
+                    background: "#CCCCCC",
+                    color: "#808080",
+                    borderColor: "#CCCCCC"
+                })
             }}
             onClick={() => {
                 if (isDisabled) return
                 onClick()
             }}>
-            <span className="">{label}</span>
             {Icon && (
                 <Icon
-                    className="text-level-button"
-                    style={{ width: 20, height: 20 }}
+                    className="text-level-caption"
+                    style={{ marginRight: 5, width: 20, height: 20 }}
                 />
             )}
+            <span className="text-level-caption">{label}</span>
         </div>
     )
 }

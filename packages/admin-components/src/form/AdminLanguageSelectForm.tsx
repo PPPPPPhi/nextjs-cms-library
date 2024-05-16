@@ -34,7 +34,7 @@ export const AdminLanguageSelectForm: React.FC<AdminLanguageSelectFormType> = ({
     }, [inputs])
 
     return (
-        <div className="d-flex flex-column space-y-6 s-section-primary p-2">
+        <div className="d-flex flex-column space-y-6 p-2 w-50 align-self-center">
             {langList && (
                 <AdminSelect
                     label="language"

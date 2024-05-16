@@ -4,9 +4,10 @@ import {
     VIEW_TYPE,
     useActionAuthorizationHook
 } from "@nextjs-cms-library/role-management/index"
+import { IconType } from "react-icons/lib"
 
 interface AdminCircularButtonInterface {
-    icon: React.ReactNode
+    icon: IconType
     label: string
     disabled: boolean
     onNavClick: () => void
@@ -20,7 +21,8 @@ export const AdminNavButton: React.FC<AdminCircularButtonInterface> = ({
     onNavClick = () => {},
     authCode
 }) => {
-    const Icon = useCallback(() => {
+    //@ts-ignore
+    const Icon: IconType = useCallback(() => {
         if (icon) return icon
         else return <></>
     }, [icon])
@@ -30,15 +32,28 @@ export const AdminNavButton: React.FC<AdminCircularButtonInterface> = ({
     if (disabled || !isAuthorized) return <></>
 
     return (
-        <div className="d-flex align-items-center rounded-5">
+        <div
+            className="d-flex align-items-center s-section-quaternary p-2 cursor-pointer"
+            style={{
+                borderRadius: 12,
+                height: 50,
+                minWidth: 220,
+                border: "1px solid var(--staitc-bg-boundary-alpha)"
+            }}
+            onClick={onNavClick}>
             <div
-                className="cursor-pointer text-level-subtitle s-text-color-alpha"
-                onClick={onNavClick}>
+                className="cursor-pointer text-level-subtitle p-2 text-level-icon"
+                style={{ color: "var(--static-color-secondary)" }}>
                 <Icon />
             </div>
-            <span className="px-2 text-level-remark">
-                --- Add navigation under {label}
-            </span>
+            <div className="d-flex flex-column pl-2">
+                <span className="text-level-remark text-font-normal s-text-color-alpha">
+                    Add navigation under
+                </span>
+                <span className="text-level-remark text-font-normal s-text-color-beta">
+                    {label}
+                </span>
+            </div>
         </div>
     )
 }

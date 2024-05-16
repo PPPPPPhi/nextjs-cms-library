@@ -15,7 +15,7 @@ export const AdminTableCollapse: React.FC<RowCellInterface> = ({
 }) => {
     return (
         <div
-            className="d-flex align-items-center cursor-pointer"
+            className="d-flex align-items-center cursor-pointer px-3"
             onClick={action}
             style={{
                 minHeight: 35,

@@ -36,7 +36,7 @@ export const AdminCreatePageForm: React.FC<AdminCreatePageFormInterface> = ({
     }, [inputs])
 
     return (
-        <div className="d-flex flex-column space-y-6 s-section-primary p-2">
+        <div className="d-flex flex-column space-y-6 p-2">
             <AdminTextInput
                 label="Name"
                 onChange={(v) => handleChange("name", v)}

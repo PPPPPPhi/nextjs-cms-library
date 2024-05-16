@@ -1,14 +1,22 @@
-import DatePicker from "react-datepicker"
 import { HiCalendarDays, HiClock } from "react-icons/hi2"
 
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
+
+import dayjs from "dayjs"
+
 interface AdminDatePickerInterface {
+    label?: string
     value: Date
-    onChange: (d: Date) => void
+    onChange: (d: string) => void
     style: React.CSSProperties
     isShowTime?: boolean
 }
 
 export const AdminDatePicker: React.FC<AdminDatePickerInterface> = ({
+    label,
     value,
     onChange,
     style,
@@ -16,28 +24,36 @@ export const AdminDatePicker: React.FC<AdminDatePickerInterface> = ({
 }) => {
     return (
         <div
-            className="d-flex w-100 shadow shadow-sm"
-            style={{ ...style, height: 38 }}>
-            <DatePicker
-                showTimeSelect={isShowTime}
-                selected={value ?? new Date()}
-                onChange={(evt) => {
-                    console.log(`date picker`, evt)
-                    onChange(evt as Date)
-                }} //only when value has changed
-            />
-            <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ width: 80, borderLeft: "1px solid #CFCFCF" }}>
-                <HiCalendarDays style={{ width: 24, height: 24 }} />
-            </div>
-            {isShowTime && (
-                <div
-                    className="d-flex align-items-center justify-content-center"
-                    style={{ width: 80, borderLeft: "1px solid #CFCFCF" }}>
-                    <HiClock style={{ width: 24, height: 24 }} />
-                </div>
-            )}
+            className="d-flex w-100"
+            style={{
+                flex: 1,
+                height: 70,
+                borderRadius: 12,
+                background: "white",
+                ...style
+            }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {!isShowTime && (
+                    <DatePicker
+                        label={label}
+                        value={dayjs(value)}
+                        onChange={(v) => {
+                            console.log(`date picker`, v)
+                            onChange(dayjs(v).format("YYYY-MM-DDTHH:mm:ss"))
+                        }}
+                    />
+                )}
+                {isShowTime && (
+                    <DateTimePicker
+                        label={label}
+                        value={dayjs(value)}
+                        onChange={(v) => {
+                            console.log(`date picker`, v)
+                            onChange(dayjs(v).format("YYYY-MM-DDTHH:mm:ss"))
+                        }}
+                    />
+                )}
+            </LocalizationProvider>
         </div>
     )
 }

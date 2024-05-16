@@ -161,21 +161,21 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                 .getHeaderGroups()
                 .map((x) => x.headers)
                 .flat()
-    
+
             const headerRow: [] = []
             headers.map((col) => {
                 // @ts-ignore
                 return headerRow.push({ value: col.id, type: "string" })
             })
-    
+
             // @ts-ignore
             csvRow.push(headerRow)
-    
+
             const rows = table.getCoreRowModel().rows
-    
+
             rows.map((row: any) => {
                 const dataRow: [] = []
-    
+
                 headerRow.map((header: { value: string; type: string }) => {
                     // @ts-ignore
                     return dataRow.push({
@@ -183,13 +183,13 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                         type: "string"
                     })
                 })
-    
+
                 // @ts-ignore
                 csvRow.push(dataRow)
             })
-    
+
             console.log(`csvRow`, csvRow)
-    
+
             generateExcel(config)
         }
 
@@ -213,27 +213,31 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
         console.log("data bbb", data)
 
         return (
-            <div className="d-flex flex-column w-100 h-100">
+            <div className="d-flex flex-column w-100 h-100 p-2">
                 <div
-                    className="overflow-auto mb-3"
-                    style={{ minHeight: tableMinHeight }}>
-                    <table className="shadow w-100 overflow-auto">
+                    className="overflow-auto shadow-sm"
+                    style={{
+                        minHeight: tableMinHeight,
+                        borderRadius: 24,
+                        border: "1px solid #F1F1F1"
+                    }}>
+                    <table className="w-100 overflow-auto">
                         <thead
-                            className="s-section-primary"
                             style={{
                                 position: "sticky",
                                 top: 0,
-                                zIndex: 20
+                                zIndex: 20,
+                                borderBottom:
+                                    "1px solid var(--static-color-text-delta)"
                             }}>
                             {table.getHeaderGroups().map((headerGroup) => (
-                                <tr key={headerGroup.id} style={{ height: 35 }}>
+                                <tr key={headerGroup.id} style={{ height: 50 }}>
                                     {headerGroup.headers.map((header) => {
                                         const { column } = header
                                         return (
                                             <th
                                                 key={header.id}
                                                 colSpan={header.colSpan}
-                                                //IMPORTANT: This is where the magic happens!
                                                 style={{
                                                     ...getCommonPinningStyles(
                                                         column,
@@ -241,7 +245,7 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                                         true
                                                     )
                                                 }}>
-                                                <div className="whitespace-nowrap s-section-primary">
+                                                <div className="whitespace-nowrap">
                                                     {header.isPlaceholder
                                                         ? null
                                                         : flexRender(
@@ -263,10 +267,11 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                     <tr
                                         key={row.id}
                                         style={{
-                                            borderBottom: "1px solid black",
-                                            height: 35
+                                            borderBottom:
+                                                "1px solid var(--static-color-text-delta)",
+                                            height: 50
                                         }}
-                                        className={`whitespace-nowrap ${zebra ? "s-zebra-hover" : ""}`}>
+                                        className={`whitespace-nowrap s-zebra-hover`}>
                                         {row.getVisibleCells().map((cell) => {
                                             const { column } = cell
                                             return (
@@ -278,7 +283,6 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                                             "td"
                                                         ),
                                                         backgroundColor:
-                                                            zebra &&
                                                             index % 2 == 0
                                                                 ? "#f2f2f2"
                                                                 : "white"

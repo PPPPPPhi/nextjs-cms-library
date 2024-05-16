@@ -6,7 +6,7 @@ import {
     useActionAuthorizationHook
 } from "@nextjs-cms-library/role-management/index"
 
-interface RowCellInterface {
+interface AdminTableActionWarnButtonInterface {
     action: () => void
     label?: string
     icon?: React.ReactNode
@@ -15,14 +15,9 @@ interface RowCellInterface {
     authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
 }
 
-export const AdminTableActionButton: React.FC<RowCellInterface> = ({
-    label,
-    icon,
-    action,
-    customWidth,
-    inverseStyle,
-    authCode
-}) => {
+export const AdminTableActionWarnButton: React.FC<
+    AdminTableActionWarnButtonInterface
+> = ({ label, icon, action, customWidth, inverseStyle, authCode }) => {
     const Icon = useCallback(() => {
         if (icon) return icon
         else return <></>
@@ -42,8 +37,8 @@ export const AdminTableActionButton: React.FC<RowCellInterface> = ({
                     <div
                         className={`px-3 cursor-pointer d-flex align-items-center ${
                             inverseStyle
-                                ? styles.adminTableButtonInverse
-                                : styles.adminTableButton
+                                ? styles.adminTableWarnButtonInverse
+                                : styles.adminTableWarnButton
                         }`}
                         style={{
                             ...(!isAuthorized && {

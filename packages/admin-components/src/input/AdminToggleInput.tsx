@@ -1,4 +1,6 @@
 import { ChangeEvent, useState, useEffect } from "react"
+import ToggleButton from "@mui/material/ToggleButton"
+import { FaCheck } from "react-icons/fa6"
 
 interface AdminToggleInputInterface {
     label?: string
@@ -21,20 +23,14 @@ export const AdminToggleInput: React.FC<AdminToggleInputInterface> = ({
 
     return (
         <div className="d-flex al align-items-center" style={{ minHeight: 38 }}>
-            <input
-                id="username"
-                className="cursor-pointer"
-                name={label}
-                type="checkbox"
-                autoComplete="off"
-                required
-                disabled={disabled}
-                checked={value}
-                onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                    setValue(event.target.checked)
-                    onChange(event.target.checked)
-                }}
-            />
+            <ToggleButton
+                value="check"
+                selected={!!value}
+                onChange={(v) => {
+                    onChange(!value)
+                }}>
+                <FaCheck />
+            </ToggleButton>
             {label && (
                 <label className="s-text-color-alpha text-font-medium ml-3">
                     {label}

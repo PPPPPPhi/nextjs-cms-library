@@ -86,8 +86,11 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
                             }}
                         />
                         <div>
-                            <span>Title</span>
+                            <span className="text-level-caption text-font-normal">
+                                Title
+                            </span>
                             <PropertyText
+                                label={"Title"}
                                 defaultValue={l.title}
                                 onChange={(v) => {
                                     modifyCard("title", v, idx)
@@ -95,8 +98,11 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
                             />
                         </div>
                         <div>
-                            <span>Content</span>
+                            <span className="text-level-caption text-font-normal">
+                                Content
+                            </span>
                             <PropertyText
+                                label={"Content"}
                                 defaultValue={l.content}
                                 onChange={(v) => {
                                     modifyCard("content", v, idx)
@@ -104,7 +110,9 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
                             />
                         </div>
                         <div className="space-y-2">
-                            <span>Image</span>
+                            <span className="text-level-caption text-font-normal">
+                                Image
+                            </span>
                             <PropertyImageSelector
                                 value={l.image}
                                 onChange={(v) => {
@@ -113,8 +121,11 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
                             />
                         </div>
                         <div className="space-y-2">
-                            <span>Star</span>
+                            <span className="text-level-caption text-font-normal">
+                                Star
+                            </span>
                             <PropertySelector
+                                label={"Star"}
                                 defaultValue={l.star}
                                 options={[
                                     { label: "1", value: 1 },
@@ -129,8 +140,11 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
                             />
                         </div>
                         <div>
-                            <span>Description</span>
+                            <span className="text-level-caption text-font-normal">
+                                Description
+                            </span>
                             <PropertyText
+                                label="Description"
                                 defaultValue={l.description}
                                 onChange={(v) => {
                                     modifyCard("description", v, idx)

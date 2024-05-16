@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from "react"
 import Select from "react-select"
-
+import { AdminSelect } from "@nextjs-cms-library/admin-components/index"
 interface PropertySelectorInterface {
+    label: string
     onChange: (value: any) => void
     defaultValue?: any
-    options?: { label: string; value: any }[]
-    label?: string
+    options: { label: string; value: any }[]
 }
 
 export const PropertySelector: React.FC<PropertySelectorInterface> = ({
@@ -16,42 +16,24 @@ export const PropertySelector: React.FC<PropertySelectorInterface> = ({
     defaultValue,
     label
 }) => {
-    const defaultOption = options?.find((k) => k.value === defaultValue)
-    const [isSettle, setIsSettle] = useState<boolean>(false)
-
-    const [selectedOption, setSelectedOption] = useState(defaultOption ?? null)
+    const [selectedOption, setSelectedOption] = useState(defaultValue)
 
     useEffect(() => {
-        if (!isSettle && defaultValue) {
-            // @ts-ignore
-            setSelectedOption(defaultOption)
-            setIsSettle(true)
-        }
+        if (defaultValue) setSelectedOption(defaultValue)
     }, [defaultValue])
 
     useEffect(() => {
-        onChange(selectedOption?.value)
+        onChange(selectedOption)
     }, [selectedOption])
 
     return (
         <div className="w-100">
-            {label && (
-                <label className="s-text-color-alpha text-font-medium mb-2">
-                    {label}
-                </label>
-            )}
-
-            <Select
-                value={selectedOption}
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
+            <AdminSelect
+                label={label}
                 options={options}
-                placeholder="Please Select your option(s)"
-                menuPortalTarget={document.body}
-                menuPosition={"fixed"}
-                styles={{
-                    menuPortal: (base: any) => ({ ...base, zIndex: 999 })
-                }}
+                defaultValue={selectedOption}
+                onSelect={setSelectedOption}
+                placeHolder="Please Select your option(s)"
             />
         </div>
     )

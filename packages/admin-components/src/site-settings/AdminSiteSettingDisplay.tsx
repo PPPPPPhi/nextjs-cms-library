@@ -24,8 +24,13 @@ interface LanguageBadgeInterface {
 const LanguageBadge: React.FC<LanguageBadgeInterface> = ({ lang }) => {
     return (
         <div
-            className="d-flex align-items-center justify-content-center rounded-3 mx-1 px-3 s-section-secondary s-text-color-nu"
-            style={{ minWidth: 50, maxHeight: 24 }}>
+            className="d-flex align-items-center justify-content-center mx-2 px-3 s-section-secondary s-text-color-nu"
+            style={{
+                minWidth: 45,
+                height: 27,
+                borderRadius: 30,
+                padding: "8px 12px"
+            }}>
             <span>{lang}</span>
         </div>
     )
@@ -57,9 +62,9 @@ export const AdminSiteSettingDisplay: React.FC<
     return (
         <div
             className={`d-flex w-100 py-2 px-4 ${
-                isEven && "s-section-primary"
+                isEven && "s-section-quinary"
             }`}>
-            <div className="h-100 d-flex col-12 col-md-4 align-items-center">
+            <div className="h-100 d-flex col-12 col-md-4">
                 <span className="s-text-color-alpha">{label}</span>
             </div>
             <div className="h-100 d-flex flex-column col-12 col-md-8">
@@ -87,10 +92,11 @@ export const AdminSiteSettingDisplay: React.FC<
                     !isCMSLang &&
                     Object.keys(value).map((l, idx) => (
                         <div
-                            className="d-flex align-items-center py-2"
+                            className="d-flex align-items-start py-2"
                             key={`setting_child_${idx}`}>
                             <LanguageBadge lang={l} />
                             <AdminTextInput
+                                label={`${label} - ${l}`}
                                 disabled={!isAuthorized}
                                 onChange={(v) => {
                                     updateHandler(settingKey, v, l)
@@ -108,6 +114,7 @@ export const AdminSiteSettingDisplay: React.FC<
                     ))}
                 {!isLangOption && !isCMSLang && (
                     <AdminTextInput
+                        label={`${label}`}
                         disabled={!isAuthorized}
                         onChange={(v) => {
                             updateHandler(settingKey, v as string)

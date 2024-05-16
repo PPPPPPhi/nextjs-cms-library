@@ -1,6 +1,7 @@
 "use client"
 
 import {
+    AdminActionButton,
     AdminButton,
     AdminSVGIcon,
     useAdminContext
@@ -37,7 +38,7 @@ export const PropertySVGSelector: React.FC<PropertySVGSelector> = ({
 
     const chooseSVG = () => {
         setModal({
-            title: "Role Selection",
+            title: "Select a SVG",
             content: (
                 <PropertySVGForm
                     onFormValueChange={(v) => {
@@ -56,19 +57,28 @@ export const PropertySVGSelector: React.FC<PropertySVGSelector> = ({
     }
 
     return (
-        <div className="d-flex w-100 align-items-center">
+        <div className="d-flex flex-column w-100 space-y-2">
             <div style={{ flex: 1 }}>
-                <AdminButton
-                    style={{ width: "100%" }}
+                <AdminActionButton
                     onClick={() => {
                         chooseSVG()
                     }}
-                    label="Please Select a SVG"
+                    label="Select a SVG"
                 />
             </div>
             {icon && (
-                <div className="px-2">
-                    <AdminSVGIcon svgName={icon} />
+                <div
+                    className="d-flex align-items-center justify-content-center"
+                    style={{
+                        width: 80,
+                        height: 80,
+                        borderRadius: 12,
+                        border: "1px solid var(--static-bg-boundary)"
+                    }}>
+                    <AdminSVGIcon
+                        svgName={icon}
+                        style={{ width: 50, height: 50 }}
+                    />
                 </div>
             )}
         </div>

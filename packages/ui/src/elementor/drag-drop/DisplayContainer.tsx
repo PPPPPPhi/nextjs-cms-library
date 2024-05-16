@@ -10,15 +10,10 @@ import React, {
 const { DndProvider, DragPreviewImage } = require("react-dnd")
 const { HTML5Backend } = require("react-dnd-html5-backend")
 
-import { SelectionPanel } from "./selection-panel/SelectionPanel"
-import { DragDropArea } from "./drag-drop-panel/DragDropArea"
 import { DisplayPanelContextProvider } from "./DisplayPanelContext"
-import { PropertiesPanelArea } from "./property-panel/PropertiesPanelArea"
 import { PropertiesComponentProps } from "../../utils/index"
 import { DisplayController } from "./control-bar/DisplayControlBar"
-import { SubmissionButton } from "./control-bar/SubmissionButton"
-import { PreviewButton } from "./control-bar/PreviewButton"
-import { useParams } from "next/navigation"
+import { DisplayContainerWrapper } from "./DisplayContainerWrapper"
 
 type DisplayContainerProps = {
     pageJson: PropertiesComponentProps | {}
@@ -31,27 +26,13 @@ type DisplayContainerProps = {
 export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
     const { readOnly } = props ?? {}
 
-    console.log("props", props)
-
     return (
         <div className="d-flex h-100 w-100">
             <DisplayPanelContextProvider {...props}>
                 <DisplayController />
                 <DndProvider backend={HTML5Backend}>
-                    <div
-                        className="d-flex h-100 w-100 overflow-scroll justify-content-center"
-                        style={{
-                            background: "#FFF"
-                        }}>
-                        <PreviewButton />
-                        {!readOnly && <SelectionPanel />}
-                        {props.pageJson && (
-                            <DragDropArea pageJson={props.pageJson ?? {}} />
-                        )}
-                        <SubmissionButton />
-                    </div>
+                    <DisplayContainerWrapper pageJson={props?.pageJson} />
                 </DndProvider>
-                {!readOnly && <PropertiesPanelArea />}
             </DisplayPanelContextProvider>
         </div>
     )

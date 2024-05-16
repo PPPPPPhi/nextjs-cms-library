@@ -64,14 +64,13 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> =
                                 } else {
                                     createNewPage(data)
                                 }
-                            },
-                            size: 180
+                            }
                         },
                         {
                             accessorKey: "language",
                             header: "Language",
                             cellType: "badge",
-                            size: 100
+                            size: 120
                         },
                         {
                             accessorKey: "name",

@@ -6,10 +6,11 @@ import {
     HiArrowUpCircle,
     HiArrowDownCircle
 } from "react-icons/hi2"
+import { FaArrowDownWideShort } from "react-icons/fa6"
 import { AdminNavButton } from "./AdminNavButton"
 import { v4 as uuid_v4 } from "uuid"
 const { useDrag } = require("react-dnd")
-import { AdminIconButton } from "../core"
+import { AdminActionButton, AdminIconButton } from "../core"
 import {
     HiFolderAdd,
     HiPencil,
@@ -31,12 +32,11 @@ const Badge: React.FC<BadgeInterface> = ({ label }) => {
     return (
         <div
             className="d-flex align-items-center rounded-5 mx-2 px-2 shadow"
-            style={{ background: "black" }}>
-            <span
-                className="text-level-remark"
-                style={{
-                    color: NAV_TARGET_BADGE_COLOR[label]
-                }}>
+            style={{
+                background: "var(--static-color-text-alpha)",
+                height: 22
+            }}>
+            <span className="text-level-remark s-text-color-nu px-1">
                 {label}
             </span>
         </div>
@@ -158,77 +158,108 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
     }, [ddKey, osIdRefList, osPosition])
 
     return (
-        <div className="d-flex w-100 flex-column px-3 py-2">
-            <div
-                className="d-flex w-100 s-section-primary p-2 align-items-center flex-wrap shadow rounded-2"
-                style={{ cursor: !isMaxLevel ? "pointer" : "default" }}>
+        <div
+            className="d-flex w-100 flex-column my-2 s-text-color-beta"
+            style={{ paddingLeft: level !== 1 ? 60 : 0 }}>
+            <div className="d-flex space-x-3">
                 <div
-                    //@ts-ignore
-                    ddKey={ddKey}
-                    className="d-flex w-100 align-items-center AdminNavItem"
-                    {...getToggleProps({
-                        onClick: () => {
-                            if (!isMaxLevel && !isDraggable)
-                                setExpanded((prevExpanded) => !prevExpanded)
-                        }
-                    })}
-                    style={{ flex: 1 }}>
-                    <div className="d-flex w-100 align-items-center" ref={drag}>
-                        <HiMiniBars4 style={{ margin: "0 10px 0 0" }} />
-                        <span>{name}</span>
-                        <Badge label={target} />
-                        <span className="text-level-remark">{url}</span>
+                    className="d-flex w-100 align-items-center flex-wrap space-x-2"
+                    style={{
+                        cursor: !isMaxLevel ? "pointer" : "default",
+                        border: "2px solid var(--static-color-text-epsilon)",
+                        borderRadius: 12,
+                        height: 50,
+                        background:
+                            level !== 1 ? "var(--static-bg-quinary)" : "inherit"
+                    }}>
+                    <div
+                        //@ts-ignore
+                        ddKey={ddKey}
+                        className="d-flex w-100 align-items-center AdminNavItem px-3"
+                        {...getToggleProps({
+                            onClick: () => {
+                                if (!isMaxLevel && !isDraggable)
+                                    setExpanded((prevExpanded) => !prevExpanded)
+                            }
+                        })}
+                        style={{ flex: 1 }}>
+                        <div
+                            className="d-flex w-100 align-items-center"
+                            ref={drag}>
+                            <HiMiniBars4 style={{ margin: "0 10px 0 0" }} />
+                            <span className="text-level-caption text-font-medium">
+                                {name}
+                            </span>
+                            <Badge label={target} />
+                            <span className="text-level-remark">{url}</span>
+                        </div>
                     </div>
-                </div>
 
-                {!excludeSetting && (
-                    <AdminIconButton
-                        icon={<HiPencil />}
-                        authCode="EDIT_NAVIGATION"
-                        onActionClick={() => {
-                            onEditNavItem(refIdx)
-                        }}
-                    />
-                )}
-                {isDraggable && isOutermost && idx !== 0 && (
-                    <HiArrowUpCircle
-                        style={{ width: 24, height: 24 }}
-                        onClick={() => {
-                            updateNavParentLevel &&
-                                updateNavParentLevel(idx, "u")
-                        }}
-                    />
-                )}
-                {isDraggable && isOutermost && !isLast && (
-                    <HiArrowDownCircle
-                        style={{ width: 24, height: 24 }}
-                        onClick={() => {
-                            updateNavParentLevel &&
-                                updateNavParentLevel(idx, "d")
-                        }}
-                    />
-                )}
-                {!excludeSetting && (
-                    <AdminIconButton
-                        icon={
-                            !isMaxLevel ? (
-                                <HiFolderRemove />
-                            ) : (
-                                <HiDocumentRemove />
-                            )
-                        }
-                        authCode="EDIT_NAVIGATION"
-                        onActionClick={() => {
-                            onRemoveNavItem(refIdx)
-                        }}
-                    />
-                )}
+                    {!excludeSetting && (
+                        <AdminActionButton
+                            label="Edit"
+                            authCode="EDIT_NAVIGATION"
+                            onClick={() => {
+                                onEditNavItem(refIdx)
+                            }}
+                            style={{ minWidth: 50 }}
+                        />
+                    )}
+                    {isDraggable && isOutermost && idx !== 0 && (
+                        <HiArrowUpCircle
+                            style={{
+                                width: 30,
+                                height: 30,
+                                color: "var(--static-color-secondary)"
+                            }}
+                            onClick={() => {
+                                updateNavParentLevel &&
+                                    updateNavParentLevel(idx, "u")
+                            }}
+                        />
+                    )}
+                    {isDraggable && isOutermost && !isLast && (
+                        <HiArrowDownCircle
+                            style={{
+                                width: 30,
+                                height: 30,
+                                color: "var(--static-color-secondary)"
+                            }}
+                            onClick={() => {
+                                updateNavParentLevel &&
+                                    updateNavParentLevel(idx, "d")
+                            }}
+                        />
+                    )}
+                    {!excludeSetting && (
+                        <AdminActionButton
+                            label="Remove"
+                            authCode="EDIT_NAVIGATION"
+                            style={{ minWidth: 80 }}
+                            onClick={() => {
+                                onRemoveNavItem(refIdx)
+                            }}
+                        />
+                    )}
+                    {!isMaxLevel && (
+                        <div className="d-flex px-2">
+                            {isExpanded ? <HiChevronUp /> : <HiChevronDown />}
+                        </div>
+                    )}
+                </div>
                 {!isMaxLevel && (
-                    <div className="d-flex px-2">
-                        {isExpanded ? <HiChevronUp /> : <HiChevronDown />}
-                    </div>
+                    <AdminNavButton
+                        icon={<FaArrowDownWideShort />}
+                        label={name}
+                        onNavClick={() => {
+                            onAddNavItem(refIdx)
+                        }}
+                        authCode="EDIT_NAVIGATION"
+                        disabled={!isShowSetting || isDraggable}
+                    />
                 )}
             </div>
+
             {isFitOffset && (
                 <div
                     className="d-flex w-100"
@@ -256,17 +287,6 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                     )
                 })}
             </section>
-            {!isMaxLevel && (
-                <AdminNavButton
-                    icon={<HiFolderAdd />}
-                    label={name}
-                    onNavClick={() => {
-                        onAddNavItem(refIdx)
-                    }}
-                    authCode="EDIT_NAVIGATION"
-                    disabled={!isShowSetting || isDraggable}
-                />
-            )}
         </div>
     )
 }

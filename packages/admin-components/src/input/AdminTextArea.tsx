@@ -1,4 +1,5 @@
 import { ChangeEvent, useState, CSSProperties, useEffect } from "react"
+import { TextareaAutosize } from "@mui/base/TextareaAutosize"
 
 interface AdminTextInputInterface {
     label?: string
@@ -27,29 +28,26 @@ export const AdminTextArea: React.FC<AdminTextInputInterface> = ({
         setValue(defaultValue)
     }, [defaultValue])
     return (
-        <div className="w-100">
-            {label && (
-                <label className="s-text-color-alpha text-font-medium mb-2">
-                    {label}
-                </label>
-            )}
-            <div>
-                <textarea
-                    id="username"
-                    name="username"
+        <div className="w-100 Mui-TextArea">
+            <div
+                className="d-flex align-items-center w-100"
+                style={{
+                    flex: 1,
+                    height: 70,
+
+                    background: "white"
+                }}>
+                <TextareaAutosize
+                    className="s-text-color-alpha"
                     autoComplete="off"
-                    rows={3}
-                    required
-                    readOnly={readOnly}
-                    disabled={disabled}
-                    placeholder={placeHolder}
+                    placeholder={label ?? ""}
                     value={value}
-                    style={{ ...style }}
                     onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
                         setValue(event.target.value)
                         onChange(event.target.value)
                     }}
-                    className="block w-full rounded-md px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    readOnly={readOnly}
+                    disabled={disabled}
                 />
             </div>
         </div>

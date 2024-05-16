@@ -2,8 +2,8 @@
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-medium: 500;
-$font-weight-bold: 700;
-$font-weight-ultra-bold: 900;
+$font-weight-bold: 600;
+$font-weight-ultra-bold: 800;
 
 $static-font-weight: (
     "light": $font-weight-light,
@@ -21,6 +21,10 @@ $super-title: (
 $title: (
     null: 22px,
     $breakpoint-lg: 36px
+);
+$modal-title: (
+    null: 20px,
+    $breakpoint-lg: 30px
 );
 $subtitle: (
     null: 18px,
@@ -41,6 +45,14 @@ $sub-body: (
 $body: (
     null: 14px,
     $breakpoint-lg: 18px
+);
+$icon: (
+    null: 16px,
+    $breakpoint-lg: 20px
+);
+$content: (
+    null: 15px,
+    $breakpoint-lg: 16px
 );
 $detail-caption: (
     null: 16px,
@@ -66,11 +78,14 @@ $button: (
 $static-font-level: (
     "super-title": $super-title,
     "title": $title,
+    "modal-title": $modal-title,
     "subtitle": $subtitle,
     "sub-headline": $sub-headline,
     "headline": $headline,
     "sub-body": $sub-body,
     "body": $body,
+    "icon": $icon,
+    "content": $content,
     "caption": $caption,
     "remark": $remark,
     "button": $button,
