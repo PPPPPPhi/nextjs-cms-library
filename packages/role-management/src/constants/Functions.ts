@@ -22,7 +22,8 @@ export const PAGE_AUTHORIZATION_MAP = {
     VIEW_NAVIGATION_PUBLICATION: 50030003,
     VIEW_HEADER_SETTING_PUBLICATION: 50010002,
     VIEW_FOOTER_SETTING_HISTORY: 50020003,
-    MANAGE_SITE: 20030001
+    MANAGE_SITE: 20030001,
+    MANAGE_SITE_BUBBLE: 20030002
 }
 
 export const ACTION_AUTHORIZATION_MAP = {
@@ -100,6 +101,7 @@ export type ACTION_TYPE = {
     COMPARE_NAVIGATION_HISTORY: number
     COMPARE_HEADER_SETTING_HISTORY: number
     COMPARE_FOOTER_SETTING_HISTORY: number
+    MANAGE_SITE_BUBBLE: number
 }
 
 export const FUNCTION_CATEGORIES = {
@@ -115,5 +117,10 @@ export const FUNCTION_CATEGORIES = {
     5001: "Header Management",
     5002: "Footer Management",
     5003: "Navigation Management",
-    5004: "Notice Management"
+    5004: "Notice Management",
+    8101: "Order Management",
+    8201: "Company Management",
+    8301: "Manage Users",
+    8401: "Edit Message Center",
+    8501: "Manage Report"
 }

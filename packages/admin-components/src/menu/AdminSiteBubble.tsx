@@ -10,6 +10,7 @@ import {
 import { siteType } from "@nextjs-cms-library/db-services/index"
 import { useParams, useRouter } from "next/navigation"
 import { useAdminAuthorizationContext } from "../../../role-management/src/contexts"
+import { useActionAuthorizationHook } from "@nextjs-cms-library/role-management/index"
 
 interface AdminSiteBubbleInterface {
     sites: siteType[]
@@ -20,6 +21,8 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
     sites,
     isCollapsed
 }) => {
+    const { isAuthorized } = useActionAuthorizationHook("MANAGE_SITE_BUBBLE")
+
     const [options, setOptions] = useState<{ label: string; value: string }[]>()
     const { roleFairList } = useAdminAuthorizationContext()
 
@@ -53,6 +56,7 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
         }
     }, [sites, roleFairList])
 
+    if (!isAuthorized) return <></>
     return (
         <div
             className="d-flex w-100 px-3 align-items-center justify-content-center"

@@ -66,6 +66,7 @@ export const getPageAuthorization = (pathname: string) => {
 export const getActionAuthorization = (
     action: keyof ACTION_TYPE | keyof VIEW_TYPE
 ) => {
+    //@ts-ignore
     return ACTION_AUTHORIZATION_MAP[action] ?? -99
 }
 

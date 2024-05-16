@@ -434,7 +434,7 @@ export const AdminNavigationDisplay: React.FC<
                 disabled={!isShowSetting}
             />
             <div
-                className="d-flex flex-column w-100 shadow-sm s-section-quaternary p-3 mt-3"
+                className="d-flex flex-column w-100 h-100 shadow-sm s-section-quaternary p-3 mt-3"
                 style={{
                     borderRadius: 12,
                     border: "1px solid var(--static-bg-boundary)"
