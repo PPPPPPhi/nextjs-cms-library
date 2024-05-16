@@ -1,0 +1,249 @@
+openapi: 3.0.3
+info:
+    title: NextJs CMS - Function Service
+    description: ""
+    termsOfService: http://swagger.io/terms/
+    contact:
+        email: apiteam@swagger.io
+    license:
+        name: Apache 2.0
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
+    version: 1.0.11
+externalDocs:
+    description: Find out more about Swagger
+    url: http://swagger.io
+servers:
+    - url: https://petstore3.swagger.io/api/v3
+
+paths:
+    /role:
+        get:
+            summary: Get Role List
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                                    roles:
+                                        type: array
+                                        items:
+                                            $ref: "#/components/schemas/RoleAssignmentRequest"
+                "500":
+                    description: Failed
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+
+    /role/assign/user:
+        post:
+            summary: Assign User Role
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                userId:
+                                    type: string
+                                roleId:
+                                    type: array
+                                    items:
+                                        type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+                                    status:
+                                        type: integer
+                                        example: 400
+                "500":
+                    description: Failed
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+                                    status:
+                                        type: integer
+                                        example: 500
+
+    /role/assign/function:
+        post:
+            summary: Update Functions in Role by functionId
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            $ref: "#/components/schemas/RoleAssignmentRequest"
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+                                    status:
+                                        type: integer
+                                        example: 500
+                "500":
+                    description: Failed
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+                                    status:
+                                        type: integer
+                                        example: 500
+
+components:
+    schemas:
+        Role:
+            type: object
+            properties:
+                _id:
+                    type: string
+                    format: objectid
+                    example: 6628cfdf94b754cc7b760aff
+                roleName:
+                    type: string
+                    example: Normal User
+                description:
+                    type: string
+                    example: View User Management only
+                functions_lookUp:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Function"
+                sites:
+                    type: array
+                    items:
+                        type: string
+                    example: demo
+                createdBy:
+                    type: string
+                    example: admin
+                updatedBy:
+                    type: string
+                    example: admin
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+                __v:
+                    type: integer
+
+        Function:
+            type: object
+            properties:
+                _id:
+                    type: object
+                    properties:
+                        $oid:
+                            type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                functionId:
+                    type: integer
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+                __v:
+                    type: integer
+            example:
+                _id:
+                    $oid: "662781430e3e0315bd2c624f"
+                name: VIEW_ROLE_MANAGEMENT
+                description: View role management
+                __v: 0
+                createdAt: "2024-02-15T12:01:08.047Z"
+                updatedAt: "2024-02-15T12:01:08.047Z"
+                functionId: 10020001
+
+        RoleAssignmentRequest:
+            type: object
+            properties:
+                functionId:
+                    type: string
+                    example: 1002001,2002003
+                _id:
+                    type: string
+                    example: 6628cfdf94b754cc7b760aff
+                roleName:
+                    type: string
+                    example: Normal User
+                description:
+                    type: string
+                    example: View User Management only
+                sites:
+                    type: string
+                    example: demo
+                isCreate:
+                    type: boolean
+                    example: false

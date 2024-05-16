@@ -1,0 +1,704 @@
+openapi: 3.0.3
+info:
+  title: NextJs CMS - Page & Publication Service
+  description: ""
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+
+
+paths:
+
+  /page/{site}:
+    get:
+      summary: Get Page List
+      parameters:
+        - name: site
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  pages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Page'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+    post:
+      summary: Create Page
+      parameters:
+        - name: site
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                slug:
+                  type: string
+                language:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  _id:
+                    $ref: "#/components/schemas/ObjectId"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+
+  /page/{pageId}:
+    get:
+      summary: Get Page
+      parameters:
+        - in: path
+          name: pageId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: version
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  page:
+                    $ref: '#/components/schemas/Page'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+    post:
+      summary: Update Page
+      parameters:
+        - in: path
+          name: pageId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageUpdateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+    put:
+      summary: Update Page JSON
+      parameters:
+        - in: path
+          name: pageId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageJsonUpdateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+
+
+  /page/{site}/clone/{slug}:
+    post:
+      summary: Clone Language Page
+      parameters:
+        - name: site
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                refLanguage:
+                  type: string
+                language:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Failed
+                  status:
+                    type: integer
+                    example: 500
+
+  /page/{site}/{pageId}/history:
+    get:
+      summary: Get Page History
+      parameters:
+        - name: site
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pageId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  histories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PagePublication'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Failed
+                  status:
+                    type: integer
+                    example: 500
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Failed
+                  status:
+                    type: integer
+                    example: 500
+
+  /publication/{site}:
+    get:
+      summary: Get Publication List
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                $ref: '#/components/schemas/PublicationListResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      
+  
+    post:
+      summary: Publish a Page
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PublishPageRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  publication:
+                    $ref: '#/components/schemas/PagePublication'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /publication/{site}/{publicationId}:
+    put:
+      summary: Update Publication Status
+      parameters:
+        - in: path
+          name: publicationId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                publicationId: 
+                  type: string
+                  example: 6637781c885e014616024641
+                status: 
+                  type: string
+                  example: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /publication/{publicationId}/history:
+    get:
+      summary: Get Publication History
+      parameters:
+        - in: path
+          name: publicationId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  histories: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PagePublication'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Page:
+      type: object
+      properties:
+        name:
+          type: string
+          example: demo page
+        description:
+          type: string
+        language:
+          type: string
+          example: en
+        site:
+          type: string
+          example: demo
+        slug:
+          type: string
+          example: demo-page
+        status:
+          type: integer
+          example: 1
+        pageJson:
+          $ref: '#/components/schemas/PageJson'
+        createdBy:
+          type: string
+          example: admin
+        updatedBy:
+          type: string
+          example: admin
+        createdAt:
+          $ref: '#/components/schemas/Timestamp'
+        updatedAt:
+          $ref: '#/components/schemas/Timestamp'
+    PageJson: 
+      type: string
+      example: [{"element":"three-column","label":"Three Column","placeholder":"Input here ...","value":"Morning World three-column","type":"three-column","children":[{"element":"text","type":"text","properties":[{"element_id":"text_label","label":"Label","placeholder":"Input here ...","value":"","type":"text"},{"element_id":"text_value","label":"Value","placeholder":"Input here ...","value":"The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.","type":"text"}],"id":"58fbdd39-8017-4b16-9463-7439d7c3fbda","childType":"three-column-first"},{"element":"image","type":"image","properties":[{"element_id":"image_label","label":"Label","placeholder":"Input here ...","value":"Image Label","type":"text"},{"element_id":"image_src","label":"Image","placeholder":"Input here ...","value":"","type":"image"},{"element_id":"image_alignment","label":"Alignment","value":"center","type":"select","options":[{"label":"Left","value":"left"},{"label":"Center","value":"center"},{"label":"Right","value":"right"},{"label":"Top","value":"top"},{"label":"Bottom","value":"bottom"}]},{"element_id":"image_position","label":"Position","value":"contain","type":"select","options":[{"label":"Contain","value":"contain"},{"label":"Cover","value":"cover"},{"label":"Fill","value":"fill"}]}],"id":"1a207ece-d243-4703-b4b1-83ec7de21b79","childType":"three-column-second"},{"element":"text","type":"text","properties":[{"element_id":"text_label","label":"Label","placeholder":"Input here ...","value":"“Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”","type":"text"},{"element_id":"text_value","label":"Value","placeholder":"Input here ...","value":"","type":"text"}],"id":"6fa3f687-bad9-4918-8fbb-cecef7169952","childType":"three-column-third"}],"id":"2ac1bbff-f337-40e4-8260-ef7b5b2bfd3e"},{"element":"text","type":"text","properties":[{"element_id":"text_label","label":"Label","placeholder":"Input here ...","value":"Text Label 1","type":"text"},{"element_id":"text_value","label":"Value","placeholder":"Input here ...","value":"Morning World2","type":"text"}],"id":"a63d9e06-f587-4e4b-a925-5ad41ce15432"},{"element":"text","type":"text","properties":[{"element_id":"text_label","label":"Label","placeholder":"Input here ...","value":"Text Label","type":"text"},{"element_id":"text_value","label":"Value","placeholder":"Input here ...","value":"Morning World","type":"text"}],"id":"c2b77bdb-fb3d-444e-8655-8a01ccddfc57"}]
+    PageUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    PageJsonUpdateRequest:
+      type: object
+      properties:
+        pageJson:
+          type: string
+    Timestamp:
+      type: object
+      properties:
+        $date:
+          type: string
+          format: date-time
+    ObjectId:
+      type: object
+      properties:
+        $oid:
+          type: string
+          example: 6627981b446a3db04cb34f21
+
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Failed
+        status:
+          type: integer
+          example: 500
+
+    PublicationListResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+        publications:
+          type: array
+          items:
+            $ref: '#/components/schemas/PagePublication'
+    PublishPageRequest:
+      type: object
+      properties:
+        pageId:
+          type: string
+          example: 6637781c885e014616024641
+        version:
+          type: string
+          example: 3.0.0
+    PagePublication:
+      type: object
+      properties:
+        _id:
+          $ref: "#/components/schemas/ObjectId"
+        name:
+          type: string
+          example: Promotion Page
+        description:
+          type: string
+        language:
+          type: string
+          example: en
+        pageId:
+          $ref: '#/components/schemas/ObjectId'
+        pageVersion:
+          type: string
+          example: 2.0.0
+        site:
+          type: string
+          example: arome
+        slug:
+          type: string
+          example: promotion-page
+        status:
+          type: integer
+          example: 1
+        pagePageJson:
+          $ref: '#/components/schemas/PageJson'
+
+        createdBy:
+          type: string
+          example: admin
+        updatedBy:
+          type: string
+          example: admin
+        createdAt:
+          $ref: '#/components/schemas/Timestamp'
+        updatedAt:
+          $ref: '#/components/schemas/Timestamp'
+        __v:
+          type: integer
