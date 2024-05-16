@@ -1,5 +1,11 @@
 # @repo/ui
 
+## 0.4.0
+
+### Minor Changes
+
+- 21dbf71: update
+
 ## 0.3.6
 
 ### Patch Changes
