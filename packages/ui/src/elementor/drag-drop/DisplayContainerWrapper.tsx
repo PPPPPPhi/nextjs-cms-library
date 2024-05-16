@@ -8,11 +8,12 @@ import { PropertiesPanelArea } from "./property-panel/PropertiesPanelArea"
 
 interface DisplayContainerWrapperInterface {
     pageJson: any
+    editPageInfo: () => void
 }
 
 export const DisplayContainerWrapper: React.FC<
     DisplayContainerWrapperInterface
-> = ({ pageJson }) => {
+> = ({ pageJson, editPageInfo }) => {
     const { pageInfo } = useAdminContext()
     const { submit, readOnly, propertiesEditList } = useDisplayPanelContext()
 
@@ -34,10 +35,7 @@ export const DisplayContainerWrapper: React.FC<
                             actionLabel: "Edit Page Info",
                             desc: "Preview page in a new tab",
                             action: () => {
-                                window.open(
-                                    `${process.env.NEXT_DNS_PATH}/preview/${site}/${language}/${pageId}`,
-                                    "_blank"
-                                )
+                                editPageInfo()
                             },
                             isFull: true
                         },

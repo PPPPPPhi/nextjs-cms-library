@@ -25,6 +25,7 @@ export const AdminActionButton: React.FC<AdminActionButtonInterface> = (
     const { isAuthorized } = useActionAuthorizationHook(
         authCode ?? "AVAILABLE_CODE"
     )
+
     const isDisabled = disabled || !isAuthorized
 
     return (

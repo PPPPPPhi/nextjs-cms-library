@@ -46,6 +46,7 @@ interface AdminTableInterface {
     excludeExport?: boolean
     isRefresh?: boolean
     getData?: () => void
+    style?: React.CSSProperties
 }
 
 export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
@@ -62,7 +63,8 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
             tableMinHeight = 400,
             excludeExport,
             isRefresh,
-            getData
+            getData,
+            style
         },
         ref
     ) => {
@@ -213,13 +215,14 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
         console.log("data bbb", data)
 
         return (
-            <div className="d-flex flex-column w-100 h-100 p-2">
+            <div className="d-flex flex-column w-100 h-100 p-2 space-y-2">
                 <div
                     className="overflow-auto shadow-sm"
                     style={{
                         minHeight: tableMinHeight,
                         borderRadius: 24,
-                        border: "1px solid #F1F1F1"
+                        border: "1px solid #F1F1F1",
+                        ...style
                     }}>
                     <table className="w-100 overflow-auto">
                         <thead

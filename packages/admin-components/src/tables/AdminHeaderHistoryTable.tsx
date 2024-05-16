@@ -34,7 +34,7 @@ export const AdminHeaderHistoryTable: React.FC<
                         accessorKey: "_id",
                         header: "",
                         cellType: "action",
-                        headerIcon: <HiEye />,
+                        actionTitle: "View",
                         size: 100,
                         action: (data) => {
                             const { _id, version } = data

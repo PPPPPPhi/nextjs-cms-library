@@ -20,18 +20,22 @@ type DisplayContainerProps = {
     submit: (pageData: PropertiesComponentProps[]) => Promise<void>
     setModal: Dispatch<SetStateAction<any>>
     setLoading: Dispatch<SetStateAction<boolean>>
+    editPageInfo: () => void
     readOnly?: boolean
 }
 
 export const DisplayContainer: React.FC<DisplayContainerProps> = (props) => {
-    const { readOnly } = props ?? {}
+    const { readOnly, editPageInfo } = props ?? {}
 
     return (
         <div className="d-flex h-100 w-100">
             <DisplayPanelContextProvider {...props}>
                 <DisplayController />
                 <DndProvider backend={HTML5Backend}>
-                    <DisplayContainerWrapper pageJson={props?.pageJson} />
+                    <DisplayContainerWrapper
+                        pageJson={props?.pageJson}
+                        editPageInfo={editPageInfo}
+                    />
                 </DndProvider>
             </DisplayPanelContextProvider>
         </div>

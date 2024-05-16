@@ -28,7 +28,7 @@ const useActionAuthorization = (
     const isAuthorized = useMemo(() => {
         if (!action) return true
         return checkAuthorization(action)
-    }, [action])
+    }, [action, role])
 
     return {
         isAuthorized

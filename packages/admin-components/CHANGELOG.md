@@ -1,5 +1,29 @@
 # @nextjs-cms-library/admin-components
 
+## 1.2.4
+
+### Patch Changes
+
+- update bug fix
+
+## 1.2.3
+
+### Patch Changes
+
+- update
+
+## 1.2.2
+
+### Patch Changes
+
+- bug fix
+
+## 1.2.1
+
+### Patch Changes
+
+- update new style
+
 ## 1.2.0
 
 ### Minor Changes

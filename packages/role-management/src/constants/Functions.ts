@@ -21,7 +21,8 @@ export const PAGE_AUTHORIZATION_MAP = {
     VIEW_TRANSLATION: 40010003,
     VIEW_NAVIGATION_PUBLICATION: 50030003,
     VIEW_HEADER_SETTING_PUBLICATION: 50010002,
-    VIEW_FOOTER_SETTING_HISTORY: 50020003
+    VIEW_FOOTER_SETTING_HISTORY: 50020003,
+    MANAGE_SITE: 20030001
 }
 
 export const ACTION_AUTHORIZATION_MAP = {
@@ -106,6 +107,7 @@ export const FUNCTION_CATEGORIES = {
     1002: "Role Management",
     2001: "Site Setting Management",
     2002: "Site Control Managment",
+    2003: "Site Management",
     3001: "Page Management",
     4001: "Image Management",
     4002: "Document Management",

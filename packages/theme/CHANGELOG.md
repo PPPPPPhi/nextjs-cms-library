@@ -1,5 +1,23 @@
 # @nextjs-cms-library/theme
 
+## 3.2.3
+
+### Patch Changes
+
+- update bug fix
+
+## 3.2.2
+
+### Patch Changes
+
+- update
+
+## 3.2.1
+
+### Patch Changes
+
+- update new style
+
 ## 3.2.0
 
 ### Minor Changes

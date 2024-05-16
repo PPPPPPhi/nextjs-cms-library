@@ -30,6 +30,7 @@ export const AdminUserManagementTable: React.FC<
                 data={data ?? []}
                 pinColumns={["_id", "_idx", "_idxx", "_activate"]}
                 exportAuthCode="USER_VIEW_ROLE"
+                style={{ height: "100%" }}
                 columnDefs={[
                     {
                         accessorKey: "_id",

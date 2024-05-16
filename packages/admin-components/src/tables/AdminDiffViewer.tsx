@@ -51,8 +51,12 @@ export const AdminDiffViewer: React.FC<AdminDiffViewerInterface> = ({
 
     return (
         <div
-            className="d-flex s-section-quaternary overflow-auto shadow"
-            style={{ flex: 1, minHeight: 500 }}>
+            className="d-flex s-section-quaternary overflow-y-auto shadow-sm"
+            style={{
+                height: 500,
+                borderRadius: 12,
+                border: "1px solid #F1F1F1"
+            }}>
             {diff && (
                 <div className="w-100 d-flex flex-column h-100">
                     <div

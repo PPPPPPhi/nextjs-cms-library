@@ -1,6 +1,6 @@
 {
     "name": "@nextjs-cms-library/theme",
-    "version": "3.2.0",
+    "version": "3.2.3",
     "description": "global scss style for the nextjs-cms project",
     "exports": {
         "./index": "./src/index.ts"

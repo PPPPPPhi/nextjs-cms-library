@@ -36,6 +36,7 @@ export const AdminPublicationListTable: React.FC<
             <AdminTable
                 data={data ?? []}
                 pinColumns={["slug", "language", "pageVersion"]}
+                style={{ height: "100%" }}
                 columnDefs={[
                     {
                         accessorKey: "slug",

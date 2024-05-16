@@ -68,3 +68,11 @@ export const getActionAuthorization = (
 ) => {
     return ACTION_AUTHORIZATION_MAP[action] ?? -99
 }
+
+export const getPageViewAuthorization = (
+    //@ts-ignore
+    action: keyof PAGE_AUTHORIZATION_MAP
+) => {
+    //@ts-ignore
+    return PAGE_AUTHORIZATION_MAP[action] ?? -99
+}

@@ -32,42 +32,45 @@ const AdminRoleCard: React.FC<AdminRoleCardInterface> = ({
         <div
             className="d-flex flex-column justify-content-center"
             {...getToggleProps({
-                onClick: () => setExpanded((prevExpanded) => !prevExpanded)
+                onClick: () => {
+                    setCurrentRole(roleName)
+                    setExpanded((prevExpanded) => !prevExpanded)
+                }
             })}>
             <div
-                className="d-flex flex-column s-section-quaternary p-2 justify-content-center"
+                className="d-flex flex-column s-section-quaternary p-3 justify-content-center"
                 style={{
                     height: 110,
                     borderRadius: 12,
                     border:
-                        role === roleName
+                        currentRole === roleName
                             ? "3px solid var(--static-color-primary)"
                             : "3px solid var(--static-color-text-gamma)"
                 }}>
-                <div className="d-flex">
-                    <input
-                        className="mx-2"
-                        type="radio"
-                        id="html"
-                        checked={currentRole === roleName}
-                        name="Role_Selection"
-                        value={roleName}
-                        onChange={(evt) => {
-                            setCurrentRole(roleName)
-                        }}
-                    />
+                <div className="d-flex space-x-2">
                     <span
-                        className={`text-font-bold text-level-headline px-2 ${role === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}>
+                        className={`text-font-bold text-level-headline px-2 ${role === roleName || currentRole === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}>
                         {roleName} -
                     </span>
                     <span
-                        className={`text-font-medium text-level-headline ${role === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}>
-                        {sites.join(",")}
+                        className={`text-font-medium text-level-headline ${role === roleName || currentRole === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}>
+                        {sites.join(", ")}
                     </span>
+                    {role === roleName && (
+                        <span
+                            className="s-section-secondary s-text-color-nu"
+                            style={{
+                                borderRadius: 15,
+                                padding: "0px 10px",
+                                lineHeight: "30px",
+                                height: 30
+                            }}>
+                            Current
+                        </span>
+                    )}
                 </div>
                 <span
-                    className={`text-font-normal text-level-body mx-2 ${role === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}
-                    style={{ paddingLeft: 30 }}>
+                    className={`text-font-normal text-level-body mx-2 ${role === roleName || currentRole === roleName ? "s-text-color-beta" : "s-text-color-gamma"}`}>
                     {description}
                 </span>
             </div>

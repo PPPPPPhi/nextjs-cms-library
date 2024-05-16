@@ -162,7 +162,9 @@ export const AdminRoleMappingDisplay: React.FC<
     const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
 
     return (
-        <div className="d-flex flex-column w-100 s-section-quaternary shadow-sm overflow-hidden overflow-y-auto">
+        <div
+            className="d-flex flex-column w-100 s-section-quaternary shadow-sm overflow-hidden overflow-y-auto"
+            style={{ borderRadius: 12 }}>
             {(roles ?? []).map((l, idx) => (
                 <Collapsed
                     isEven={idx % 2 === 1}

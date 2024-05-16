@@ -72,12 +72,6 @@ export const AdminEditUserRoleForm: React.FC<AdminEditUserFormInterface> = ({
                 disabled
             />
             <AdminTextInput
-                label="First Name"
-                defaultValue={defaultValue?.firstName ?? ""}
-                onChange={(v) => {}}
-                disabled
-            />
-            <AdminTextInput
                 label="Last Name"
                 defaultValue={defaultValue?.lastName ?? ""}
                 onChange={(v) => {}}

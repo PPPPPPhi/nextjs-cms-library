@@ -75,7 +75,7 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
                         onChange(event.target.value)
                     }}
                     InputProps={{
-                        endAdornment: endAdorment && (
+                        endAdornment: endAdorment.label && (
                             <AdminActionButton
                                 inverseStyle
                                 label={endLabel as string}

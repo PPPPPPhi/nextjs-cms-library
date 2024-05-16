@@ -45,11 +45,12 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> =
         }>()
 
         return (
-            <div className="d-flex w-100 overflow-auto">
+            <div className="d-flex w-100">
                 <AdminTable
                     data={data ?? []}
                     ref={tableContainerRef}
                     pinColumns={["slug", "language"]}
+                    style={{ height: "100%" }}
                     columnDefs={[
                         {
                             accessorKey: "slug",

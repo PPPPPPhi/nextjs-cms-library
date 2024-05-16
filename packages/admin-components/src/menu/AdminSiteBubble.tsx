@@ -56,7 +56,7 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
     return (
         <div
             className="d-flex w-100 px-3 align-items-center justify-content-center"
-            style={{ height: 60 }}>
+            style={{ minHeight: 60 }}>
             <div
                 className={`d-flex w-100 s-section-secondary align-items-center justify-content-center`}
                 style={{ height: 46, borderRadius: 12, padding: "7px 15px" }}>

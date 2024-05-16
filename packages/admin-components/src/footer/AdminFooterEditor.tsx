@@ -71,12 +71,14 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
 
     return (
         <div
-            className="d-flex flex-column w-100 s-section-primary rounded-2 shadow p-4"
-            style={{ flex: 1 }}>
-            <div className="d-flex w-100">
-                <div
-                    className="d-flex w-100 py-2 flex-column align-content-between justify-content-between"
-                    style={{ flex: 1 }}>
+            className="d-flex flex-column w-100 shadow-sm p-4"
+            style={{
+                flex: 1,
+                borderRadius: 12,
+                border: "1px solid #F1F1F1"
+            }}>
+            <div className="d-flex w-100 justify-content-between">
+                <div className="d-flex w-100 py-2 flex-column justify-content-between space-y-2">
                     <AdminTabMenu
                         tabList={["html", "css", "script"]}
                         callback={(tab) => {
@@ -97,26 +99,28 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                         defaultTab={1}
                     />
                 </div>
-                <AdminCard
-                    cardsRef={[
-                        {
-                            actionLabel: "View History",
-                            desc: "View history of footer",
-                            action: () => {
-                                router.push("./footer/history")
+                <div style={{ width: 350 }}>
+                    <AdminCard
+                        cardsRef={[
+                            {
+                                actionLabel: "View History",
+                                desc: "View history of footer",
+                                action: () => {
+                                    router.push("./footer/history")
+                                },
+                                authCode: "VIEW_FOOTER_SETTING_HISTORY"
                             },
-                            authCode: "VIEW_FOOTER_SETTING_HISTORY"
-                        },
-                        {
-                            actionLabel: "Save",
-                            desc: "Save footer",
-                            action: () => {
-                                saveFooter(value as footerPropertiesType)
-                            },
-                            authCode: "EDIT_FOOTER_SETTING"
-                        }
-                    ]}
-                />
+                            {
+                                actionLabel: "Save",
+                                desc: "Save footer",
+                                action: () => {
+                                    saveFooter(value as footerPropertiesType)
+                                },
+                                authCode: "EDIT_FOOTER_SETTING"
+                            }
+                        ]}
+                    />
+                </div>
             </div>
 
             <div
@@ -165,9 +169,9 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                 />
             </div>
             <div className="d-flex w-100 s-section-primary align-item-center">
-                <div className="d-flex p-2 space-x-3 w-100">
+                {/* <div className="d-flex p-2 space-x-3 w-100">
                     <div style={{ flex: 1 }} />
-                </div>
+                </div> */}
             </div>
         </div>
     )
