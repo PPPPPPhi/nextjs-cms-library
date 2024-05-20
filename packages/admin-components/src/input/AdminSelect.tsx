@@ -12,6 +12,8 @@ interface AdminSelectInterface {
     label?: string
     placeHolder?: string
     remark?: string
+    style?: React.CSSProperties
+    inputStyle?: React.CSSProperties
 }
 
 export const AdminSelect: React.FC<AdminSelectInterface> = ({
@@ -20,7 +22,9 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     defaultValue,
     label,
     placeHolder,
-    remark
+    remark,
+    style,
+    inputStyle
 }) => {
     const [selectedOption, setSelectedOption] = useState<any>(placeHolder)
 
@@ -39,7 +43,8 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
 
     return (
         <div className="w-100">
-            <FormControl sx={{ m: 1, minWidth: 80, background: "white" }}>
+            <FormControl
+                sx={{ m: 1, minWidth: 80, background: "white", ...style }}>
                 <InputLabel id="demo-simple-select-autowidth-label">
                     {label}
                 </InputLabel>
@@ -50,7 +55,8 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
                     placeholder={placeH}
                     onChange={(evt) => setSelectedOption(evt.target.value)}
                     autoWidth
-                    label="Age">
+                    label="Age"
+                    style={{...inputStyle}}>
                     {options.map((l) => (
                         <MenuItem value={l.value}>
                             <em>{l.label}</em>

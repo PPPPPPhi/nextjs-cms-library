@@ -184,10 +184,10 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
                             isChecked={
                                 inputs.sites.includes("*")
                                     ? true
-                                    : (inputs.sites || []).includes(k.name)
+                                    : (inputs.sites || []).includes(k.slug)
                             }
                             onChange={() => {
-                                handleSiteChange(k.name)
+                                handleSiteChange(k.slug)
                             }}
                         />
                     </div>

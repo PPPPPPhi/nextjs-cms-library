@@ -88,6 +88,7 @@ export const propertyJson: PropertyJson = {
     type: "bento-grid",
     properties: [
         {
+            element_id: "bento_bg_color",
             label: "Background Color",
             placeholder: "",
             value: "aliceblue",

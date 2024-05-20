@@ -79,9 +79,12 @@ export const AdminFilterPanel: React.FC<FilterPanelInterface> = ({
     }
 
     return (
-        <div className="shadow p-2 mb-4">
+        <div
+            className="p-2 mb-4 s-section-quaternary"
+            style={{ borderRadius: 12 }}>
             <div
-                className="d-flex cursor-pointer flex-row align-itmes-center justify-content-between text-level-headline text-font-bold s-text-color-alpha p-2 s-section-primary rounded-2 "
+                className="d-flex cursor-pointer align-itmes-center s-section-quaternary justify-content-between text-level-body text-font-bold"
+                style={{ borderRadius: 12 }}
                 onClick={() => setDisplay(!isDisplay)}>
                 <div className="d-flex flex-row align-items-center">
                     <span className="px-2">

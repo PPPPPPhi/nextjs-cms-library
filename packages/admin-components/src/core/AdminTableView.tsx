@@ -22,7 +22,7 @@ export const AdminTableView: React.FC<AdminTableViewInterface> = ({
                 <tr>
                     {(headers ?? []).map((l) => (
                         <th
-                            className="s-section-primary"
+                            style={{ background: "var(--static-bg-quinary)" }}
                             colSpan={headers.length === 1 ? 2 : headers.length}>
                             {l}
                         </th>

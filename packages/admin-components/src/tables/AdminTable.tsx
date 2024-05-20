@@ -22,7 +22,7 @@ import { HiOutlineArrowPath } from "react-icons/hi2"
 import { columnDefsType } from "../types/type"
 import { AdminDiffViewer } from "./AdminDiffViewer"
 import { AdminTablePagination } from "./components/AdminTablePagination"
-import { AdminButton } from "../core"
+import { AdminActionButton } from "../core"
 import { getCsvBlob } from "tanstack-table-export-to-csv"
 import FileSaver from "file-saver"
 import { AdminCard } from "../core/AdminCard"
@@ -326,15 +326,14 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                 )}
                 {isRefresh && (
                     <div className="d-flex justify-content-end">
-                        <div style={{ width: 80 }}>
-                            <AdminButton
-                                Icon={HiOutlineArrowPath}
-                                label=""
-                                onClick={() => {
-                                    getData && getData()
-                                }}
-                            />
-                        </div>
+                        <AdminActionButton
+                            Icon={HiOutlineArrowPath}
+                            style={{ minWidth: 50 }}
+                            label=""
+                            onClick={() => {
+                                getData && getData()
+                            }}
+                        />
                     </div>
                 )}
                 {/* {!excludeExport && (

@@ -11,6 +11,7 @@ interface AdminTextInputInterface {
     readOnly?: boolean
     type?: string
     style?: CSSProperties
+    inputStyle?: CSSProperties
     action?: {
         label: string
         onAction: () => void
@@ -33,6 +34,7 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
     readOnly,
     type,
     style,
+    inputStyle,
     action,
     dialog,
     isRequired,
@@ -73,6 +75,11 @@ export const AdminTextInput: React.FC<AdminTextInputInterface> = ({
                     onChange={(event: ChangeEvent<HTMLInputElement>) => {
                         setValue(event.target.value)
                         onChange(event.target.value)
+                    }}
+                    inputProps={{
+                        style: {
+                            ...inputStyle
+                        }
                     }}
                     InputProps={{
                         endAdornment: endAdorment.label && (

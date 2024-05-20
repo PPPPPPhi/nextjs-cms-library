@@ -51,7 +51,7 @@ export const Testimonial: React.FC<TestimonialProps> = ({ properties }) => {
                                     borderRadius: 50
                                 }}>
                                 <PreviewSelectImage
-                                    value="/demo/digital-solutions.jpg"
+                                    value={l.image}
                                     style={{
                                         borderRadius: 100,
                                         objectFit: "cover"

@@ -16,8 +16,8 @@ export const AdminLabelButton: React.FC<AdminLabelButtonInterface> = ({
     actions
 }) => {
     return (
-        <div className="d-flex w-100" style={{ height: 38 }}>
-            <span>{label}</span>
+        <div className="d-flex w-100 align-items-center" style={{ height: 38 }}>
+            <span className="px-2">{label}</span>
             <div className="d-flex flex-wrap space-x-2">
                 {(actions ?? [])?.map((l) => {
                     const { label, icon, style, onAction } = l ?? {}

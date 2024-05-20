@@ -29,8 +29,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         props.selfData?.properties ?? props.properties
     )
     const { two_column_bg_color } = values
-    console.log("pppv 1", props)
-    console.log("pppv 2", values)
 
     return (
         <div>

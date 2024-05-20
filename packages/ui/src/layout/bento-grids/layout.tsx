@@ -5,6 +5,7 @@ import "./style.scss"
 import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { useMultiColumnsContext } from "../index"
 import { SubColumn, ElementorSubColumn } from "../common/index"
+import usePropertiesHook from "../../core/hook/usePropertiesHook"
 
 type BentoGridProps = WidgetProps &
     LayoutProps & {
@@ -19,10 +20,10 @@ export const BentoGrid: React.FC<BentoGridProps> = (props: BentoGridProps) => {
     const { id, isPreview, selfData, elements, isElementor, isMobileView } =
         props
 
-    const backgroundColor =
-        props.selfData?.properties?.find(
-            (l: any) => l.label === "Background Color"
-        )?.value ?? "brown"
+    const { values } = usePropertiesHook(
+        props.selfData?.properties ?? props.properties
+    )
+    const { bento_bg_color } = values
 
     const childrenValues = useMemo(() => {
         return selfData?.children ?? []
@@ -47,7 +48,7 @@ export const BentoGrid: React.FC<BentoGridProps> = (props: BentoGridProps) => {
 
     return (
         <div
-            style={{ backgroundColor: backgroundColor }}
+            style={{ backgroundColor: bento_bg_color }}
             className="bento-grid-style"
             onClick={() => updateFocusEditComponent()}>
             <div className={`p-1 col-12`}>

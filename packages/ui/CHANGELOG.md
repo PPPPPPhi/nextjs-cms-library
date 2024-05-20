@@ -1,5 +1,23 @@
 # @repo/ui
 
+## 0.4.3
+
+### Patch Changes
+
+- update bug fix
+
+## 0.4.2
+
+### Patch Changes
+
+- update
+
+## 0.4.1
+
+### Patch Changes
+
+- bug fix
+
 ## 0.4.0
 
 ### Minor Changes

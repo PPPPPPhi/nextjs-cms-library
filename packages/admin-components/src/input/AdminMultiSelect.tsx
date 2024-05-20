@@ -28,7 +28,11 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
     useEffect(() => {
         const list: MultiSelectType[] = []
 
-        value?.map((value: string) => {
+        console.log("value aaa", value)
+
+        const v = typeof value === "string" ? [value] : value
+
+        v?.map((value: string) => {
             const found: MultiSelectType | undefined = options?.find(
                 (option) => option.value == value
             )
@@ -44,7 +48,7 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
                 className="d-flex flex-wrap space-x-1 overflow-auto align-items-center"
                 style={{ height: 38 }}>
                 {selected.length
-                    ? selected.map(({ label, value }: any) => (
+                    ? selected?.map(({ label, value }: any) => (
                           <div className="my-1 s-section-secondary px-3 rounded-4 d-flex align-items-center py-1">
                               <span className="text-level-caption text-font-medium s-text-color-nu">
                                   {label}
@@ -76,7 +80,7 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
             {dialog && (
                 <div className="p-2" style={{ flex: 1 }}>
                     <div
-                        className="p-2 shadow s-section-primary rouded-2"
+                        className="p-2 shadow s-section-quaternary rouded-2"
                         style={{ borderLeft: "2px solid #CFCFCF" }}>
                         <span>{dialog}</span>
                     </div>

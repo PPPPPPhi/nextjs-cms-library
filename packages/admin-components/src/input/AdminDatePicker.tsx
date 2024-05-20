@@ -11,7 +11,8 @@ interface AdminDatePickerInterface {
     label?: string
     value: Date
     onChange: (d: string) => void
-    style: React.CSSProperties
+    style?: React.CSSProperties
+    inputStyle?: React.CSSProperties
     isShowTime?: boolean
 }
 
@@ -20,7 +21,8 @@ export const AdminDatePicker: React.FC<AdminDatePickerInterface> = ({
     value,
     onChange,
     style,
-    isShowTime
+    isShowTime,
+    inputStyle
 }) => {
     return (
         <div
@@ -41,6 +43,16 @@ export const AdminDatePicker: React.FC<AdminDatePickerInterface> = ({
                             console.log(`date picker`, v)
                             onChange(dayjs(v).format("YYYY-MM-DDTHH:mm:ss"))
                         }}
+                        sx={{ [".MuiTextField-root input"]: { ...inputStyle } }}
+                        slotProps={{
+                            textField: {
+                                inputProps: {
+                                    style: {
+                                        ...inputStyle
+                                    }
+                                }
+                            }
+                        }}
                     />
                 )}
                 {isShowTime && (
@@ -50,6 +62,15 @@ export const AdminDatePicker: React.FC<AdminDatePickerInterface> = ({
                         onChange={(v) => {
                             console.log(`date picker`, v)
                             onChange(dayjs(v).format("YYYY-MM-DDTHH:mm:ss"))
+                        }}
+                        slotProps={{
+                            textField: {
+                                inputProps: {
+                                    style: {
+                                        ...inputStyle
+                                    }
+                                }
+                            }
                         }}
                     />
                 )}

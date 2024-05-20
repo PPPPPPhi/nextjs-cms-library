@@ -1,5 +1,5 @@
 import { AdminSelect } from "../../input"
-import { AdminButton } from "../.."
+import { AdminActionButton } from "../.."
 import { Table } from "@tanstack/react-table"
 
 interface AdminTablePaginationInterface {
@@ -21,6 +21,7 @@ export const AdminTablePagination: React.FC<AdminTablePaginationInterface> = ({
                 </span>
                 <div style={{ flex: 3 }}>
                     <AdminSelect
+                        style={{ height: 48 }}
                         options={
                             PAGINATION_OPTIONS.map((k) => {
                                 return { label: k.toString(), value: k }
@@ -32,28 +33,28 @@ export const AdminTablePagination: React.FC<AdminTablePaginationInterface> = ({
                 </div>
             </div>
             <div className="d-flex space-x-2" style={{ flex: 1 }}>
-                <AdminButton
+                <AdminActionButton
                     label="<<"
                     onClick={() => {
                         table.firstPage()
                     }}
                     disabled={!table.getCanPreviousPage()}
                 />
-                <AdminButton
+                <AdminActionButton
                     label="<"
                     onClick={() => {
                         table.previousPage()
                     }}
                     disabled={!table.getCanPreviousPage()}
                 />
-                <AdminButton
+                <AdminActionButton
                     label=">"
                     onClick={() => {
                         table.nextPage()
                     }}
                     disabled={!table.getCanNextPage()}
                 />
-                <AdminButton
+                <AdminActionButton
                     label=">>"
                     onClick={() => {
                         table.lastPage()
