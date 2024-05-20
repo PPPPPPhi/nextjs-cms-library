@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation"
 interface AdminPublicationListTableInterface {
     data: publicationRowType[]
     updatePublicationStatus: (d: publishDetailType) => void
+    isCompatible: boolean
 }
 
 export type publishDetailType = {
@@ -27,7 +28,7 @@ export type publicationRowType = {
 
 export const AdminPublicationListTable: React.FC<
     AdminPublicationListTableInterface
-> = ({ data, updatePublicationStatus }) => {
+> = ({ data, updatePublicationStatus, isCompatible }) => {
     const router = useRouter()
     const { site } = useParams()
 
@@ -37,6 +38,8 @@ export const AdminPublicationListTable: React.FC<
                 data={data ?? []}
                 pinColumns={["slug", "language", "pageVersion"]}
                 style={{ height: "100%" }}
+                isCompatible={isCompatible}
+                compareField="pagePageJson"
                 columnDefs={[
                     {
                         accessorKey: "slug",

@@ -36,6 +36,8 @@ export const publishMarginal = async ({
             version
         )
 
+        console.log(`[publishMarginal] getMar`, getMarginal)
+
         const { marginals } = getMarginal
         const { publication } = await getMarginalPublicationByVersion(
             site,
@@ -73,17 +75,13 @@ export const publishMarginal = async ({
             await newPublishMarginal.save()
             return { message: "Success", status: 200 }
         } else {
-            const publishSetting = new (mongoose.models
-                .MarginalPublication as Model<any, {}, {}, {}, any, any>)({
-                ...publication,
-                _id: new Types.ObjectId(),
-                settingVersion: publication?.settingVersion ?? versionHistory,
-                status: 1,
-                updatedAt: new Date(),
-                __history: marginalHistory
-            })
+            const { properties, site } = publication._doc
 
-            await publishSetting.save()
+            const { createdAt } = publication
+            publication.createdAt = createdAt
+            publication.marginalVersion = versionHistory
+            publication.properties = properties
+            publication.__history = marginalHistory
 
             await publication.save()
             return { message: "Success", status: 200 }
@@ -250,28 +248,7 @@ export const getMarginalPublicationHistory = async (
                 any
             >,
             { site, type },
-            [
-                { $match: { site: "demo" } },
-                { $sort: { updatedAt: -1 } },
-                {
-                    $group: {
-                        _id: "$marginalVersion",
-                        id: { $first: "$_id" },
-                        site: { $first: "$site" },
-                        marginalVersion: {
-                            $first: "$marginalVersion"
-                        },
-                        createdBy: { $first: "$createdBy" },
-                        updatedBy: { $first: "$updatedBy" },
-                        properties: { $first: "$properties" },
-                        createdAt: { $first: "$createdAt" },
-                        updatedAt: { $first: "$updatedAt" },
-                        __v: { $first: "$v" }
-                    }
-                },
-                { $set: { _id: "$id" } },
-                { $unset: "id" }
-            ],
+            [],
             [
                 "site",
                 "type",

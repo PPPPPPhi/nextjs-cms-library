@@ -1,0 +1,257 @@
+openapi: 3.0.3
+info:
+    title: NextJs CMS - Account & Auth Service
+    description: ""
+    termsOfService: http://swagger.io/terms/
+    contact:
+        email: apiteam@swagger.io
+    license:
+        name: Apache 2.0
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
+    version: 1.0.11
+externalDocs:
+    description: Find out more about Swagger
+    url: http://swagger.io
+servers:
+    - url: https://petstore3.swagger.io/api/v3
+
+paths:
+    /user:
+        post:
+            summary: Register User by Form
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                userName:
+                                    type: string
+                                firstName:
+                                    type: string
+                                lastName:
+                                    type: string
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SuccessResponse"
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+    /user/{userId}:
+        get:
+            summary: Get User Authentication Profile
+            parameters:
+                - in: path
+                  name: userId
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                                    user:
+                                        $ref: "#/components/schemas/User"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+        put:
+            summary: Update User Profile
+            parameters:
+                - in: path
+                  name: userId
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                lastName:
+                                    type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                                    user:
+                                        type: array
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+    /user/logout:
+        post:
+            summary: Logout a user
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SuccessResponse"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        Timestamp:
+            type: object
+            properties:
+                $date:
+                    type: string
+                    format: date-time
+        ObjectId:
+            type: object
+            properties:
+                $oid:
+                    type: string
+                    example: 6627981b446a3db04cb34f21
+
+        SuccessResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: Success
+                status:
+                    type: integer
+                    example: 200
+
+        ErrorResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: Failed
+                status:
+                    type: integer
+                    example: 500
+
+        FunctionViewRole:
+            type: object
+            properties:
+                _id:
+                    type: object
+                    properties:
+                        $oid:
+                            type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                functionId:
+                    type: integer
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+                __v:
+                    type: integer
+            example:
+                _id:
+                    $oid: "662781430e3e0315bd2c624f"
+                name: VIEW_ROLE_MANAGEMENT
+                description: View role management
+                __v: 0
+                createdAt: "2024-02-15T12:01:08.047Z"
+                updatedAt: "2024-02-15T12:01:08.047Z"
+                functionId: 10020001
+
+        User:
+            type: object
+            properties:
+                _id:
+                    type: string
+                userName:
+                    type: string
+                    example: admin
+                firstName:
+                    type: string
+                    example: admin
+                email:
+                    type: string
+                    example: admin@nextjscms.com
+                roles:
+                    $ref: "#/components/schemas/ObjectId"
+                createdAt:
+                    $ref: "#/components/schemas/Timestamp"
+                status:
+                    type: integer
+                    example: 1
+                lastName:
+                    type: string
+                    example: NextJsCMS
+                roleName:
+                    type: string
+                    example: Super Admin
+                description:
+                    type: string
+                functions_lookUp:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/FunctionViewRole"
+                sites:
+                    type: array
+                    items:
+                        type: string
+                        example: "*"

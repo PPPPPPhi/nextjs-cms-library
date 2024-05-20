@@ -12,11 +12,6 @@ export const AdminFilterPromotionPanel: React.FC<FilterPromotionInterface> = ({
     updateFilter
 }) => {
     const keyTypes = {
-        promotion: {
-            type: "string",
-            value: "",
-            label: "Promotion Name"
-        },
         startDate: {
             type: "date",
             value: "",
@@ -27,15 +22,25 @@ export const AdminFilterPromotionPanel: React.FC<FilterPromotionInterface> = ({
             value: "",
             label: "Order Date To"
         },
-        items: {
+        promotion: {
             type: "string",
             value: "",
-            label: "Included Items"
+            label: "Promotion Name"
         },
-        promotionCode: {
+        couponCode: {
             type: "string",
             value: "",
-            label: "Promotional Code"
+            label: "Coupon Code"
+        },
+        discountType: {
+            type: "dropdown",
+            value: "",
+            label: "Discount Type"
+        },
+        isActive: {
+            type: "dropdown",
+            value: "",
+            label: "Is Active"
         }
     }
 

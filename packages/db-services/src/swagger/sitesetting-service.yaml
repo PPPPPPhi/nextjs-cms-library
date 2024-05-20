@@ -1,0 +1,654 @@
+openapi: 3.0.3
+info:
+  title: NextJs CMS - Site Setting Service
+  description: ""
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+
+
+paths:
+  /site-setting/{site}:
+    get:
+      summary: Get Site Setting
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: version
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  setting:
+                    $ref: '#/components/schemas/SiteSetting'
+        '500':
+          description: Failed response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+      operationId: getSiteSetting
+      tags:
+        - Site Setting
+    put:
+      summary: Update Site Setting
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                settings:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+        '500':
+          description: Failed response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+      operationId: updateSiteSetting
+      tags:
+        - Site Setting
+        
+  /site-setting/{site}/locale:
+    post:
+      summary: Get Site Language List
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                langList:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Success"
+                  status:
+                    type: integer
+                    example: 200
+                  locale:
+                    type: string
+                    example: ["en", "tc", "jp"]
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed"
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed"
+                  status:
+                    type: integer
+                    example: 500
+    put:
+      summary: Publish Site Language List
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                langList:
+                  type: string
+                langJson:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Success"
+                  status:
+                    type: integer
+                    example: 200
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed"
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed"
+                  status:
+                    type: integer
+                    example: 500
+                    
+  /site-setting/{site}/{key}:
+    get:
+      summary: Get Site Setting by Key
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Success"
+                  status:
+                    type: integer
+                    example: 200
+                  setting:
+                    type: object
+                    
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed"
+                  status:
+                    type: integer
+                    example: 500
+                    
+  /site-setting/{site}/history:
+    get:
+      summary: Get Site Setting History
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Success"
+                  status:
+                    type: integer
+                    example: 200
+                  histories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SiteSetting'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed"
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Failed"
+                  status:
+                    type: integer
+                    example: 500
+                    
+  /site-setting/{site}/publication:
+    get:
+      summary: Get site setting publication history
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status: 
+                    type: integer
+                    example: 200
+                  histories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SiteSettingPublication'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+    post:
+      summary: Publish site setting
+      parameters:
+        - in: path
+          name: site
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                version:
+                  type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 400
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Fail
+                  status:
+                    type: integer
+                    example: 500
+components:
+  schemas:
+    SiteSetting:
+      type: object
+      example:
+        _id:
+          $oid: "6639b19d2028e8f69f378aa6"
+        site: demo
+        createdBy: admin
+        updatedBy: admin
+        properties:
+          cms_language:
+            name: Website Language
+            value:
+              - en
+              - tc
+              - jp
+          cms_asset_path:
+            name: Website Assets Path
+            value:
+              en: http://localhost:3000/assets/static
+              tc: ""
+              jp: ""
+          cms_abc:
+            name: ABC Site Setting
+            value:
+              en: ""
+              tc: ""
+              jp: ""
+          cms_no_lang:
+            name: No Lang Field
+            value: NOOOOOOOOOOO!
+        createdAt:
+          $date: "2024-04-23T11:13:12.871Z"
+        updatedAt:
+          $date: "2024-05-07T04:50:50.259Z"
+        __v: 0
+      properties:
+        _id:
+          $ref: '#/components/schemas/ObjectId'
+        site:
+          type: string
+        settingVersion:
+          type: string
+        createdBy:
+          type: string
+        updatedBy:
+          type: string
+        properties:
+          type: object
+          properties:
+            cms_language:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: array
+                  items:
+                    type: string
+            cms_asset_path:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                    tc:
+                      type: string
+                    jp:
+                      type: string
+            cms_abc:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                    tc:
+                      type: string
+                    jp:
+                      type: string
+            cms_no_lang:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: string
+        createdAt:
+          $ref: '#/components/schemas/Timestamp'
+        updatedAt:
+          $ref: '#/components/schemas/Timestamp'
+        __v:
+          type: integer
+    
+    SiteSettingPublication:
+      type: object
+      example:
+        _id:
+          $oid: "6639b19d2028e8f69f378aa6"
+        site: demo
+        settingVersion: "3.0.0"
+        createdBy: admin
+        updatedBy: admin
+        properties:
+          cms_language:
+            name: Website Language
+            value:
+              - en
+              - tc
+              - jp
+          cms_asset_path:
+            name: Website Assets Path
+            value:
+              en: http://localhost:3000/assets/static
+              tc: ""
+              jp: ""
+          cms_abc:
+            name: ABC Site Setting
+            value:
+              en: ""
+              tc: ""
+              jp: ""
+          cms_no_lang:
+            name: No Lang Field
+            value: NOOOOOOOOOOO!
+        createdAt:
+          $date: "2024-04-23T11:13:12.871Z"
+        updatedAt:
+          $date: "2024-05-07T04:50:50.259Z"
+        __v: 0
+      properties:
+        _id:
+          $ref: '#/components/schemas/ObjectId'
+        site:
+          type: string
+        settingVersion:
+          type: string
+        createdBy:
+          type: string
+        updatedBy:
+          type: string
+        properties:
+          type: object
+          properties:
+            cms_language:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: array
+                  items:
+                    type: string
+            cms_asset_path:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                    tc:
+                      type: string
+                    jp:
+                      type: string
+            cms_abc:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: object
+                  properties:
+                    en:
+                      type: string
+                    tc:
+                      type: string
+                    jp:
+                      type: string
+            cms_no_lang:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: string
+        createdAt:
+          $ref: '#/components/schemas/Timestamp'
+        updatedAt:
+          $ref: '#/components/schemas/Timestamp'
+        __v:
+          type: integer
+
+    ObjectId:
+      type: object
+      properties:
+        $oid:
+          type: string
+
+    Timestamp:
+      type: object
+      properties:
+        $date:
+          type: string
+          format: date-time
+   

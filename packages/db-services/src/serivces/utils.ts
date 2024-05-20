@@ -1,5 +1,5 @@
-import mongoose, { Model } from "mongoose"
-import _ from "lodash"
+import mongoose, { Model, Types } from "mongoose"
+import _, { filter } from "lodash"
 import { firstValueFrom, forkJoin, of, switchMap } from "rxjs"
 import { historySchemaType } from "../types"
 
@@ -27,26 +27,43 @@ export type RoleFunctionUpdateType = {
     isCreate?: boolean
 }
 
-export const multiSelectFilterField = ["orderStatus", "paymentStatus"]
+export const multiSelectFilterField = [
+    "orderStatus",
+    "paymentStatus",
+    "categories",
+    "manufacturers",
+    "productType",
+    "warehouse",
+    "paymentMethod",
+    "discountType"
+]
 
 export type FilterOrdersParam = {
     id?: string | undefined
     pageNum?: string | undefined
     pageSize?: string | undefined
-    category?: string | undefined
-    product?: string | undefined
+    categories?: string | undefined
+    productName?: string | undefined
+    productType?: string | undefined
     amount?: string | undefined
     stock?: string | undefined
-    description?: string | undefined
     startDate?: string | undefined
     endDate?: string | undefined
     orderStatus?: string | undefined
     paymentStatus?: string | undefined
-    customerId?: string | undefined
-    total?: string | undefined
-    remark?: string | undefined
-    pickUp?: string | undefined
-    orderAddress?: string | undefined
+    shippingStatus?: string | undefined
+    paymentMethod?: string | undefined
+    store?: string | undefined
+    products?: string | undefined
+    billingPhoneNumber?: number | undefined
+    billingEmail?: string | undefined
+    billingLastName?: string | undefined
+    billingCountry?: string | undefined
+    orderID?: string | undefined
+    orderNotes?: string | undefined
+    manufacturers?: string | undefined
+    vendor?: string | undefined
+    sku?: string | undefined
 }
 
 const PROJECT_ALL_KEY = "document"
@@ -102,21 +119,87 @@ export type PaginatedParam = {
     pageNum?: string | undefined
 }
 
-export const getParsedQuery = (query: FilterOrdersParam) => {
-    const parsedQuery = _.cloneDeep(query)
+export const configParseBooleanField = ["isActive"]
+
+export const configParseIntField = ["billingAndShipping.billingAddress.phone"]
+
+export const configRenameField = [
+    {
+        from: "billingPhoneNumber",
+        to: "billingAndShipping.billingAddress.phone"
+    },
+    { from: "billingEmail", to: "billingAndShipping.billingAddress.email" },
+    {
+        from: "billingLastName",
+        to: "billingAndShipping.billingAddress.fullName"
+    },
+    { from: "billingCountry", to: "billingAndShipping.billingAddress.country" },
+    { from: "orderNotes", to: "orderNotes.note" },
+    { from: "warehouse", to: "stockQuantityHistory.warehouse" },
+    { from: "promotion", to: "name" }
+]
+
+export const configRegexSearchField = [
+    "productName",
+    "vendor",
+    "store",
+    "billingAndShipping.billingAddress.email",
+    "billingAndShipping.billingAddress.fullName",
+    "billingAndShipping.billingAddress.country",
+    "orderNotes.note",
+    "name",
+    "couponCode"
+]
+
+export const getParsedQuery = (query: any) => {
+    console.log(`parsed filter before`, query)
+
+    if (query?._id) {
+        const parseId = new Types.ObjectId(query?._id)
+        _.set(query, "_id", parseId)
+    }
 
     multiSelectFilterField.forEach((key: string) => {
-        // @ts-ignore
         const value = query?.[key as string]
-
         if (!value) return
 
-        _.set(parsedQuery, key, {
-            // @ts-ignore
+        _.set(query, key, {
             $in: query?.[key]?.split(",")
         })
 
         return
+    })
+
+    console.log(`parsed filter before rename`, query)
+
+    configRenameField.map(({ from, to }) => {
+        if (!query?.[from]) return
+        console.log(`simple rename`, query, from, to)
+        query[to] = query?.[from]
+        _.unset(query, from)
+    })
+
+    console.log(`parsed filter before parseInt`, query)
+
+    configParseBooleanField.map((key: string) => {
+        console.log(`boolean`, query?.[key])
+        if (query?.[key] == undefined) return
+        const value = query?.[key] == "true" ? true : false
+        query[key] = value
+    })
+
+    configParseIntField.map((key: string) => {
+        if (!query?.[key]) return
+        const value = parseInt(query?.[key])
+        query[key] = value
+    })
+
+    console.log(`parsed filter before regex`, query)
+
+    configRegexSearchField.map((key: string) => {
+        if (!query?.[key]) return
+        const value = { $regex: `${query?.[key]}.*`, $options: "si" }
+        query[key] = value
     })
 
     if (query?.startDate && query?.endDate) {
@@ -125,16 +208,15 @@ export const getParsedQuery = (query: FilterOrdersParam) => {
             $lte: new Date(query?.endDate)
         })
 
-        _.unset(parsedQuery, `startDate`)
-        _.unset(parsedQuery, `endDate`)
+        _.unset(query, `startDate`)
+        _.unset(query, `endDate`)
     }
+    _.unset(query, `pageNum`)
+    _.unset(query, `pageSize`)
 
-    _.unset(parsedQuery, `pageNum`)
-    _.unset(parsedQuery, `pageSize`)
+    console.log(`parsed filter final`, query)
 
-    console.log(`parsed filter`, query, parsedQuery)
-
-    return parsedQuery
+    return query
 }
 
 export const getPaginatedQuery = (
@@ -231,7 +313,7 @@ export const getProjectedQuery = async (
         console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
         res = await model.aggregate(pipeline)
 
-        console.log(`[getProjectedQuery] res`, JSON.stringify(res))
+        // console.log(`[getProjectedQuery] res`, JSON.stringify(res))
 
         return res
     } catch (error) {

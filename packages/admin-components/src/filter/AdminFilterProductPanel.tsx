@@ -12,45 +12,45 @@ export const AdminFilterProductPanel: React.FC<FilterProductPanelInterface> = ({
     updateFilter
 }) => {
     const keyTypes = {
-        category: {
-            type: "dropdown",
-            value: "",
-            label: "category"
-        },
         product: {
             type: "string",
             value: "",
             label: "Product Name"
         },
-        origin: {
+        warehouse: {
+            type: "dropdown",
+            value: "",
+            label: "Warehouses"
+        },
+        categories: {
+            type: "dropdown",
+            value: "",
+            label: "Categories"
+        },
+        productType: {
+            type: "dropdown",
+            value: "",
+            label: "Product Type"
+        },
+        published: {
+            type: "boolean",
+            value: "",
+            label: "Published"
+        },
+        manufacturers: {
+            type: "dropdown",
+            value: "",
+            label: "Manufacturers"
+        },
+        vendor: {
             type: "string",
             value: "",
-            label: "Product Origin"
+            label: "Vendor"
         },
-        expiryDate: {
-            type: "date",
+        prdocutSKU: {
+            type: "string",
             value: "",
-            label: "Expiry Date Before"
-        },
-        amountMin: {
-            type: "number",
-            value: "",
-            label: "Minimum Amount"
-        },
-        amountMax: {
-            type: "number",
-            value: "",
-            label: "Maximun Amount"
-        },
-        stockMin: {
-            type: "number",
-            value: "",
-            label: "Minimum Stock"
-        },
-        stockMax: {
-            type: "number",
-            value: "",
-            label: "Maximun Stock"
+            label: "SKU"
         }
     }
 
