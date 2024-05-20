@@ -1,0 +1,192 @@
+openapi: 3.0.3
+info:
+    title: NextJs CMS - Site Service
+    description:
+    termsOfService: http://swagger.io/terms/
+    contact:
+        email: apiteam@swagger.io
+    license:
+        name: Apache 2.0
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
+    version: 1.0.11
+externalDocs:
+    description: Find out more about Swagger
+    url: http://swagger.io
+servers:
+    - url: https://petstore3.swagger.io/api/v3
+tags:
+    - name: pet
+      description: Everything about your Pets
+      externalDocs:
+          description: Find out more
+          url: http://swagger.io
+    - name: store
+      description: Access to Petstore orders
+      externalDocs:
+          description: Find out more about our store
+          url: http://swagger.io
+    - name: user
+      description: Operations about user
+
+paths:
+    /site:
+        get:
+            summary: Get All Sites
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                                    sites:
+                                        type: array
+                                        items:
+                                            $ref: "#/components/schemas/Site"
+                "500":
+                    description: Failed response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+                                    status:
+                                        type: integer
+                                        example: 500
+            operationId: getAllSite
+            tags:
+                - Site
+        post:
+            summary: Create a Site
+            requestBody:
+                content:
+                    multipart/form-data:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                slug:
+                                    type: string
+                                image:
+                                    type: string
+                                    format: binary
+                                description:
+                                    type: string
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                "500":
+                    description: Failed response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+                                    status:
+                                        type: integer
+                                        example: 500
+            operationId: createSite
+            tags:
+                - Site
+        put:
+            summary: Update a Site
+            requestBody:
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                site:
+                                    type: string
+                                name:
+                                    type: string
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                "500":
+                    description: Failed response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Fail
+                                    status:
+                                        type: integer
+                                        example: 500
+            operationId: updateSite
+            tags:
+                - Site
+
+components:
+    schemas:
+        Site:
+            type: object
+            properties:
+                name:
+                    type: string
+                    example: "Gallery@2024"
+                slug:
+                    type: string
+                    example: "gallery2024"
+                image:
+                    type: string
+                    example: "https://example.com/site-image.jpg"
+                description:
+                    type: string
+                    example: "This is an example site description."
+                status:
+                    type: integer
+                    example: 1
+                createdBy:
+                    type: string
+                    example: "John Doe"
+                updatedBy:
+                    type: string
+                    example: "Jane Smith"
+                createdAt:
+                    type: string
+                    format: date-time
+                    example: "2023-05-01T12:00:00Z"
+                updatedAt:
+                    type: string
+                    format: date-time
+                    example: "2023-05-15T14:30:00Z"

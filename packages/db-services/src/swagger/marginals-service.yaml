@@ -1,0 +1,448 @@
+openapi: 3.0.3
+info:
+    title: NextJs CMS - Marginals Service
+    description: ""
+    termsOfService: http://swagger.io/terms/
+    contact:
+        email: apiteam@swagger.io
+    license:
+        name: Apache 2.0
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
+    version: 1.0.11
+externalDocs:
+    description: Find out more about Swagger
+    url: http://swagger.io
+servers:
+    - url: https://petstore3.swagger.io/api/v3
+
+paths:
+    /marginals/{site}:
+        get:
+            summary: Get Marginals
+            parameters:
+                - in: path
+                  name: site
+                  required: true
+                  schema:
+                      type: string
+                - in: query
+                  name: type
+                  required: true
+                  schema:
+                      type: string
+                - in: query
+                  name: lang
+                  required: false
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: number
+                                        example: 200
+                                    marginals:
+                                        $ref: "#/components/schemas/Marginal"
+
+                "400":
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+        post:
+            summary: Create Marginal
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            $ref: "#/components/schemas/CreateMarginalRequest"
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SuccessResponse"
+                "400":
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+        put:
+            summary: Update Marginal
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            $ref: "#/components/schemas/UpdateMarginalRequest"
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SuccessResponse"
+                "400":
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal server error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+    /marginals/{site}/clone:
+        post:
+            summary: Clone Marginal
+            parameters:
+                - in: path
+                  name: site
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                type:
+                                    type: string
+                                srcLang:
+                                    type: string
+                                targetLang:
+                                    type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SuccessResponse"
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+    /marginals/{site}/publish:
+        get:
+            summary: Get Marginal Publication History
+            parameters:
+                - in: path
+                  name: site
+                  required: true
+                  schema:
+                      type: string
+                - in: query
+                  name: type
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                                    marginals:
+                                        $ref: "#/components/schemas/MarginalPublish"
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+        post:
+            summary: Publish Marginal
+            parameters:
+                - in: path
+                  name: site
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                required: true
+                content:
+                    application/x-www-form-urlencoded:
+                        schema:
+                            type: object
+                            properties:
+                                type:
+                                    type: string
+                                lang:
+                                    type: string
+                                version:
+                                    type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SuccessResponse"
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+    /marginals/{site}/history:
+        get:
+            summary: Get Marginal History
+            parameters:
+                - in: path
+                  name: site
+                  required: true
+                  schema:
+                      type: string
+                - in: query
+                  name: type
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Success
+                                    status:
+                                        type: integer
+                                        example: 200
+                                    marginals:
+                                        $ref: "#/components/schemas/MarginalPublish"
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+    schemas:
+        Timestamp:
+            type: object
+            properties:
+                $date:
+                    type: string
+                    format: date-time
+        ObjectId:
+            type: object
+            properties:
+                $oid:
+                    type: string
+                    example: 6627981b446a3db04cb34f21
+
+        SuccessResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: Success
+                status:
+                    type: integer
+                    example: 200
+
+        ErrorResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+                    example: Failed
+                status:
+                    type: integer
+                    example: 500
+
+        NavJsonExample:
+            type: object
+            properties:
+                name:
+                    type: string
+                    example: a
+                url:
+                    type: string
+                    example: b
+                target:
+                    type: string
+                    example: _blank
+                children:
+                    type: array
+
+        CreateMarginalRequest:
+            type: object
+            required:
+                - site
+                - type
+                - properties
+            properties:
+                site:
+                    type: string
+                type:
+                    type: string
+                    enum: [footer, header, nav, common]
+                properties:
+                    type: string
+
+        UpdateMarginalResponse:
+            type: object
+            properties:
+                message:
+                    type: string
+                status:
+                    type: integer
+
+        Marginal:
+            type: object
+            properties:
+                site:
+                    type: string
+                    example: demo
+                type:
+                    type: string
+                    example: nav
+                properties:
+                    type: object
+                    properties:
+                        headerLargeRatio:
+                            type: string
+                        headerSmallRatio:
+                            type: string
+                        headerLargeLogo:
+                            type: string
+                        headerSmallLogo:
+                            type: string
+                        footerHtml:
+                            type: string
+                        footerCss:
+                            type: string
+                        footerScript:
+                            type: string
+                        navJosn:
+                            $ref: "#/components/schemas/NavJsonExample"
+                language:
+                    type: string
+                    example: en
+                createdBy:
+                    type: string
+                    example: admin
+                updatedBy:
+                    type: string
+                    example: admin
+                createdAt:
+                    $ref: "#/components/schemas/Timestamp"
+                updatedAt:
+                    $ref: "#/components/schemas/Timestamp"
+
+        MarginalPublish:
+            type: object
+            properties:
+                site:
+                    type: string
+                    example: demo
+                type:
+                    type: string
+                    example: nav
+                marginalVersion:
+                    type: string
+                    example:
+                properties:
+                    type: object
+                    properties:
+                        headerLargeRatio:
+                            type: string
+                        headerSmallRatio:
+                            type: string
+                        headerLargeLogo:
+                            type: string
+                        headerSmallLogo:
+                            type: string
+                        footerHtml:
+                            type: string
+                        footerCss:
+                            type: string
+                        footerScript:
+                            type: string
+                        navJosn:
+                            $ref: "#/components/schemas/NavJsonExample"
+                language:
+                    type: string
+                    example: en
+                createdBy:
+                    type: string
+                    example: admin
+                updatedBy:
+                    type: string
+                    example: admin
+                createdAt:
+                    $ref: "#/components/schemas/Timestamp"
+                updatedAt:
+                    $ref: "#/components/schemas/Timestamp"

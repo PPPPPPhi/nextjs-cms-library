@@ -21,7 +21,10 @@ export const publishSetting = async (site: string, version?: string) => {
             site,
             version && versionHistory
         )) as sType & { settingVersion: string }
-        const { publication } = await getPublicationBySite(site)
+        const { publication } = await getPublicationBySiteVersion(site, version)
+
+        console.log(`[publishSetting] getSiteSetting setting`, setting)
+        console.log(`[publishSetting] getSiteSetting publication`, publication)
 
         const { properties, settingVersion } = setting
 
@@ -35,6 +38,14 @@ export const publishSetting = async (site: string, version?: string) => {
         }
 
         if (!publication) {
+            const data = {
+                ...setting,
+                _id: new Types.ObjectId(),
+                settingVersion:
+                    versionHistory ?? HistoryService.getFullVersion("0"),
+                status: 1,
+                __history: settingHistory
+            }
             const newPublishSetting = new (mongoose.models
                 .SettingPublication as Model<any, {}, {}, {}, any, any>)({
                 ...setting,
@@ -44,20 +55,24 @@ export const publishSetting = async (site: string, version?: string) => {
                 status: 1,
                 __history: settingHistory
             })
-
+            console.log(`[publishSetting] before save new`, data)
             await newPublishSetting.save()
             return { message: "Success", status: 200 }
         } else {
-            const publishSetting = new (mongoose.models
-                .SettingPublication as Model<any, {}, {}, {}, any, any>)({
-                ...publication,
-                _id: new Types.ObjectId(),
-                settingVersion: publication?.settingVersion ?? versionHistory,
-                status: 1,
-                __history: settingHistory
-            })
+            const { properties, site } = publication._doc
 
-            await publishSetting.save()
+            const { createdAt } = publication
+            publication.createdAt = createdAt
+            publication.settingVersion = settingVersion ?? versionHistory
+            publication.properties = properties
+            publication.__history = settingHistory
+
+            console.log(
+                `[publishSetting] before update old`,
+                publication,
+                settingVersion
+            )
+            await publication.save()
             return { message: "Success", status: 200 }
         }
     } catch (e) {
@@ -66,9 +81,24 @@ export const publishSetting = async (site: string, version?: string) => {
     }
 }
 
-export const getPublicationBySite = async (site: string) => {
+export const getPublicationBySiteVersion = async (
+    site: string,
+    version?: string
+) => {
     try {
         const mongoose = await connectMongoDB()
+
+        const filter = _.omitBy(
+            {
+                site,
+                settingVersion: version
+                    ? HistoryService.getFullVersion(version)
+                    : ""
+            },
+            _.isEmpty
+        )
+
+        console.log(`getPublicationBySiteVersion filter`, filter)
 
         const publication = await (
             mongoose.models.SettingPublication as Model<
@@ -79,12 +109,34 @@ export const getPublicationBySite = async (site: string) => {
                 any,
                 any
             >
-        ).findOne({
-            site
-        })
+        ).findOne(filter)
         if (publication?._id)
             return { message: "Success", status: 200, publication }
         else return { message: "Fail", status: 500, publication: null }
+    } catch (e) {
+        console.log("Error in getting publicaiton", e)
+        return { message: "Fail", status: 500, publication: null }
+    }
+}
+
+export const getSettingPublicationList = async (site: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+
+        const historiesList = await (
+            mongoose.models.SettingPublication as Model<
+                any,
+                {},
+                {},
+                {},
+                any,
+                any
+            >
+        ).aggregate([{ $match: { site } }])
+
+        if (historiesList)
+            return { message: "Success", status: 200, histories: historiesList }
+        else throw new Error("Error in getting site setting publication list")
     } catch (e) {
         console.log("Error in getting publicaiton", e)
         return { message: "Fail", status: 500, publication: null }
@@ -108,6 +160,8 @@ export const getSettingPublicationHistory = async (site: string) => {
                 site
             }
         )
+
+        console.log(`[getSettingPublicationHistory]`, historyResp)
 
         if (historyResp.status === 200) return historyResp
         else

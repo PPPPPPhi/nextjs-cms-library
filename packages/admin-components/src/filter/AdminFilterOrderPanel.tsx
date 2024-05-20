@@ -12,11 +12,6 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
     updateFilter
 }) => {
     const keyTypes = {
-        description: {
-            type: "string",
-            value: "",
-            label: "Description"
-        },
         startDate: {
             type: "date",
             value: "",
@@ -37,30 +32,55 @@ export const AdminFilterOrderPanel: React.FC<FilterOrderPanelInterface> = ({
             value: "",
             label: "Payment Status"
         },
-        pickUp: {
+        shippingStatus: {
             type: "dropdown",
             value: "",
-            label: "Pick Up Option"
+            label: "Shipping Status"
         },
-        customerId: {
+        paymentMethod: {
+            type: "dropdown",
+            value: "",
+            label: "Payment Method"
+        },
+        store: {
             type: "string",
             value: "",
-            label: "Customer ID"
+            label: "Store"
         },
-        total: {
-            type: "number",
-            value: "",
-            label: "Order Total ($)"
-        },
-        remark: {
+        products: {
             type: "string",
             value: "",
-            label: "Order Remark"
+            label: "Products"
         },
-        orderAddress: {
+        billingPhoneNumber: {
             type: "string",
             value: "",
-            label: "Order Address"
+            label: "Billing Phone Number"
+        },
+        billingEmail: {
+            type: "string",
+            value: "",
+            label: "Billing Email Address"
+        },
+        billingLastName: {
+            type: "string",
+            value: "",
+            label: "Billing Last Name"
+        },
+        billingCountry: {
+            type: "string",
+            value: "",
+            label: "Billing Country"
+        },
+        orderID: {
+            type: "string",
+            value: "",
+            label: "Order #"
+        },
+        orderNotes: {
+            type: "string",
+            value: "",
+            label: "Order Notes"
         }
     }
 

@@ -105,7 +105,7 @@ export const AdminFilterPanel: React.FC<FilterPanelInterface> = ({
                 </div>
             </div>
 
-            <div className={`${isDisplay ? "d-block" : "d-none"}`}>
+            <div className={`${isDisplay ? "d-block py-2" : "d-none"}`}>
                 <div className="d-flex flex-wrap">
                     {searchFieldKeys &&
                         searchFieldKeys.map((search: string, index: number) => (
