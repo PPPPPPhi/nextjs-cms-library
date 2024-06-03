@@ -68,7 +68,7 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
             isSubComponent,
             zebra = false,
             exportAuthCode,
-            tableMinHeight = 400,
+            tableMinHeight = 550,
             excludeExport,
             isRefresh,
             getData,
@@ -225,20 +225,18 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
             }
         }, [tableGenRow, tableFlatRow])
 
-        console.log("data bbb", data)
-
         return (
-            <div className="d-flex flex-column w-100 h-100 p-2 space-y-2">
+            <div className="d-flex flex-column w-100 p-2 space-y-2 overflow-hidden">
                 <div
-                    className="overflow-auto shadow-sm"
+                    className="shadow-sm overflow-auto"
                     style={{
-                        minHeight: tableMinHeight,
                         borderRadius: 24,
                         border: "1px solid #F1F1F1",
                         ...style
                     }}>
-                    <table className="w-100 overflow-auto">
+                    <table className="w-100">
                         <thead
+                            className="w-100"
                             style={{
                                 position: "sticky",
                                 top: 0,
@@ -247,7 +245,11 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                     "1px solid var(--static-color-text-delta)"
                             }}>
                             {table.getHeaderGroups().map((headerGroup) => (
-                                <tr key={headerGroup.id} style={{ height: 50 }}>
+                                <tr
+                                    key={headerGroup.id}
+                                    style={{
+                                        height: 50
+                                    }}>
                                     {headerGroup.headers.map((header) => {
                                         const { column } = header
                                         return (
@@ -262,7 +264,7 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                                     )
                                                 }}>
                                                 <div
-                                                    className="d-flex whitespace-nowrap s-section-primary px-2"
+                                                    className="d-flex whitespace-nowrap px-2"
                                                     onClick={() => {
                                                         const currentSort =
                                                             sorting.find(
@@ -322,7 +324,7 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                 </tr>
                             ))}
                         </thead>
-                        <tbody>
+                        <tbody className="overflow-auto w-100">
                             {table.getRowModel().rows.map((row, index) => (
                                 <Fragment key={row.id}>
                                     <tr
@@ -330,7 +332,11 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                                         style={{
                                             borderBottom:
                                                 "1px solid var(--static-color-text-delta)",
-                                            height: 50
+                                            height: 50,
+                                            backgroundColor:
+                                                index % 2 == 0
+                                                    ? "#f2f2f2"
+                                                    : "white"
                                         }}
                                         className={`whitespace-nowrap s-zebra-hover`}>
                                         {row.getVisibleCells().map((cell) => {

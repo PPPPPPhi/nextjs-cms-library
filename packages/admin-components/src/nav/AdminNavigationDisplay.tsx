@@ -425,6 +425,7 @@ export const AdminNavigationDisplay: React.FC<
                 <AdminCard cardsRef={navCardRef as AdminCardType[]} />
             </div>
             <AdminNavButton
+                //@ts-ignore
                 icon={<HiFolderAdd />}
                 label={"Main Navigation"}
                 onNavClick={() => {

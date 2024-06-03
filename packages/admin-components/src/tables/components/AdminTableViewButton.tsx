@@ -19,6 +19,7 @@ export const AdminTableViewButton: React.FC<RowCellInterface> = ({
             className="d-flex align-items-center px-3"
             style={{
                 minHeight: 35,
+                maxHeight: 35,
                 width: customWidth ?? "auto"
             }}>
             {!disabled && (

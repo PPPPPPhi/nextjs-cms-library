@@ -25,6 +25,7 @@ import { WebinarJson } from "../core/webinar"
 import { SVGNavCardJSON } from "../core/svg-nav-card"
 import { SloganJson } from "../core/slogan"
 import { TestimonialJSON } from "../core/testimonial-slider"
+import { ProductListJson } from "../core/product-list"
 
 export const selectionListMap: Map<string, SelectionJson> = new Map([
     [ElementNameMap.Text, TextJson.selectionTextJson],
@@ -45,7 +46,8 @@ export const selectionListMap: Map<string, SelectionJson> = new Map([
     // [ElementNameMap.Webinar, WebinarJson.selectionWebinarJson]
     [ElementNameMap.SVGNavCard, SVGNavCardJSON.selectionSVGNavCardJson],
     [ElementNameMap.Slogan, SloganJson.selectionSloganJson],
-    [ElementNameMap.Testimonial, TestimonialJSON.selectionTestimonialJson]
+    [ElementNameMap.Testimonial, TestimonialJSON.selectionTestimonialJson],
+    [ElementNameMap.ProductList, ProductListJson.selectionProductListJson]
 ])
 
 export const dragDropListMap: Map<string, DragDropJson> = new Map([
@@ -67,7 +69,8 @@ export const dragDropListMap: Map<string, DragDropJson> = new Map([
     [ElementNameMap.Webinar, WebinarJson.dragDropWebinarJson],
     [ElementNameMap.SVGNavCard, SVGNavCardJSON.dragDropSVGNavCardJson],
     [ElementNameMap.Slogan, SloganJson.dragDropSloganJson],
-    [ElementNameMap.Testimonial, TestimonialJSON.dragDropTestimonialJson]
+    [ElementNameMap.Testimonial, TestimonialJSON.dragDropTestimonialJson],
+    [ElementNameMap.ProductList, ProductListJson.dragDropProductListJson]
 ])
 
 export const propertiesListMap: Map<string, PropertyJson> = new Map([
@@ -89,5 +92,6 @@ export const propertiesListMap: Map<string, PropertyJson> = new Map([
     [ElementNameMap.Webinar, WebinarJson.propertyWebinarJson],
     [ElementNameMap.SVGNavCard, SVGNavCardJSON.propertSVGNavCardJson],
     [ElementNameMap.Slogan, SloganJson.propertSloganJson],
-    [ElementNameMap.Testimonial, TestimonialJSON.propertTestimonialJson]
+    [ElementNameMap.Testimonial, TestimonialJSON.propertTestimonialJson],
+    [ElementNameMap.ProductList, ProductListJson.propertyProductListJson]
 ])

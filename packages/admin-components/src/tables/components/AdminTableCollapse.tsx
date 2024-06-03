@@ -19,6 +19,7 @@ export const AdminTableCollapse: React.FC<RowCellInterface> = ({
             onClick={action}
             style={{
                 minHeight: 35,
+                maxHeight: 35,
                 width: customWidth ?? "auto"
             }}>
             {isExpanded ? (

@@ -1,3 +1,4 @@
+"use client"
 import React from "react"
 import { WidgetProps } from "../utils/type/index"
 import usePropertiesHook from "../hook/usePropertiesHook"

@@ -205,9 +205,11 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
     return (
         <div
             id="display-panel-drag-drop-area"
-            className="px-1"
             ref={drop}
-            style={{ background: isDragging ? "#F6F6F6" : "white" }}>
+            style={{
+                background: isDragging ? "#F6F6F6" : "white",
+                minHeight: "100%"
+            }}>
             {dragDropEditRef?.current &&
                 (dragDropEditRef?.current ?? []).map(
                     (

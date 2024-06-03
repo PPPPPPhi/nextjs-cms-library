@@ -64,14 +64,14 @@ export const AdminSiteBubble: React.FC<AdminSiteBubbleInterface> = ({
             <div
                 className={`d-flex w-100 s-section-secondary align-items-center justify-content-center`}
                 style={{ height: 46, borderRadius: 12, padding: "7px 15px" }}>
-                {options && !isCollapsed && (
+                {options && (
                     <Dropdown
                         options={options}
                         onChange={(v) => {
                             router.push(`/admin/${v.value}`)
                         }}
-                        value={(siteValue as string) ?? null}
-                        placeholder="Please Select"
+                        value={isCollapsed ? "" : (siteValue as string) ?? null}
+                        placeholder={isCollapsed ? "" : "Please Select"}
                         arrowClosed={
                             <HiChevronDown className="Dropdown-arrow" />
                         }

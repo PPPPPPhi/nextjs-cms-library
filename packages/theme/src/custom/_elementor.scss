@@ -161,3 +161,14 @@
         background-color: lightslategrey;
     }
 }
+
+.mobileView {
+    .ctaButton {
+        min-width: 80px !important;
+        min-height: 35px !important;
+    }
+
+    .banner {
+        top: 0% !important;
+    }
+}

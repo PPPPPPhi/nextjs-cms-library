@@ -24,7 +24,7 @@ export const SVGNavCard: React.FC<SVGNavCardProps> = ({ properties }) => {
     } = values
 
     return (
-        <div className="d-flex flex-column text-center align-items-center space-y-3 w-100">
+        <div className="d-flex flex-column text-center align-items-center space-y-3 w-100 h-100">
             <span
                 className="text-level-subtitle text-font-bold"
                 style={{ minHeight: 81 }}>
@@ -39,7 +39,9 @@ export const SVGNavCard: React.FC<SVGNavCardProps> = ({ properties }) => {
                 }}
                 svgName={svg_nav_card_icon}
             />
-            <span className="text-level-body">{svg_nav_card_description}</span>
+            <span className="text-level-body" style={{ flex: 1 }}>
+                {svg_nav_card_description}
+            </span>
             <div
                 className="w-100"
                 style={{ height: 1, background: "#CFCFCF" }}></div>

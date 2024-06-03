@@ -65,6 +65,15 @@ export const propertyJson: PropertyJson = {
     placeholder: "Input here ...",
     value: "Morning World five-column",
     type: "five-column",
+    properties: [
+        {
+            element_id: "five_column_bg_color",
+            label: "Background Color",
+            placeholder: "",
+            value: "",
+            type: "color-picker"
+        }
+    ],
     children: [
         {
             element: "",

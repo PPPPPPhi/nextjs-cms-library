@@ -15,7 +15,7 @@ $static-font-weight: (
 
 // Font Level
 $super-title: (
-    null: 48px,
+    null: 26px,
     $breakpoint-lg: 72px
 );
 $title: (
@@ -122,5 +122,67 @@ $text-transform: ("uppercase", "capitalize", "lowercase", "none");
 @each $text-value in $text-transform {
     .#{$text-value} {
         text-transform: #{$text-value};
+    }
+}
+
+.mobileView {
+    .text-level-super-title {
+        font-size: 26px;
+    }
+
+    .text-level-title {
+        font-size: 22px;
+    }
+
+    .text-level-modal-title {
+        font-size: 20px;
+    }
+
+    .text-level-subtitle {
+        font-size: 18px;
+    }
+
+    .text-level-sub-headline {
+        font-size: 18px;
+    }
+
+    .text-level-headline {
+        font-size: 16px;
+    }
+
+    .text-level-sub-body {
+        font-size: 14px;
+    }
+
+    .text-level-body {
+        font-size: 14px;
+    }
+
+    .text-level-icon {
+        font-size: 16px;
+    }
+
+    .text-level-content {
+        font-size: 15px;
+    }
+
+    .text-level-caption {
+        font-size: 13px;
+    }
+
+    .text-level-remark {
+        font-size: 12px;
+    }
+
+    .text-level-button {
+        font-size: 14px;
+    }
+
+    .text-level-detail-caption {
+        font-size: 16px;
+    }
+
+    .text-level-size-coherant-caption {
+        font-size: 14px;
     }
 }

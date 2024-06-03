@@ -12,6 +12,7 @@ export const AdminTableRowCell: React.FC<RowCellInterface> = ({
             className="d-flex align-items-center px-2"
             style={{
                 minHeight: 35,
+                maxHeight: 35,
                 width: customWidth ?? "auto"
             }}>
             <span

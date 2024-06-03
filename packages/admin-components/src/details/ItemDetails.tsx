@@ -108,6 +108,7 @@ export const ItemDetails: React.FC<ItemDetailsInterface> = ({
                                                 <div
                                                     className={`s-filter-dropdown`}>
                                                     <Dropdown
+                                                        //@ts-ignore
                                                         options={
                                                             booleanDropDown
                                                         }

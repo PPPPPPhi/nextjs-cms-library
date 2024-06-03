@@ -12,6 +12,7 @@ interface AdminTextInputInterface {
     type?: string
     style?: CSSProperties
     inputStyle?: CSSProperties
+
     action?: {
         label: string
         onAction: () => void

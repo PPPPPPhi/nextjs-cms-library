@@ -15,6 +15,7 @@ import {
 
 import { DragDropEditType, PropertyEditType } from "../../utils"
 import useViewHook from "../../elementor/drag-drop/hooks/useViewHook"
+import { AdminTableActionWarnButton } from "@nextjs-cms-library/admin-components/index"
 
 type withSubColumnProps = DragDropComponentProps & {
     children: (props: any) => React.ReactNode
@@ -315,15 +316,27 @@ const withSubColumn =
         return (
             <div
                 ref={elementRef}
-                className="h-100"
+                className="h-100 position-relative"
                 style={{
-                    background: isHover ? "var(--static-bg-primary)" : ""
+                    borderRadius: 15,
+                    background: isHover ? "#F1F1F1" : ""
                 }}>
+                {/* {!isPreview && (
+                    <AdminTableActionWarnButton
+                        label="Delete"
+                        action={() => {}}
+                        style={{
+                            position: "absolute",
+                            right: 15,
+                            top: "-15px",
+                            zIndex: 1
+                        }}
+                    />
+                )} */}
                 <div
                     // ref={!readOnly ? subRef : null}
                     id={`${id}-${childType}`}
-                    className={`d-flex w-100 h-100 s-column-grid ${!readOnly && !isPreview ? "s-dragging" : ""} 
-                ${!isPreview ? "s-edit-area-border" : "border-none"}`}
+                    className={`d-flex w-100 h-100 s-column-grid ${!readOnly && !isPreview ? "s-dragging" : ""}`}
                     style={{
                         flex: 1,
                         borderColor: focusElement ? "navy" : "#ABCFFF"
@@ -331,11 +344,15 @@ const withSubColumn =
                     onClick={() => {
                         updateFocusEditComponent()
                     }}>
-                    <WrappedComponent
-                        {...props}
-                        className="z-30"
-                        setFocusEditId={setFocusEditId}
-                    />
+                    <div className={`w-100`}>
+                        <WrappedComponent
+                            {...props}
+                            isPreview={isPreview}
+                            className="z-30"
+                            setFocusEditId={setFocusEditId}
+                            isFocusing={focusElement}
+                        />
+                    </div>
                 </div>
             </div>
         )

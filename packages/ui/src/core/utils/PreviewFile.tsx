@@ -20,6 +20,8 @@ type PreviewSelectImageProps = {
     position?: "cover" | "contain" | "fill"
     height?: number
     style?: React.CSSProperties
+    alt?: string
+    destination?: string
 }
 
 export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
@@ -30,17 +32,23 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
     alignment = "center",
     position = "contain",
     height,
-    style
+    style,
+    alt = "Image",
+    destination
 }) => {
     return (
         <div
             className={`w-100 h-100`}
+            onClick={() => {
+                if (destination) window.open(destination)
+            }}
             style={{ border: isEdit ? "dashed thin darkgrey" : "" }}>
             {isEdit && (
                 <div className="mt-2 s-edit-control-btn flex flex-row justify-cend ">
                     <DragDropComponentButtons
                         buttonType={DragDropButton.delete}
                         handleEvent={handler}
+                        style={{ position: "absolute", right: 0, top: 0 }}
                     />
                 </div>
             )}
@@ -48,7 +56,7 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
             {value && (
                 <NextImageApdator
                     src={`${process.env.NEXT_IMAGE_UPLOAD_PATH}${value}`}
-                    alt="profile"
+                    alt={alt}
                     isStatic
                     width={0}
                     height={0}

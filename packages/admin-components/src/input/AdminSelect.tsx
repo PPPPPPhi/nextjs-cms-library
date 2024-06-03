@@ -14,6 +14,7 @@ interface AdminSelectInterface {
     remark?: string
     style?: React.CSSProperties
     inputStyle?: React.CSSProperties
+    SelectDisplayProps?: React.CSSProperties
 }
 
 export const AdminSelect: React.FC<AdminSelectInterface> = ({
@@ -26,10 +27,16 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     style,
     inputStyle
 }) => {
-    const [selectedOption, setSelectedOption] = useState<any>(placeHolder)
+    const [selectedOption, setSelectedOption] = useState<any>(defaultValue)
 
     useEffect(() => {
-        if (defaultValue) setSelectedOption(defaultValue)
+        if (
+            !defaultValue ||
+            defaultValue == selectedOption ||
+            typeof defaultValue !== "string"
+        )
+            return
+        setSelectedOption(defaultValue)
     }, [defaultValue])
 
     useEffect(() => {
@@ -50,13 +57,22 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
                 </InputLabel>
                 <Select
                     labelId="demo-simple-select-autowidth-label"
+                    SelectDisplayProps={{
+                        style: {
+                            ...inputStyle
+                        }
+                    }}
                     id="demo-simple-select-autowidth"
-                    value={selectedOption}
+                    value={selectedOption ?? ""}
                     placeholder={placeH}
                     onChange={(evt) => setSelectedOption(evt.target.value)}
                     autoWidth
                     label="Age"
-                    style={{...inputStyle}}>
+                    inputProps={{
+                        style: {
+                            ...inputStyle
+                        }
+                    }}>
                     {options.map((l) => (
                         <MenuItem value={l.value}>
                             <em>{l.label}</em>

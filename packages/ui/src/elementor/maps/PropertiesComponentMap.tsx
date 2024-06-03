@@ -21,7 +21,8 @@ export const propertiesComponentMap: Map<string, FC<any>> = new Map([
     ["svg-select", PropertySVGSelector],
     ["image-list", PropertyImageListSelector],
     ["testimonial-slidar", PropertyTestimonial],
-    ["cta-nav-btn", PropertyCtaNavButton]
+    ["cta-nav-btn", PropertyCtaNavButton],
+    ["product-list-card", PropertyColorPicker]
 ])
 
 export const getPropertiesComponent = (type: string) =>

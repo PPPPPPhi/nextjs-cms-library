@@ -30,25 +30,30 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     )
     const { two_column_bg_color } = values
 
+    console.log("elements", elements)
+
     return (
         <div>
             <div
-                className={`d-flex flex-wrap`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
-                    backgroundColor: two_column_bg_color ?? "inherit"
+                    backgroundColor: two_column_bg_color ?? "inherit",
+                    padding: isMobileView ? "20px 0px" : "50px 0px"
                 }}>
-                {(elements ?? []).map((k, idx) => (
-                    <div
-                        className={`p-1 col-${isMobileView ? 12 : 6}`}
-                        key={`${id}-${idx}`}>
-                        <SubComponent
-                            {..._.merge(k, childrenValues[idx])}
-                            parentId={id}
-                            isPreview={isPreview}
-                        />
-                    </div>
-                ))}
+                <div
+                    className={`d-flex flex-wrap ${isMobileView ? "space-y-2" : ""} container`}>
+                    {(elements ?? []).map((k, idx) => (
+                        <div
+                            className={`p-1 col-${isMobileView ? 12 : 6}`}
+                            key={`${id}-${idx}`}>
+                            <SubComponent
+                                {..._.merge(k, childrenValues[idx])}
+                                parentId={id}
+                                isPreview={isPreview}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )

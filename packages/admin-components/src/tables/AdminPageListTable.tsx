@@ -50,7 +50,6 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> =
                     data={data ?? []}
                     ref={tableContainerRef}
                     pinColumns={["slug", "language"]}
-                    style={{ height: "100%" }}
                     columnDefs={[
                         {
                             accessorKey: "slug",

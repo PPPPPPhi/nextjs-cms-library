@@ -13,11 +13,12 @@ interface AdminTableActionWarnButtonInterface {
     customWidth?: number
     inverseStyle?: boolean
     authCode?: keyof ACTION_TYPE | keyof VIEW_TYPE
+    style: React.CSSProperties
 }
 
 export const AdminTableActionWarnButton: React.FC<
     AdminTableActionWarnButtonInterface
-> = ({ label, icon, action, customWidth, inverseStyle, authCode }) => {
+> = ({ label, icon, action, customWidth, inverseStyle, authCode, style }) => {
     const Icon = useCallback(() => {
         if (icon) return icon
         else return <></>
@@ -32,7 +33,8 @@ export const AdminTableActionWarnButton: React.FC<
                     className={`d-flex align-items-center px-2 justify-content-center`}
                     style={{
                         minHeight: 30,
-                        width: customWidth ?? "auto"
+                        width: customWidth ?? "auto",
+                        ...style
                     }}>
                     <div
                         className={`px-3 cursor-pointer d-flex align-items-center ${

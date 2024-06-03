@@ -33,6 +33,17 @@ export const propertyCardJson: PropertyJson = {
             type: "image"
         },
         {
+            element_id: "card_image_position",
+            label: "Position",
+            value: "contain",
+            type: "select",
+            options: [
+                { label: "Contain", value: "contain" },
+                { label: "Cover", value: "cover" },
+                { label: "Fill", value: "fill" }
+            ]
+        },
+        {
             element_id: "card_subtitle",
             label: "SubTitle",
             placeholder: "Input here ...",

@@ -53,6 +53,7 @@ export const ViewPageElement: React.FC<ViewPageElementWrapperType> = ({
                     id={id}
                     elements={elements}
                     properties={properties}
+                    isPreview={true}
                 />
             )}
         </div>

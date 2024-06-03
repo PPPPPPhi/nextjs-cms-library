@@ -35,7 +35,6 @@ export const AdminMarginalHistoryTable: React.FC<
                 data={data ?? []}
                 pinColumns={["_id", "slug", "language", "version"]}
                 isCompatible={isCompatible}
-                style={{ height: "100%" }}
                 isSubComponent
                 compareField="properties"
                 columnDefs={[

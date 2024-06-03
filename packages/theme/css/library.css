@@ -269,7 +269,7 @@
 }
 
 .text-level-super-title {
-  font-size: 48px;
+  font-size: 26px;
 }
 @media (min-width: 992px) {
   .text-level-super-title {
@@ -439,6 +439,52 @@
   text-transform: none;
 }
 
+.mobileView .text-level-super-title {
+  font-size: 26px;
+}
+.mobileView .text-level-title {
+  font-size: 22px;
+}
+.mobileView .text-level-modal-title {
+  font-size: 20px;
+}
+.mobileView .text-level-subtitle {
+  font-size: 18px;
+}
+.mobileView .text-level-sub-headline {
+  font-size: 18px;
+}
+.mobileView .text-level-headline {
+  font-size: 16px;
+}
+.mobileView .text-level-sub-body {
+  font-size: 14px;
+}
+.mobileView .text-level-body {
+  font-size: 14px;
+}
+.mobileView .text-level-icon {
+  font-size: 16px;
+}
+.mobileView .text-level-content {
+  font-size: 15px;
+}
+.mobileView .text-level-caption {
+  font-size: 13px;
+}
+.mobileView .text-level-remark {
+  font-size: 12px;
+}
+.mobileView .text-level-button {
+  font-size: 14px;
+}
+.mobileView .text-level-detail-caption {
+  font-size: 16px;
+}
+.mobileView .text-level-size-coherant-caption {
+  font-size: 14px;
+}
+
 .s-panel-outer {
   box-shadow: 0px 3px 25px -1px rgba(0, 0, 0, 0.2);
 }
@@ -585,6 +631,14 @@
 
 .s-zebra-hover .hover {
   background-color: lightslategrey;
+}
+
+.mobileView .ctaButton {
+  min-width: 80px !important;
+  min-height: 35px !important;
+}
+.mobileView .banner {
+  top: 0% !important;
 }
 
 .MuiInputBase-root {

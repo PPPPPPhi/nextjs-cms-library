@@ -14,6 +14,7 @@ export const AdminTableBooleanButton: React.FC<RowBooleanButtonInterface> = ({
             className="d-flex align-items-center justify-content-center text-font-bold px-2"
             style={{
                 minHeight: 35,
+                maxHeight: 35,
                 width: customWidth ?? "auto"
             }}>
             {value && (

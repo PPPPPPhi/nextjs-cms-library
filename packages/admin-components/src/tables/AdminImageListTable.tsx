@@ -56,8 +56,6 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
         })
     }
 
-    console.log("mutatedData", mutatedData)
-
     return (
         <div className="d-flex w-100 overflow-auto">
             <AdminTable
