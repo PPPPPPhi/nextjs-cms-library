@@ -45,7 +45,6 @@ const useDragDropOffsetHook = () => {
         }
 
         offsetArray.splice(offsetArray.length - 1, 1)
-        console.log("excellent offsetArray", offsetArray)
 
         setOffsetRefList(offsetArray)
     }, [dragDropEditList, isLayoutReady])

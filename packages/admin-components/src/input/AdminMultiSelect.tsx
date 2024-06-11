@@ -28,8 +28,6 @@ export const AdminMultiSelect: React.FC<AdminMultiSelectInterface> = ({
     useEffect(() => {
         const list: MultiSelectType[] = []
 
-        console.log("value aaa", value)
-
         const v = typeof value === "string" ? [value] : value
 
         v?.map((value: string) => {

@@ -13,11 +13,20 @@ type TwoColumnProps = WidgetProps &
         isMobileView?: boolean
         isElementor?: boolean
         selfData?: { children: any[]; properties: {} }
+        site: string
     }
 
 export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
-    const { id, isPreview, elements, isMobileView, isElementor, selfData } =
-        props
+    const {
+        id,
+        isPreview,
+        elements,
+        isMobileView,
+        isElementor,
+        selfData,
+        site
+    } = props
+    const parentProps = { isPreview, site }
 
     const childrenValues = useMemo(() => {
         return selfData?.children ?? []
@@ -29,8 +38,6 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         props.selfData?.properties ?? props.properties
     )
     const { two_column_bg_color } = values
-
-    console.log("elements", elements)
 
     return (
         <div>
@@ -49,7 +56,7 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
                             <SubComponent
                                 {..._.merge(k, childrenValues[idx])}
                                 parentId={id}
-                                isPreview={isPreview}
+                                {...parentProps}
                             />
                         </div>
                     ))}

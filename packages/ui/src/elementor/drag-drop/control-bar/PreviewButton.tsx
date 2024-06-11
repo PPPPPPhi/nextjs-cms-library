@@ -15,7 +15,6 @@ export const PreviewButton: React.FC<PreviewButtonInterface> = () => {
     const { site, pageId } = useParams()
 
     const { language } = pageInfo ?? {}
-    console.log("pageInfo", pageInfo)
 
     return (
         <div

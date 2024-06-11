@@ -174,9 +174,6 @@ const withSubColumn =
                     childType as string
                 )
 
-                console.log("uppppp 8", newDragDropDeepListSettled)
-                console.log("puuuuu 8")
-
                 setDragDropEditList(_.cloneDeep(newDragDropDeepListSettled))
                 setPropertiesEditList(_.cloneDeep(newPropertyDeepListSettled))
                 setFocusEditId({ id: currentChild.id, parentId })
@@ -201,9 +198,6 @@ const withSubColumn =
 
                 newDragDropDeepListSettled.splice(currentIdx, 1)
                 newPropertyDeepListSettled.splice(currentIdx, 1)
-
-                console.log("uppppp 9", newDragDropDeepListSettled)
-                console.log("puuuuu 9")
 
                 setDragDropEditList(_.cloneDeep(newDragDropDeepListSettled))
                 setPropertiesEditList(_.cloneDeep(newPropertyDeepListSettled))
@@ -255,9 +249,6 @@ const withSubColumn =
                 childType as string
             )
 
-            console.log("uppppp 10", newDragDropDeepList)
-            console.log("puuuuu 10")
-
             setDragDropEditList(_.cloneDeep(newDragDropDeepList))
             setPropertiesEditList(_.cloneDeep(newPropertyDeepList))
             setFocusEditId({ id: elementId, parentId })
@@ -304,8 +295,9 @@ const withSubColumn =
         drag(drop(elementRef))
 
         const updateFocusEditComponent = () => {
-            console.log("element id", id)
-            if (element) setFocusEditId({ id, parentId })
+            const isSameElement =
+                focusEditId.id === id && focusEditId.parentId === parentId
+            if (element && !isSameElement) setFocusEditId({ id, parentId })
         }
 
         const focusElement = useMemo(() => {
@@ -341,7 +333,8 @@ const withSubColumn =
                         flex: 1,
                         borderColor: focusElement ? "navy" : "#ABCFFF"
                     }}
-                    onClick={() => {
+                    onClick={(evt) => {
+                        evt.stopPropagation()
                         updateFocusEditComponent()
                     }}>
                     <div className={`w-100`}>

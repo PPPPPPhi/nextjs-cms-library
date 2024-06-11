@@ -8,8 +8,7 @@ import usePropertiesHook from "../hook/usePropertiesHook"
 
 type CardProps = WidgetProps & {}
 
-export const Card: React.FC<CardProps> = ({ properties }) => {
-    const { site } = useParams() ?? {}
+export const Card: React.FC<CardProps> = ({ properties, site }) => {
     const { values } = usePropertiesHook(properties)
 
     const {
@@ -31,7 +30,9 @@ export const Card: React.FC<CardProps> = ({ properties }) => {
                     color: card_text_color ?? "#FFFFFF",
                     background: card_background_color ?? "white"
                 }}>
-                <div className="w-100 overflow-hidden" style={{borderRadius:15}}>
+                <div
+                    className="w-100 overflow-hidden"
+                    style={{ borderRadius: 15 }}>
                     {card_image_src && (
                         <PreviewSelectImage
                             height={300}

@@ -45,7 +45,6 @@ export const useScrollDragArea = (ref: RefObject<HTMLElement | null>) => {
     const { position, isScrollAllowed, scrollTo } = config
 
     const bounds = ref.current?.getBoundingClientRect()
-    // console.log(`[scroll] scroll ??`, bounds)
     const direction = getScrollDirection({
         position,
         upperBounds: bounds?.top,

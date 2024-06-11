@@ -36,7 +36,6 @@ const useHistoryHook = () => {
                 propertiesHistoryList[currentHistoryIndex - 1]
             )
         ) {
-            console.log("history restore", versionSum, currentHistoryIndex)
             return
         } else if (
             versionSum !== 0 &&
@@ -45,11 +44,8 @@ const useHistoryHook = () => {
                 propertiesHistoryList[currentHistoryIndex - 1]
             )
         ) {
-            console.log("history next step")
             return
         } else if (versionSum !== 0 && currentHistoryIndex < versionSum) {
-            console.log("interrupt page", currentHistoryIndex)
-
             newDragDropHistoryList.splice(
                 currentHistoryIndex,
                 newDragDropHistoryList.length
@@ -88,7 +84,6 @@ const useHistoryHook = () => {
             setPropertiesEditList(
                 _.cloneDeep(propertiesHistoryList?.[currentHistoryIndex - 1])
             )
-            console.log("restore history ... ")
         }
     }, [currentHistoryIndex])
 }

@@ -13,11 +13,20 @@ type FiveColumnProps = WidgetProps &
         isMobileView?: boolean
         isElementor?: boolean
         selfData?: { children: any[]; properties: {} }
+        site: string
     }
 
 export const FiveColumn: React.FC<FiveColumnProps> = (props) => {
-    const { id, isPreview, selfData, elements, isElementor, isMobileView } =
-        props
+    const {
+        id,
+        isPreview,
+        selfData,
+        elements,
+        isElementor,
+        isMobileView,
+        site
+    } = props
+    const parentProps = { isPreview, site }
 
     const childrenValues = useMemo(() => {
         return selfData?.children ?? []
@@ -53,7 +62,7 @@ export const FiveColumn: React.FC<FiveColumnProps> = (props) => {
                             <SubComponent
                                 {..._.merge(k, childrenValues[idx])}
                                 parentId={id}
-                                isPreview={isPreview}
+                                {...parentProps}
                             />
                         </div>
                     ))}

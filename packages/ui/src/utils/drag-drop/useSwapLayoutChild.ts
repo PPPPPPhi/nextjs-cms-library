@@ -31,7 +31,7 @@ export const useSwapLayoutChild = () => {
         const newId = uuid_v4()
 
         const { from, to, parentId } = swapLayoutChild
-        console.log(`[hover] useSwapLayoutChild`, swapLayoutChild)
+    
         try {
             const cloneCurrentDragDrop = _.cloneDeep(
                 dragDropHistoryList[currentHistoryIndex]
@@ -115,18 +115,10 @@ export const useSwapLayoutChild = () => {
                 to
             )
 
-            console.log(
-                `[hover] cloneCurrentDragDrop`,
-                cloneCurrentDragDrop,
-                cloneCurrentProperty,
-                parentIndex,
-                parentDnd,
-                parentProp
-            )
+          
             if (!parentDnd || !parentProp) return
 
-            console.log(`[hover] AFTER SET TO CHILD: `, parentDnd, parentProp)
-
+       
             const newDragDropList = _.cloneDeep(
                 dragDropHistoryList[currentHistoryIndex]
             )
@@ -140,17 +132,11 @@ export const useSwapLayoutChild = () => {
 
             newDragDropList[parentIndex] = parentDnd
             newPropertiesList[parentIndex] = parentProp
-            console.log(
-                `[hover] useSwapLayoutChild`,
-                newDragDropList,
-                newPropertiesList
-            )
+           
 
             const snapShotDragDrop = _.cloneDeep(newDragDropList)
             const snapShotProperty = _.cloneDeep(newPropertiesList)
 
-            console.log("uppppp 14", snapShotDragDrop)
-            console.log("puuuuu 14")
 
             setDragDropEditList(snapShotDragDrop)
             setPropertiesEditList(snapShotProperty)
@@ -167,12 +153,7 @@ export const useSwapLayoutChild = () => {
             if (currentHistoryIndex < 9)
                 setCurrentHistoryIndex(currentHistoryIndex + 1)
 
-            console.log(
-                `[hover] useSwapLayoutChild`,
-                currentHistoryIndex,
-                snapShotDragDrop,
-                snapShotProperty
-            )
+           
 
             setToggle(!toggle)
         } catch (err) {

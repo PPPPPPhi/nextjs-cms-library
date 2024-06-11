@@ -1,13 +1,6 @@
-import React, {
-    useCallback,
-    useRef,
-    useMemo,
-    useState,
-    useEffect,
-    Ref,
-    Children
-} from "react"
-import _, { after, before } from "lodash"
+import React from "react"
+import _ from "lodash"
+
 
 import {
     DragDropJson,
@@ -32,12 +25,14 @@ type GeneralColumnProps = DragDropComponentProps & {
     parentId: string
     isFocusing: boolean
     setFocusEditId?: (v: { id: string }) => void
+    site: string
 }
 
 export const GeneralColumn: React.FC<GeneralColumnProps> = (
     props: GeneralColumnProps
 ) => {
-    const { id, component, elements, isPreview, isFocusing } = props
+    const { id, component, elements, isPreview, isFocusing, site } = props
+
     return (
         <div
             className={`d-flex align-items-center justify-content-center w-100 h-100 overflow-hidden ${!isPreview ? "s-edit-area-border" : "border-none"}`}
@@ -51,7 +46,8 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
                     ...props,
                     elements: elements,
                     id: id,
-                    isPreview
+                    isPreview,
+                    site
                 })}
             {!component && (
                 <EmptyLayoutGrid
@@ -59,6 +55,7 @@ export const GeneralColumn: React.FC<GeneralColumnProps> = (
                     elements={elements}
                     id={id}
                     isPreview={isPreview}
+                    site
                 />
             )}
         </div>

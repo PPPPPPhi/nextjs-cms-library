@@ -44,7 +44,6 @@ export const AdminImageGalleryBox: React.FC<AdminImageGalleryModalProps> = ({
                     borderRadius: 25
                 }}
                 onClick={() => {
-                    console.log(`[modal] confirm`, onImageSelected)
                     onImageSelected("/cake1.png")
                 }}
                 className={`flex justify-center cursor-pointer s-adminGradientBg shadow mb-1 s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
@@ -75,7 +74,6 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
     const [enableModel, setEnableModal] = useState<boolean>(false)
 
     const updateImageValue = (id: any) => {
-        console.log("idddd", id)
         // @ts-ignore
         if (setValue) setValue(id)
         setEnableModal(false)
@@ -92,12 +90,7 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
                     }}
                     onClick={() => {
                         setEnableModal(true)
-                        console.log(
-                            `[modal] enable popup`,
-                            element,
-                            ElementNameMap.Image,
-                            site
-                        )
+                     
                     }}
                     className={`flex justify-center cursor-pointer s-adminGradientBg shadow mb-1 s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
                     <span>Select File</span>

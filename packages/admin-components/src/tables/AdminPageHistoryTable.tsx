@@ -103,7 +103,6 @@ export const AdminPageHistoryTable: React.FC<
                         actionTitle: "Publish",
                         size: 100,
                         action: (data) => {
-                            console.log("publish", data)
                             publishPage(data)
                         }
                     },

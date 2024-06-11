@@ -9,8 +9,7 @@ import { AdminButton } from "@nextjs-cms-library/admin-components/index"
 
 type BannerProps = WidgetProps & {}
 
-export const Banner: React.FC<BannerProps> = ({ properties }) => {
-    const { site } = useParams()
+export const Banner: React.FC<BannerProps> = ({ properties, site }) => {
     const { values } = usePropertiesHook(properties)
     const router = useRouter()
 
@@ -25,7 +24,6 @@ export const Banner: React.FC<BannerProps> = ({ properties }) => {
         banner_cta_btn_right,
         banner_size
     } = values
-    console.log("banner_cta_btn_leftbanner_cta_btn_left", banner_cta_btn_left)
 
     const getBannerSize = (size: "small" | "medium" | "large" | "full") => {
         switch (size) {

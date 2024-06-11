@@ -20,7 +20,6 @@ export const AdminUserManagementTable: React.FC<
 > = ({ data, updateActivationStatus, editUser, assignRole }) => {
     const router = useRouter()
     const { user } = useAdminAuthorizationContext()
-    console.log("user", user)
 
     const userIdRef = useRef<string>(user?._id ?? "")
 

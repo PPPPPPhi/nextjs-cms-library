@@ -13,11 +13,20 @@ type SingleColumnProps = WidgetProps &
         isMobileView?: boolean
         isElementor?: boolean
         selfData?: { children: any[]; properties: {} }
+        site: string
     }
 
 export const SingleColumn: React.FC<SingleColumnProps> = (props) => {
-    const { id, isPreview, selfData, elements, isElementor, isMobileView } =
-        props
+    const {
+        id,
+        isPreview,
+        selfData,
+        elements,
+        isElementor,
+        site,
+        isMobileView
+    } = props
+    const parentProps = { isPreview, site }
 
     const childrenValues = useMemo(() => {
         return selfData?.children ?? []
@@ -50,7 +59,7 @@ export const SingleColumn: React.FC<SingleColumnProps> = (props) => {
                         <SubComponent
                             {..._.merge(elements?.[0], childrenValues?.[0])}
                             parentId={id}
-                            isPreview={isPreview}
+                            {...parentProps}
                         />
                     </div>
                 </div>

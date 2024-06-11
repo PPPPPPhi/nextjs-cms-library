@@ -38,8 +38,6 @@ export const ItemDetails: React.FC<ItemDetailsInterface> = ({
         defaultValues: values
     })
 
-    console.log(`item details values`, values)
-
     return (
         <div className="d-flex align-items-center" style={{}}>
             <div className={``}>
@@ -94,10 +92,7 @@ export const ItemDetails: React.FC<ItemDetailsInterface> = ({
                                                         onChange={(evt) => {
                                                             if (readOnly) return
 
-                                                            console.log(
-                                                                `date picker`,
-                                                                evt
-                                                            )
+                                                        
                                                             onChange(evt)
                                                         }} //only when value has changed
                                                     />

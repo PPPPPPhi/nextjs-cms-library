@@ -31,7 +31,6 @@ export class LayoutOperator implements LayoutOperatorType {
     }
 
     getSelectionList() {
-        // console.log("getSelectionList")
         return this.selectionList
     }
 

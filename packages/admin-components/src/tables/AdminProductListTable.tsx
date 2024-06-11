@@ -24,9 +24,7 @@ export const AdminProductListTable: React.FC<
     const router = useRouter()
     const { site } = useParams()
 
-    useEffect(() => {
-        console.log(`order list`, data)
-    }, [data])
+
 
     const tableContent = useMemo(() => {
         return (
@@ -47,7 +45,7 @@ export const AdminProductListTable: React.FC<
                             size: 100,
                             action: (data) => {
                                 const { pageId, pageVersion } = data
-                                console.log(`pencil click`, data?._id)
+                           
                                 router.push(
                                     `/admin/${site}/products/${data?._id}`
                                 )

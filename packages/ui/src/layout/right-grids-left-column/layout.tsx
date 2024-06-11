@@ -13,13 +13,22 @@ type RightGridsLeftColumnProps = WidgetProps &
         isMobileView?: boolean
         isElementor?: boolean
         selfData?: { children: any[]; properties: {} }
+        site: string
     }
 
 export const RightGridsLeftColumn: React.FC<RightGridsLeftColumnProps> = (
     props: RightGridsLeftColumnProps
 ) => {
-    const { id, isPreview, selfData, elements, isElementor, isMobileView } =
-        props
+    const {
+        id,
+        isPreview,
+        selfData,
+        elements,
+        isElementor,
+        site,
+        isMobileView
+    } = props
+    const parentProps = { isPreview, site }
 
     const childrenValues = useMemo(() => {
         return selfData?.children ?? []
@@ -57,7 +66,7 @@ export const RightGridsLeftColumn: React.FC<RightGridsLeftColumnProps> = (
                                 <SubComponent
                                     {..._.merge(k, childrenValues[0])}
                                     parentId={id}
-                                    isPreview={isPreview}
+                                    {...parentProps}
                                 />
                             </div>
                         ))}
@@ -69,7 +78,7 @@ export const RightGridsLeftColumn: React.FC<RightGridsLeftColumnProps> = (
                                 <SubComponent
                                     {..._.merge(k, childrenValues[idx + 1])}
                                     parentId={id}
-                                    isPreview={isPreview}
+                                    {...parentProps}
                                 />
                             </div>
                         ))}

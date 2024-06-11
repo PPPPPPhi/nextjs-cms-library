@@ -48,7 +48,6 @@ export const AdminImageGalleryBox: React.FC<AdminImageGalleryModalProps> = ({
                     borderRadius: 25
                 }}
                 onClick={() => {
-                    console.log(`[modal] confirm`, onImageSelected)
                     onImageSelected("/cake1.png")
                 }}
                 className={`flex justify-center cursor-pointer s-adminGradientBg shadow mb-1 s-text-color-nu font-medium rounded-full text-sm p-2.5 text-center items-center me-2`}>
@@ -104,7 +103,6 @@ export const PropertyImageSelector: React.FC<
     }, [value])
 
     useEffect(() => {
-        console.log("innnnnn", inputs)
         //@ts-ignore
         if (onChange && inputs) onChange(inputs)
     }, [inputs])

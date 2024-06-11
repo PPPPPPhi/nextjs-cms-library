@@ -98,7 +98,6 @@ export const AdminFooterHistoryTable: React.FC<
                         actionTitle: "Publish",
                         size: 100,
                         action: (data) => {
-                            console.log("publish", data)
                         }
                     },
                     {

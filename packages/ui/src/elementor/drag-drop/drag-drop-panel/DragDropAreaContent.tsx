@@ -53,7 +53,6 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
 
     useEffect(() => {
         dragDropEditRef.current = dragDropEditList
-        console.log("dragDropEditList??", dragDropEditList)
     }, [dragDropEditList])
 
     useEffect(() => {
@@ -64,8 +63,7 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
         if (!dragDropList || !propertiesList) return
         const elementId = uuid_v4()
 
-        console.log("itemTypeitemType", itemType)
-        console.log("itemTypeitemType dragDropList", dragDropList)
+
 
         const newEditComponent: DragDropEditType = {
             ...((dragDropList?.get(itemType) as DragDropJson) ??
@@ -85,8 +83,7 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
         const newPropertyList = _.cloneDeep(propertiesEditRef.current)
         newPropertyList.splice(position, 0, newPropertiesComponent)
 
-        console.log("uppppp 4", newDragDropList)
-        console.log("puuuuu 1")
+
 
         setDragDropEditList(_.cloneDeep(newDragDropList))
         setPropertiesEditList(_.cloneDeep(newPropertyList))
@@ -160,8 +157,7 @@ export const DragDropAreaContent: React.FC<DragDropAreaContentProps> = () => {
             setFocusEditId({ id: currentItem?.id })
         }
 
-        console.log("uppppp 5", newDragDropList)
-        console.log("puuuuu 2")
+      
 
         setDragDropEditList(_.cloneDeep(newDragDropList))
         setPropertiesEditList(_.cloneDeep(newPropertyList))

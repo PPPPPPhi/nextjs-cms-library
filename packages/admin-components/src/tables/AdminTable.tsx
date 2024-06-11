@@ -203,8 +203,6 @@ export const AdminTable: React.FC<AdminTableInterface> = forwardRef(
                 csvRow.push(dataRow)
             })
 
-            console.log(`csvRow`, csvRow)
-
             generateExcel(config)
         }
 

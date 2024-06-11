@@ -28,19 +28,9 @@ export const useDuplicateComponent = () => {
 
         const { id, index } = duplicateElementId ?? {}
 
-        console.log(`[dragdropedit] being clone`, duplicateElementId)
-
         const duplicateDragDrop = dragDropEditList.at(index as number)
         const duplicateProperties = propertiesEditList.at(index as number)
 
-        console.log(
-            `[dragdropedit] being clone found `,
-            currentHistoryIndex,
-            duplicateDragDrop,
-            duplicateProperties,
-            dragDropHistoryList,
-            propertiesHistoryList
-        )
         if (!duplicateDragDrop || !duplicateProperties) return
 
         const newId = uuid_v4()
@@ -51,12 +41,6 @@ export const useDuplicateComponent = () => {
         const newPropertiesList = _.cloneDeep(
             propertiesHistoryList[currentHistoryIndex]
         )
-        console.log(
-            `[dragdropedit] before clone 2`,
-            currentHistoryIndex,
-            newDragDropList,
-            newPropertiesList
-        )
 
         if (!newDragDropList) return
         if (!newPropertiesList) return
@@ -66,9 +50,6 @@ export const useDuplicateComponent = () => {
             ...duplicateProperties,
             id: newId
         })
-
-        console.log("uppppp 12", newDragDropList)
-        console.log("puuuuu 12")
 
         setDragDropEditList(newDragDropList)
         setPropertiesEditList(newPropertiesList)
@@ -88,15 +69,6 @@ export const useDuplicateComponent = () => {
         if (currentHistoryIndex < historyCapSize - 1) {
             setCurrentHistoryIndex(currentHistoryIndex + 1)
         }
-
-        console.log(
-            `list`,
-            newDragDropList,
-            newPropertiesList,
-            currentHistoryIndex,
-
-            dragDropHistoryList.length
-        )
     }, [duplicateElementId])
 
     return

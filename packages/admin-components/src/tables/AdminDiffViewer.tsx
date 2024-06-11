@@ -43,8 +43,6 @@ export const AdminDiffViewer: React.FC<AdminDiffViewerInterface> = ({
 
     useEffect(() => {
         if (sourceJson && targetJson) {
-            console.log("sourceJsonsourceJsonsourceJson", sourceJson)
-            console.log("sourceJsonsourceJsonsourceJsonD", targetJson)
             constructDiff()
         } else setDiff(undefined)
     }, [sourceJson, targetJson])

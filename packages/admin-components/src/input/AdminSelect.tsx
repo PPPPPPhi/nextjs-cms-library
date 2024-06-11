@@ -67,7 +67,6 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
                     placeholder={placeH}
                     onChange={(evt) => setSelectedOption(evt.target.value)}
                     autoWidth
-                    label="Age"
                     inputProps={{
                         style: {
                             ...inputStyle

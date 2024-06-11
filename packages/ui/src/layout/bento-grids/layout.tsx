@@ -14,11 +14,20 @@ type BentoGridProps = WidgetProps &
         isMobileView?: boolean
         isElementor?: boolean
         selfData?: { children: any[]; properties: any }
+        site: string
     }
 
 export const BentoGrid: React.FC<BentoGridProps> = (props: BentoGridProps) => {
-    const { id, isPreview, selfData, elements, isElementor, isMobileView } =
-        props
+    const {
+        id,
+        isPreview,
+        selfData,
+        elements,
+        isElementor,
+        isMobileView,
+        site
+    } = props
+    const parentProps = { isPreview, site }
 
     const { values } = usePropertiesHook(
         props.selfData?.properties ?? props.properties
@@ -60,7 +69,7 @@ export const BentoGrid: React.FC<BentoGridProps> = (props: BentoGridProps) => {
                             <SubComponent
                                 {..._.merge(k, childrenValues[idx])}
                                 parentId={id}
-                                isPreview={isPreview}
+                                {...parentProps}
                             />
                         </div>
                     ))}

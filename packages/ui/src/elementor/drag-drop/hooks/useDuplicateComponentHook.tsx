@@ -48,9 +48,7 @@ const useDuplicateComponentHook = () => {
         //@ts-ignore
         newPropertyList.splice(position, 0, newPropertiesComponent)
 
-        console.log("uppppp 7", newDragDropList)
-        console.log("puuuuu 5")
-
+      
         setDragDropEditList(_.cloneDeep(newDragDropList))
         setPropertiesEditList(_.cloneDeep(newPropertyList))
 

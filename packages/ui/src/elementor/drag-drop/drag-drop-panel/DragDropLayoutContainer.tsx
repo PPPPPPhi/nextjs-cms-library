@@ -4,6 +4,7 @@ import { DragDropAccecptType } from "@nextjs-cms-library/ui/index"
 import { useEffect } from "react"
 import _ from "lodash"
 import { getLayoutsComponent } from "../../../elementor/maps/LayoutsComponentMap"
+import { useParams } from "next/navigation"
 
 interface DragDropLayoutContainerProps {
     element: any
@@ -15,6 +16,8 @@ export const DragDropLayoutContainer: React.FC<DragDropLayoutContainerProps> = (
 ) => {
     const { dragDropEditAcceptType, setIsOnHoverLayout, isMobileView } =
         useDisplayPanelContext()
+
+    const { site } = useParams() ?? {}
 
     const [{ isDragging }, drop] = useDrop(
         () => ({
@@ -39,7 +42,12 @@ export const DragDropLayoutContainer: React.FC<DragDropLayoutContainerProps> = (
     return (
         <div ref={drop}>
             {/*@ts-ignore*/}
-            <Component {...props} isMobileView={isMobileView} isElementor />
+            <Component
+                {...props}
+                isMobileView={isMobileView}
+                isElementor
+                site={site}
+            />
         </div>
     )
 }

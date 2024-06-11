@@ -26,27 +26,20 @@ export const useNavigatePreviousNextStep = () => {
             // check if exist cap size, when delete the oldest
 
             if (dragDropHistoryList.length != propertiesHistoryList.length)
-                console.log(`err !`, dragDropHistoryList, propertiesHistoryList)
+         
 
             if (dragDropHistoryList.length > historyCapSize) {
                 dragDropHistoryList.shift()
                 propertiesHistoryList.shift()
-                console.log(`after pop dnd shift~~ `)
+           
                 setToggle(!toggle)
             }
 
-            console.log("uppppp 13", dragDropHistoryList[currentHistoryIndex])
-            console.log("puuuuu 13")
+  
 
             setDragDropEditList(dragDropHistoryList[currentHistoryIndex])
             setPropertiesEditList(propertiesHistoryList[currentHistoryIndex])
 
-            console.log(
-                `view current`,
-                currentHistoryIndex,
-                dragDropHistoryList,
-                propertiesHistoryList
-            )
         } catch (err) {
             console.log(`useNavigatePreviousNextStep err`, err)
         }

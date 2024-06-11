@@ -412,7 +412,6 @@ export const AdminNavigationDisplay: React.FC<
         [navigation, isShowSetting, isDraggable]
     )
 
-    console.log("navJson2", navigation)
 
     const isOuterMost = useMemo(() => {
         if (osIdRefList.length - 1 === osPosition) return true

@@ -37,6 +37,7 @@ export type WidgetProps = {
     label?: string
     value?: string
     placeholder?: string
+    site?: string
 }
 
 export type CorePropertyJson = WidgetProps & {

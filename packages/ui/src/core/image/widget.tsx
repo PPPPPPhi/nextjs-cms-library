@@ -10,9 +10,11 @@ type ImageProps = WidgetProps & {
     isPreview: boolean
 }
 
-export const Image: React.FC<ImageProps> = ({ properties, isPreview }) => {
-    const { site } = useParams()
-
+export const Image: React.FC<ImageProps> = ({
+    properties,
+    isPreview,
+    site
+}) => {
     const { values } = usePropertiesHook(properties)
     const { image_label, image_src, image_alignment, image_position } =
         values ?? {}

@@ -57,7 +57,6 @@ export class ImageResourceAdaptor implements ImageResourceAdaptorInterface {
         try {
             await this.fs.access(siteFolder)
         } catch (err) {
-            console.log("eeeeeerrrrrrr", err)
             await this.fs.mkdir(siteFolder)
         }
 

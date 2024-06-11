@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useMemo, useState, useEffect } from "react"
 const { useDrag } = require("react-dnd")
 
-import _ from "lodash"
+import _, { every } from "lodash"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 import {
@@ -138,6 +138,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         if (readOnly || isPreview) return
         if (focusEditId?.id == id) return
         if (focusEditId?.parentId) {
+
             setFocusEditId({ id })
             return
         }
@@ -146,8 +147,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
     }, [focusEditId])
 
     const focusElement = useMemo(() => {
-        console.log("element id ... ", focusEditId)
-
         return focusEditId?.id == id
     }, [focusEditId])
 
@@ -205,7 +204,10 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 <div
                     id={`${id}-edit`}
                     ref={drag}
-                    onClick={() => updateFocusEditComponent()}
+                    onClick={(evt) => {
+                        evt.preventDefault()
+                        updateFocusEditComponent()
+                    }}
                     className={isPreview || readOnly ? "" : `s-drag-drop-card`}
                     style={{
                         borderRadius: 0,

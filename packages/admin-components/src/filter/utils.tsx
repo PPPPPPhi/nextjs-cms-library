@@ -188,12 +188,11 @@ export const getParsedFilterValues = (filterValues: any) => {
             ","
         )
 
-        console.log(`current panel values order`, cleanValue)
         _.set(parsedValues, key, cleanValue)
 
         return
     })
 
-    console.log(`getParsedFilterValues values`, parsedValues)
+  
     return parsedValues
 }

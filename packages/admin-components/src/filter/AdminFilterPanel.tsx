@@ -73,8 +73,6 @@ export const AdminFilterPanel: React.FC<FilterPanelInterface> = ({
     const [isDisplay, setDisplay] = useState<boolean>(false)
 
     const handleSearchFilter = () => {
-        console.log(`current panel values:`, getValues())
-
         searchHandler(getParsedFilterValues(getValues()))
     }
 
@@ -168,10 +166,6 @@ export const AdminFilterPanel: React.FC<FilterPanelInterface> = ({
                                                             new Date()
                                                         }
                                                         onChange={(evt) => {
-                                                            console.log(
-                                                                `date picker`,
-                                                                evt
-                                                            )
                                                             onChange(evt)
                                                         }} //only when value has changed
                                                     />

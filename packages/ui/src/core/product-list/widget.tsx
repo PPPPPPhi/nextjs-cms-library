@@ -89,8 +89,6 @@ export const ProductList: React.FC<ProductListProps> = ({
             themeColor: "Orange"
         }
     ])
-    console.log("poooperty", values)
-
     return (
         <div className="d-flex flex-column">
             A

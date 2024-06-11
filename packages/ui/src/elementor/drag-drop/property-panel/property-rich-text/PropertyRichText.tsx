@@ -54,7 +54,7 @@ export const PropertyRichText: React.FC<PropertyRichTextInterface> = ({
             // preferred to use only this option to update the content for performance reasons
             // onChange={(newContent) => {
             //     onChange(newContent)
-            //     console.log("new content", newContent)
+        
             // }}
         />
     )

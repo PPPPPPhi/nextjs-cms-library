@@ -13,13 +13,22 @@ type ThreeColumnProps = WidgetProps &
         isMobileView?: boolean
         isElementor?: boolean
         selfData?: { children: any[]; properties: {} }
+        site: string
     }
 
 export const ThreeColumn: React.FC<ThreeColumnProps> = (
     props: ThreeColumnProps
 ) => {
-    const { id, isPreview, selfData, elements, isElementor, isMobileView } =
-        props
+    const {
+        id,
+        isPreview,
+        selfData,
+        elements,
+        isElementor,
+        site,
+        isMobileView
+    } = props
+    const parentProps = { isPreview, site }
 
     const childrenValues = useMemo(() => {
         return selfData?.children ?? []
@@ -50,7 +59,7 @@ export const ThreeColumn: React.FC<ThreeColumnProps> = (
                             <SubComponent
                                 {..._.merge(k, childrenValues[idx])}
                                 parentId={id}
-                                isPreview={isPreview}
+                                {...parentProps}
                             />
                         </div>
                     ))}
