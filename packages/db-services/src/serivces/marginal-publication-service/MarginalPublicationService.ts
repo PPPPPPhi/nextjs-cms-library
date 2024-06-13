@@ -275,3 +275,58 @@ export const getMarginalPublicationHistory = async (
         return { status: 500, message: "Failed" }
     }
 }
+
+export const getLatestPublishedMarginals = async (
+    site: string,
+    lang: string
+) => {
+    try {
+        const mongoose = await connectMongoDB()
+
+        const getLastest = async (type: string, language: string) => {
+            return await getProjectedQuery(
+                mongoose.models.MarginalPublication as Model<
+                    any,
+                    {},
+                    {},
+                    {},
+                    any,
+                    any
+                >,
+                { site, type, language },
+                [{ $sort: { updatedAt: -1 } }, { $limit: 1 }],
+                [
+                    "site",
+                    "type",
+                    "properties",
+                    "language",
+                    "marginalVersion",
+                    "updatedBy",
+                    "_id",
+                    "createdAt",
+                    "updatedAt",
+                    "version"
+                ]
+            )
+        }
+
+        const common = await getLastest("footer", lang)
+        const footer = await getLastest("footer", lang)
+        const header = await getLastest("header", lang)
+        const nav = await getLastest("nav", lang)
+
+        return {
+            marginals: {
+                common,
+                footer,
+                header,
+                nav
+            },
+            status: 200,
+            message: "Success"
+        }
+    } catch (err) {
+        console.log("Error in getting latest publish marginals", err)
+        return { status: 500, message: "Failed" }
+    }
+}
