@@ -1,3 +1,5 @@
+import { SingleColumn } from ".."
+
 export enum ElementNameMap {
     Text = "text",
     Image = "image",
@@ -17,7 +19,8 @@ export enum ElementNameMap {
     Webinar = "webinar",
     SVGNavCard = "svg-nav-card",
     Slogan = "slogan",
-    Testimonial = "testimonial-slider"
+    Testimonial = "testimonial-slider",
+    ProductList = "product-list"
 }
 
 export enum LayoutNameMap {
@@ -26,5 +29,9 @@ export enum LayoutNameMap {
     LeftGridsRightColumn = "left-grids-right-column",
     RightGridsLeftColumn = "right-grids-left-column",
     BentoGrid = "bento-grid",
-    FiveColumn = "five-column"
+    FiveColumn = "five-column",
+    SixColumn = "six-column",
+    BSSColumn = "bss-column-grid",
+    PromotionGrid = "promotion-grid",
+    SingleColumn = "single-column"
 }

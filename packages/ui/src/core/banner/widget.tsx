@@ -9,8 +9,7 @@ import { AdminButton } from "@nextjs-cms-library/admin-components/index"
 
 type BannerProps = WidgetProps & {}
 
-export const Banner: React.FC<BannerProps> = ({ properties }) => {
-    const { site } = useParams()
+export const Banner: React.FC<BannerProps> = ({ properties, site }) => {
     const { values } = usePropertiesHook(properties)
     const router = useRouter()
 
@@ -22,26 +21,40 @@ export const Banner: React.FC<BannerProps> = ({ properties }) => {
         banner_alignment,
         banner_image_src,
         banner_cta_btn_left,
-        banner_cta_btn_right
+        banner_cta_btn_right,
+        banner_size
     } = values
-    console.log("banner_cta_btn_leftbanner_cta_btn_left", banner_cta_btn_left)
+
+    const getBannerSize = (size: "small" | "medium" | "large" | "full") => {
+        switch (size) {
+            case "small":
+                return 400
+            case "medium":
+                return 500
+            case "large":
+                return 750
+            case "full":
+                return 900
+        }
+    }
 
     return (
         <div
             className="w-100 d-flex  position-relative"
-            style={{ minHeight: 700 }}>
+            style={{ minHeight: getBannerSize(banner_size) }}>
             <div className="w-100">
                 {banner_image_src && (
                     <PreviewSelectImage
                         site={site as string}
                         value={banner_image_src as string}
                         handler={() => {}}
+                        style={{ objectFit: "cover" }}
                     />
                 )}
             </div>
 
             <div
-                className={`position-absolute w-100 p-5 d-flex flex-column align-items-${banner_alignment ?? "start"}`}
+                className={`banner position-absolute w-100 p-5 d-flex flex-column align-items-${banner_alignment ?? "start"}`}
                 style={{
                     top: "30%",
                     color: banner_text_color ?? "#000",
@@ -74,9 +87,7 @@ export const Banner: React.FC<BannerProps> = ({ properties }) => {
                                     )
                             }}
                             style={{
-                                width: 250,
-                                height: 80,
-                                borderRadius: 40
+                                borderRadius: 12
                             }}
                         />
                     )}
@@ -90,9 +101,7 @@ export const Banner: React.FC<BannerProps> = ({ properties }) => {
                                     )
                             }}
                             style={{
-                                width: 250,
-                                height: 80,
-                                borderRadius: 40
+                                borderRadius: 12
                             }}
                         />
                     )}

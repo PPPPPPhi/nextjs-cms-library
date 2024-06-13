@@ -15,6 +15,7 @@ export const AdminTableRawEditButton: React.FC<
             className="d-flex align-items-center justify-content-center"
             style={{
                 minHeight: 35,
+                maxHeight: 35,
                 width: customWidth ?? "auto"
             }}>
             {!disabled && (

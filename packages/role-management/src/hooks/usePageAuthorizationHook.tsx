@@ -45,8 +45,6 @@ const usePageAuthorizationHook = () => {
 
     const checkPathAuthorization = (path: string) => {
         const pageAuthCode = getPageAuthorization(path)
-        console.log("pageAuthCheck, pageCode: ", pageAuthCode)
-        console.log("pageAuthCheck userFunctionsList:", userFunctionsList)
 
         if (pageAuthCode === -99) {
             setIsAuthorized(true)
@@ -55,13 +53,11 @@ const usePageAuthorizationHook = () => {
 
         //@ts-ignore
         const isAuthorized = userFunctionsList.includes(pageAuthCode)
-        console.log("pageAuthCheck, isAuthorized: ", isAuthorized)
         setIsAuthorized(isAuthorized)
         if (!isAuthorized) updateIsNotAuthorized()
     }
 
     useEffect(() => {
-        console.log("pageAuthCheck, nextJsRoutePathName: ", nextJsRoutePathName)
         if (nextJsRoutePathName && role)
             checkPathAuthorization(nextJsRoutePathName)
     }, [nextJsRoutePathName, role])

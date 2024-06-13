@@ -35,9 +35,7 @@ export const RichTextEditInput: React.FC<RichTextEditInputProps> = ({
 
     const rteObj = document.getElementById(`${id}-richtext`)
 
-    const updateValue = (e: any) => {
-        console.log(`[richtext] update `, e)
-    }
+    const updateValue = (e: any) => {}
 
     // function handleFullScreen(e: any) {
     //     const sbCntEle = document.querySelector(".sb-content.e-view")
@@ -104,12 +102,7 @@ export const RichTextEditInput: React.FC<RichTextEditInputProps> = ({
     // }
 
     const onChangeValue = (richValue: EditorValue) => {
-        console.log(
-            `[richtext] onchange`,
-            richValue,
-            richValue.toString("markdown"),
-            richValue.getEditorState().getCurrentContent()
-        )
+  
         // @ts-ignore
         if (setValue) {
             // setValue(name, richValue.toString("html"))

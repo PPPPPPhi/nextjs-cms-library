@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import { WidgetProps } from "../utils/type/index"
 import { PreviewSelectImage } from "../utils"
@@ -6,9 +8,8 @@ import { useParams } from "next/navigation"
 
 type SponsorProps = WidgetProps & {}
 
-export const Sponsor: React.FC<SponsorProps> = ({ properties }) => {
+export const Sponsor: React.FC<SponsorProps> = ({ properties, site }) => {
     const { values } = usePropertiesHook(properties)
-    const { site } = useParams()
 
     const { sponsor_title, sponsor_image_list } = values
 

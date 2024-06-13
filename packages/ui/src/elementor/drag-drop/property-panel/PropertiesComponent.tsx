@@ -161,8 +161,6 @@ export const PropertiesComponent: React.FC<
 
             newPropertiesList[currentItemIdx] = updatedItem
 
-            console.log("puuuuu 6", updatedItem)
-
             setPropertiesEditList(_.cloneDeep(newPropertiesList))
         } else {
             const currentItem = _.cloneDeep(
@@ -173,9 +171,6 @@ export const PropertiesComponent: React.FC<
             const currentItemIdx = newPropertiesList.findIndex(
                 (l: any) => l.id === focusEditId.parentId
             )
-
-            console.log("inside parent currentItem", currentItem)
-            console.log("inside parent currentItemIdx", currentItemIdx)
 
             const updatedItem = {
                 ...currentItem,
@@ -200,8 +195,6 @@ export const PropertiesComponent: React.FC<
             }
 
             newPropertiesList[currentItemIdx] = updatedItem
-
-            console.log("puuuuu 7", updatedItem)
 
             setPropertiesEditList(_.cloneDeep(newPropertiesList))
             setDragDropEditList(_.cloneDeep(dragDropListRef.current))

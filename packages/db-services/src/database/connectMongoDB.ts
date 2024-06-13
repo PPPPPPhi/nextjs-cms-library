@@ -57,14 +57,11 @@ if (!DATABASE_URL) {
 let cached = global.mongoose
 
 if (!cached) {
-    console.log("not cached 1")
     cached = global.mongoose = { conn: null, promise: null }
 }
 
 export const connectMongoDB = async () => {
     if (cached.conn) {
-        console.log("not cached 2")
-
         return cached.conn
     }
 
@@ -76,8 +73,6 @@ export const connectMongoDB = async () => {
             serverSelectionTimeoutMS: 30000,
             maxPoolSize: 50
         }
-
-        console.log("not cached 3")
 
         cached.promise = mongoose
             .connect(DATABASE_URL, options)

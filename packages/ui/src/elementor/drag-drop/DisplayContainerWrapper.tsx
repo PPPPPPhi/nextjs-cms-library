@@ -71,7 +71,7 @@ export const DisplayContainerWrapper: React.FC<
                     className="d-flex w-100 h-100"
                     style={{ maxHeight: "100%" }}>
                     {!readOnly && <SelectionPanel />}
-                    <div className="overflow-scroll" style={{ flex: 1 }}>
+                    <div className="overflow-y-auto" style={{ flex: 1 }}>
                         {pageJson && <DragDropArea pageJson={pageJson ?? {}} />}
                     </div>
                     {!readOnly && <PropertiesPanelArea />}

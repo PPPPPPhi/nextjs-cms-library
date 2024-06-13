@@ -48,7 +48,6 @@ const Card: React.FC<AdminCardType> = ({
         //         <AdminActionButton
         //             label={actionLabel}
         //             onClick={() => {
-        //                 console.log("dependency press")
         //                 action()
         //             }}
         //             inverseStyle={

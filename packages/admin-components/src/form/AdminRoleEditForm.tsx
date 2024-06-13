@@ -125,13 +125,11 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
     }
 
     const handleFunctionChange = (id: number) => {
-        console.log("idddd", id)
+
         const funcList = _.cloneDeep(func)
         const funcItemIdx = funcList.findIndex((l) => l === id)
         if (funcItemIdx > -1) funcList.splice(funcItemIdx, 1)
         else funcList.push(id)
-
-        console.log("funcList", funcList)
 
         setFunc(funcList)
     }
@@ -158,8 +156,6 @@ export const AdminRoleEditForm: React.FC<AdminRoleEditFormInterface> = ({
                 functionId: [...func]
             })
     }, [inputs, func])
-
-    console.log("inputs.functions_lookUp", inputs.functions_lookUp)
 
     return (
         <div className="d-flex flex-column space-y-6  p-2">

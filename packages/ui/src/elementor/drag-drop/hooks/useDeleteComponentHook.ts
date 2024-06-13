@@ -25,8 +25,7 @@ const useDeleteComponentHook = () => {
         const newPropertyList = [...propertiesEditList]
         newPropertyList.splice(currentIdx, 1)
 
-        console.log("uppppp 6", newDragDropList)
-        console.log("puuuuu 4")
+
 
         setDragDropEditList(_.cloneDeep(newDragDropList))
         setPropertiesEditList(_.cloneDeep(newPropertyList))

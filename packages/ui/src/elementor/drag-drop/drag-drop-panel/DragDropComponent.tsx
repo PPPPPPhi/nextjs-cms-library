@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useMemo, useState, useEffect } from "react"
 const { useDrag } = require("react-dnd")
 
-import _ from "lodash"
+import _, { every } from "lodash"
 
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 import {
@@ -23,24 +23,39 @@ import {
 type DragDropComponentButtonsProps = {
     handleEvent: () => void
     buttonType: string
+    style: React.CSSProperties
 }
 
 export const DragDropComponentButtons: React.FC<
     DragDropComponentButtonsProps
-> = ({ buttonType, handleEvent }) => {
+> = ({ buttonType, handleEvent, style }) => {
     return (
         <>
             {buttonType == DragDropButton.delete && (
                 <AdminTableActionWarnButton
                     label="Delete"
                     action={handleEvent}
+                    style={{
+                        position: "absolute",
+                        right: 100,
+                        top: "-30px",
+                        zIndex: 1,
+                        ...style
+                    }}
                 />
             )}
             {buttonType == DragDropButton.duplicate && (
                 <AdminActionButton
                     label="Clone"
                     onClick={handleEvent}
-                    style={{ minWidth: 75 }}
+                    style={{
+                        minWidth: 75,
+                        position: "absolute",
+                        right: 20,
+                        top: "-30px",
+                        zIndex: 1,
+                        ...style
+                    }}
                 />
             )}
             {buttonType == DragDropButton.add && <span>Move To Here</span>}
@@ -123,6 +138,7 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         if (readOnly || isPreview) return
         if (focusEditId?.id == id) return
         if (focusEditId?.parentId) {
+
             setFocusEditId({ id })
             return
         }
@@ -131,8 +147,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
     }, [focusEditId])
 
     const focusElement = useMemo(() => {
-        console.log("element id ... ", focusEditId)
-
         return focusEditId?.id == id
     }, [focusEditId])
 
@@ -164,6 +178,12 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 {isHoverTop && <HoverBorder />}
                 <div
                     style={{
+                        height: 30,
+                        display: isPreview ? "none" : "block"
+                    }}
+                />
+                <div
+                    style={{
                         display: !readOnly ? allowDisplay : "none",
                         flexDirection: "row",
                         justifyContent: "flex-end",
@@ -184,10 +204,13 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                 <div
                     id={`${id}-edit`}
                     ref={drag}
-                    onClick={() => updateFocusEditComponent()}
+                    onClick={(evt) => {
+                        evt.preventDefault()
+                        updateFocusEditComponent()
+                    }}
                     className={isPreview || readOnly ? "" : `s-drag-drop-card`}
                     style={{
-                        padding: element === "banner" ? 0 : 20,
+                        borderRadius: 0,
                         borderColor: focusElement
                             ? "navy"
                             : isLayout
@@ -198,7 +221,8 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                         <div>
                             {component({
                                 ...selfData,
-                                elements: elements
+                                elements: elements,
+                                isPreview
                             })}
                         </div>
                     )}

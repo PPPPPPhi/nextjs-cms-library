@@ -92,7 +92,6 @@ export const AdminRoleSwitchingForm: React.FC<
     const { roleList, role } = useAdminAuthorizationContext()
 
     useEffect(() => {
-        console.log("roleList", roleList)
         if (!role && roleList.length) setR(roleList[0]?.roleName ?? "")
     }, [roleList])
 

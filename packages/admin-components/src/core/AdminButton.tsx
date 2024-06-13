@@ -27,7 +27,7 @@ export const AdminButton: React.FC<AdminButtonInterface> = (buttonProps) => {
 
     return (
         <div
-            className={`${
+            className={`ctaButton ${
                 inverseStyle ? styles.adminButtonInverse : styles.adminButton
             } d-flex align-items-center ${Icon ? "justify-content-between" : "justify-content-center"} text-level-content`}
             style={{

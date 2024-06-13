@@ -112,15 +112,6 @@ const HeaderImageSection: React.FC<HeaderImageSectionInterface> = ({
 
     const isAbsolutePath = /https:\/\/|http:\/\//.test(imagePath || path)
 
-    console.log(
-        "aaaa",
-        isAbsolutePath
-            ? imagePath
-            : imagePath
-              ? `${process.env.NEXT_IMAGE_UPLOAD_PATH}${imagePath}`
-              : "aaa"
-    )
-
     return (
         <div className="d-flex p-3">
             <div

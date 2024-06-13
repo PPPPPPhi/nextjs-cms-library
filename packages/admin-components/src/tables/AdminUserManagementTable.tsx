@@ -20,7 +20,6 @@ export const AdminUserManagementTable: React.FC<
 > = ({ data, updateActivationStatus, editUser, assignRole }) => {
     const router = useRouter()
     const { user } = useAdminAuthorizationContext()
-    console.log("user", user)
 
     const userIdRef = useRef<string>(user?._id ?? "")
 
@@ -30,7 +29,6 @@ export const AdminUserManagementTable: React.FC<
                 data={data ?? []}
                 pinColumns={["_id", "_idx", "_idxx", "_activate"]}
                 exportAuthCode="USER_VIEW_ROLE"
-                style={{ height: "100%" }}
                 columnDefs={[
                     {
                         accessorKey: "_id",

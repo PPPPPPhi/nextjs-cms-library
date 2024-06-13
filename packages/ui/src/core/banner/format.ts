@@ -46,6 +46,18 @@ export const propertyBannerJson: PropertyJson = {
             type: "color-picker"
         },
         {
+            element_id: "banner_size",
+            label: "Banner Size",
+            value: "small",
+            type: "select",
+            options: [
+                { label: "Small", value: "small" },
+                { label: "Medium", value: "medium" },
+                { label: "Large", value: "large" },
+                { label: "Full Height", value: "full" }
+            ]
+        },
+        {
             element_id: "banner_alignment",
             label: "Alignment",
             value: "start",

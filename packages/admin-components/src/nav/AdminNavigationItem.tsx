@@ -249,6 +249,7 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
                 </div>
                 {!isMaxLevel && (
                     <AdminNavButton
+                        //@ts-ignore
                         icon={<FaArrowDownWideShort />}
                         label={name}
                         onNavClick={() => {

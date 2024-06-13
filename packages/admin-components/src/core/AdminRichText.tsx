@@ -40,7 +40,6 @@ export const AdminRichText = ({
             // preferred to use only this option to update the content for performance reasons
             onChange={(newContent: any) => {
                 onChange(newContent)
-                console.log("new content", newContent)
             }}
         />
     )

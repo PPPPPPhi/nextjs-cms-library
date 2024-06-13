@@ -29,7 +29,6 @@ export const useUpdateEditList = () => {
         if (updateElementId?.action != UpdateEditElementAction.UPDATE) return
 
         const { id, index, values } = updateElementId ?? {}
-        console.log(`updateElementId ***88`, updateElementId)
 
         const newDragDropList = _.cloneDeep(
             dragDropHistoryList[currentHistoryIndex]
@@ -43,9 +42,6 @@ export const useUpdateEditList = () => {
 
         const snapShotDragDrop = _.cloneDeep(newDragDropList)
         const snapShotProperty = _.cloneDeep(newPropertiesList)
-
-        console.log("uppppp 15", snapShotDragDrop)
-        console.log("puuuuu 15")
 
         setDragDropEditList(snapShotDragDrop)
         setPropertiesEditList(snapShotProperty)

@@ -40,7 +40,6 @@ export const AdminDatePicker: React.FC<AdminDatePickerInterface> = ({
                         label={label}
                         value={dayjs(value)}
                         onChange={(v) => {
-                            console.log(`date picker`, v)
                             onChange(dayjs(v).format("YYYY-MM-DDTHH:mm:ss"))
                         }}
                         sx={{ [".MuiTextField-root input"]: { ...inputStyle } }}
@@ -60,7 +59,6 @@ export const AdminDatePicker: React.FC<AdminDatePickerInterface> = ({
                         label={label}
                         value={dayjs(value)}
                         onChange={(v) => {
-                            console.log(`date picker`, v)
                             onChange(dayjs(v).format("YYYY-MM-DDTHH:mm:ss"))
                         }}
                         slotProps={{

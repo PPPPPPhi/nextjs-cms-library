@@ -23,10 +23,6 @@ export const AdminProductPromotionTable: React.FC<
     const router = useRouter()
     const { site } = useParams()
 
-    useEffect(() => {
-        console.log(`order list`, data)
-    }, [data])
-
     const tableContent = useMemo(() => {
         return (
             <>

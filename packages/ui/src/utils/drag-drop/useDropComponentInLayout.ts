@@ -120,33 +120,11 @@ export const useDropComponentInLayout = () => {
                 propertiesHistoryList[currentHistoryIndex]
             )
 
-            console.log(
-                "setPropertiesEditList  6.0",
-                newPropertiesList,
-                propertiesHistoryList[currentHistoryIndex - 1]
-            )
-
-            console.log(
-                "setPropertiesEditList  6.1",
-                newPropertiesList,
-                propertiesHistoryList[currentHistoryIndex]
-            )
-
             if (!newDragDropList) return
             if (!newPropertiesList) return
 
-            console.log("setPropertiesEditList 6.6", newDragDropList)
-
             newDragDropList[parentIndex] = newParentDragDrop
             newPropertiesList[parentIndex] = newParentProps
-
-            console.log(
-                `[hover] dropComponentInLayout`,
-                newDragDropList,
-                newPropertiesList
-            )
-            console.log("uppppp 11", newDragDropList)
-            console.log("puuuuu 11")
 
             setDragDropEditList(newDragDropList)
             setPropertiesEditList(newPropertiesList)
@@ -165,13 +143,6 @@ export const useDropComponentInLayout = () => {
 
             if (currentHistoryIndex < 9)
                 setCurrentHistoryIndex(currentHistoryIndex + 1)
-
-            console.log(
-                `[hover] dropComponentInLayout`,
-                currentHistoryIndex,
-                snapShotDragDrop,
-                snapShotProperty
-            )
 
             setToggle(!toggle)
         } catch (err) {

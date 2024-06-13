@@ -51,6 +51,15 @@ export const propertyJson: PropertyJson = {
     placeholder: "",
     value: "",
     type: "right-grids-left-column",
+    properties: [
+        {
+            element_id: "rglc_bg_color",
+            label: "Background Color",
+            placeholder: "",
+            value: "",
+            type: "color-picker"
+        }
+    ],
     children: [
         {
             element: "",

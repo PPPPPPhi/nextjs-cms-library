@@ -37,7 +37,6 @@ export const AdminPublicationListTable: React.FC<
             <AdminTable
                 data={data ?? []}
                 pinColumns={["slug", "language", "pageVersion"]}
-                style={{ height: "100%" }}
                 isCompatible={isCompatible}
                 compareField="pagePageJson"
                 columnDefs={[

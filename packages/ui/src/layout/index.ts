@@ -8,3 +8,7 @@ export * from "./bento-grids"
 export * from "./five-column-grid"
 export { EmptyLayoutGrid }
 export * from "./context"
+export * from "./six-column-grid"
+export * from "./bss-column-grid"
+export * from "./promotion-grid"
+export * from "./single-column"

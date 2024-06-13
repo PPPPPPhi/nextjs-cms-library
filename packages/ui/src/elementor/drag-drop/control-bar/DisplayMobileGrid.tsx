@@ -16,8 +16,10 @@ export const DisplayMobileGrid: React.FC<DisplayMobileGridProps> = ({
                     <div className="volume-up"></div>
                     <div className="volume-down"></div>
                     <div className="button-on"></div>
-                    <div className="inside-border f-flex flex-column">
-                        <div className="w-100 d-flex justify-content-center">
+                    <div className="inside-border f-flex flex-column overflow-hidden">
+                        <div
+                            className="w-100 d-flex justify-content-center"
+                            style={{ height: 40 }}>
                             <div className="camera">
                                 <div className="camera-dot">
                                     <div className="camera-dot-2"></div>
@@ -27,12 +29,14 @@ export const DisplayMobileGrid: React.FC<DisplayMobileGridProps> = ({
                             </div>
                         </div>
 
-                        <div className="overflow-y-auto" style={{ flex: 1 }}>
+                        <div
+                            className="overflow-y-auto pt-3"
+                            style={{ flex: 1 }}>
                             {children}
                         </div>
                         <div
                             className="w-100 d-flex justify-content-center"
-                            style={{ height: 10 }}>
+                            style={{ height: 40 }}>
                             <div className="bottom-line"></div>
                         </div>
                     </div>

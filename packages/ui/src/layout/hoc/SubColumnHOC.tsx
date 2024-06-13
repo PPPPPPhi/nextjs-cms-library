@@ -15,6 +15,7 @@ import {
 
 import { DragDropEditType, PropertyEditType } from "../../utils"
 import useViewHook from "../../elementor/drag-drop/hooks/useViewHook"
+import { AdminTableActionWarnButton } from "@nextjs-cms-library/admin-components/index"
 
 type withSubColumnProps = DragDropComponentProps & {
     children: (props: any) => React.ReactNode
@@ -173,9 +174,6 @@ const withSubColumn =
                     childType as string
                 )
 
-                console.log("uppppp 8", newDragDropDeepListSettled)
-                console.log("puuuuu 8")
-
                 setDragDropEditList(_.cloneDeep(newDragDropDeepListSettled))
                 setPropertiesEditList(_.cloneDeep(newPropertyDeepListSettled))
                 setFocusEditId({ id: currentChild.id, parentId })
@@ -200,9 +198,6 @@ const withSubColumn =
 
                 newDragDropDeepListSettled.splice(currentIdx, 1)
                 newPropertyDeepListSettled.splice(currentIdx, 1)
-
-                console.log("uppppp 9", newDragDropDeepListSettled)
-                console.log("puuuuu 9")
 
                 setDragDropEditList(_.cloneDeep(newDragDropDeepListSettled))
                 setPropertiesEditList(_.cloneDeep(newPropertyDeepListSettled))
@@ -254,9 +249,6 @@ const withSubColumn =
                 childType as string
             )
 
-            console.log("uppppp 10", newDragDropDeepList)
-            console.log("puuuuu 10")
-
             setDragDropEditList(_.cloneDeep(newDragDropDeepList))
             setPropertiesEditList(_.cloneDeep(newPropertyDeepList))
             setFocusEditId({ id: elementId, parentId })
@@ -303,8 +295,9 @@ const withSubColumn =
         drag(drop(elementRef))
 
         const updateFocusEditComponent = () => {
-            console.log("element id", id)
-            if (element) setFocusEditId({ id, parentId })
+            const isSameElement =
+                focusEditId.id === id && focusEditId.parentId === parentId
+            if (element && !isSameElement) setFocusEditId({ id, parentId })
         }
 
         const focusElement = useMemo(() => {
@@ -315,27 +308,44 @@ const withSubColumn =
         return (
             <div
                 ref={elementRef}
-                className="h-100"
+                className="h-100 position-relative"
                 style={{
-                    background: isHover ? "var(--static-bg-primary)" : ""
+                    borderRadius: 15,
+                    background: isHover ? "#F1F1F1" : ""
                 }}>
+                {/* {!isPreview && (
+                    <AdminTableActionWarnButton
+                        label="Delete"
+                        action={() => {}}
+                        style={{
+                            position: "absolute",
+                            right: 15,
+                            top: "-15px",
+                            zIndex: 1
+                        }}
+                    />
+                )} */}
                 <div
                     // ref={!readOnly ? subRef : null}
                     id={`${id}-${childType}`}
-                    className={`d-flex w-100 h-100 s-column-grid ${!readOnly && !isPreview ? "s-dragging" : ""} 
-                ${!isPreview ? "s-edit-area-border" : "border-none"}`}
+                    className={`d-flex w-100 h-100 s-column-grid ${!readOnly && !isPreview ? "s-dragging" : ""}`}
                     style={{
                         flex: 1,
                         borderColor: focusElement ? "navy" : "#ABCFFF"
                     }}
-                    onClick={() => {
+                    onClick={(evt) => {
+                        evt.stopPropagation()
                         updateFocusEditComponent()
                     }}>
-                    <WrappedComponent
-                        {...props}
-                        className="z-30"
-                        setFocusEditId={setFocusEditId}
-                    />
+                    <div className={`w-100`}>
+                        <WrappedComponent
+                            {...props}
+                            isPreview={isPreview}
+                            className="z-30"
+                            setFocusEditId={setFocusEditId}
+                            isFocusing={focusElement}
+                        />
+                    </div>
                 </div>
             </div>
         )

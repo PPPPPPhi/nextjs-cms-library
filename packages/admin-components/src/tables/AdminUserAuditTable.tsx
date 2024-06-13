@@ -16,8 +16,6 @@ type AuditProfileType = {
 export const AdminUserAuditTable: React.FC<AdminUserAuditTableInterface> = ({
     data
 }) => {
-    console.log("datadata", data)
-
     return (
         <div className="d-flex w-100 overflow-auto">
             <AdminTable

@@ -97,9 +97,7 @@ export const AdminHeaderHistoryTable: React.FC<
                         cellType: "action",
                         actionTitle: "Publish",
                         size: 100,
-                        action: (data) => {
-                            console.log("publish", data)
-                        }
+                        action: (data) => {}
                     },
                     {
                         accessorKey: "_Compare",

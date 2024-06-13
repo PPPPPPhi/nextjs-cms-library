@@ -24,8 +24,6 @@ export const AdminEditUserRoleForm: React.FC<AdminEditUserFormInterface> = ({
         editUserFormType | Partial<userType | undefined>
     >(defaultValue)
 
-    console.log("defaultValuev", defaultValue)
-
     const [roles, setRoles] = useState(defaultValue?.roles ?? [])
 
     const handleChange = (field: string, value: string | boolean) => {
@@ -39,7 +37,7 @@ export const AdminEditUserRoleForm: React.FC<AdminEditUserFormInterface> = ({
 
     const getRoleListInfo = async () => {
         const roleResp = await getRoleList()
-        console.log("roleResp", roleResp)
+
         setRoleList(roleResp)
     }
 

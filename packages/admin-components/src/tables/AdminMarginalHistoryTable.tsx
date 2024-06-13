@@ -35,7 +35,6 @@ export const AdminMarginalHistoryTable: React.FC<
                 data={data ?? []}
                 pinColumns={["_id", "slug", "language", "version"]}
                 isCompatible={isCompatible}
-                style={{ height: "100%" }}
                 isSubComponent
                 compareField="properties"
                 columnDefs={[
@@ -79,7 +78,6 @@ export const AdminMarginalHistoryTable: React.FC<
                         actionTitle: "Publish",
                         size: 100,
                         action: (data) => {
-                            console.log("publish", data)
                             publishMarginal(data)
                         }
                     },

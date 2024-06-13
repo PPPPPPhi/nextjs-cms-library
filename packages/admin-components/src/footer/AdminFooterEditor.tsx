@@ -82,10 +82,6 @@ export const AdminFooterEditor: React.FC<AdminFooterEditorInterface> = ({
                     <AdminTabMenu
                         tabList={["html", "css", "script"]}
                         callback={(tab) => {
-                            console.log(
-                                "FOOTER_TAB_MENU[tab]",
-                                FOOTER_TAB_MENU[tab]
-                            )
                             setMode(FOOTER_TAB_MENU[tab] as string)
                         }}
                     />
