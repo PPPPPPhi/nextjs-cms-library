@@ -133,7 +133,7 @@ export const getProductById = async (site: string, id: string) => {
 
         const productInfo = await getProjectedQuery(
             mongoose.models.Product as Model<any, {}, {}, {}, any, any>,
-            { _id: parsedId, site },
+            { _id: parsedId },
             [],
             [
                 "_id",

@@ -136,7 +136,7 @@ export const getOrderById = async (site: string, id: string) => {
 
         const orderInfo = await getProjectedQuery(
             mongoose.models.Order as Model<any, {}, {}, {}, any, any>,
-            { _id: parsedId, site },
+            { _id: parsedId },
             [],
             [
                 "_id",

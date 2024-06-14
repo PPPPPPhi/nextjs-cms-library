@@ -119,7 +119,7 @@ export const getCategoryById = async (site: string, id: string) => {
 
         const categoryInfo = await getProjectedQuery(
             mongoose.models.Category as Model<any, {}, {}, {}, any, any>,
-            { _id: parsedId, site },
+            { _id: parsedId },
             [],
             [
                 "_id",
