@@ -33,7 +33,6 @@ export const ViewPageElement: React.FC<ViewPageElementWrapperType> = ({
     elements,
     properties
 }) => {
-    if (element === "two-column")
     return (
         <div>
             {Component && (

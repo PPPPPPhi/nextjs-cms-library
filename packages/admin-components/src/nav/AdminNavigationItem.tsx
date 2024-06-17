@@ -163,7 +163,7 @@ export const AdminNavigationItem: React.FC<AdminNavigationItemInterface> = ({
             style={{ paddingLeft: level !== 1 ? 60 : 0 }}>
             <div className="d-flex space-x-3">
                 <div
-                    className="d-flex w-100 align-items-center flex-wrap space-x-2"
+                    className="d-flex w-100 align-items-center space-x-2"
                     style={{
                         cursor: !isMaxLevel ? "pointer" : "default",
                         border: "2px solid var(--static-color-text-epsilon)",

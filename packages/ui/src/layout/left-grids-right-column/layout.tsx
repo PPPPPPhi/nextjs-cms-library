@@ -5,6 +5,7 @@ import _ from "lodash"
 import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn, ElementorSubColumn } from "../common/index"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
+import styles from "../styles/AdminCMS.module.scss"
 
 type LeftGridsRightColumnProps = WidgetProps &
     LayoutProps & {
@@ -52,11 +53,10 @@ export const LeftGridsRightColumn: React.FC<LeftGridsRightColumnProps> = (
     return (
         <div>
             <div
-                className="d-flex justify-content-center"
+                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
-                    backgroundColor: lgrc_bg_color ?? "inherit",
-                    padding: isMobileView ? "20px 0px" : "50px 0px"
+                    backgroundColor: lgrc_bg_color ?? "inherit"
                 }}>
                 <div
                     className={`d-flex flex-wrap container ${isMobileView ? "space-y-2" : ""}`}>

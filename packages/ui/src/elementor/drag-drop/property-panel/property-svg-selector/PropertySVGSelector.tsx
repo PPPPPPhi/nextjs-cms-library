@@ -44,7 +44,7 @@ export const PropertySVGSelector: React.FC<PropertySVGSelector> = ({
                     onFormValueChange={(v) => {
                         svgRef.current = v
                     }}
-                    defaultValue=""
+                    defaultValue={icon}
                 />
             ),
             confirmCTAText: "Confirm",

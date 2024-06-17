@@ -15,6 +15,8 @@ type ViewPageContainerProps = {
 export const ViewPageContainer: React.FC<ViewPageContainerProps> = ({
     pageJson
 }) => {
+    console.log("pageJson", pageJson)
+
     return (
         <ParsePageContextProvider pageJson={pageJson}>
             {pageJson && <ViewPageArea pageJson={pageJson} />}

@@ -7,22 +7,14 @@ export const RichTextSvg: React.FC<SvgProps> = ({
 }) => {
     return (
         <svg
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+            stroke="currentColor"
+            fill="#000000"
+            stroke-width="0"
+            viewBox="0 0 16 16"
             width={width}
             height={height}
-            fill="#000000">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-                <rect x="0" fill="none" width="20" height="20"></rect>
-                <g>
-                    <path d="M3 5h14V3H3v2zm9 8V7H3v6h9zm2-4h3V7h-3v2zm0 4h3v-2h-3v2zM3 17h14v-2H3v2z"></path>
-                </g>
-            </g>
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M7 4.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m-.861 1.542 1.33.886 1.854-1.855a.25.25 0 0 1 .289-.047l1.888.974V7.5a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V7s1.54-1.274 1.639-1.208M5 9h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1m0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1"></path>
         </svg>
     )
 }

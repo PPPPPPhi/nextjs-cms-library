@@ -40,7 +40,7 @@ export const ViewPageArea: React.FC<ViewPageAreaProps> = ({ pageJson }) => {
                     return (
                         <div
                             key={id}
-                            className={`${isCointainer && !isLayout && "componentContainer"}`}>
+                            className={`${isCointainer && !isLayout ? "componentContainer" : ""}`}>
                             <ViewPageElement
                                 element={element}
                                 type={type}

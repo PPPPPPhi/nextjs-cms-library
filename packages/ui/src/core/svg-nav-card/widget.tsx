@@ -9,9 +9,14 @@ import {
 } from "@nextjs-cms-library/admin-components/index"
 import { useRouter } from "next/navigation"
 
-type SVGNavCardProps = WidgetProps & {}
+type SVGNavCardProps = WidgetProps & {
+    isPreview: boolean
+}
 
-export const SVGNavCard: React.FC<SVGNavCardProps> = ({ properties }) => {
+export const SVGNavCard: React.FC<SVGNavCardProps> = ({
+    properties,
+    isPreview
+}) => {
     const { values } = usePropertiesHook(properties)
 
     const router = useRouter()
@@ -48,7 +53,8 @@ export const SVGNavCard: React.FC<SVGNavCardProps> = ({ properties }) => {
             <AdminButton
                 label="VIEW MORE"
                 onClick={() => {
-                    router.push(svg_nav_card_destination)
+                    if (svg_nav_card_destination && isPreview)
+                        router.push(svg_nav_card_destination)
                 }}
             />
         </div>

@@ -179,6 +179,7 @@ export const AdminNavigationDisplay: React.FC<
             accept: "collapsible_menu",
             hover: (item: any, monitor: any) => {
                 const { y: clientOffset } = monitor.getClientOffset()
+
                 const offsetIdx = offsetRefList.findIndex(
                     (l) => l > clientOffset + containerY
                 )
@@ -412,7 +413,6 @@ export const AdminNavigationDisplay: React.FC<
         [navigation, isShowSetting, isDraggable]
     )
 
-
     const isOuterMost = useMemo(() => {
         if (osIdRefList.length - 1 === osPosition) return true
         else return false
@@ -433,57 +433,60 @@ export const AdminNavigationDisplay: React.FC<
                 authCode="EDIT_NAVIGATION"
                 disabled={!isShowSetting}
             />
-            <div
-                className="d-flex flex-column w-100 h-100 shadow-sm s-section-quaternary p-3 mt-3 overflow-auto"
-                style={{
-                    borderRadius: 12,
-                    border: "1px solid var(--static-bg-boundary)"
-                }}
-                ref={drop}>
-                {(navigation ?? []).map((k, idx) => (
-                    <AdminNavigationItem
-                        key={`collapsed_${idx}`}
-                        id={`collapsed_parent_${idx}`}
-                        navItem={k}
-                        idx={idx}
-                        refIdx={[idx]}
-                        onAddNavItem={(r) => {
-                            createNewNavItem(r)
-                        }}
-                        onEditNavItem={(r) => {
-                            editNavItem(r)
-                        }}
-                        onRemoveNavItem={(r) => {
-                            removeNavItem(r)
-                        }}
-                        isOutermost={true}
-                        isLast={idx === navigation?.length - 1}
-                        updateNavParentLevel={updateNavParentLevel}
-                    />
-                ))}
+            <div className="overflow-hidden w-100 h-100">
+                <div
+                    id="navigation-drag-drop-container"
+                    className="d-flex flex-column w-100 h-100 shadow-sm s-section-quaternary p-3 mt-3 overflow-auto"
+                    style={{
+                        borderRadius: 12,
+                        border: "1px solid var(--static-bg-boundary)"
+                    }}
+                    ref={drop}>
+                    {(navigation ?? []).map((k, idx) => (
+                        <AdminNavigationItem
+                            key={`collapsed_${idx}`}
+                            id={`collapsed_parent_${idx}`}
+                            navItem={k}
+                            idx={idx}
+                            refIdx={[idx]}
+                            onAddNavItem={(r) => {
+                                createNewNavItem(r)
+                            }}
+                            onEditNavItem={(r) => {
+                                editNavItem(r)
+                            }}
+                            onRemoveNavItem={(r) => {
+                                removeNavItem(r)
+                            }}
+                            isOutermost={true}
+                            isLast={idx === navigation?.length - 1}
+                            updateNavParentLevel={updateNavParentLevel}
+                        />
+                    ))}
 
-                {isDraggable && (
-                    <div
-                        className="w-100 d-flex AdminNavItem align-items-center justify-content-center rounded-3"
-                        style={{
-                            height: 60,
-                            background: isOuterMost
-                                ? "var(--static-color-primary)"
-                                : "transparent",
-                            border: "3px dashed var(--static-color-primary)",
-                            opacity: isOuterMost ? 0.3 : 1
-                        }}>
-                        <span
-                            className="text-level-caption text-font-medium"
+                    {isDraggable && (
+                        <div
+                            className="w-100 d-flex AdminNavItem align-items-center justify-content-center rounded-3"
                             style={{
-                                color: isOuterMost
-                                    ? "var(--static-color-text-nu)"
-                                    : ""
+                                minHeight: 60,
+                                background: isOuterMost
+                                    ? "var(--static-color-primary)"
+                                    : "transparent",
+                                border: "3px dashed var(--static-color-primary)",
+                                opacity: isOuterMost ? 0.3 : 1
                             }}>
-                            Drop here to move the item to outermost layer
-                        </span>
-                    </div>
-                )}
+                            <span
+                                className="text-level-caption text-font-medium"
+                                style={{
+                                    color: isOuterMost
+                                        ? "var(--static-color-text-nu)"
+                                        : ""
+                                }}>
+                                Drop here to move the item to outermost layer
+                            </span>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

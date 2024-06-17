@@ -6,9 +6,9 @@ import { PreviewSelectImage } from "../utils"
 import { useParams } from "next/navigation"
 import usePropertiesHook from "../hook/usePropertiesHook"
 
-type CardProps = WidgetProps & {}
+type CardProps = WidgetProps & { isPreview: boolean }
 
-export const Card: React.FC<CardProps> = ({ properties, site }) => {
+export const Card: React.FC<CardProps> = ({ properties, site, isPreview }) => {
     const { values } = usePropertiesHook(properties)
 
     const {
@@ -20,6 +20,7 @@ export const Card: React.FC<CardProps> = ({ properties, site }) => {
         card_background_color,
         card_image_position
     } = values
+    const { value, alt, destination } = card_image_src ?? {}
 
     return (
         <div className="w-100 h-100">
@@ -37,9 +38,11 @@ export const Card: React.FC<CardProps> = ({ properties, site }) => {
                         <PreviewSelectImage
                             height={300}
                             site={site as string}
-                            value={card_image_src as string}
+                            value={value as string}
                             handler={() => {}}
                             position={card_image_position}
+                            destination={isPreview && destination}
+                            alt={alt}
                         />
                     )}
                 </div>

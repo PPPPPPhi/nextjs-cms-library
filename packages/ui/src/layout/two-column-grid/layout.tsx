@@ -5,6 +5,7 @@ import _ from "lodash"
 import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn, ElementorSubColumn } from "../common/index"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
+import styles from "../styles/AdminCMS.module.scss"
 
 type TwoColumnProps = WidgetProps &
     LayoutProps & {
@@ -42,10 +43,10 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
     return (
         <div>
             <div
+                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
-                    backgroundColor: two_column_bg_color ?? "inherit",
-                    padding: isMobileView ? "20px 0px" : "50px 0px"
+                    backgroundColor: two_column_bg_color ?? "inherit"
                 }}>
                 <div
                     className={`d-flex flex-wrap ${isMobileView ? "space-y-2" : ""} container`}>

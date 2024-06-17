@@ -7,9 +7,15 @@ import { useParams, useRouter } from "next/navigation"
 import usePropertiesHook from "../hook/usePropertiesHook"
 import { AdminButton } from "@nextjs-cms-library/admin-components/index"
 
-type BannerProps = WidgetProps & {}
+type BannerProps = WidgetProps & {
+    isPreview: boolean
+}
 
-export const Banner: React.FC<BannerProps> = ({ properties, site }) => {
+export const Banner: React.FC<BannerProps> = ({
+    properties,
+    site,
+    isPreview
+}) => {
     const { values } = usePropertiesHook(properties)
     const router = useRouter()
 
@@ -24,6 +30,8 @@ export const Banner: React.FC<BannerProps> = ({ properties, site }) => {
         banner_cta_btn_right,
         banner_size
     } = values
+
+    const { value, alt, destination } = banner_image_src ?? {}
 
     const getBannerSize = (size: "small" | "medium" | "large" | "full") => {
         switch (size) {
@@ -46,9 +54,11 @@ export const Banner: React.FC<BannerProps> = ({ properties, site }) => {
                 {banner_image_src && (
                     <PreviewSelectImage
                         site={site as string}
-                        value={banner_image_src as string}
+                        value={value as string}
                         handler={() => {}}
                         style={{ objectFit: "cover" }}
+                        destination={isPreview && destination}
+                        alt={alt}
                     />
                 )}
             </div>
@@ -81,7 +91,10 @@ export const Banner: React.FC<BannerProps> = ({ properties, site }) => {
                         <AdminButton
                             label={banner_cta_btn_left?.label}
                             onClick={() => {
-                                if (banner_cta_btn_left?.destination)
+                                if (
+                                    banner_cta_btn_left?.destination &&
+                                    isPreview
+                                )
                                     router.push(
                                         banner_cta_btn_left?.destination
                                     )
@@ -95,7 +108,10 @@ export const Banner: React.FC<BannerProps> = ({ properties, site }) => {
                         <AdminButton
                             label={banner_cta_btn_right?.label}
                             onClick={() => {
-                                if (banner_cta_btn_right?.destination)
+                                if (
+                                    banner_cta_btn_right?.destination &&
+                                    isPreview
+                                )
                                     router.push(
                                         banner_cta_btn_right?.destination
                                     )

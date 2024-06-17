@@ -66,6 +66,7 @@ export const PreviewSelectImage: React.FC<PreviewSelectImageProps> = ({
                         height: height ?? "100%",
                         objectFit: position,
                         objectPosition: alignment,
+                        cursor: destination ? "pointer" : "default",
                         ...style
                     }}
                 />

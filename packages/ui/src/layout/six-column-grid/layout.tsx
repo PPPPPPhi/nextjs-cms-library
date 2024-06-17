@@ -33,11 +33,10 @@ export const SixColumn: React.FC<SixColumnProps> = (props) => {
     return (
         <div>
             <div
-                className="d-flex justify-content-center"
+                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
-                    backgroundColor: six_column_bg_color ?? "inherit",
-                    padding: isMobileView ? "20px 0px" : "50px 0px"
+                    backgroundColor: six_column_bg_color ?? "inherit"
                 }}>
                 <div
                     className={`d-flex flex-wrap container ${isMobileView ? "space-y-2" : ""}`}>

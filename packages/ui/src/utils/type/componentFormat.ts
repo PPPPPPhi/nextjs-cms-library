@@ -81,7 +81,7 @@ export const DragDropElementInputList: string[] = [
     ElementNameMap.Webinar,
     ElementNameMap.SVGNavCard,
     ElementNameMap.Testimonial,
-    ElementNameMap.ProductList
+    // ElementNameMap.ProductList
 ]
 
 export const DragDropElementSelectFileList: string[] = [ElementNameMap.Image]

@@ -18,9 +18,12 @@ import { FaStar } from "react-icons/fa6"
 import { PreviewSelectImage } from "../utils"
 import { TestimonialCardType } from "../../elementor"
 
-type TestimonialProps = WidgetProps & {}
+type TestimonialProps = WidgetProps & { isPreview: boolean }
 
-export const Testimonial: React.FC<TestimonialProps> = ({ properties }) => {
+export const Testimonial: React.FC<TestimonialProps> = ({
+    properties,
+    isPreview
+}) => {
     const { values } = usePropertiesHook(properties)
     const { testimonial_slider_title = [] } = values
 
@@ -51,12 +54,16 @@ export const Testimonial: React.FC<TestimonialProps> = ({ properties }) => {
                                     borderRadius: 50
                                 }}>
                                 <PreviewSelectImage
-                                    value={l.image}
+                                    value={l?.image?.value}
                                     style={{
                                         borderRadius: 100,
                                         objectFit: "cover"
                                     }}
                                     handler={() => {}}
+                                    alt={l?.image?.alt}
+                                    destination={
+                                        isPreview ? l?.image?.destination : ""
+                                    }
                                 />
                             </div>
                         )}

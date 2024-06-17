@@ -57,14 +57,16 @@ const Card: React.FC<AdminCardType> = ({
         //         />
         //     </div>
         // </div>
-        <AdminActionButton
-            label={actionLabel}
-            onClick={() => {
-                action()
-            }}
-            inverseStyle={dependency !== undefined && dependency === true}
-            authCode={authCode}
-        />
+        <div className="my-1">
+            <AdminActionButton
+                label={actionLabel}
+                onClick={() => {
+                    action()
+                }}
+                inverseStyle={dependency !== undefined && dependency === true}
+                authCode={authCode}
+            />
+        </div>
     )
 }
 

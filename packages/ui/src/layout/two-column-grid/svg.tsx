@@ -7,13 +7,16 @@ export const TwoColumnSvg: React.FC<SvgProps> = ({
 }) => {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
+            stroke="currentColor"
+            fill="currentColor"
+            stroke-width="0"
+            version="1.1"
+            viewBox="0 0 17 17"
             width={width}
             height={height}
-            fill="currentColor"
-            className="bi bi-layout-split"
-            viewBox="0 0 16 16">
-            <path d="M0 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5-1v12H14a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 0H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h5.5z" />
+            xmlns="http://www.w3.org/2000/svg">
+            <g></g>
+            <path d="M0 17h8v-17h-8v17zM1 1h6v15h-6v-15zM9 0v17h8v-17h-8zM16 16h-6v-15h6v15z"></path>
         </svg>
     )
 }

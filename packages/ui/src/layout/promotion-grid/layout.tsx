@@ -5,6 +5,7 @@ import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn, ElementorSubColumn } from "../common/index"
 import * as _ from "lodash"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
+import styles from "../styles/AdminCMS.module.scss"
 
 type PromotionGridProps = WidgetProps &
     LayoutProps & {
@@ -54,11 +55,10 @@ export const PromotionGrid: React.FC<PromotionGridProps> = (props) => {
     return (
         <div>
             <div
-                className="d-flex justify-content-center"
+                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
-                    backgroundColor: promotion_grid_bg_color ?? "inherit",
-                    padding: isMobileView ? "20px 0px" : "50px 0px"
+                    backgroundColor: promotion_grid_bg_color ?? "inherit"
                 }}>
                 <div
                     className={`d-flex flex-wrap container ${isMobileView ? "space-y-2" : ""}`}>

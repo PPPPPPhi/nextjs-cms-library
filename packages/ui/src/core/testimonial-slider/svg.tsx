@@ -9,21 +9,15 @@ export const TestimonialSVG: React.FC<SvgProps> = ({
     return (
         <svg
             stroke="currentColor"
-            fill="none"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            fill="currentColor"
+            stroke-width="0"
+            version="1.1"
+            viewBox="0 0 17 17"
             height={height}
             width={width}
             xmlns="http://www.w3.org/2000/svg">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M11.5 17h-7.5a1 1 0 0 1 -1 -1v-12a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v9"></path>
-            <path d="M3 13h18"></path>
-            <path d="M8 21h3.5"></path>
-            <path d="M10 17l-.5 4"></path>
-            <path d="M20 21l2 -2l-2 -2"></path>
-            <path d="M17 17l-2 2l2 2"></path>
+            <g></g>
+            <path d="M0 1v14h17v-14h-17zM16 14h-15v-12h15v12zM4.646 10.354l-2.353-2.354 2.354-2.354 0.707 0.707-1.647 1.647 1.646 1.646-0.707 0.708zM11.646 9.646l1.647-1.646-1.646-1.646 0.707-0.707 2.353 2.353-2.354 2.354-0.707-0.708z"></path>
         </svg>
     )
 }

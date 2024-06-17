@@ -8,18 +8,13 @@ export const BSSColumnSvg: React.FC<SvgProps> = ({
     return (
         <svg
             stroke="currentColor"
-            fill="none"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            width={width}
+            fill="currentColor"
+            stroke-width="0"
+            viewBox="0 0 16 16"
             height={height}
+            width={width}
             xmlns="http://www.w3.org/2000/svg">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-            <path d="M6 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1z"></path>
-            <path d="M15 12l4 0"></path>
-            <path d="M17 10l0 4"></path>
+            <path d="M2 1.00073L1 2.00073V14.0007L2 15.0007H14L15 14.0007V2.00073L14 1.00073H2ZM2 14.0007V2.00073H9V14.0007H2ZM10 14.0007V2.00073H14V14.0007H10Z"></path>
         </svg>
     )
 }

@@ -16,7 +16,7 @@ interface PropertyTestimonialInterface {
 export type TestimonialCardType = {
     title: string
     content: string
-    image: string
+    image: { value: string; alt: string; destination: string }
     star: string
     description: string
 }
@@ -33,7 +33,7 @@ export const PropertyTestimonial: React.FC<PropertyTestimonialInterface> = ({
         cards.push({
             title: "",
             content: "",
-            image: "",
+            image: { value: "", alt: "", destination: "" },
             star: "",
             description: ""
         })

@@ -47,7 +47,7 @@ export const selectionListMap: Map<string, SelectionJson> = new Map([
     [ElementNameMap.SVGNavCard, SVGNavCardJSON.selectionSVGNavCardJson],
     [ElementNameMap.Slogan, SloganJson.selectionSloganJson],
     [ElementNameMap.Testimonial, TestimonialJSON.selectionTestimonialJson],
-    [ElementNameMap.ProductList, ProductListJson.selectionProductListJson]
+    // [ElementNameMap.ProductList, ProductListJson.selectionProductListJson]
 ])
 
 export const dragDropListMap: Map<string, DragDropJson> = new Map([

@@ -26,7 +26,11 @@ export const PropertySVGForm: React.FC<PropertySVGFormInterface> = ({
                         style={{
                             height: 100,
                             borderRadius: 12,
-                            border: "1px solid var(--static-bg-boundary)"
+                            border: "1px solid var(--static-bg-boundary)",
+                            borderColor:
+                                i === l.value
+                                    ? "var(--static-bg-secondary)"
+                                    : "var(--static-bg-boundary)"
                         }}>
                         <AdminSVGIcon
                             svgName={l.value}
