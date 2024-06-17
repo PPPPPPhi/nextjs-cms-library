@@ -129,7 +129,7 @@ export const getDiscountById = async (site: string, id: string) => {
 
         const discountInfo = await getProjectedQuery(
             mongoose.models.Discount as Model<any, {}, {}, {}, any, any>,
-            { _id: parsedId, site },
+            { _id: parsedId },
             [],
             [
                 "_id",

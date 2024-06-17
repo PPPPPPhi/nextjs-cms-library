@@ -91,7 +91,7 @@ export const getCustomerById = async (site: string, id: string) => {
 
         const customerInfo = await getProjectedQuery(
             mongoose.models.Customer as Model<any, {}, {}, {}, any, any>,
-            { _id: parsedId, site },
+            { _id: parsedId },
             [],
             [
                 "_id",
