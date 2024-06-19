@@ -5,6 +5,7 @@ import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn, ElementorSubColumn } from "../common/index"
 import * as _ from "lodash"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
+import styles from "../styles/AdminCMS.module.scss"
 
 type SixColumnProps = WidgetProps &
     LayoutProps & {
