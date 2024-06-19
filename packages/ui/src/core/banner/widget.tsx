@@ -49,7 +49,10 @@ export const Banner: React.FC<BannerProps> = ({
     return (
         <div
             className="w-100 d-flex  position-relative"
-            style={{ minHeight: getBannerSize(banner_size) }}>
+            style={{
+                minHeight: getBannerSize(banner_size),
+                overflow: "hidden"
+            }}>
             <div className="w-100">
                 {banner_image_src && (
                     <PreviewSelectImage

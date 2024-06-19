@@ -4,6 +4,8 @@ import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
+import MenuList from "@mui/material/MenuList"
+import { v4 as uuid_v4 } from "uuid"
 
 interface AdminSelectInterface {
     options: { label: string; value: any }[]
@@ -28,6 +30,8 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     inputStyle
 }) => {
     const [selectedOption, setSelectedOption] = useState<any>(defaultValue)
+    const elementId = useMemo(() => uuid_v4(), [])
+    const [selectWidth, setSelectWidth] = useState(0)
 
     useEffect(() => {
         if (
@@ -48,8 +52,14 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
         [placeHolder]
     )
 
+    useEffect(() => {
+        if (document.getElementById(elementId)) {
+            setSelectWidth(document.getElementById(elementId)!.clientWidth)
+        }
+    }, [])
+
     return (
-        <div className="w-100">
+        <div className="w-100" id={elementId}>
             <FormControl
                 sx={{ m: 1, minWidth: 80, background: "white", ...style }}>
                 <InputLabel id="demo-simple-select-autowidth-label">
@@ -70,6 +80,13 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
                     inputProps={{
                         style: {
                             ...inputStyle
+                        }
+                    }}
+                    MenuProps={{
+                        PaperProps: {
+                            style: {
+                                width: selectWidth ?? 0
+                            }
                         }
                     }}>
                     {options.map((l) => (

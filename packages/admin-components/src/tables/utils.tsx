@@ -256,6 +256,14 @@ export const getColumnDefinition = (
                                     value={`/${getValue()}`}
                                     isExpanded={row.getIsExpanded()}
                                     action={row.getToggleExpandedHandler()}
+                                    collapseEdit={() => {
+                                        k.collapseEdit &&
+                                            k.collapseEdit(original)
+                                    }}
+                                    collapseRemove={() => {
+                                        k.collapseRemove &&
+                                            k.collapseRemove(original)
+                                    }}
                                 />
                             ) : !k.shouldShow || k.shouldShow(original) ? (
                                 <Component

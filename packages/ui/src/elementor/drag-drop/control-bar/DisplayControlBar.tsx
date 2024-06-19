@@ -191,7 +191,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
                         inverseStyle
                         disabled={!isPreviousHistoryEnable}
                         label="Undo"
-                        onClick={() => navigateNextEdit()}
+                        onClick={() => navigatePreviousEdit()}
                         Icon={FaArrowRotateLeft}
                         style={{ minHeight: 44 }}
                     />
