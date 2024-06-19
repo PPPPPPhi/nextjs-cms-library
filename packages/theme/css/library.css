@@ -645,10 +645,6 @@
   height: 100%;
 }
 
-.MuiPaper-root {
-  min-width: 500px !important;
-}
-
 .MuiFormControl-root {
   height: 70px;
   margin: 0 !important;

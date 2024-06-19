@@ -105,6 +105,52 @@ export const updatePage = async (
     }
 }
 
+export const updatePageSlug = async (
+    oldSlug: string,
+    slug: string,
+    site: string
+) => {
+    try {
+        const mongoose = await connectMongoDB()
+
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+
+        const result = await (
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>
+        ).updateMany(
+            { site, slug: oldSlug },
+            { $set: { slug, updatedBy: operatorName } }
+        )
+
+        return { message: "Success", status: 200 }
+    } catch (error) {
+        console.log("Error occured when creating Footer", error)
+        return { message: "Failed", status: 500 }
+    }
+}
+
+export const removePageSlug = async (slug: string, site: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+
+        const result = await (
+            mongoose.models.Page as Model<any, {}, {}, {}, any, any>
+        ).deleteMany(
+            { site, slug },
+            { $set: { slug, updatedBy: operatorName } }
+        )
+
+        return { message: "Success", status: 200 }
+    } catch (error) {
+        console.log("Error occured when creating Footer", error)
+        return { message: "Failed", status: 500 }
+    }
+}
+
 export const cloneLanguagePage = async (
     site: string,
     slug: string,

@@ -39,4 +39,6 @@ export type columnDefsType = {
     isDisabled?: boolean
     isActivate?: boolean
     enableResize?: true
+    collapseEdit?: (orignal: any) => void
+    collapseRemove?: (orignal: any) => void
 }
