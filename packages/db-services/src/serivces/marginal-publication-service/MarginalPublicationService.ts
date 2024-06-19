@@ -284,7 +284,16 @@ export const getLatestPublishedMarginals = async (
         const mongoose = await connectMongoDB()
 
         const getLastest = async (type: string, language: string) => {
-            return await getProjectedQuery(
+            const filter = _.omitBy(
+                {
+                    site,
+                    type,
+                    language
+                },
+                _.isEmpty
+            )
+
+            const data = await getProjectedQuery(
                 mongoose.models.MarginalPublication as Model<
                     any,
                     {},
@@ -293,7 +302,7 @@ export const getLatestPublishedMarginals = async (
                     any,
                     any
                 >,
-                { site, type, language },
+                filter,
                 [{ $sort: { updatedAt: -1 } }, { $limit: 1 }],
                 [
                     "site",
@@ -308,12 +317,21 @@ export const getLatestPublishedMarginals = async (
                     "version"
                 ]
             )
+
+            return data?.[0]?.properties ?? {}
         }
 
-        const common = await getLastest("footer", lang)
+        const common = await getLastest("common", "")
         const footer = await getLastest("footer", lang)
         const header = await getLastest("header", lang)
         const nav = await getLastest("nav", lang)
+
+        console.log(`[marginals] `, {
+            common,
+            footer,
+            header,
+            nav
+        })
 
         return {
             marginals: {

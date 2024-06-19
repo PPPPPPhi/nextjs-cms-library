@@ -217,7 +217,7 @@ export const getPublicationPage = async (
         //@ts-ignore
         const publicaiton = await (
             mongoose.models.Publication as Model<any, {}, {}, {}, any, any>
-        ).findOne({ site, slug, language: lang })
+        ).findOne({ site, pageId: slug, language: lang })
 
         console.log(`[publication] get SPA publication`, { site, slug, lang })
 
