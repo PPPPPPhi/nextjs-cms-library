@@ -218,8 +218,8 @@ const AdminWordMatrix: React.FC<AdminWordMatrixIterface> = forwardRef(
 
             return (
                 <input
-                    className="w-100"
-                    style={{ border: "1px solid black", borderRadius: 0 }}
+                    className="w-100 px-1"
+                    style={{ borderRadius: 5 }}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onBlur={onBlur}
@@ -325,8 +325,13 @@ const AdminWordMatrix: React.FC<AdminWordMatrixIterface> = forwardRef(
                         ))}
                     </thead>
                     <tbody>
-                        {table?.getRowModel()?.rows?.map((row) => (
-                            <tr key={row.id}>
+                        {table?.getRowModel()?.rows?.map((row, index) => (
+                            <tr
+                                key={row.id}
+                                style={{
+                                    backgroundColor:
+                                        index % 2 == 0 ? "#f2f2f2" : "#fafafa"
+                                }}>
                                 {row.getVisibleCells().map((cell) => (
                                     <td key={cell.id}>
                                         {flexRender(
