@@ -7,7 +7,7 @@ export type siteType = {
     image: string
     status: number
     createdAt: Date
-    updateDAt: Date
+    updatedAt: Date
     createdBy: string
     updatedBy: string
 }

@@ -14,12 +14,12 @@ type createSiteType = {
     image: File
     description: string
 }
-export const getAllSite = async () => {
+export const getAllSite = async (filter: { [k: string]: any }) => {
     try {
         const mongoose = await connectMongoDB()
         const sites = await (
             mongoose.models.Site as Model<any, {}, {}, {}, any, any>
-        ).find({})
+        ).find(filter)
         if (sites) return sites
         else return []
     } catch (e) {
@@ -74,27 +74,54 @@ export const createSite = async (siteReq: createSiteType) => {
     }
 }
 
-export const updateSite = async (site: string, name: string) => {
+export const updateSiteByKey = async (
+    site: string,
+    key: string,
+    value: string | number
+) => {
     try {
         const mongoose = await connectMongoDB()
         const operator = await getOperatorInfo()
         const { id: operatorId, name: operatorName } = operator
 
-        console.log(`updateSite`, site, name)
-
-        const findOne = await (
-            mongoose.models.Site as Model<any, {}, {}, {}, any, any>
-        ).findOne({
-            slug: site
-        })
-
-        console.log(`updateSite findOne`, findOne)
+        console.log(`updateSite`, site, key, value)
 
         const res = await (
             mongoose.models.Site as Model<any, {}, {}, {}, any, any>
         ).findOneAndUpdate(
             { slug: site },
-            { name },
+            { [key]: value },
+            {
+                new: true
+            }
+        )
+
+        console.log(`updateSite res`, res)
+
+        if (res) return { message: "Success", status: 200 }
+        else throw new Error("Error in register new user")
+    } catch (e) {
+        console.log("Error in updating site", e)
+        return { message: "Fail", status: 500 }
+    }
+}
+
+export const updateSiteInfo = async (
+    site: string,
+    name: string,
+    description: string,
+    image: string
+) => {
+    try {
+        const mongoose = await connectMongoDB()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+
+        const res = await (
+            mongoose.models.Site as Model<any, {}, {}, {}, any, any>
+        ).findOneAndUpdate(
+            { slug: site },
+            { name, description, image },
             {
                 new: true
             }
