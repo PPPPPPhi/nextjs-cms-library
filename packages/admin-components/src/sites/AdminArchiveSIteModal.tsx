@@ -16,7 +16,7 @@ export const AdminArchiveSiteModal: React.FC<
     AdminArchiveSiteModalInterface
 > = ({ name }) => {
     return (
-        <div className={`d-flex flex-row justify-center text-align`}>
+        <div className={`d-flex flex-row justify-center flex-1`}>
             <div className={`d-flex flex-row items-center`}>
                 <div>Are you sure want to archive the site</div>
                 <div className="text-font-bold px-1">{name}</div>
