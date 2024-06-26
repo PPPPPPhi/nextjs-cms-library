@@ -30,14 +30,16 @@ export const AdminRadioButton: React.FC<AdminRadioButtonInterface> = ({
                     aria-labelledby="demo-radio-buttons-group-label"
                     defaultValue="female"
                     name="radio-buttons-group">
-                    {options.map((l, idx) => (
-                        <FormControlLabel
-                            className="s-text-color-beta"
-                            value={l}
-                            control={<Radio />}
-                            label={l}
-                        />
-                    ))}
+                    <div className="d-flex flex-row">
+                        {options.map((l, idx) => (
+                            <FormControlLabel
+                                className="s-text-color-beta"
+                                value={l}
+                                control={<Radio />}
+                                label={l}
+                            />
+                        ))}
+                    </div>
                 </RadioGroup>
             </FormControl>
         </div>
