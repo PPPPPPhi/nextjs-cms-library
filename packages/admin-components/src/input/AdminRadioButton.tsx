@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import FormControlLabel from "@mui/material/FormControlLabel"
@@ -20,6 +20,10 @@ export const AdminRadioButton: React.FC<AdminRadioButtonInterface> = ({
 }) => {
     const [r, setR] = useState<string>(value ?? "")
 
+    useEffect(() => {
+        onChange(r)
+    }, [r])
+
     return (
         <div>
             <FormControl className="Mui-RadioForm">
@@ -28,8 +32,11 @@ export const AdminRadioButton: React.FC<AdminRadioButtonInterface> = ({
                 </FormLabel> */}
                 <RadioGroup
                     aria-labelledby="demo-radio-buttons-group-label"
-                    defaultValue="female"
-                    name="radio-buttons-group">
+                    defaultValue={r}
+                    name="radio-buttons-group"
+                    onChange={(e) => {
+                        setR(e.target.value)
+                    }}>
                     <div className="d-flex flex-row">
                         {options.map((l, idx) => (
                             <FormControlLabel
