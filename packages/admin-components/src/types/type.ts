@@ -16,6 +16,7 @@ export type cellComponentType =
     | "badgeList"
     | "photo"
     | "boolean"
+    | "booleanBox"
 
 export type columnDefsType = {
     accessorKey: string
