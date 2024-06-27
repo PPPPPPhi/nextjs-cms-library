@@ -6,6 +6,8 @@ interface RowCellInterface {
     isExpanded: boolean
     customWidth?: number
     action: () => void
+    isCollapseEdit: boolean
+    isCollapseRemove: boolean
     collapseEdit?: () => void
     collapseRemove?: () => void
 }
@@ -16,7 +18,9 @@ export const AdminTableCollapse: React.FC<RowCellInterface> = ({
     isExpanded,
     action,
     collapseEdit,
-    collapseRemove
+    collapseRemove,
+    isCollapseEdit,
+    isCollapseRemove
 }) => {
     return (
         <div
@@ -37,16 +41,15 @@ export const AdminTableCollapse: React.FC<RowCellInterface> = ({
                 style={{ flex: 1 }}>
                 {value}
             </span>
-            {collapseEdit && (
+            {isCollapseEdit && (
                 <AdminTableActionButton
                     label="Edit"
                     action={() => {
-                        console.log("vvvdata")
                         collapseEdit && collapseEdit()
                     }}
                 />
             )}
-            {collapseRemove && (
+            {isCollapseRemove && (
                 <AdminTableActionButton
                     label="Remove"
                     action={() => {

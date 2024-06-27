@@ -18,16 +18,13 @@ export const AdminSiteSearchFilter: React.FC<AdminSiteCardInterface> = ({
 
     return (
         <div className="d-flex flex-row p-2 col-12 col-md-6 w-100 items-center">
-            <div>Search: </div>
-
             <div className="px-2 w-100">
                 <AdminTextInput
-                    label=""
+                    label="Search"
                     defaultValue={""}
                     onChange={(v) => setSearchName(v)}
                 />
             </div>
-
             <AdminActionButton
                 label="Search"
                 onClick={() => {

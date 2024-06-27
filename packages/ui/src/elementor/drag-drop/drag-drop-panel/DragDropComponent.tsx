@@ -138,7 +138,6 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
         if (readOnly || isPreview) return
         if (focusEditId?.id == id) return
         if (focusEditId?.parentId) {
-
             setFocusEditId({ id })
             return
         }
@@ -191,10 +190,12 @@ export const DragDropComponent: React.FC<DragDropComponentProps> = (
                         top: "15px",
                         right: 15
                     }}>
-                    <DragDropComponentButtons
-                        buttonType={DragDropButton.duplicate}
-                        handleEvent={duplicateComponent}
-                    />
+                    {!isLayout && (
+                        <DragDropComponentButtons
+                            buttonType={DragDropButton.duplicate}
+                            handleEvent={duplicateComponent}
+                        />
+                    )}
                     <DragDropComponentButtons
                         buttonType={DragDropButton.delete}
                         handleEvent={deleteComponent}

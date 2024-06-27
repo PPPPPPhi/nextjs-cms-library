@@ -44,7 +44,7 @@ export const PromotionGrid: React.FC<PromotionGridProps> = (props) => {
     }, [elements])
 
     const RColumn = useMemo(() => {
-        return [...(elements ?? [])]?.splice(2, 1) ?? []
+        return [...(elements ?? [])]?.splice(3, 1) ?? []
     }, [elements])
 
     const { values } = usePropertiesHook(
@@ -89,7 +89,7 @@ export const PromotionGrid: React.FC<PromotionGridProps> = (props) => {
                         {(RColumn ?? []).map((k) => (
                             <div className="h-100 p-1" style={{ flex: 1 }}>
                                 <SubComponent
-                                    {..._.merge(k, childrenValues[0])}
+                                    {..._.merge(k, childrenValues[3])}
                                     parentId={id}
                                     {...parentProps}
                                 />

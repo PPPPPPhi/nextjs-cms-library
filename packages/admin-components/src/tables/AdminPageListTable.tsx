@@ -69,7 +69,7 @@ export const AdminPageListTable: React.FC<AdminPageListTableInterface> =
                                 header: "Slug",
                                 cellType: "edit",
                                 isExpandable: true,
-                                enableResize: true,
+                                size: 350,
                                 action: (data) => {
                                     const { _id } = data
                                     if (_id) {

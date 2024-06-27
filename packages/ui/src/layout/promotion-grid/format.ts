@@ -15,10 +15,10 @@ export const selectionPanelJson: SelectionJson = {
 }
 
 export const PromotionGridChildType = {
-    firstColumn: "promition-grid-first",
-    secondColumnTop: "promition-grid-second-top",
-    secondColumnBottom: "promition-grid-second-bottom",
-    thirdColumn: "promition-grid-forth"
+    firstColumn: "promotion-grid-first",
+    secondColumnTop: "promotion-grid-second-top",
+    secondColumnBottom: "promotion-grid-second-bottom",
+    thirdColumn: "promotion-grid-third"
 }
 
 export const dragDropJson: DragDropJson = {

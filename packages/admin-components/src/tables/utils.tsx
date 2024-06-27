@@ -256,6 +256,8 @@ export const getColumnDefinition = (
                                     value={`/${getValue()}`}
                                     isExpanded={row.getIsExpanded()}
                                     action={row.getToggleExpandedHandler()}
+                                    isCollapseEdit={!!k.collapseEdit}
+                                    isCollapseRemove={!!k.collapseRemove}
                                     collapseEdit={() => {
                                         k.collapseEdit &&
                                             k.collapseEdit(original)

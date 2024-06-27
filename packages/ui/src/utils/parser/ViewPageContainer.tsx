@@ -15,10 +15,20 @@ type ViewPageContainerProps = {
 export const ViewPageContainer: React.FC<ViewPageContainerProps> = ({
     pageJson
 }) => {
-    console.log("pageJson", pageJson)
+    const isBannerPage = useMemo(() => {
+        try {
+            const pJson = JSON.parse(pageJson)
+            return pJson?.[0]?.element === "banner"
+        } catch (e) {
+            return false
+        }
+    }, [pageJson])
 
     return (
         <ParsePageContextProvider pageJson={pageJson}>
+            {!isBannerPage && (
+                <div id="header-padding" style={{ height: 55 }} />
+            )}
             {pageJson && <ViewPageArea pageJson={pageJson} />}
         </ParsePageContextProvider>
     )

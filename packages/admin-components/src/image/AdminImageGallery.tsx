@@ -18,11 +18,11 @@ const AdminImageGalleryItem: React.FC<AdminImageGalleryItemInterface> = ({
 }) => {
     return (
         <div
-            className="d-flex w-100 h-100 p-2"
-            style={{ background: "rgba(0,0,0,0.5)" }}>
+            className="d-flex w-100 h-100 p-2 position-relative"
+            style={{ background: "rgba(0,0,0,0.3)" }}>
             <span
-                className="text-font-bold text-level-body s-text-color-alpha"
-                style={{ wordBreak: "break-word" }}>
+                className="position-absolute text-font-bold text-level-body s-text-color-nu"
+                style={{ wordBreak: "break-word", top: 0, left: 0, zIndex: 1 }}>
                 {label}
             </span>
         </div>
@@ -46,7 +46,7 @@ export const AdminImageGallery: React.FC<AdminImageGalleryInterface> = ({
             enableImageSelection={false}
             rowHeight={250}
             onClick={(v: number) => {
-                setSelected(v)
+                // setSelected(v)
                 onClick && onClick(v)
             }}
         />

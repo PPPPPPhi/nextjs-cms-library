@@ -219,7 +219,7 @@ const AdminWordMatrix: React.FC<AdminWordMatrixIterface> = forwardRef(
             return (
                 <input
                     className="w-100 px-1"
-                    style={{ borderRadius: 5 }}
+                    style={{ height: 30 }}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onBlur={onBlur}

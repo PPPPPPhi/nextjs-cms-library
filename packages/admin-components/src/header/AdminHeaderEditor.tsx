@@ -197,7 +197,7 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
     }, [header])
 
     return (
-        <div className="d-flex w-100 p-2 flex-column space-y-3 rounded-2">
+        <div className="d-flex w-100 p-2 flex-column space-y-3 rounded-2 overflow-hidden">
             <div className="d-flex w-100">
                 <AdminCard
                     cardsRef={[
@@ -240,7 +240,7 @@ export const AdminHeaderEditor: React.FC<AdminHeaderInterface> = ({
                 />
             </div>
             <div
-                className="s-section-quaternary shadow-sm"
+                className="s-section-quaternary shadow-sm overflow-auto"
                 style={{ borderRadius: 12, border: "1px solid #F1F1F1" }}>
                 <div
                     className="d-flex flex-column p-3"
