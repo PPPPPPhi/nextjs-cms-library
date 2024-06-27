@@ -17,6 +17,7 @@ interface AdminSelectInterface {
     style?: React.CSSProperties
     inputStyle?: React.CSSProperties
     SelectDisplayProps?: React.CSSProperties
+    disabled?: boolean
 }
 
 export const AdminSelect: React.FC<AdminSelectInterface> = ({
@@ -27,7 +28,8 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
     placeHolder,
     remark,
     style,
-    inputStyle
+    inputStyle,
+    disabled = false
 }) => {
     const [selectedOption, setSelectedOption] = useState<any>(defaultValue)
     const elementId = useMemo(() => uuid_v4(), [])
@@ -77,6 +79,7 @@ export const AdminSelect: React.FC<AdminSelectInterface> = ({
                     placeholder={placeH}
                     onChange={(evt) => setSelectedOption(evt.target.value)}
                     autoWidth
+                    disabled={disabled}
                     inputProps={{
                         style: {
                             ...inputStyle
