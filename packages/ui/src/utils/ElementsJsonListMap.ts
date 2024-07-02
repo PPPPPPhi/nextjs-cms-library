@@ -26,6 +26,7 @@ import { SVGNavCardJSON } from "../core/svg-nav-card"
 import { SloganJson } from "../core/slogan"
 import { TestimonialJSON } from "../core/testimonial-slider"
 import { ProductListJson } from "../core/product-list"
+import { GalleryJson } from "../core/gallery"
 
 export const selectionListMap: Map<string, SelectionJson> = new Map([
     [ElementNameMap.Text, TextJson.selectionTextJson],
@@ -48,6 +49,7 @@ export const selectionListMap: Map<string, SelectionJson> = new Map([
     [ElementNameMap.Slogan, SloganJson.selectionSloganJson],
     [ElementNameMap.Testimonial, TestimonialJSON.selectionTestimonialJson],
     // [ElementNameMap.ProductList, ProductListJson.selectionProductListJson]
+    [ElementNameMap.Gallery, GalleryJson.selectionGalleryJson]
 ])
 
 export const dragDropListMap: Map<string, DragDropJson> = new Map([
@@ -70,7 +72,8 @@ export const dragDropListMap: Map<string, DragDropJson> = new Map([
     [ElementNameMap.SVGNavCard, SVGNavCardJSON.dragDropSVGNavCardJson],
     [ElementNameMap.Slogan, SloganJson.dragDropSloganJson],
     [ElementNameMap.Testimonial, TestimonialJSON.dragDropTestimonialJson],
-    [ElementNameMap.ProductList, ProductListJson.dragDropProductListJson]
+    [ElementNameMap.ProductList, ProductListJson.dragDropProductListJson],
+    [ElementNameMap.Gallery, GalleryJson.dragDropGalleryJson]
 ])
 
 export const propertiesListMap: Map<string, PropertyJson> = new Map([
@@ -93,5 +96,6 @@ export const propertiesListMap: Map<string, PropertyJson> = new Map([
     [ElementNameMap.SVGNavCard, SVGNavCardJSON.propertSVGNavCardJson],
     [ElementNameMap.Slogan, SloganJson.propertSloganJson],
     [ElementNameMap.Testimonial, TestimonialJSON.propertTestimonialJson],
-    [ElementNameMap.ProductList, ProductListJson.propertyProductListJson]
+    [ElementNameMap.ProductList, ProductListJson.propertyProductListJson],
+    [ElementNameMap.Gallery, GalleryJson.propertyGalleryJson]
 ])

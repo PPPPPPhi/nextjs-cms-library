@@ -16,7 +16,7 @@ import {
     dragDropLayoutMap,
     propertiesLayoutMap
 } from "./LayoutJsonListMap"
-import { NextAPIInstance } from "./api/AxiosInstance"
+import { NextAPIInstance, ServiceAPIInstance } from "./api/AxiosInstance"
 import { ElementNameMap, LayoutNameMap } from "./NameMap"
 
 export {
@@ -32,6 +32,7 @@ export {
     dragDropLayoutMap,
     propertiesLayoutMap,
     NextAPIInstance,
+    ServiceAPIInstance,
     ElementNameMap,
     LayoutNameMap
 }
@@ -40,3 +41,4 @@ export * from "./type"
 export * from "./image-resource"
 export * from "./drag-drop"
 export * from "./parser"
+export * from "./file-resource"

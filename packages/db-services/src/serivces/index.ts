@@ -21,6 +21,7 @@ import * as AuditService from "./audit-service/AuditService"
 import * as AuthService from "./auth-service/authService"
 import * as DiscountService from "./discount-service/DiscountService"
 import * as CustomerService from "./customer-service/CustomerService"
+import * as DocumentService from "./document-service/DocumentService"
 
 import {
     userSessionType,
@@ -49,7 +50,8 @@ export {
     AuditService,
     AuthService,
     DiscountService,
-    CustomerService
+    CustomerService,
+    DocumentService
 }
 
 export type { userSessionType, UserRoleUpdateType, RoleFunctionUpdateType }

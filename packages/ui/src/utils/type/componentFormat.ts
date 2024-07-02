@@ -80,7 +80,7 @@ export const DragDropElementInputList: string[] = [
     ElementNameMap.Sponsor,
     ElementNameMap.Webinar,
     ElementNameMap.SVGNavCard,
-    ElementNameMap.Testimonial,
+    ElementNameMap.Testimonial
     // ElementNameMap.ProductList
 ]
 
@@ -130,6 +130,7 @@ export const DragDropAccecptType: string[] = [
     ElementNameMap.Slogan,
     ElementNameMap.Testimonial,
     ElementNameMap.ProductList,
+    ElementNameMap.Gallery,
     LayoutNameMap.ThreeColumn,
     LayoutNameMap.TwoColumn,
     LayoutNameMap.LeftGridsRightColumn,
