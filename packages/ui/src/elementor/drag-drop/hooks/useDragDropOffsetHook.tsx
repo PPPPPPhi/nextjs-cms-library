@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { useDisplayPanelContext } from "../DisplayPanelContext"
 
 const useDragDropOffsetHook = () => {
-    const { dragDropEditList, isLayoutReady } = useDisplayPanelContext()
+    const { dragDropEditList, isLayoutReady, isMobileView } =
+        useDisplayPanelContext()
 
     const [offsetRefList, setOffsetRefList] = useState<number[]>([])
     const [containerY, setContainerY] = useState(0)

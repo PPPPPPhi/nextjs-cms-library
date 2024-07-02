@@ -1,5 +1,12 @@
 # @nextjs-cms-library/db-services
 
+## 1.4.2
+
+### Patch Changes
+
+- update
+- update bug
+
 ## 1.4.1
 
 ### Patch Changes

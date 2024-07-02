@@ -25,7 +25,7 @@ export const getImagesBySite = async (site: string) => {
 
         const images = await getProjectedQuery(
             mongoose.models.Image as Model<any, {}, {}, {}, any, any>,
-            { site },
+            { site, isArchived: false },
             [],
             [
                 "_id",
@@ -133,6 +133,31 @@ export const getImagesById = async (id: string) => {
         else throw new Error("Error in getting image by id")
     } catch (e) {
         console.log("Error in Getting Image", e)
+        return null
+    }
+}
+
+export const removeImageById = async (id: string) => {
+    try {
+        const mongoose = await connectMongoDB()
+        const operator = await getOperatorInfo()
+        const { id: operatorId, name: operatorName } = operator
+        //@ts-ignore
+        const parseId = new Types.ObjectId(id)
+
+        const res = await (
+            mongoose.models.Image as Model<any, {}, {}, {}, any, any>
+        ).findOneAndUpdate(
+            { _id: parseId },
+            { isArchived: true, updatedBy: operatorName }
+        )
+
+        console.log("rererere", res)
+
+        if (res) return { message: "Success", status: 200 }
+        else throw new Error("Error in deleting image by id")
+    } catch (e) {
+        console.log("Error in deleting Image", e)
         return null
     }
 }

@@ -25,8 +25,9 @@ export const AdminToggleInput: React.FC<AdminToggleInputInterface> = ({
         <div className="d-flex al align-items-center" style={{ minHeight: 38 }}>
             <ToggleButton
                 value="check"
-                selected={!!value}
+                selected={value}
                 onChange={(v) => {
+                    setValue(!value)
                     onChange(!value)
                 }}>
                 <FaCheck />

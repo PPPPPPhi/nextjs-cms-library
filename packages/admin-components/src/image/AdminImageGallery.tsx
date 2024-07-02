@@ -46,7 +46,7 @@ export const AdminImageGallery: React.FC<AdminImageGalleryInterface> = ({
             enableImageSelection={false}
             rowHeight={250}
             onClick={(v: number) => {
-                // setSelected(v)
+                setSelected(v)
                 onClick && onClick(v)
             }}
         />

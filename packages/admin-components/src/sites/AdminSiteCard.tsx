@@ -62,7 +62,7 @@ export const AdminSiteCard: React.FC<AdminSiteCardInterface> = ({
     return (
         <div className="p-2 col-12 col-md-6">
             <div
-                className={`d-flex rounded-3 cursor-pointer mt-2 ${styles.adminSiteCard}`}>
+                className={`h-100 d-flex rounded-3 cursor-pointer mt-2 ${styles.adminSiteCard}`}>
                 <div
                     className="d-flex flex w-100 h-100 rounded-2 p-4 flex-wrap align-items-center justify-content-center"
                     style={{ background: "white" }}>
@@ -82,18 +82,19 @@ export const AdminSiteCard: React.FC<AdminSiteCardInterface> = ({
                     </div>
                     <div
                         className="px-3 d-flex flex-column col-12 col-md-9 h-100 py-2"
-                        style={{ flex: 1 }}>
-                        <div className="d-flex flex-row justify-between">
-                            <span className="text-level-headline text-font-bold s-text-color-beta py-3">
+                        style={{ flex: 1 }}
+                        onClick={() => router.push(`./admin/${slug}`)}>
+                        <div className="d-flex flex-row justify-between flex-wrap py-3">
+                            <span className="text-level-headline text-font-bold s-text-color-beta">
                                 {name}
                             </span>
 
-                            <div className="py-3 d-flex flex-row">
+                            <div className="d-flex flex-row">
                                 <div className={`px-1`}>
                                     <AdminActionButton
                                         label="Edit"
                                         onClick={() => useEditSiteName()}
-                                        style={{ width: 30 }}
+                                        style={{ minWidth: 50 }}
                                     />
                                 </div>
 
@@ -101,16 +102,11 @@ export const AdminSiteCard: React.FC<AdminSiteCardInterface> = ({
                                     <AdminActionButton
                                         label="Archive"
                                         onClick={() => useArchiveSite()}
-                                        style={{ width: 30 }}
+                                        style={{ minWidth: 60 }}
                                     />
                                 </div>
                             </div>
                         </div>
-
-                        <div
-                            style={{ flex: 1 }}
-                            onClick={() => router.push(`./admin/${slug}`)}
-                        />
                         <span className="text-level-caption text-font-normal s-text-color-alpha">
                             {/* {description} */}
                             Lastest update:

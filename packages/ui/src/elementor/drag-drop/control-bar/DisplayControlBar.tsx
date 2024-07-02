@@ -63,7 +63,8 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
         setFocusEditId,
         readOnly,
         isPreview,
-        isHardPreview
+        isHardPreview,
+        setIsLayoutReady
     } = useDisplayPanelContext()
 
     const [isDisplayControl, setIsDisplayControl] = useState<boolean>(false)
@@ -90,6 +91,7 @@ export const DisplayController: React.FC<DisplayControllerProps> = (props) => {
 
     const toggleMobileView = () => {
         setMobileView(!isMobileView)
+        setIsLayoutReady(false)
     }
 
     const togglePreview = () => {

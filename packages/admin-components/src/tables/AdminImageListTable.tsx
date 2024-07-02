@@ -11,10 +11,12 @@ import { NextImageApdator } from "../../../ui/src/utils"
 
 interface AdminPageListTableInterface {
     data: imageType[]
+    removeImage: (id: string) => void
 }
 
 export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
-    data
+    data,
+    removeImage
 }) => {
     const router = useRouter()
     const { site } = useParams()
@@ -56,6 +58,32 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
         })
     }
 
+    // const deletePhotoModal = (id: string) => {
+    //     setModal({
+    //         title: "View Image",
+    //         content: (
+    //             <div>
+    //                 <NextImageApdator
+    //                     src={path}
+    //                     alt="site photo"
+    //                     width={0}
+    //                     height={0}
+    //                     sizes="100vw"
+    //                     isStatic={false}
+    //                     style={{
+    //                         width: "100%",
+    //                         height: "100%",
+    //                         objectFit: "contain",
+    //                         objectPosition: "center"
+    //                     }}
+    //                 />
+    //             </div>
+    //         ),
+    //         confirmCTAText: "Confirm",
+    //         confirmHandler: () => {}
+    //     })
+    // }
+
     return (
         <div className="d-flex w-100 overflow-auto">
             <AdminTable
@@ -73,17 +101,17 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
                             viewPhotoInModal(relativePath)
                         }
                     },
-                    {
-                        accessorKey: "_edit",
-                        header: "Edit",
-                        cellType: "action",
-                        actionTitle: "Edit",
-                        size: 100,
-                        action: (data) => {
-                            const { relativePath } = data
-                            // viewPhotoInModal(relativePath)
-                        }
-                    },
+                    // {
+                    //     accessorKey: "_edit",
+                    //     header: "Edit",
+                    //     cellType: "action",
+                    //     actionTitle: "Edit",
+                    //     size: 100,
+                    //     action: (data) => {
+                    //         const { relativePath } = data
+                    //         // viewPhotoInModal(relativePath)
+                    //     }
+                    // },
                     {
                         accessorKey: "_delete",
                         header: "Delete",
@@ -92,6 +120,7 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
                         size: 100,
                         action: (data) => {
                             const { _id } = data
+                            removeImage(_id)
                         }
                     },
                     {

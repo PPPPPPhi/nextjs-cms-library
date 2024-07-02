@@ -10,12 +10,12 @@ const useDeleteComponentHook = () => {
         setDragDropEditList,
         propertiesEditList,
         setPropertiesEditList,
-        deleteElementId
+        deleteElementId,
+        setDeleteElementId
     } = useDisplayPanelContext()
 
     useEffect(() => {
         if (!deleteElementId) return
-
         const currentIdx = dragDropEditList?.findIndex(
             (l: any) => l.id === deleteElementId
         )
@@ -25,10 +25,9 @@ const useDeleteComponentHook = () => {
         const newPropertyList = [...propertiesEditList]
         newPropertyList.splice(currentIdx, 1)
 
-
-
         setDragDropEditList(_.cloneDeep(newDragDropList))
         setPropertiesEditList(_.cloneDeep(newPropertyList))
+        setDeleteElementId(null)
     }, [deleteElementId])
 
     return
