@@ -24,8 +24,7 @@ export const PropertyDocumentUpload: React.FC<
     PropertyDocumentUploadInterface
 > = ({ defaultValue, onChange }) => {
     const { site } = useParams()
-    const [fileName, setFileName] = useState<string>("")
-    const [fileValue, setFileValue] = useState<string[]>([])
+    const [fileValue, setFileValue] = useState<{}>({})
     const [isSettle, setIsSettle] = useState<boolean>(false)
 
     const uploadID = `file_uploader_${uuid_v4()}`
@@ -50,11 +49,12 @@ export const PropertyDocumentUpload: React.FC<
             s3Key: ""
         }
         console.log(`uploadDocument fileValue`, fileValue)
-        setFileName(fileData?.name)
-        setFileValue(fileData)
 
-        await fileOperator.uploadFile(fileData as File, site as string)
-        // setFileValue(imgs)
+        const { filePath } = await fileOperator.uploadFile(
+            fileData as File,
+            site as string
+        )
+        setFileValue({ filePath, fileType: fileData?.type })
     }
 
     useEffect(() => {
@@ -82,7 +82,6 @@ export const PropertyDocumentUpload: React.FC<
                 // @ts-ignore
                 onChange([])
                 setFileValue([])
-                setFileName("")
             }
         } catch (err) {
             console.log(`resetValue err`, err)
@@ -111,7 +110,6 @@ export const PropertyDocumentUpload: React.FC<
             </Box>
 
             <PropertyDocumentPreview
-                defaultName={fileName}
                 defaultValue={fileValue}
                 resetValue={() => {
                     resetValue()

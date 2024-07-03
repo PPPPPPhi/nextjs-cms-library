@@ -50,7 +50,8 @@ export const saveDocumentBySite = async (doc: documentType) => {
             newDocument
         )
 
-        if (createDocument) return { status: 200 }
+        console.log(`saveDocumentBySite createDocument`, createDocument)
+        if (createDocument) return { document: createDocument, status: 200 }
         else throw new Error("Error in register new user")
     } catch (error) {
         console.log("Error occured ", error)

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { AdminButton } from "@nextjs-cms-library/admin-components/index"
 import { PropertiesComponentProps } from "../../../../utils/index"
 import { UseFormSetValue } from "react-hook-form"
@@ -9,25 +9,28 @@ import { v4 as uuid_v4 } from "uuid"
 import { ImCross } from "react-icons/im"
 // import { Document, Page } from "react-pdf"
 
+type FileValueType = {
+    filePath?: string
+    fileType?: string
+}
+
 interface PropertyDocumentPreviewInterface {
-    defaultName?: string
-    defaultValue?: string[]
+    defaultValue: FileValueType
     resetValue?: () => void
 }
 
 export const PropertyDocumentPreview: React.FC<
     PropertyDocumentPreviewInterface
-> = ({ defaultName, defaultValue, resetValue }) => {
-    const [fileName, setFileName] = useState<string>("")
-    const [fileValue, setFileValue] = useState<string[]>([])
-
-    useEffect(() => {
-        setFileName(defaultName ?? "")
-    }, [defaultName])
+> = ({ defaultValue, resetValue }) => {
+    const [fileValue, setFileValue] = useState<FileValueType>({})
 
     useEffect(() => {
         setFileValue(defaultValue ?? [])
     }, [defaultValue])
+
+    const fileName = useMemo(() => {
+        return fileValue?.filePath ?? ""
+    }, [fileValue])
 
     return (
         <div className="space-y-3">
