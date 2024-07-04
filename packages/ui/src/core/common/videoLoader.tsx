@@ -49,6 +49,8 @@ export const VideoAdaptor: React.FC<
                     muted={false}
                 />
             )}
+
+            {!url && <div></div>}
         </div>
     )
 }
