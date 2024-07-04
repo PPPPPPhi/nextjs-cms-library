@@ -13,7 +13,7 @@ type loaderType = {
     src: string
 }
 
-export const VideoApdator: React.FC<
+export const VideoAdaptor: React.FC<
     NextImageApdatorInterface & VideoApdatorType
 > = (props) => {
     const { isStatic, url, ...rest } = props
@@ -29,7 +29,6 @@ export const VideoApdator: React.FC<
     const videoLoader = ({ src }: loaderType) => {
         if (!isStatic) {
             const res = `${getImagePathById()}`
-            console.log(`imageLoader res`, res)
 
             return res
         } else return src
@@ -37,17 +36,19 @@ export const VideoApdator: React.FC<
 
     return (
         <div>
-            <ReactPlayer
-                className="react-player"
-                width="100%"
-                height="100%"
-                url={videoLoader({ src: url })}
-                controls={true}
-                playing={true}
-                loop={true}
-                volume={0.5}
-                muted={false}
-            />
+            {url && (
+                <ReactPlayer
+                    className="react-player"
+                    width="100%"
+                    height="100%"
+                    url={videoLoader({ src: url })}
+                    controls={true}
+                    playing={true}
+                    loop={true}
+                    volume={0.5}
+                    muted={false}
+                />
+            )}
         </div>
     )
 }

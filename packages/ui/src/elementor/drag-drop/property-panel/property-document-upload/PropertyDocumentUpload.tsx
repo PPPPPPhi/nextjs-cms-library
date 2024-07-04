@@ -37,19 +37,6 @@ export const PropertyDocumentUpload: React.FC<
 
         const fileData = e.target.files[0]
 
-        console.log(`uploadDocument fileData`, fileData)
-        const fileValue = {
-            fileName: fileData?.name,
-            // memory leak with URL.createObject
-            fileData: "",
-            size: fileData?.size,
-            lastModified: fileData?.lastModified,
-            srcData: fileData,
-            type: fileData?.type,
-            s3Key: ""
-        }
-        console.log(`uploadDocument fileValue`, fileValue)
-
         const { filePath } = await fileOperator.uploadFile(
             fileData as File,
             site as string
@@ -58,7 +45,6 @@ export const PropertyDocumentUpload: React.FC<
     }
 
     useEffect(() => {
-        console.log(`doc upload onchange `, onChange)
         try {
             if (onChange && fileValue) {
                 // @ts-ignore

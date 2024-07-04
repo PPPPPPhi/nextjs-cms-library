@@ -1,3 +1,4 @@
 import { ImageApdator } from "./imageLoader"
 export { ImageApdator }
-export { VideoApdator } from "./videoLoader"
+export { VideoAdaptor } from "./videoLoader"
+export { PDFAdaptor } from "./pdfLoader"
