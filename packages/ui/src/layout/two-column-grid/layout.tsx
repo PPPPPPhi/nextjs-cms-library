@@ -6,6 +6,7 @@ import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn, ElementorSubColumn } from "../common/index"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
 import styles from "../styles/AdminCMS.module.scss"
+import { useIsMobile } from "../../utils/useIsMobile"
 
 type TwoColumnProps = WidgetProps &
     LayoutProps & {
@@ -39,20 +40,21 @@ export const TwoColumn: React.FC<TwoColumnProps> = (props: TwoColumnProps) => {
         props.selfData?.properties ?? props.properties
     )
     const { two_column_bg_color } = values
+    const isMobile = useIsMobile()
 
     return (
         <div>
             <div
-                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
+                className={`d-flex justify-content-center ${isMobileView || isMobile ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
                     backgroundColor: two_column_bg_color ?? "inherit"
                 }}>
                 <div
-                    className={`d-flex flex-wrap ${isMobileView ? "space-y-2" : ""} container`}>
+                    className={`d-flex flex-wrap ${isMobileView || isMobile ? "space-y-2" : ""} container`}>
                     {(elements ?? []).map((k, idx) => (
                         <div
-                            className={`p-1 col-${isMobileView ? 12 : 6}`}
+                            className={`p-1 col-${isMobileView || isMobile ? 12 : 6}`}
                             key={`${id}-${idx}`}>
                             <SubComponent
                                 {..._.merge(k, childrenValues[idx])}

@@ -6,6 +6,7 @@ import { SubColumn, ElementorSubColumn } from "../common/index"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
 import * as _ from "lodash"
 import styles from "../styles/AdminCMS.module.scss"
+import { useIsMobile } from "../../utils/useIsMobile"
 
 type FiveColumnProps = WidgetProps &
     LayoutProps & {
@@ -38,23 +39,26 @@ export const FiveColumn: React.FC<FiveColumnProps> = (props) => {
     const { values } = usePropertiesHook(
         props.selfData?.properties ?? props.properties
     )
+
+    const isMobile = useIsMobile()
     const { five_column_bg_color } = values
 
     return (
         <div>
             <div
-                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
+                className={`d-flex justify-content-center ${isMobileView || isMobile ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
                     backgroundColor: five_column_bg_color ?? "inherit"
                 }}>
                 <div
-                    className={`d-flex flex-wrap  container ${isMobileView ? "space-y-2" : ""}`}>
+                    className={`d-flex flex-wrap  container ${isMobileView || isMobile ? "space-y-2" : ""}`}>
                     {(elements ?? []).map((k, idx) => (
                         <div
                             className="px-2"
                             style={{
-                                width: isMobileView ? "100%" : "20%",
+                                width:
+                                    isMobileView || isMobile ? "100%" : "20%",
                                 paddingLeft: 0,
                                 paddingRight: 0
                             }}

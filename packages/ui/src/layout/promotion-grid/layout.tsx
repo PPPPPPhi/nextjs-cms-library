@@ -6,6 +6,7 @@ import { SubColumn, ElementorSubColumn } from "../common/index"
 import * as _ from "lodash"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
 import styles from "../styles/AdminCMS.module.scss"
+import { useIsMobile } from "../../utils/useIsMobile"
 
 type PromotionGridProps = WidgetProps &
     LayoutProps & {
@@ -51,18 +52,19 @@ export const PromotionGrid: React.FC<PromotionGridProps> = (props) => {
         props.selfData?.properties ?? props.properties
     )
     const { promotion_grid_bg_color } = values
+    const isMobile = useIsMobile()
 
     return (
         <div>
             <div
-                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
+                className={`d-flex justify-content-center ${isMobileView || isMobile ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
                     backgroundColor: promotion_grid_bg_color ?? "inherit"
                 }}>
                 <div
-                    className={`d-flex flex-wrap container ${isMobileView ? "space-y-2" : ""}`}>
-                    <div className={`col-${isMobileView ? 12 : 6}`}>
+                    className={`d-flex flex-wrap container ${isMobileView || isMobile ? "space-y-2" : ""}`}>
+                    <div className={`col-${isMobileView || isMobile ? 12 : 6}`}>
                         {(LColumn ?? []).map((k) => (
                             <div className="h-100 p-1" style={{ flex: 1 }}>
                                 <SubComponent
@@ -74,7 +76,7 @@ export const PromotionGrid: React.FC<PromotionGridProps> = (props) => {
                         ))}
                     </div>
                     <div
-                        className={`d-flex flex-column col-${isMobileView ? 12 : 3}`}>
+                        className={`d-flex flex-column col-${isMobileView || isMobile ? 12 : 3}`}>
                         {(CColumn ?? []).map((k, idx) => (
                             <div className={`p-1 col-12`} style={{ flex: 1 }}>
                                 <SubComponent
@@ -85,7 +87,7 @@ export const PromotionGrid: React.FC<PromotionGridProps> = (props) => {
                             </div>
                         ))}
                     </div>
-                    <div className={`col-${isMobileView ? 12 : 3}`}>
+                    <div className={`col-${isMobileView || isMobile ? 12 : 3}`}>
                         {(RColumn ?? []).map((k) => (
                             <div className="h-100 p-1" style={{ flex: 1 }}>
                                 <SubComponent

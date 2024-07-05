@@ -5,6 +5,8 @@ import {
 } from "@nextjs-cms-library/role-management/index"
 import styles from "../AdminControl.module.scss"
 import { CSSProperties } from "react"
+import { useIsMobile } from "@nextjs-cms-library/ui/index"
+
 interface AdminTopNavButtonInterface {
     label: string
     Icon?: any
@@ -25,6 +27,8 @@ export const AdminTopNavButton: React.FC<AdminTopNavButtonInterface> = (
         authCode ?? "AVAILABLE_CODE"
     )
     const isDisabled = disabled || !isAuthorized
+    const isMobile = useIsMobile()
+    console.log("isMobile", isMobile)
 
     return (
         <div
@@ -45,11 +49,14 @@ export const AdminTopNavButton: React.FC<AdminTopNavButtonInterface> = (
             }}>
             {Icon && (
                 <Icon
-                    className="text-level-caption  s-text-color-nu"
-                    style={{ marginRight: 5 }}
+                    className={`text-level-caption  s-text-color-nu ${styles.adminTopNavLabelButton}`}
                 />
             )}
-            <span className="text-level-caption s-text-color-nu">{label}</span>
+            {!isMobile && (
+                <span className="text-level-caption s-text-color-nu">
+                    {label}
+                </span>
+            )}
         </div>
     )
 }

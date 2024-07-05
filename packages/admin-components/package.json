@@ -1,6 +1,6 @@
 {
     "name": "@nextjs-cms-library/admin-components",
-    "version": "1.4.6",
+    "version": "1.4.8",
     "description": "",
     "main": "index.js",
     "exports": {

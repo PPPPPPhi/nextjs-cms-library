@@ -49,7 +49,7 @@ export type roleTypeMap = {
 const Badge: React.FC<BadgeInterface> = ({ site }) => {
     return (
         <div
-            className="d-flex align-items-center justify-content-center rounded-4 s-text-color-nu text-level-content text-font-medium px-2 mx-1 s-section-secondary"
+            className="d-flex align-items-center justify-content-center rounded-4 s-text-color-nu text-level-content text-font-medium px-2 mx-1 my-1 s-section-secondary"
             style={{ height: 30, minWidth: 45 }}>
             <span className="text-level-remark">{site}</span>
         </div>
@@ -102,25 +102,39 @@ const Collapsed: React.FC<CollapsedInterface> = ({
                     : "var(--static-bg-quaternary)"
             }}>
             <div
-                className="d-flex w-100 p-2 px-4 align-items-center flex-wrap border-bottom"
+                className="d-flex w-100 p-2 px-4 align-items-center border-bottom"
                 {...getToggleProps({
                     onClick: () => setExpanded((prevExpanded) => !prevExpanded)
                 })}>
-                {isExpanded ? (
-                    <FaChevronUp style={{ width: 14, height: 14 }} />
-                ) : (
-                    <FaChevronDown style={{ width: 14, height: 14 }} />
-                )}
-                <span className="s-text-color-beta text-level-caption text-font-bold pl-2">
-                    {`${roleName}`}
-                </span>
-                <span className="s-text-color-beta text-level-caption text-font-normal p-2">{`- ${description}`}</span>
-                {isAllSite && <Badge site="All" />}
-                {!isAllSite &&
-                    (sites as string[]).map((l, idx) => (
-                        <Badge key={`badge${idx}`} site={l} />
-                    ))}
-                <div style={{ flex: 1 }} />
+                <div className="d-flex flex-wrap" style={{ flex: 1 }}>
+                    {isExpanded ? (
+                        <FaChevronUp
+                            style={{
+                                width: 14,
+                                height: 14,
+                                marginTop: "0.5rem"
+                            }}
+                        />
+                    ) : (
+                        <FaChevronDown
+                            style={{
+                                width: 14,
+                                height: 14,
+                                marginTop: "0.5rem"
+                            }}
+                        />
+                    )}
+                    <span className="s-text-color-beta text-level-caption text-font-bold p-2">
+                        {`${roleName}`}
+                    </span>
+                    <span className="s-text-color-beta text-level-caption text-font-normal p-2">{`- ${description}`}</span>
+                    {isAllSite && <Badge site="All" />}
+                    {!isAllSite &&
+                        (sites as string[]).map((l, idx) => (
+                            <Badge key={`badge${idx}`} site={l} />
+                        ))}
+                    <div style={{ flex: 1 }} />
+                </div>
                 <AdminActionButton
                     onClick={() => {
                         editRole()
@@ -129,10 +143,6 @@ const Collapsed: React.FC<CollapsedInterface> = ({
                     authCode={"EDIT_ROLE"}
                     style={{ minWidth: 60 }}
                 />
-
-                <div className="d-flex px-2">
-                    {isExpanded ? <HiChevronUp /> : <HiChevronDown />}
-                </div>
             </div>
             <section {...getCollapseProps()}>
                 {(functions_lookUp as functionTypes[]).map((k, idx) => {

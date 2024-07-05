@@ -45,6 +45,18 @@
         background: var(--static-color-secondary);
         color: var(--static-text-color);
     }
+
+    @media only screen and (max-width: 767px) {
+        min-width: 35px;
+        padding: 0px;
+    }
+}
+
+.adminTopNavLabelButton {
+    margin-right: 5px;
+    @media only screen and (max-width: 767px) {
+        margin-right: 0px;
+    }
 }
 
 .adminActionButton {

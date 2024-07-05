@@ -6,6 +6,7 @@ import { LayoutProps, WidgetProps } from "../../utils/type/componentFormat"
 import { SubColumn, ElementorSubColumn } from "../common/index"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
 import styles from "../styles/AdminCMS.module.scss"
+import { useIsMobile } from "../../utils/useIsMobile"
 
 type RightGridsLeftColumnProps = WidgetProps &
     LayoutProps & {
@@ -49,18 +50,19 @@ export const RightGridsLeftColumn: React.FC<RightGridsLeftColumnProps> = (
         props.selfData?.properties ?? props.properties
     )
     const { rglc_bg_color } = values
+    const isMobile = useIsMobile()
 
     return (
         <div>
             <div
-                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
+                className={`d-flex justify-content-center ${isMobileView || isMobile ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
                     backgroundColor: rglc_bg_color ?? "inherit"
                 }}>
                 <div
-                    className={`d-flex flex-wrap container ${isMobileView ? "space-y-2" : ""}`}>
-                    <div className={`col-${isMobileView ? 12 : 6}`}>
+                    className={`d-flex flex-wrap container ${isMobileView || isMobile ? "space-y-2" : ""}`}>
+                    <div className={`col-${isMobileView || isMobile ? 12 : 6}`}>
                         {(leftColumn ?? []).map((k) => (
                             <div className="h-100 p-1" style={{ flex: 1 }}>
                                 <SubComponent
@@ -72,7 +74,7 @@ export const RightGridsLeftColumn: React.FC<RightGridsLeftColumnProps> = (
                         ))}
                     </div>
                     <div
-                        className={`d-flex flex-column col-${isMobileView ? 12 : 6}`}>
+                        className={`d-flex flex-column col-${isMobileView || isMobile ? 12 : 6}`}>
                         {(rightColumn ?? []).map((k, idx) => (
                             <div className={`p-1`} style={{ flex: 1 }}>
                                 <SubComponent

@@ -18,6 +18,7 @@ import {
 } from "./LayoutJsonListMap"
 import { NextAPIInstance } from "./api/AxiosInstance"
 import { ElementNameMap, LayoutNameMap } from "./NameMap"
+import { useIsMobile } from "./useIsMobile"
 
 export {
     ElementorOperator,
@@ -33,7 +34,8 @@ export {
     propertiesLayoutMap,
     NextAPIInstance,
     ElementNameMap,
-    LayoutNameMap
+    LayoutNameMap,
+    useIsMobile
 }
 
 export * from "./type"

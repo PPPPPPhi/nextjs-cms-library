@@ -6,6 +6,7 @@ import { SubColumn, ElementorSubColumn } from "../common/index"
 import * as _ from "lodash"
 import usePropertiesHook from "../../core/hook/usePropertiesHook"
 import styles from "../styles/AdminCMS.module.scss"
+import { useIsMobile } from "../../utils/useIsMobile"
 
 type BSSColumnProps = WidgetProps &
     LayoutProps & {
@@ -47,18 +48,19 @@ export const BSSColumn: React.FC<BSSColumnProps> = (props) => {
         props.selfData?.properties ?? props.properties
     )
     const { bss_column_bg_color } = values
+    const isMobile = useIsMobile()
 
     return (
         <div>
             <div
-                className={`d-flex justify-content-center ${isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
+                className={`d-flex justify-content-center ${isMobile || isMobileView ? styles.adminMobileCMSLayout : styles.adminCMSLayout}`}
                 style={{
                     minHeight: !isPreview ? 100 : "auto",
                     backgroundColor: bss_column_bg_color ?? "inherit"
                 }}>
                 <div
-                    className={`d-flex flex-wrap container ${isMobileView ? "space-y-2" : ""}`}>
-                    <div className={`col-${isMobileView ? 12 : 6}`}>
+                    className={`d-flex flex-wrap container ${isMobile || isMobileView ? "space-y-2" : ""}`}>
+                    <div className={`col-${isMobile || isMobileView ? 12 : 6}`}>
                         {(BColumn ?? []).map((k) => (
                             <div className="h-100 p-1" style={{ flex: 1 }}>
                                 <SubComponent
@@ -69,7 +71,8 @@ export const BSSColumn: React.FC<BSSColumnProps> = (props) => {
                             </div>
                         ))}
                     </div>
-                    <div className={`d-flex col-${isMobileView ? 12 : 6}`}>
+                    <div
+                        className={`d-flex col-${isMobile || isMobileView ? 12 : 6}`}>
                         {(SColumn ?? []).map((k, idx) => (
                             <div className={`p-1 col-6`} style={{ flex: 1 }}>
                                 <SubComponent

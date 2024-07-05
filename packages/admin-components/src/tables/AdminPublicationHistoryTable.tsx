@@ -31,7 +31,7 @@ export const AdminPublicationHistoryTable: React.FC<
                 pinColumns={["_id", "slug", "language", "pageVersion"]}
                 isCompatible={isCompatible}
                 isSubComponent
-                compareField="pageJson"
+                compareField="pagePageJson"
                 columnDefs={[
                     {
                         accessorKey: "_id",
