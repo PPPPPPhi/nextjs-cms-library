@@ -5,21 +5,21 @@ interface AdminImageUploaderInterface {
     image?: string
     disabled?: boolean
     style?: React.CSSProperties
-    onChange: (image: File) => void
+    onFormValueChange: (v: File[]) => void
 }
 
 export const AdminImageUploader: React.FC<AdminImageUploaderInterface> = ({
     image,
     disabled,
     style,
-    onChange
+    onFormValueChange
 }) => {
-    const [img, setImg] = useState<File[]>()
     const [imgPreviews, setImgPreviews] = useState<any>([])
 
     const handleMultipleImage = (event: any) => {
         const files = [...event.target.files]
-        setImg(files)
+
+        onFormValueChange(files)
 
         const previews: any[] = []
         files.forEach((file) => {
@@ -33,10 +33,6 @@ export const AdminImageUploader: React.FC<AdminImageUploaderInterface> = ({
             reader.readAsDataURL(file)
         })
     }
-
-    useEffect(() => {
-        if (img) onChange(img?.[0] as File)
-    }, [img])
 
     return (
         <div className="d-flex flex-column space-y-2">
@@ -57,18 +53,24 @@ export const AdminImageUploader: React.FC<AdminImageUploaderInterface> = ({
                     <input
                         style={{ display: "none" }}
                         type="file"
+                        multiple
                         onChange={handleMultipleImage}
                     />
                 </label>
             </div>
-            {imgPreviews?.map((preview: any, index: number) => (
-                <img
-                    key={index}
-                    src={preview}
-                    alt={`Preview ${index}`}
-                    style={{ width: 300, height: "auto" }}
-                />
-            ))}
+
+            <div className="d-flex flex-col w-100">
+                {imgPreviews?.map((preview: any, index: number) => (
+                    <div className="pb-2">
+                        <img
+                            key={index}
+                            src={preview}
+                            alt={`Preview ${index}`}
+                            style={{ width: 300, height: "auto" }}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }
