@@ -5,4 +5,9 @@ const NextAPIInstance = axios.create({
     timeout: 30000
 })
 
-export { NextAPIInstance }
+const ServiceAPIInstance = axios.create({
+    baseURL: `${process.env.NEST_SERVICE_API}`,
+    timeout: 30000
+})
+
+export { NextAPIInstance, ServiceAPIInstance }

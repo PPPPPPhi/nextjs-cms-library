@@ -20,7 +20,8 @@ export enum ElementNameMap {
     SVGNavCard = "svg-nav-card",
     Slogan = "slogan",
     Testimonial = "testimonial-slider",
-    ProductList = "product-list"
+    ProductList = "product-list",
+    Gallery = "gallery"
 }
 
 export enum LayoutNameMap {

@@ -8,7 +8,8 @@ import {
     PropertySVGSelector,
     PropertyImageListSelector,
     PropertyTestimonial,
-    PropertyCtaNavButton
+    PropertyCtaNavButton,
+    PropertyDocumentUpload
 } from "../../elementor/drag-drop/property-panel/index"
 
 // @ts-ignore
@@ -22,7 +23,8 @@ export const propertiesComponentMap: Map<string, FC<any>> = new Map([
     ["image-list", PropertyImageListSelector],
     ["testimonial-slidar", PropertyTestimonial],
     ["cta-nav-btn", PropertyCtaNavButton],
-    ["product-list-card", PropertyColorPicker]
+    ["product-list-card", PropertyColorPicker],
+    ["document", PropertyDocumentUpload]
 ])
 
 export const getPropertiesComponent = (type: string) =>

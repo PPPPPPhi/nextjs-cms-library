@@ -11,7 +11,7 @@ import { NextImageApdator } from "../../../ui/src/utils"
 
 interface AdminPageListTableInterface {
     data: imageType[]
-    removeImage: (id: string) => void
+    removeImage: (id: string) => Promise<void>
 }
 
 export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
@@ -118,9 +118,11 @@ export const AdminImageListTable: React.FC<AdminPageListTableInterface> = ({
                         cellType: "warnAction",
                         actionTitle: "Delete",
                         size: 100,
-                        action: (data) => {
+                        action: async (data) => {
                             const { _id } = data
-                            removeImage(_id)
+                            const res = await removeImage(_id)
+                            console.log(`list remove`, res)
+                            return
                         }
                     },
                     {
