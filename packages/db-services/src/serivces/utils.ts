@@ -310,7 +310,7 @@ export const getProjectedQuery = async (
             )
         }
 
-        console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
+        // console.log(`[getProjectedQuery] pipeline`, JSON.stringify(pipeline))
         res = await model.aggregate(pipeline)
 
         // console.log(`[getProjectedQuery] res`, JSON.stringify(res))

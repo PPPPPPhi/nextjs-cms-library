@@ -17,6 +17,7 @@ export type cellComponentType =
     | "photo"
     | "boolean"
     | "booleanBox"
+    | "labelList"
 
 export type columnDefsType = {
     accessorKey: string

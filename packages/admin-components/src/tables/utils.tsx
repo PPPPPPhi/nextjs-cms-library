@@ -15,7 +15,8 @@ import {
     AdminTableBooleanButton,
     AdminTableRawEditButton,
     AdminTableActionWarnButton,
-    AdminTableBooleanBoxCheck
+    AdminTableBooleanBoxCheck,
+    AdminTableLabelList
 } from "./components"
 import { CellContext } from "@tanstack/react-table"
 import { columnDefsType, cellComponentType } from "../types/type"
@@ -85,6 +86,9 @@ export const getCellComponents: any = (cellType: cellComponentType) => {
             break
         case "booleanBox":
             Component = AdminTableBooleanBoxCheck
+            break
+        case "labelList":
+            Component = AdminTableLabelList
             break
         default:
             Component = AdminTableRowCell

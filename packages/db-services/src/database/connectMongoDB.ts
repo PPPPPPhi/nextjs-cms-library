@@ -21,6 +21,7 @@ import marginalPublicationSchema from "./models/marginal-publication/MarginalPub
 import discountSchema from "./models/discount/Discount"
 import customerSchema from "./models/customer/Customer"
 import documentSchema from "./models/document/Document"
+import wordSchema from "./models/word/Word"
 
 declare global {
     var mongoose: any // This must be a `var` and not a `let / const`
@@ -89,6 +90,7 @@ export const connectMongoDB = async () => {
                         })
                     )
                 )
+                mongoose.model("Word", wordSchema)
                 mongoose.model("Site", siteSchema)
                 mongoose.model(
                     "SettingPublication",
